@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - CoinArt</title>
+<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<h2>Add Artwork</h2>
+<form id="addArtworkForm" enctype="multipart/form-data">
+  <input type="text" id="title" placeholder="Title" required>
+  <textarea id="description" placeholder="Description" required></textarea>
+
+  <label>Main Image *</label>
+  <input type="file" id="mainImage" accept="image/*" required>
+
+  <label>Additional Images</label>
+  <input type="file" id="additionalImages" accept="image/*" multiple>
+
+  <label>Videos</label>
+  <input type="file" id="videos" accept="video/*" multiple>
+
+  <input type="number" id="stock" placeholder="Stock" required>
+  <input type="number" id="price" placeholder="Price (₹)" required>
+
+  <label>Coin Type</label>
+  <select id="coinType" required>
+    <option value="">Select Coin Type</option>
+    <option value="Commemorative">Commemorative</option>
+    <option value="Circulation">Circulation</option>
+    <option value="Bullion">Bullion</option>
+  </select>
+
+  <input type="text" id="colorFinish" placeholder="Color / Finish" required>
+  <input type="number" id="weight" placeholder="Weight (g)" required>
+  <input type="number" id="diameter" placeholder="Diameter (mm)" required>
+
+  <label>Material</label>
+  <select id="material" required>
+    <option value="">Select Material</option>
+    <option value="Gold">Gold</option>
+    <option value="Silver">Silver</option>
+    <option value="Copper">Copper</option>
+    <option value="Nickel">Nickel</option>
+  </select>
+
+  <button type="submit">Add Artwork</button>
+</form>
+
+<p id="msg"></p>
+
+<h2>All Artworks</h2>
+<ul id="artworkList"></ul>
+
+<script>
+const form = document.getElementById("addArtworkForm");
+const list = document.getElementById("artworkList");
+
+// <-- Replace your old fetchArtworks with this one
+async function fetchArtworks() {
+  try {
+    const res = await fetch("http://localhost:5001/api/artworks");
+    const artworks = await res.json();
+    list.innerHTML = artworks.map(a => `
+      <li style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
+        <strong>${a.title}</strong> (${a.coinType}) - ₹${a.price} - Stock: ${a.stock}
+        <br>${a.description}
+        <br>Main Image: ${a.mainImage ? `<img src="${a.mainImage}" width="120"/>` : "None"}
+        <br>Additional Images: ${Array.isArray(a.additionalImages) && a.additionalImages.length
+          ? a.additionalImages.map(img => `<img src="${img}" width="80" style="margin-right:5px;"/>`).join("")
+          : "None"}
+        <br>Videos: ${Array.isArray(a.videos) && a.videos.length
+          ? a.videos.map(v => `<video width="200" controls src="${v}" style="margin-right:5px;"></video>`).join("")
+          : "None"}
+        <br><button onclick="deleteArtwork('${a._id}')">Delete</button>
+      </li>`).join("");
+  } catch (err) {
+    console.error(err);
+    list.innerHTML = "<li>Error loading artworks.</li>";
+  }
+}
+
+// Delete
+async function deleteArtwork(id) {
+  try {
+    await fetch(`http://localhost:5001/api/artworks/${id}`, { method: "DELETE" });
+    fetchArtworks();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Add artwork
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append("title", document.getElementById("title").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("mainImage", document.getElementById("mainImage").files[0]);
+  Array.from(document.getElementById("additionalImages").files).forEach(f => formData.append("additionalImages", f));
+  Array.from(document.getElementById("videos").files).forEach(f => formData.append("videos", f));
+  formData.append("stock", document.getElementById("stock").value);
+  formData.append("price", document.getElementById("price").value);
+  formData.append("colorFinish", document.getElementById("colorFinish").value);
+  formData.append("weight", document.getElementById("weight").value);
+  formData.append("diameter", document.getElementById("diameter").value);
+  formData.append("material", document.getElementById("material").value);
+  formData.append("coinType", document.getElementById("coinType").value);
+
+  try {
+    const res = await fetch("http://localhost:5001/api/artworks", { method: "POST", body: formData });
+    const data = await res.json();
+    document.getElementById("msg").innerText = data.error || data.message;
+    form.reset();
+    fetchArtworks();
+  } catch (err) {
+    console.error(err);
+    document.getElementById("msg").innerText = "Error adding artwork";
+  }
+});
+
+fetchArtworks();
+</script>
+</body>
+</html>

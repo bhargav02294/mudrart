@@ -1,0 +1,4 @@
+# .htaccess
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9]+)$ $1.html [L]

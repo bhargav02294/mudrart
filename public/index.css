@@ -1,0 +1,162 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background-color: #0d6efd;
+  color: #fff;
+  padding: 15px 20px;
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 12px;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 6px;
+}
+
+header nav a:hover {
+  background-color: #fff;
+  color: #0d6efd;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  background: url('hero-bg.jpg') center/cover no-repeat;
+  padding: 80px 20px;
+  color: #fff;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+}
+
+.hero .btn {
+  background-color: #ffc107;
+  color: #222;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.hero .btn:hover {
+  background-color: #e0a800;
+  transform: translateY(-3px);
+}
+
+/* Featured Artworks Section */
+#artGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#artGallery div {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#artGallery div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+#artGallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+#artGallery h3 {
+  font-size: 1.3rem;
+  margin: 10px 15px 5px 15px;
+  color: #0d6efd;
+}
+
+#artGallery p {
+  font-size: 0.95rem;
+  margin: 0 15px 15px 15px;
+  color: #555;
+}
+
+/* Footer */
+footer {
+  background-color: #0d6efd;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 40px;
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+  display: inline-block;
+  padding-bottom: 5px;
+  margin-top: 40px;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  #artGallery img {
+    height: 160px;
+  }
+}
+
+@media(max-width: 480px) {
+  header nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
