@@ -15,6 +15,14 @@ const app = express();
 
 // Middleware
 app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",   // if you run React locally
+    "http://localhost:5000",   // if you open index.html directly
+    "https://mudrart.in"       // your production frontend
+  ],
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -57,6 +65,7 @@ app.get("/", (req, res) => {
 });
 
 // Start server
+
 const PORT = process.env.PORT_ADMIN || 5001;
 app.listen(PORT, () =>
   console.log(`🚀 Admin backend running on http://localhost:${PORT}`)

@@ -83,5 +83,6 @@ app.get("/", (req, res) => {
 });
 
 // Start server
+
 const PORT = process.env.PORT_USERS || 5000;
 app.listen(PORT, () => console.log(`🚀 Users backend running on http://localhost:${PORT}`));
