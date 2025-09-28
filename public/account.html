@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Management</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .section { margin-bottom: 20px; }
+    .hidden { display: none; }
+    label { display: block; margin-top: 10px; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 4px; }
+    .btn { padding: 10px 20px; background: #333; color: white; border: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Account Settings</h1>
+
+  <div class="section">
+    <h2>Basic Information</h2>
+    <label>Full Name: <input type="text" id="fullname"></label>
+    <label>Email: <input type="email" id="email" disabled></label>
+    <label>Phone Number: <input type="text" id="phone"></label>
+    <label>Date of Birth: <input type="date" id="dob"></label>
+    <label>Address: <textarea id="address"></textarea></label>
+  </div>
+
+  <div class="section">
+    <h2>Bank Details</h2>
+    <label>Account Number: <input type="text" id="accountNumber"></label>
+    <label>IFSC Code: <input type="text" id="ifsc"></label>
+    <label>UPI ID: <input type="text" id="upi"></label>
+    <label>PAN Number: <input type="text" id="pan"></label>
+  </div>
+
+  <div id="founderSection" class="section hidden">
+    <h2>Founder Details</h2>
+    <label>Startup Name: <input type="text" id="startupName"></label>
+    <label>Startup Website: <input type="url" id="startupWebsite"></label>
+    <label>Industry: <input type="text" id="industry"></label>
+    <label>Funding Goal: <input type="number" id="fundingGoal"></label>
+    <label>Pitch Deck URL: <input type="url" id="pitchDeck"></label>
+    <label>Company Registration No: <input type="text" id="regNumber"></label>
+  </div>
+
+  <div id="investorSection" class="section hidden">
+    <h2>Investor Preferences</h2>
+    <label>Occupation: <input type="text" id="occupation"></label>
+    <label>Income Bracket:
+      <select id="incomeBracket">
+        <option value="">Select</option>
+        <option>Below ₹5 LPA</option>
+        <option>₹5–10 LPA</option>
+        <option>₹10–25 LPA</option>
+        <option>Above ₹25 LPA</option>
+      </select>
+    </label>
+    <label>Risk Appetite:
+      <select id="riskAppetite">
+        <option value="">Select</option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+    </label>
+    <label>Preferred Sectors: <input type="text" id="sectors" placeholder="e.g., fintech, edtech, healthtech"></label>
+  </div>
+
+  <button class="btn" onclick="saveAccount()">Save Changes</button>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "/login";
+    }
+
+    // Populate role-based fields
+    if (user.role === "founder") {
+      document.getElementById("founderSection").classList.remove("hidden");
+    } else if (user.role === "investor") {
+      document.getElementById("investorSection").classList.remove("hidden");
+    }
+
+    // Populate fields from user data (optional: fetch fresh data from server)
+    document.getElementById("fullname").value = user.fullname || '';
+    document.getElementById("email").value = user.email || '';
+
+    function saveAccount() {
+      const updatedData = {
+        fullname: document.getElementById("fullname").value,
+        phone: document.getElementById("phone").value,
+        dob: document.getElementById("dob").value,
+        address: document.getElementById("address").value,
+        bankDetails: {
+          accountNumber: document.getElementById("accountNumber").value,
+          ifsc: document.getElementById("ifsc").value,
+          upi: document.getElementById("upi").value,
+        },
+        pan: document.getElementById("pan").value,
+      };
+
+      if (user.role === "founder") {
+        updatedData.founderDetails = {
+          startupName: document.getElementById("startupName").value,
+          startupWebsite: document.getElementById("startupWebsite").value,
+          industry: document.getElementById("industry").value,
+          fundingGoal: document.getElementById("fundingGoal").value,
+          pitchDeck: document.getElementById("pitchDeck").value,
+          regNumber: document.getElementById("regNumber").value,
+        };
+      }
+
+      if (user.role === "investor") {
+        updatedData.investorDetails = {
+          occupation: document.getElementById("occupation").value,
+          incomeBracket: document.getElementById("incomeBracket").value,
+          riskAppetite: document.getElementById("riskAppetite").value,
+          sectors: document.getElementById("sectors").value,
+        };
+      }
+
+      console.log("Updated Account Data:", updatedData);
+
+      // You can send this via fetch() to your backend:
+      // fetch('/updateAccount', { method: 'POST', body: JSON.stringify(updatedData) })
+
+      alert("Details saved (demo only)");
+    }
+  </script>
+</body>
+</html>

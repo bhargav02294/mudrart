@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Add Artwork · CoinArt Admin</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="text-xl font-semibold">Add Artwork</div>
+      <nav class="space-x-3 text-sm">
+        <a class="px-3 py-1.5 border rounded" href="/admin/dashboard.html">Dashboard</a>
+        <a class="px-3 py-1.5 border rounded" href="/admin/products-manage.html">Manage</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-8">
+    <form id="f" class="bg-white border rounded-2xl p-6 grid md:grid-cols-2 gap-4">
+      <input name="title" class="border rounded px-3 py-2 md:col-span-2" placeholder="Title *" required>
+      <textarea name="description" class="border rounded px-3 py-2 md:col-span-2" placeholder="Description"></textarea>
+
+      <input name="category" class="border rounded px-3 py-2" placeholder="Category (Coin/Currency/Art)" value="Coin">
+      <input name="tags" class="border rounded px-3 py-2" placeholder="Tags (comma separated)">
+      <input name="year" type="number" class="border rounded px-3 py-2" placeholder="Year">
+      <input name="rarity" class="border rounded px-3 py-2" placeholder="Rarity (Common/Rare/Very Rare)" value="Common">
+
+      <input name="attributes" class="border rounded px-3 py-2 md:col-span-2" placeholder='Attributes (JSON) e.g. {"metal":"Nickel","denomination":"1 Rupee","finish":"Matte UV"}'>
+
+      <input name="price" type="number" class="border rounded px-3 py-2" placeholder="Price *" required>
+      <input name="compareAt" type="number" class="border rounded px-3 py-2" placeholder="Compare At">
+      <input name="stock" type="number" class="border rounded px-3 py-2" placeholder="Stock" value="0">
+      <div class="flex items-center gap-2">
+        <input id="isLimited" name="isLimited" type="checkbox" class="h-4 w-4">
+        <label for="isLimited" class="text-sm">Limited Edition?</label>
+      </div>
+      <input name="limitedTotal" type="number" class="border rounded px-3 py-2" placeholder="Total Editions">
+
+      <select name="status" class="border rounded px-3 py-2">
+        <option value="draft">Draft</option>
+        <option value="active">Active</option>
+        <option value="archived">Archived</option>
+      </select>
+      <input name="publishedAt" type="datetime-local" class="border rounded px-3 py-2" placeholder="Publish at (optional)">
+
+      <div class="md:col-span-2">
+        <label class="text-sm">Images (up to 6)</label>
+        <input name="images" type="file" accept="image/*" multiple class="block mt-1">
+      </div>
+
+      <button class="md:col-span-2 py-2 rounded bg-gray-900 text-white">Create Artwork</button>
+      <div id="msg" class="md:col-span-2 text-sm text-red-600"></div>
+    </form>
+  </main>
+
+  <script src="/admin/admin-common.js"></script>
+  <script>
+    requireAuthOrRedirect();
+    document.getElementById("f").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      // checkbox -> string "true"/"false"
+      fd.set("isLimited", document.getElementById("isLimited").checked ? "true" : "false");
+      try{
+        const res = await fetch(location.origin + "/api/admin/products", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + getToken() },
+          body: fd
+        });
+        if(!res.ok){ const er = await res.json(); throw new Error(er.message||"Create failed"); }
+        const data = await res.json();
+        alert("Created ✓");
+        location.href = "/admin/products-manage.html";
+      }catch(err){
+        document.getElementById("msg").textContent = err.message;
+      }
+    });
+  </script>
+</body>
+</html>
