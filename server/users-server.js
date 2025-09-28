@@ -19,9 +19,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve frontend
 app.use(express.static(path.join(__dirname, "../public")));
 
-// MongoDB
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/coinart";
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// MongoDB connection
+const MONGO_URI = process.env.MONGO_URI;  // use cloud MongoDB from .env
+
+mongoose
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
@@ -84,5 +86,5 @@ app.get("/", (req, res) => {
 
 // Start server
 
-const PORT = process.env.PORT_USERS || 5000;
-app.listen(PORT, () => console.log(`🚀 Users backend running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || process.env.PORT_USERS || 5000;
+app.listen(PORT, () => console.log(`🚀 Users backend running on port ${PORT}`));
