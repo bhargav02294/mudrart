@@ -59,24 +59,32 @@
   <script>
     requireAuthOrRedirect();
     document.getElementById("f").addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      // checkbox -> string "true"/"false"
-      fd.set("isLimited", document.getElementById("isLimited").checked ? "true" : "false");
-      try{
-        const res = await fetch(location.origin + "/api/admin/products", {
-          method: "POST",
-          headers: { Authorization: "Bearer " + getToken() },
-          body: fd
-        });
-        if(!res.ok){ const er = await res.json(); throw new Error(er.message||"Create failed"); }
-        const data = await res.json();
-        alert("Created ✓");
-        location.href = "/admin/products-manage.html";
-      }catch(err){
-        document.getElementById("msg").textContent = err.message;
-      }
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  fd.set("isLimited", document.getElementById("isLimited").checked ? "true" : "false");
+
+  try {
+    const res = await fetch("/api/admin/products", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + getToken() },
+      body: fd
     });
+
+    if(!res.ok) { 
+      const er = await res.json(); 
+      throw new Error(er.message || "Create failed"); 
+    }
+
+    const data = await res.json();
+    alert("Artwork created ✓");
+    location.href = "/admin/products-manage.html";
+
+  } catch(err) {
+    document.getElementById("msg").textContent = err.message;
+  }
+});
+
+
   </script>
 </body>
 </html>
