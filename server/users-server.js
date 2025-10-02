@@ -10,9 +10,14 @@ const Artwork = require("./models/artwork");
 const artworkRoutes = require("./routes/artwork");
 
 const app = express();
+app.use(cors({
+  origin: [
+    "http://localhost:5000",
+    "https://mudrart.in"
+  ],
+  credentials: true
+}));
 
-// Middleware
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

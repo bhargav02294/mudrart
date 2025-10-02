@@ -123,11 +123,7 @@
 
         const artworkUrl = window.location.href;
         const waLink =
-<<<<<<< HEAD
-          `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-=======
           `https://wa.me/7385184575?text=` +
->>>>>>> master
           encodeURIComponent(
             `Hello, I am interested in "${art.title}" (Price: ₹${art.price})\nArtwork Link: ${artworkUrl}`
           );
@@ -186,10 +182,11 @@
         const files = document.getElementById("c_files").files;
         for (const f of files) fd.append("attachments", f);
 
-        const res = await fetch("http://localhost:5001/api/inquiries", {
-          method: "POST",
-          body: fd,
-        });
+        const res = await fetch("/api/inquiries", {
+  method: "POST",
+  body: fd,
+});
+
         const data = await res.json();
 
         if (data.success) {
