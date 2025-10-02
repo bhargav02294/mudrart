@@ -46,10 +46,12 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
+      <a href="index.html">Home</a>
+
       <a href="signin.html">Login</a>
       <a href="signup.html">Signup</a>
       <a href="wishlist.html">Wishlist ❤️</a>
-<a href="cart.html">Cart 🛒</a>
+      <a href="cart.html">Cart 🛒</a>
     </nav>
   </header>
 
@@ -69,7 +71,9 @@
   <script>
     async function loadArtworks() {
       try {
-const res = await fetch("http://localhost:5001/api/artworks");
+        // ✅ auto-detect base URL (localhost or live domain)
+        const baseUrl = window.location.origin;
+        const res = await fetch(`${baseUrl}/api/artworks`);
         const artworks = await res.json();
 
         const gallery = document.getElementById("artGallery");

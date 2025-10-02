@@ -30,7 +30,8 @@
       }
 
       try {
-        const res = await fetch("http://localhost:5000/api/login", { 
+        const baseUrl = window.location.origin; // ✅ auto-detect URL
+        const res = await fetch(`${baseUrl}/api/login`, { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
@@ -38,18 +39,14 @@
 
         const data = await res.json();
 
-        if (res.ok) {
-          // ✅ Save token + userId properly
+        if (res.ok && data.success) {
           localStorage.setItem("token", data.token);
-          localStorage.setItem("userId", data.user._id);   // <--- IMPORTANT FIX
-
-          // optional: also store user object (if needed later)
+          localStorage.setItem("userId", data.user._id);
           localStorage.setItem("user", JSON.stringify(data.user));
 
           messageEl.style.color = "green";
           messageEl.textContent = "Login successful! Redirecting...";
           setTimeout(() => window.location.href = "index.html", 1000);
-
         } else {
           messageEl.style.color = "red";
           messageEl.textContent = data.message || "Invalid credentials";
@@ -61,17 +58,10 @@
       }
     });
 
-    // ✅ Helper function to fetch logged-in userId anywhere
+    // Helper function to get logged-in user
     function getUserId() {
       return localStorage.getItem("userId") || null;
     }
-
-
-
-
-
-
-    
   </script>
 </body>
 </html>

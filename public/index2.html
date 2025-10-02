@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +11,19 @@
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="cart.html">Cart</a>
-      <a href="login.html">Login</a>
+      <a href="signin.html">Login</a>
     </nav>
   </header>
 
   <section id="artworks">
-  <h2>Featured Artworks</h2>
-  <div id="artGallery"></div>
-</section>
+    <h2>Featured Artworks</h2>
+    <div id="artGallery"></div>
+  </section>
+
   <section class="hero">
     <h1>Miniature Coin Art</h1>
     <p>Rare Indian coins painted into timeless artwork.</p>
-    <a href="js/shop.html" class="btn">Shop Now</a>
+    <a href="shop.html" class="btn">Shop Now</a>
   </section>
 
   <footer>
@@ -31,23 +31,34 @@
   </footer>
 
   <script>
-
     async function loadArtworks() {
-    const res = await fetch("http://localhost:5000/api/artworks");
-    const artworks = await res.json();
+      try {
+        // ✅ always use correct backend route
+        const baseUrl = window.location.origin;
+        const res = await fetch(`${baseUrl}/api/artworks`);
+        const artworks = await res.json();
 
-    const gallery = document.getElementById("artGallery");
-    gallery.innerHTML = artworks.map(
-      art => `
-        <div>
-          <img src="${art.imageUrl}" width="200">
-          <h3>${art.title}</h3>
-          <p>${art.description}</p>
-        </div>
-      `
-    ).join("");
-  }
-  loadArtworks();
+        const gallery = document.getElementById("artGallery");
+        gallery.innerHTML = artworks.map(
+          art => `
+            <div class="art-card" onclick="viewArtwork('${art._id}')">
+              <img src="${art.mainImage}" width="200" alt="${art.title}">
+              <h3>${art.title}</h3>
+              <p>${art.description.substring(0, 60)}...</p>
+              <p class="price">₹${art.price}</p>
+            </div>
+          `
+        ).join("");
+      } catch (err) {
+        console.error("Error loading artworks:", err);
+      }
+    }
+
+    function viewArtwork(id) {
+      window.location.href = "artwork.html?id=" + id;
+    }
+
+    loadArtworks();
   </script>
 </body>
 </html>

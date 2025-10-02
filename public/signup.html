@@ -21,7 +21,7 @@
     <button type="submit">Sign Up</button>
     <p id="error" style="color:red;"></p>
   </form>
-  <p>Already have an account? <a href="login.html">Login here</a></p>
+  <p>Already have an account? <a href="signin.html">Login here</a></p>
 
   <script>
     const form = document.getElementById("signupForm");
@@ -30,34 +30,42 @@
       e.preventDefault();
 
       const role = document.querySelector("select[name=role]").value;
-      const username = document.querySelector("input[name=username]").value;
-      const fullname = document.querySelector("input[name=fullname]").value;
-      const mobile = document.querySelector("input[name=mobile]").value;
-      const email = document.querySelector("input[name=email]").value;
-      const password = document.querySelector("input[name=password]").value;
+      const username = document.querySelector("input[name=username]").value.trim();
+      const fullname = document.querySelector("input[name=fullname]").value.trim();
+      const mobile = document.querySelector("input[name=mobile]").value.trim();
+      const email = document.querySelector("input[name=email]").value.trim();
+      const password = document.querySelector("input[name=password]").value.trim();
+      const errorEl = document.getElementById("error");
+
+      if (!role || !username || !fullname || !mobile || !email || !password) {
+        errorEl.textContent = "Please fill all fields.";
+        return;
+      }
 
       try {
-        const res = await fetch("http://localhost:5000/api/signup", {  // ✅ Correct port
+        const baseUrl = window.location.origin; // ✅ auto-detect URL
+        const res = await fetch(`${baseUrl}/api/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ role, username, fullname, mobile, email, password })
         });
 
         const data = await res.json();
-        const errorEl = document.getElementById("error");
 
-        if (res.ok) {
+        if (res.ok && data.success) {
           errorEl.style.color = "green";
-          errorEl.innerText = data.message;
+          errorEl.innerText = data.message || "Account created successfully!";
           form.reset();
+          setTimeout(() => window.location.href = "signin.html", 1000);
         } else {
           errorEl.style.color = "red";
-          errorEl.innerText = data.message || data.error;
+          errorEl.innerText = data.message || data.error || "Signup failed";
         }
 
       } catch (err) {
         console.error(err);
-        document.getElementById("error").innerText = "Server error";
+        errorEl.style.color = "red";
+        errorEl.innerText = "Server error. Try again.";
       }
     });
   </script>
