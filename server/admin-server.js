@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(cors({
   origin: [
-    "http://localhost:3000",   // if you run React locally
+    "http://localhost:5001",   // if you run React locally
     "http://localhost:5000",   // if you open index.html directly
     "https://mudrart.in"       // your production frontend
   ],
@@ -66,6 +66,15 @@ app.post("/api/admin/login", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
+
+// Serve admin static files
+app.use('/admin', express.static(path.join(__dirname, '../public/admin')));
+
+// Login page route
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/admin/login.html'));
+});
+
 
 // Start server
 
