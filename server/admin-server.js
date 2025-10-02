@@ -38,6 +38,8 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("✅ MongoDB connected"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
+
+
 // API routes
 app.use("/api/artworks", artworkRoutes);
 app.use("/api/inquiries", inquiryRoutes);
