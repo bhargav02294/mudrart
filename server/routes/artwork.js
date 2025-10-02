@@ -21,49 +21,47 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ADD Artwork
-router.post(
-  "/",
-  upload.fields([
-    { name: "mainImage", maxCount: 1 },
-    { name: "additionalImages", maxCount: 5 },
-    { name: "videos", maxCount: 2 }
-  ]),
-  async (req, res) => {
-    try {
-      const {
-        title, description, stock, price,
-        colorFinish, weight, diameter, material, coinType
-      } = req.body;
+router.post("/", upload.fields([
+  { name: "mainImage", maxCount: 1 },
+  { name: "additionalImages", maxCount: 5 },
+  { name: "videos", maxCount: 2 }
+]), async (req, res) => {
+  try {
+    console.log("POST /api/artworks body:", req.body);
+    console.log("POST /api/artworks files:", req.files);
 
-      if (!req.files || !req.files.mainImage)
-        return res.status(400).json({ error: "Main image is required." });
+    const { title, description, stock, price, colorFinish, weight, diameter, material, coinType } = req.body;
 
-      const artwork = new Artwork({
-        title, description, stock, price,
-        colorFinish, weight, diameter, material, coinType,
-        mainImage: `/uploads/${req.files.mainImage[0].filename}`,
-        additionalImages: req.files.additionalImages
-          ? req.files.additionalImages.map(f => `/uploads/${f.filename}`)
-          : [],
-        videos: req.files.videos
-          ? req.files.videos.map(f => `/uploads/${f.filename}`)
-          : []
-      });
+    if (!req.files || !req.files.mainImage)
+      return res.status(400).json({ error: "Main image is required." });
 
-      await artwork.save();
-      res.json({ message: "Artwork added successfully", artwork });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Server error", details: err.message });
-    }
+    const artwork = new Artwork({
+      title, description, stock, price,
+      colorFinish, weight, diameter, material, coinType,
+      mainImage: `/uploads/${req.files.mainImage[0].filename}`,
+      additionalImages: req.files.additionalImages
+        ? req.files.additionalImages.map(f => `/uploads/${f.filename}`)
+        : [],
+      videos: req.files.videos
+        ? req.files.videos.map(f => `/uploads/${f.filename}`)
+        : []
+    });
+
+    await artwork.save();
+    res.json({ message: "Artwork added successfully", artwork });
+  } catch (err) {
+    console.error("❌ POST /api/artworks failed:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
   }
-);
+});
+
 
 // GET All Artworks
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
     const host = `${req.protocol}://${req.get("host")}`;
+
     const artworksWithUrls = artworks.map(a => ({
       ...a._doc,
       mainImage: a.mainImage ? host + a.mainImage : null,
@@ -72,12 +70,15 @@ router.get("/", async (req, res) => {
         : [],
       videos: Array.isArray(a.videos) ? a.videos.map(v => host + v) : []
     }));
+
+    console.log("✅ GET /api/artworks success, total:", artworks.length);
     res.json(artworksWithUrls);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    console.error("❌ GET /api/artworks failed:", err);
+    res.status(500).json({ error: "Server error", details: err.message });
   }
 });
+
 
 // DELETE Artwork
 router.delete("/:id", async (req, res) => {

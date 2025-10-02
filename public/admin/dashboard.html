@@ -64,11 +64,15 @@ const BASE_URL = "https://mudrart-admin.onrender.com";
 
 async function fetchArtworks() {
   try {
-    const res = await fetch(`${BASE_URL}/api/artworks`);
-    const artworks = await res.json();
-    if (!Array.isArray(artworks)) throw new Error("Artworks not array");
+    const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
+    const data = await res.json();
+    if (!Array.isArray(data)) {
+      console.error("❌ Artworks not array:", data);
+      list.innerHTML = "<li>Error loading artworks.</li>";
+      return;
+    }
 
-    list.innerHTML = artworks.map(a => `
+    list.innerHTML = data.map(a => `
       <li style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
         <strong>${a.title}</strong> (${a.coinType}) - ₹${a.price} - Stock: ${a.stock}
         <br>${a.description}
@@ -81,8 +85,8 @@ async function fetchArtworks() {
           : "None"}
         <br><button onclick="deleteArtwork('${a._id}')">Delete</button>
       </li>`).join("");
-  } catch (err) {
-    console.error(err);
+ } catch (err) {
+    console.error("❌ Fetch failed:", err);
     list.innerHTML = "<li>Error loading artworks.</li>";
   }
 }
