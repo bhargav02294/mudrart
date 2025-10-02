@@ -14,15 +14,14 @@ const inquiryRoutes = require("./routes/inquiry");
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(cors({
   origin: [
-    "http://localhost:5001",   // if you run React locally
-    "http://localhost:5000",   // if you open index.html directly
-    "https://mudrart.in"       // your production frontend
+    "http://localhost:5001", // local test
+    "https://mudrart-admin.onrender.com" // Render production
   ],
   credentials: true
 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
