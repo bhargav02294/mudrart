@@ -1,5 +1,6 @@
 const express = require("express");
-require("dotenv").config({ path: "E:/coin-art/.env" });
+require("dotenv").config(); // Let Render use its own env vars
+
 const path = require("path");
 const mongoose = require("mongoose");
 const cors = require("cors");
