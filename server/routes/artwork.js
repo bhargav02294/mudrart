@@ -5,11 +5,11 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Ensure uploads folder exists (backend/uploads)
+// Ensure uploads folder exists
 const uploadDir = path.join(__dirname, "../uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-// Multer storage config
+// Multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Add artwork
+// ADD Artwork
 router.post(
   "/",
   upload.fields([
@@ -31,31 +31,16 @@ router.post(
   async (req, res) => {
     try {
       const {
-        title,
-        description,
-        stock,
-        price,
-        colorFinish,
-        weight,
-        diameter,
-        material,
-        coinType
+        title, description, stock, price,
+        colorFinish, weight, diameter, material, coinType
       } = req.body;
 
-      if (!req.files || !req.files.mainImage) {
+      if (!req.files || !req.files.mainImage)
         return res.status(400).json({ error: "Main image is required." });
-      }
 
       const artwork = new Artwork({
-        title,
-        description,
-        stock,
-        price,
-        colorFinish,
-        weight,
-        diameter,
-        material,
-        coinType,
+        title, description, stock, price,
+        colorFinish, weight, diameter, material, coinType,
         mainImage: `/uploads/${req.files.mainImage[0].filename}`,
         additionalImages: req.files.additionalImages
           ? req.files.additionalImages.map(f => `/uploads/${f.filename}`)
@@ -74,23 +59,19 @@ router.post(
   }
 );
 
-// Get all artworks
+// GET All Artworks
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
     const host = `${req.protocol}://${req.get("host")}`;
-
     const artworksWithUrls = artworks.map(a => ({
       ...a._doc,
       mainImage: a.mainImage ? host + a.mainImage : null,
       additionalImages: Array.isArray(a.additionalImages)
         ? a.additionalImages.map(img => host + img)
         : [],
-      videos: Array.isArray(a.videos)
-        ? a.videos.map(v => host + v)
-        : []
+      videos: Array.isArray(a.videos) ? a.videos.map(v => host + v) : []
     }));
-
     res.json(artworksWithUrls);
   } catch (err) {
     console.error(err);
@@ -98,7 +79,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Delete artwork
+// DELETE Artwork
 router.delete("/:id", async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
@@ -111,9 +92,13 @@ router.delete("/:id", async (req, res) => {
     ];
 
     filesToDelete.forEach(filePath => {
-      const relativePath = filePath.replace(/^\/uploads\//, "");
-      const fullPath = path.join(__dirname, "../uploads", relativePath);
-      if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+      try {
+        const relativePath = filePath.replace(/^\/uploads\//, "");
+        const fullPath = path.join(__dirname, "../uploads", relativePath);
+        if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+      } catch (err) {
+        console.warn("Failed to delete file:", filePath, err.message);
+      }
     });
 
     await Artwork.findByIdAndDelete(req.params.id);

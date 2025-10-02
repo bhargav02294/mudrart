@@ -60,10 +60,14 @@ const form = document.getElementById("addArtworkForm");
 const list = document.getElementById("artworkList");
 
 // <-- Replace your old fetchArtworks with this one
+const BASE_URL = "https://mudrart-admin.onrender.com";
+
 async function fetchArtworks() {
   try {
-const res = await fetch("/api/artworks");
+    const res = await fetch(`${BASE_URL}/api/artworks`);
     const artworks = await res.json();
+    if (!Array.isArray(artworks)) throw new Error("Artworks not array");
+
     list.innerHTML = artworks.map(a => `
       <li style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
         <strong>${a.title}</strong> (${a.coinType}) - ₹${a.price} - Stock: ${a.stock}
@@ -82,6 +86,7 @@ const res = await fetch("/api/artworks");
     list.innerHTML = "<li>Error loading artworks.</li>";
   }
 }
+
 
 // Delete
 async function deleteArtwork(id) {
