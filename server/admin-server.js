@@ -24,7 +24,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Serve uploads (if you later save files to disk)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/email_uploads", express.static(path.join(__dirname, "../public/email_uploads")));
-
+const uploadDir = path.join(__dirname, "uploads");
+app.use("/uploads", express.static(uploadDir));
 // MongoDB
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/coinart";
 mongoose

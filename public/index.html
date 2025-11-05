@@ -11,35 +11,21 @@
     header nav { text-align: center; }
     header nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
     header nav a:hover { text-decoration: underline; }
-
     .hero { text-align: center; padding: 50px 20px; background: #eee; }
     .hero h1 { font-size: 2.2em; margin-bottom: 10px; }
     .hero p { font-size: 1.1em; color: #555; }
     .hero a { background: #222; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; }
-
     h2 { text-align: center; margin: 30px 0 10px; }
-
     #artGallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: auto;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px; padding: 20px; max-width: 1200px; margin: auto;
     }
-    .art-card {
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
+    .art-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
     .art-card:hover { transform: scale(1.03); cursor: pointer; }
     .art-card img { width: 100%; height: 220px; object-fit: cover; }
     .art-card h3 { margin: 10px; font-size: 1.1em; }
     .art-card p { margin: 0 10px 10px; font-size: 14px; color: #555; }
     .art-card .price { color: #111; font-weight: bold; margin: 0 10px 15px; }
-
     footer { background: #333; color: white; text-align: center; padding: 15px 0; margin-top: 40px; }
   </style>
 </head>
@@ -75,6 +61,14 @@
         ? "http://localhost:5001"
         : "https://mudrart-admin.onrender.com";
 
+    function toAbs(p) {
+      if (!p) return "https://via.placeholder.com/250x200?text=No+Image";
+      const s = String(p);
+      if (s.startsWith("http://") || s.startsWith("https://")) return s;
+      if (s.startsWith("/")) return API_BASE + s;
+      return API_BASE + "/uploads/" + s;
+    }
+
     async function loadArtworks() {
       try {
         const res = await fetch(`${API_BASE}/api/artworks`);
@@ -82,10 +76,7 @@
         const gallery = document.getElementById("artGallery");
 
         gallery.innerHTML = artworks.map(a => {
-          const mainImage = a.mainImage
-            ? `${API_BASE}${a.mainImage.startsWith('/') ? a.mainImage : '/uploads/' + a.mainImage}`
-            : "https://via.placeholder.com/250x200?text=No+Image";
-
+          const mainImage = toAbs(a.mainImage);
           return `
             <div class="art-card" onclick="viewArtwork('${a._id}')">
               <img src="${mainImage}" alt="${a.title}">
