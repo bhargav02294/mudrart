@@ -1,24 +1,74 @@
-<!-- shop.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Shop – CoinArt India</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop · MudrArt</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #fafafa; }
+    header { background: #333; padding: 12px; text-align: center; }
+    header a { color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    header a:hover { text-decoration: underline; }
+
+    h1 { text-align: center; margin: 25px 0; }
+
+    #artList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .product:hover { transform: scale(1.03); cursor: pointer; }
+    .product img { width: 100%; height: 220px; object-fit: cover; }
+    .product h3 { margin: 10px; font-size: 1.1em; }
+    .product p { margin: 0 10px 10px; font-size: 14px; color: #555; }
+    .price { font-weight: bold; color: #111; margin: 0 10px 15px; }
+  </style>
 </head>
 <body>
   <header>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="cart.html">Cart</a>
-      <a href="login.html">Login</a>
-    </nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
   </header>
 
-  <h2>Shop All Products</h2>
-  <div id="product-grid"></div>
+  <h1>All Artworks</h1>
+  <div id="artList"></div>
 
-  <script src="js/shop.js"></script>
+  <script>
+    async function loadAll() {
+      try {
+        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
+        const data = await res.json();
+        const list = document.getElementById("artList");
+
+        list.innerHTML = data.map(a => `
+          <div class="product" onclick="viewArtwork('${a._id}')">
+            <img src="https://mudrart-admin.onrender.com${a.mainImage?.startsWith('/uploads') ? a.mainImage : '/uploads/' + a.mainImage}" alt="${a.title}">
+            <h3>${a.title}</h3>
+            <p>${a.description ? a.description.substring(0, 80) + '...' : ''}</p>
+            <p class="price">₹${a.price}</p>
+          </div>
+        `).join("");
+      } catch (e) {
+        console.error("Error loading artworks:", e);
+      }
+    }
+
+    function viewArtwork(id) {
+      window.location.href = "artwork.html?id=" + id;
+    }
+
+    loadAll();
+  </script>
 </body>
 </html>

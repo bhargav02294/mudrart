@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Artwork Details</title>
-  <link rel="stylesheet" href="index.css" />
+  <title>MudrArt | Artwork Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/favicon.ico" />
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; }
-    .art-container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .main-image { width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; margin: 0; }
+    header { background: #333; padding: 12px; text-align: center; }
+    header a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    header a:hover { text-decoration: underline; }
+    .art-container { max-width: 900px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .main-image { width: 100%; max-height: 420px; object-fit: contain; border-radius: 8px; }
     .details { margin-top: 20px; }
-    .details h2 { margin: 10px 0; font-size: 28px; }
+    .details h2 { margin: 10px 0; font-size: 26px; }
     .details p { margin: 6px 0; font-size: 16px; }
     .price { font-size: 22px; font-weight: bold; color: #222; margin: 10px 0; }
     .stock { color: green; font-weight: bold; }
@@ -19,14 +23,26 @@
     .videos video { width: 100%; max-height: 400px; border-radius: 6px; margin-bottom: 15px; }
     .back { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #333; font-weight: bold; }
     .back:hover { text-decoration: underline; }
-    .order-btn { display: inline-block; margin-top: 20px; padding: 12px 25px; background: #25D366; color: #fff; font-size: 18px; font-weight: bold; border-radius: 6px; text-decoration: none; transition: 0.3s; }
+
+    .order-btn, .email-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .order-btn { background: #25D366; }
     .order-btn:hover { background: #1da851; }
-    .email-btn { display: inline-block; margin-top: 20px; padding: 12px 25px; background: #2b6cb0; color: #fff; font-size: 16px; font-weight: bold; border-radius: 6px; text-decoration: none; transition: 0.3s; margin-left: 12px; }
+    .email-btn { background: #2b6cb0; margin-left: 12px; }
     .email-btn:hover { background: #225a97; }
 
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:999; }
     .modal.open { display:flex; }
-    .modal-card { width: 95%; max-width: 520px; background:#fff; border-radius:10px; padding:20px; }
+    .modal-card { width:95%; max-width:520px; background:#fff; border-radius:10px; padding:20px; }
     .modal-card h3 { margin-top:0; }
     .form-row { display:flex; gap:10px; }
     .form-row > div { flex:1; }
@@ -36,15 +52,20 @@
     .btn { padding:10px 16px; border:none; border-radius:6px; cursor:pointer; }
     .btn.secondary { background:#eee; }
     .btn.primary { background:#2b6cb0; color:#fff; }
-    .small { color:#666; font-size:12px; margin-top:6px;}
-    .success { color: green; font-weight: bold; margin-top: 10px; }
-    .error { color: crimson; font-weight: bold; margin-top: 10px; }
+    .success { color:green; font-weight:bold; margin-top:10px; }
+    .error { color:crimson; font-weight:bold; margin-top:10px; }
   </style>
 </head>
 <body>
-  <a href="index.html" class="back">⬅ Back to Home</a>
+  <header>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="wishlist.html">Wishlist ❤️</a>
+    <a href="cart.html">Cart 🛒</a>
+  </header>
 
-  <div class="art-container" id="artDetails"></div>
+  <a href="index.html" class="back">⬅ Back to Home</a>
+  <div class="art-container" id="artDetails">Loading artwork...</div>
 
   <!-- Email Modal -->
   <div id="emailModal" class="modal" aria-hidden="true">
@@ -72,9 +93,8 @@
         <div>
           <label>Attachments (optional, up to 3)</label>
           <input type="file" name="attachments" id="c_files" multiple accept="image/*,application/pdf" />
-          <div class="small">Max 10MB total per file.</div>
+          <small>Max 10MB per file.</small>
         </div>
-
         <input type="hidden" name="artworkId" id="c_artworkId" />
         <input type="hidden" name="artworkTitle" id="c_artworkTitle" />
 
@@ -83,14 +103,13 @@
           <button type="submit" class="btn primary">Send Email</button>
         </div>
         <div id="emailMsg"></div>
-
-       
       </form>
     </div>
   </div>
 
   <script>
-    const WHATSAPP_NUMBER = "917385184575";
+    // 👉 Change to your real WhatsApp number
+    const WHATSAPP_NUMBER = "918700000000"; 
 
     function openEmailModal() {
       document.getElementById("emailModal").classList.add("open");
@@ -108,7 +127,7 @@
       if (!id) return;
 
       try {
-        const res = await fetch("/api/artworks");
+        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
         const artworks = await res.json();
         const art = artworks.find(a => a._id === id);
 
@@ -122,46 +141,40 @@
         document.getElementById("c_subject").value = `Inquiry: ${art.title}`;
 
         const artworkUrl = window.location.href;
-        const waLink =
-          `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-          encodeURIComponent(
-            `Hello, I am interested in "${art.title}" (Price: ₹${art.price})\nArtwork Link: ${artworkUrl}`
-          );
+        const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+          encodeURIComponent(`Hello, I am interested in "${art.title}" (Price: ₹${art.price})\nArtwork Link: ${artworkUrl}`);
 
+        // --- Render artwork details
         document.getElementById("artDetails").innerHTML = `
-          <img class="main-image" src="${art.mainImage}" alt="${art.title}">
+          <img class="main-image" src="https://mudrart-admin.onrender.com${art.mainImage?.startsWith('/uploads') ? art.mainImage : '/uploads/' + art.mainImage}" alt="${art.title}">
           <div class="details">
             <h2>${art.title}</h2>
             <p class="price">₹${art.price}</p>
             <p class="stock">Stock Available: ${art.stock}</p>
-            <p><strong>Description:</strong> ${art.description}</p>
-            <p><strong>Material:</strong> ${art.material}</p>
-            <p><strong>Weight:</strong> ${art.weight} g</p>
-            <p><strong>Diameter:</strong> ${art.diameter} mm</p>
-            <p><strong>Color Finish:</strong> ${art.colorFinish}</p>
-            <p><strong>Coin Type:</strong> ${art.coinType}</p>
+            <p><strong>Description:</strong> ${art.description || 'No description available'}</p>
+            <p><strong>Material:</strong> ${art.material || '-'}</p>
+            <p><strong>Weight:</strong> ${art.weight || '-'} g</p>
+            <p><strong>Diameter:</strong> ${art.diameter || '-'} mm</p>
+            <p><strong>Color Finish:</strong> ${art.colorFinish || '-'}</p>
+            <p><strong>Coin Type:</strong> ${art.coinType || '-'}</p>
 
             <a href="${waLink}" target="_blank" class="order-btn">📲 Order Now on WhatsApp</a>
             <a href="javascript:void(0)" class="email-btn" id="emailBtn">✉️ Email Us</a>
-             <!-- New Wishlist & Cart buttons -->
-<button onclick="addToWishlist('${art._id}', '${art.title}', '${art.price}', '${art.mainImage}')" class="email-btn" style="background:#e63946;">❤️ Add to Wishlist</button>
-<button onclick="addToCart('${art._id}', '${art.title}', '${art.price}', '${art.mainImage}')" class="email-btn" style="background:#38a169;">🛒 Add to Cart</button>
-
+            <a href="javascript:void(0)" class="email-btn" style="background:#e63946;" onclick="addToWishlist('${art._id}', '${art.title}', '${art.price}', 'https://mudrart-admin.onrender.com${art.mainImage}')">❤️ Wishlist</a>
+            <a href="javascript:void(0)" class="email-btn" style="background:#38a169;" onclick="addToCart('${art._id}', '${art.title}', '${art.price}', 'https://mudrart-admin.onrender.com${art.mainImage}')">🛒 Add to Cart</a>
           </div>
 
-          ${art.additionalImages && art.additionalImages.length > 0 ? `
+          ${Array.isArray(art.additionalImages) && art.additionalImages.length ? `
             <h3>More Images</h3>
             <div class="gallery">
-              ${art.additionalImages.map(img => `<img src="${img}" alt="Additional image">`).join("")}
-            </div>
-          ` : ""}
+              ${art.additionalImages.map(img => `<img src="https://mudrart-admin.onrender.com${img.startsWith('/uploads') ? img : '/uploads/' + img}" alt="">`).join("")}
+            </div>` : ""}
 
-          ${art.videos && art.videos.length > 0 ? `
+          ${Array.isArray(art.videos) && art.videos.length ? `
             <h3>Videos</h3>
             <div class="videos">
-              ${art.videos.map(v => `<video controls src="${v}"></video>`).join("")}
-            </div>
-          ` : ""}
+              ${art.videos.map(v => `<video controls src="https://mudrart-admin.onrender.com${v.startsWith('/uploads') ? v : '/uploads/' + v}"></video>`).join("")}
+            </div>` : ""}
         `;
 
         document.getElementById("emailBtn").addEventListener("click", openEmailModal);
@@ -170,29 +183,25 @@
       }
     }
 
-    // Email form submit
+    // 📧 Email inquiry submit
     document.getElementById("emailForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const msg = document.getElementById("emailMsg");
-      msg.className = "";
       msg.textContent = "Sending...";
+      msg.className = "";
 
       try {
         const fd = new FormData(e.target);
-        const files = document.getElementById("c_files").files;
-        for (const f of files) fd.append("attachments", f);
-
-        const res = await fetch("http://localhost:5001/api/inquiries", {
+        const res = await fetch("https://mudrart-admin.onrender.com/api/inquiries", {
           method: "POST",
-          body: fd,
+          body: fd
         });
         const data = await res.json();
-
         if (data.success) {
-          msg.textContent = "✅ Email sent successfully! Please check your inbox.";
+          msg.textContent = "✅ Email sent successfully!";
           msg.className = "success";
           e.target.reset();
-          setTimeout(closeEmailModal, 1200);
+          setTimeout(closeEmailModal, 1500);
         } else {
           msg.textContent = "❌ " + (data.error || "Failed to send email");
           msg.className = "error";
@@ -204,30 +213,27 @@
       }
     });
 
-
+    // ❤️ Wishlist
     function addToWishlist(id, title, price, image) {
-  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-  if (!wishlist.find(item => item.id === id)) {
-    wishlist.push({ id, title, price, image });
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-    alert("❤️ Added to Wishlist!");
-  } else {
-    alert("Already in Wishlist");
-  }
-}
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      if (!wishlist.find(item => item.id === id)) {
+        wishlist.push({ id, title, price, image });
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        alert("❤️ Added to Wishlist!");
+      } else {
+        alert("Already in Wishlist");
+      }
+    }
 
-function addToCart(id, title, price, image) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  let item = cart.find(item => item.id === id);
-  if (item) {
-    item.qty += 1; // increase quantity
-  } else {
-    cart.push({ id, title, price, image, qty: 1 });
-  }
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("🛒 Added to Cart!");
-}
-
+    // 🛒 Cart
+    function addToCart(id, title, price, image) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let item = cart.find(item => item.id === id);
+      if (item) item.qty += 1;
+      else cart.push({ id, title, price, image, qty: 1 });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("🛒 Added to Cart!");
+    }
 
     loadArtworkDetails();
   </script>

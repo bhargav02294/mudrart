@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CoinArt Marketplace</title>
-  <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MudrArt – Miniature Coin Paintings</title>
+  <link rel="icon" href="/favicon.ico" />
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header { background: #333; padding: 10px; }
-    header nav a { color: #fff; margin-right: 15px; text-decoration: none; }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; color: #222; }
+    header { background: #333; padding: 12px 0; }
+    header nav { text-align: center; }
+    header nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
     header nav a:hover { text-decoration: underline; }
 
-    h1, h2 { text-align: center; margin: 20px 0; }
+    .hero { text-align: center; padding: 50px 20px; background: #eee; }
+    .hero h1 { font-size: 2.2em; margin-bottom: 10px; }
+    .hero p { font-size: 1.1em; color: #555; }
+    .hero a { background: #222; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; }
+
+    h2 { text-align: center; margin: 30px 0 10px; }
 
     #artGallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 20px;
       padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
     .art-card {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       transition: transform 0.2s;
-      background: #fafafa;
     }
-    .art-card:hover { transform: scale(1.05); cursor: pointer; }
-    .art-card img {
-      max-width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-    .art-card h3 { margin: 10px 0 5px; }
-    .art-card p { font-size: 14px; color: #555; }
-    .art-card .price { font-weight: bold; color: #222; }
+    .art-card:hover { transform: scale(1.03); cursor: pointer; }
+    .art-card img { width: 100%; height: 220px; object-fit: cover; }
+    .art-card h3 { margin: 10px; font-size: 1.1em; }
+    .art-card p { margin: 0 10px 10px; font-size: 14px; color: #555; }
+    .art-card .price { color: #111; font-weight: bold; margin: 0 10px 15px; }
+
+    footer { background: #333; color: white; text-align: center; padding: 15px 0; margin-top: 40px; }
   </style>
 </head>
 <body>
-  <h1>Welcome to CoinArt 🎨</h1>
-  <link rel="icon" href="/favicon.ico" />
 
   <header>
     <nav>
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
+      <a href="wishlist.html">Wishlist ❤️</a>
+      <a href="cart.html">Cart 🛒</a>
       <a href="signin.html">Login</a>
       <a href="signup.html">Signup</a>
-      <a href="wishlist.html">Wishlist ❤️</a>
-<a href="cart.html">Cart 🛒</a>
     </nav>
   </header>
+
+  <section class="hero">
+    <h1>Miniature Paintings on Indian Coins</h1>
+    <p>Discover rare hand-painted artworks crafted on authentic Indian coins.</p>
+    <a href="shop.html">Shop Now</a>
+  </section>
 
   <h2>Featured Artworks</h2>
   <div id="artGallery"></div>
 
-  <section class="hero">
-    <h1>Miniature Coin Art</h1>
-    <p>Rare Indian coins painted into timeless artwork.</p>
-    <a href="shop.html" class="btn">Shop Now</a>
-  </section>
-
   <footer>
-    <p>© 2025 CoinArt India</p>
+    <p>© 2025 MudrArt India — Miniature Coin Paintings</p>
   </footer>
 
   <script>
     async function loadArtworks() {
       try {
-const res = await fetch("http://localhost:5001/api/artworks");
+        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
         const artworks = await res.json();
-
         const gallery = document.getElementById("artGallery");
-        gallery.innerHTML = artworks.map(
-          art => `
-            <div class="art-card" onclick="viewArtwork('${art._id}')">
-              <img src="${art.mainImage}" alt="${art.title}">
-              <h3>${art.title}</h3>
-              <p>${art.description.substring(0, 60)}...</p>
-              <p class="price">₹${art.price}</p>
-            </div>
-          `
-        ).join("");
+
+        gallery.innerHTML = artworks.map(a => `
+          <div class="art-card" onclick="viewArtwork('${a._id}')">
+            <img src="https://mudrart-admin.onrender.com${a.mainImage?.startsWith('/uploads') ? a.mainImage : '/uploads/' + a.mainImage}" alt="${a.title}">
+            <h3>${a.title}</h3>
+            <p>${a.description ? a.description.substring(0, 60) + '...' : ''}</p>
+            <p class="price">₹${a.price}</p>
+          </div>
+        `).join("");
       } catch (err) {
         console.error("Error loading artworks:", err);
       }
