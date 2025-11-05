@@ -7,7 +7,7 @@
   <link rel="icon" href="/favicon.ico" />
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; margin: 0; }
-    header { background: #333; padding: 12px; text-align: center; }
+     header { background: #333; padding: 12px; text-align: center; }
     header a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
     header a:hover { text-decoration: underline; }
     .art-container { max-width: 900px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
@@ -64,7 +64,7 @@
     <a href="cart.html">Cart 🛒</a>
   </header>
 
-  <a href="index.html" class="back">⬅ Back to Home</a>
+ <a href="index.html" class="back">⬅ Back to Home</a>
   <div class="art-container" id="artDetails">Loading artwork...</div>
 
   <!-- Email Modal -->
@@ -126,6 +126,18 @@
         ? "http://localhost:5001"
         : "https://mudrart-admin.onrender.com";
 
+    function toAbs(p, type = "img") {
+      if (!p) {
+        return type === "img"
+          ? "https://via.placeholder.com/400x300?text=No+Image"
+          : "";
+      }
+      const s = String(p);
+      if (s.startsWith("http://") || s.startsWith("https://")) return s;
+      if (s.startsWith("/")) return API_BASE + s;
+      return API_BASE + "/uploads/" + s;
+    }
+
     async function loadArtworkDetails() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
@@ -141,16 +153,15 @@
           return;
         }
 
-        const mainImage = art.mainImage
-          ? `${API_BASE}${art.mainImage.startsWith('/') ? art.mainImage : '/uploads/' + art.mainImage}`
-          : "https://via.placeholder.com/400x300?text=No+Image";
-
+        const mainImage = toAbs(art.mainImage, "img");
         const additionalImages = (Array.isArray(art.additionalImages) ? art.additionalImages : [])
-          .map(img => `<img src="${API_BASE}${img.startsWith('/') ? img : '/uploads/' + img}" alt="">`)
+          .map(img => `<img src="${toAbs(img, 'img')}" alt="">`)
           .join("");
-
         const videos = (Array.isArray(art.videos) ? art.videos : [])
-          .map(v => `<video controls src="${API_BASE}${v.startsWith('/') ? v : '/uploads/' + v}"></video>`)
+          .map(v => {
+            const src = toAbs(v, "video");
+            return src ? `<video controls src="${src}"></video>` : "";
+          })
           .join("");
 
         document.getElementById("artDetails").innerHTML = `
