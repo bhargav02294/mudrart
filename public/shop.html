@@ -1,77 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop · MudrArt</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #fafafa; }
-    header { background: #333; padding: 12px; text-align: center; }
-    header a { color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    header a:hover { text-decoration: underline; }
-    h1 { text-align: center; margin: 25px 0; }
-    #artList {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px; max-width: 1200px; margin: auto; padding: 20px;
-    }
-    .product { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s; }
-    .product:hover { transform: scale(1.03); cursor: pointer; }
-    .product img { width: 100%; height: 220px; object-fit: cover; }
-    .product h3 { margin: 10px; font-size: 1.1em; }
-    .product p { margin: 0 10px 10px; font-size: 14px; color: #555; }
-    .price { font-weight: bold; color: #111; margin: 0 10px 15px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Shop · MudrArt</title>
+<link rel="icon" href="/favicon.ico" />
+<style>
+  :root{
+    --accent:#0d6efd;
+    --accent-2:#ffb703;
+    --muted:#6b7280;
+    --maxw:1200px;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;
+    background:linear-gradient(180deg,#f7f8fb,#fafcff);
+    color:#111827;
+  }
+
+  /* NAVBAR */
+  .nav-wrap{
+    position:sticky;top:0;z-index:80;
+    backdrop-filter:blur(8px);
+    background:rgba(255,255,255,0.6);
+    border-bottom:1px solid rgba(0,0,0,0.05);
+  }
+  .nav{max-width:var(--maxw);margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px;}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--accent)}
+  .logo svg{width:32px;height:32px}
+  .nav-links{display:flex;gap:14px}
+  .nav-links a{color:#0f172a;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;transition:all .25s}
+  .nav-links a:hover{background:#e0e7ff;color:var(--accent)}
+  .nav-actions{margin-left:auto;display:flex;gap:10px}
+  .icon-btn{background:white;border:1px solid rgba(0,0,0,0.05);padding:8px;border-radius:10px;cursor:pointer;font-size:18px}
+
+  /* HERO / HEADER */
+  .hero{
+    background:linear-gradient(90deg,#0d6efd,#2563eb);
+    color:white;
+    padding:80px 20px 60px;
+    text-align:center;
+  }
+  .hero h1{font-size:clamp(30px,5vw,48px);margin-bottom:10px;}
+  .hero p{color:rgba(255,255,255,0.9);font-size:18px;max-width:600px;margin:auto}
+
+  /* FILTER BAR */
+  .filter-bar{
+    max-width:var(--maxw);
+    margin:30px auto 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    padding:0 20px;
+  }
+  select,input{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:15px;
+  }
+  #searchBox{flex:1;min-width:200px;}
+
+  /* GRID */
+  #artList{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:22px;
+    max-width:var(--maxw);
+    margin:20px auto 60px;
+    padding:0 20px;
+  }
+  .product{
+    background:white;
+    border-radius:var(--radius);
+    box-shadow:0 4px 18px rgba(0,0,0,0.05);
+    overflow:hidden;
+    transition:transform .3s, box-shadow .3s;
+    position:relative;
+  }
+  .product:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 32px rgba(13,110,253,0.15);
+  }
+  .product img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    display:block;
+  }
+  .product .body{
+    padding:14px;
+  }
+  .product h3{
+    font-size:17px;
+    margin-bottom:6px;
+    color:#0f172a;
+  }
+  .product p{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:8px;
+  }
+  .price{
+    font-weight:700;
+    color:var(--accent);
+  }
+  .btn-mini{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:white;
+    border-radius:10px;
+    padding:6px 8px;
+    border:1px solid rgba(0,0,0,0.05);
+    cursor:pointer;
+    font-size:16px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    transition:transform .25s;
+  }
+  .btn-mini:hover{transform:scale(1.1)}
+
+  /* FOOTER */
+  footer{
+    background:#0b1220;
+    color:white;
+    padding:40px 20px;
+  }
+  footer .wrap{
+    max-width:var(--maxw);
+    margin:auto;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:space-between;
+  }
+  footer .col{min-width:200px}
+  footer a{color:rgba(255,255,255,0.9);text-decoration:none;display:block;margin:6px 0}
+  footer h4{margin-bottom:8px}
+  footer .logo-small{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent)}
+
+  /* reveal animation */
+  .fade{opacity:0;transform:translateY(20px);transition:all .6s ease}
+  .fade.in{opacity:1;transform:none}
+
+  @media(max-width:600px){
+    .filter-bar{flex-direction:column;align-items:stretch}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-  </header>
 
-  <h1>All Artworks</h1>
-  <div id="artList"></div>
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="index.html">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#ffb703"/><path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
+      MUDRART
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="wishlist.html">Wishlist ❤️</a>
+      <a href="cart.html">Cart 🛒</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" onclick="history.back()">⬅</button>
+    </div>
+  </div>
+</div>
 
-  <script>
-    const API_BASE =
-      window.location.hostname === "localhost"
-        ? "http://localhost:5001"
-        : "https://mudrart-admin.onrender.com";
+<!-- HERO -->
+<section class="hero">
+  <h1>Our Artworks</h1>
+  <p>Explore exclusive hand-painted coins and miniature masterpieces.</p>
+</section>
 
-    function toAbs(p) {
-      if (!p) return "https://via.placeholder.com/250x200?text=No+Image";
-      const s = String(p);
-      if (s.startsWith("http://") || s.startsWith("https://")) return s;
-      if (s.startsWith("/")) return API_BASE + s;
-      return API_BASE + "/uploads/" + s;
-    }
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <input type="text" id="searchBox" placeholder="Search artworks..." />
+  <select id="materialFilter">
+    <option value="">All Materials</option>
+    <option value="Gold">Gold</option>
+    <option value="Silver">Silver</option>
+    <option value="Copper">Copper</option>
+  </select>
+  <select id="sortPrice">
+    <option value="">Sort by</option>
+    <option value="low">Price: Low to High</option>
+    <option value="high">Price: High to Low</option>
+  </select>
+</div>
 
-    async function loadAll() {
-      try {
-        const res = await fetch(`${API_BASE}/api/artworks`);
-        const data = await res.json();
-        const list = document.getElementById("artList");
+<!-- ARTWORK GRID -->
+<div id="artList" class="fade">Loading artworks...</div>
 
-        list.innerHTML = data.map(a => {
-          const mainImage = toAbs(a.mainImage);
-          return `
-            <div class="product" onclick="viewArtwork('${a._id}')">
-              <img src="${mainImage}" alt="${a.title}">
-              <h3>${a.title}</h3>
-              <p>${a.description ? a.description.substring(0, 80) + '...' : ''}</p>
-              <p class="price">₹${a.price}</p>
-            </div>
-          `;
-        }).join("");
-      } catch (e) {
-        console.error("Error loading artworks:", e);
-      }
-    }
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="col">
+      <div class="logo-small">
+        <svg viewBox="0 0 64 64" style="width:28px;height:28px"><circle cx="32" cy="32" r="30" fill="#ffb703"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
+        MUDRART
+      </div>
+      <p style="margin-top:10px;max-width:280px;color:rgba(255,255,255,0.85)">Authentic hand-painted art on Indian coins.</p>
+    </div>
+    <div class="col">
+      <h4>Explore</h4>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="col">
+      <h4>Reach us</h4>
+      <a href="mailto:hello@mudrart.in">hello@mudrart.in</a>
+      <a href="tel:+917385184575">+91 73851 84575</a>
+    </div>
+  </div>
+</footer>
 
-    function viewArtwork(id) {
-      window.location.href = "artwork.html?id=" + id;
-    }
+<script>
+const API_BASE = location.hostname==="localhost" ? "http://localhost:5001" : "https://mudrart-admin.onrender.com";
+let artworks=[];
 
-    loadAll();
-  </script>
+function toAbs(p){
+  if(!p) return "https://via.placeholder.com/250x200?text=No+Image";
+  const s=String(p);
+  if(s.startsWith("http")) return s;
+  if(s.startsWith("/")) return API_BASE+s;
+  return API_BASE+"/uploads/"+s;
+}
+
+async function loadAll(){
+  try{
+    const res = await fetch(API_BASE+"/api/artworks");
+    const data = await res.json();
+    artworks = Array.isArray(data) ? data : (data.items||[]);
+    renderGrid();
+  }catch(e){
+    console.error(e);
+    document.getElementById("artList").innerHTML = "<p style='text-align:center;color:#888;'>Error loading artworks.</p>";
+  }
+}
+
+function renderGrid(){
+  const list = document.getElementById("artList");
+  const search = document.getElementById("searchBox").value.toLowerCase();
+  const material = document.getElementById("materialFilter").value;
+  const sort = document.getElementById("sortPrice").value;
+
+  let filtered = artworks.filter(a=>{
+    return (!material || a.material===material) &&
+           (!search || (a.title||'').toLowerCase().includes(search));
+  });
+
+  if(sort==="low") filtered.sort((a,b)=>a.price-b.price);
+  if(sort==="high") filtered.sort((a,b)=>b.price-a.price);
+
+  list.innerHTML = filtered.map(a=>{
+    const img = toAbs(a.mainImage);
+    return `
+      <div class="product" onclick="viewArtwork('${a._id}')">
+        <img src="${img}" alt="${a.title}">
+        <div class="body">
+          <h3>${a.title}</h3>
+          <p>${(a.description||'').substring(0,80)}...</p>
+          <div class="price">₹${a.price}</div>
+        </div>
+        <button class="btn-mini" onclick="event.stopPropagation();addToWishlist('${a._id}','${a.title}',${a.price},'${img}')">♡</button>
+      </div>
+    `;
+  }).join("") || "<p style='text-align:center;color:#888;'>No artworks found.</p>";
+
+  // fade-in
+  document.querySelector(".fade")?.classList.add("in");
+}
+
+function viewArtwork(id){ location.href="artwork.html?id="+id; }
+
+// Wishlist local
+function addToWishlist(id,t,p,img){
+  let wl=JSON.parse(localStorage.getItem("wishlist")||"[]");
+  if(!wl.find(x=>x.id===id)){wl.push({id,title:t,price:p,img});localStorage.setItem("wishlist",JSON.stringify(wl));alert("❤️ Added to Wishlist!");}
+  else alert("Already in Wishlist");
+}
+
+// filters
+document.getElementById("searchBox").oninput=renderGrid;
+document.getElementById("materialFilter").onchange=renderGrid;
+document.getElementById("sortPrice").onchange=renderGrid;
+
+loadAll();
+</script>
 </body>
 </html>

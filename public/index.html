@@ -1,101 +1,592 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MudrArt – Miniature Coin Paintings</title>
-  <link rel="icon" href="/favicon.ico" />
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; color: #222; }
-    header { background: #333; padding: 12px 0; }
-    header nav { text-align: center; }
-    header nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
-    header nav a:hover { text-decoration: underline; }
-    .hero { text-align: center; padding: 50px 20px; background: #eee; }
-    .hero h1 { font-size: 2.2em; margin-bottom: 10px; }
-    .hero p { font-size: 1.1em; color: #555; }
-    .hero a { background: #222; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; }
-    h2 { text-align: center; margin: 30px 0 10px; }
-    #artGallery {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px; padding: 20px; max-width: 1200px; margin: auto;
-    }
-    .art-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-    .art-card:hover { transform: scale(1.03); cursor: pointer; }
-    .art-card img { width: 100%; height: 220px; object-fit: cover; }
-    .art-card h3 { margin: 10px; font-size: 1.1em; }
-    .art-card p { margin: 0 10px 10px; font-size: 14px; color: #555; }
-    .art-card .price { color: #111; font-weight: bold; margin: 0 10px 15px; }
-    footer { background: #333; color: white; text-align: center; padding: 15px 0; margin-top: 40px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MudrArt — Miniature Paintings on Indian Coins</title>
+<link rel="icon" href="/favicon.ico">
+
+<!-- Embedded CSS (all in one file for quick use) -->
+<style>
+  :root{
+    --accent:#0d6efd;
+    --accent-2:#ffb703;
+    --glass-bg: rgba(255,255,255,0.12);
+    --glass-border: rgba(255,255,255,0.18);
+    --card-shadow: 0 8px 28px rgba(13,110,253,0.06);
+    --muted:#6b7280;
+    --maxw:1200px;
+    --radius:14px;
+  }
+  /* reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#f7f8fb 0%, #fafcff 100%);
+    color:#111827;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* sticky glass navbar */
+  .nav-wrap{
+    position:sticky;top:0;z-index:80;
+    backdrop-filter: blur(8px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.38));
+    border-bottom:1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  }
+  .nav{
+    max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 20px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--accent);
+  }
+  .logo svg{height:36px;width:36px}
+  .nav-links{display:flex;align-items:center;gap:12px;margin-left:12px}
+  .nav-links a{
+    color:#0f1724;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600;
+    transition:all .18s ease;
+  }
+  .nav-links a:hover{background:#eef2ff;color:var(--accent)}
+  .nav-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .icon-btn{
+    border:1px solid rgba(15,23,42,0.06);background:white;padding:8px;border-radius:10px;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;
+  }
+  .search{
+    display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);
+    background:rgba(255,255,255,0.9);
+  }
+  .search input{border:0;outline:none;background:transparent;width:160px}
+
+  /* Hero */
+  .hero{
+    position:relative;overflow:hidden;
+    background-image: url('/hero-bg.jpg');
+    background-position:center;background-size:cover;
+    padding:88px 20px 80px;color:white;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-overlay{
+    position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.28));
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;max-width:var(--maxw);display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:18px}
+  .hero-left h1{font-size:clamp(28px,5vw,48px);line-height:1.02;margin-bottom:12px;text-shadow:0 8px 30px rgba(0,0,0,0.35)}
+  .hero-left p{color:rgba(255,255,255,0.9);margin-bottom:18px;font-size:18px}
+  .hero-cta{display:flex;gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;border:0;
+    box-shadow: 0 8px 24px rgba(2,6,23,0.08);
+  }
+  .btn-primary{background:var(--accent);color:white}
+  .btn-ghost{background:rgba(255,255,255,0.12);color:white;border:1px solid rgba(255,255,255,0.14)}
+
+  /* hero card / feature on right */
+  .hero-card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(2,6,23,0.2);
+  }
+  .hero-card .small{font-size:13px;color:rgba(255,255,255,0.9);margin-bottom:8px}
+  .hero-card .preview{display:flex;gap:10px;align-items:center}
+  .hero-card img{width:80px;height:80px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,0.12)}
+
+  /* Featured artworks section */
+  .section{padding:60px 20px}
+  .section .wrap{max-width:var(--maxw);margin:0 auto}
+  .section h2{text-align:center;margin-bottom:18px;font-size:26px;color:var(--accent)}
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;
+  }
+  .card{
+    background:white;border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow);transition:transform .28s ease,box-shadow .28s ease;
+  }
+  .card:hover{transform:translateY(-8px);box-shadow:0 20px 46px rgba(2,6,23,0.08)}
+  .card .media{height:200px;background:#f3f4f6;display:flex;align-items:center;justify-content:center}
+  .card .media img{width:100%;height:100%;object-fit:cover}
+  .card .body{padding:14px}
+  .card h3{font-size:16px;margin-bottom:6px;color:#0f1724}
+  .card p{color:var(--muted);font-size:14px;margin-bottom:10px}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--accent)}
+
+  /* small badge and animations */
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;font-size:13px}
+
+  /* simple slider */
+  .carousel{position:relative;margin-top:28px;border-radius:12px;overflow:hidden}
+  .carousel-track{display:flex;transition:transform .46s cubic-bezier(.2,.8,.2,1)}
+  .carousel-item{min-width:100%;height:220px;display:flex;align-items:center;justify-content:center;background:#0f1724;color:white;position:relative;padding:18px}
+  .carousel-item h3{font-size:20px}
+  .carousel-controls{position:absolute;left:12px;right:12px;top:0;bottom:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
+  .carousel-controls button{pointer-events:auto;background:rgba(255,255,255,0.06);border:0;color:white;padding:8px;border-radius:10px;cursor:pointer}
+
+  /* features */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:28px}
+  .feature-card{background:white;padding:18px;border-radius:12px;box-shadow:var(--card-shadow);display:flex;gap:12px;align-items:flex-start}
+  .feature-card .icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(180deg, var(--accent), #3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+
+  /* CTA strip */
+  .cta-strip{margin-top:40px;background:linear-gradient(90deg,#111827, #0f172a);padding:28px;border-radius:12px;color:white;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .cta-strip .text{max-width:650px}
+
+  /* footer */
+  footer{background:#0b1220;color:white;padding:40px 20px;margin-top:40px}
+  footer .wrap{max-width:var(--maxw);margin:0 auto;display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+  footer .col{min-width:200px}
+  footer h4{font-size:16px;margin-bottom:8px}
+  footer a{color:rgba(255,255,255,0.9);text-decoration:none;display:block;margin:6px 0}
+  footer .socials{display:flex;gap:10px;margin-top:10px}
+  footer .logo-small{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--accent)}
+
+  /* reveal animations */
+  .reveal{opacity:0;transform:translateY(18px);transition:transform .6s cubic-bezier(.2,.9,.25,1),opacity .6s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* responsive */
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr}
+    .hero-card{order:2}
+  }
+</style>
 </head>
 <body>
 
-  <header>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="wishlist.html">Wishlist ❤️</a>
-      <a href="cart.html">Cart 🛒</a>
-      <a href="signin.html">Login</a>
-      <a href="signup.html">Signup</a>
-    </nav>
-  </header>
+  <!-- NAV -->
+  <div class="nav-wrap" role="navigation" aria-label="Primary">
+    <div class="nav">
+      <a class="logo" href="/">
+        <!-- simple svg coin logo -->
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#FFB703"/>
+          <path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="32" r="4" fill="#111827"/>
+        </svg>
+        MUDRART
+      </a>
 
-  <section class="hero">
-    <h1>Miniature Paintings on Indian Coins</h1>
-    <p>Discover rare hand-painted artworks crafted on authentic Indian coins.</p>
-    <a href="shop.html">Shop Now</a>
+      <div class="nav-links" role="menubar" aria-label="Main links">
+        <a href="index.html" role="menuitem">Home</a>
+        <a href="shop.html" role="menuitem">Shop</a>
+        <a href="about.html" role="menuitem">About</a>
+        <a href="contact.html" role="menuitem">Contact</a>
+      </div>
+
+      <div class="nav-actions">
+        <div class="search" title="Search artworks">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#0f1724" d="M21 21l-4.35-4.35"></path><circle cx="11" cy="11" r="6" fill="none" stroke="#0f1724" stroke-width="2"></circle></svg>
+          <input id="searchInput" placeholder="Search art..." aria-label="Search artworks" />
+        </div>
+
+        <button class="icon-btn" id="wishlistBtn" title="Wishlist (local)">
+          ❤️ <span id="wlCount" style="font-weight:700;margin-left:6px">0</span>
+        </button>
+
+        <button class="icon-btn" id="cartBtn" title="Cart (local)">
+          🛒 <span id="cartCount" style="font-weight:700;margin-left:6px">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="badge">Handmade • Limited Editions</div>
+        <h1>Miniature Paintings on Authentic Indian Coins</h1>
+        <p>Discover rare hand-painted artworks on original coins — curated, authenticated and delivered with love. Each piece is a tiny masterpiece.</p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="shop.html">Shop Collections</a>
+          <button class="btn btn-ghost" id="openNewsletter">Join Newsletter</button>
+        </div>
+
+        <div style="margin-top:18px;color:rgba(255,255,255,0.9);font-size:14px">Free shipping on orders over ₹2,000 • 7-day returns • Secure payments</div>
+      </div>
+
+      <div class="hero-card reveal" data-reveal>
+        <div class="small">Featured piece</div>
+        <div class="preview">
+          <img id="heroPreviewImg" src="/favicon.ico" alt="Preview">
+          <div>
+            <strong id="heroPreviewTitle">Loading…</strong>
+            <div style="color:rgba(255,255,255,0.9);margin-top:6px">Original coin • Hand-painted • Certificate</div>
+            <div style="margin-top:12px"><span class="badge">New</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <h2>Featured Artworks</h2>
-  <div id="artGallery"></div>
+  <!-- Featured artworks -->
+  <section class="section" aria-label="Featured artworks">
+    <div class="wrap">
+      <h2>Featured Artworks</h2>
+      <p style="text-align:center;color:var(--muted);margin-bottom:18px">Hand-picked works — click to explore details, add to cart or wishlist.</p>
 
-  <footer>
-    <p>© 2025 MudrArt India — Miniature Coin Paintings</p>
+      <div id="artGrid" class="grid">
+        <!-- JS will populate -->
+      </div>
+
+      <!-- simple pagination / more -->
+      <div style="text-align:center;margin-top:20px">
+        <button class="btn" id="loadMore">Load more</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carousel / promo -->
+  <section class="section">
+    <div class="wrap">
+      <div class="carousel" aria-roledescription="carousel" aria-label="Promotions">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-item" style="background-image:linear-gradient(90deg,#111827,#0f172a);">
+            <div style="text-align:center">
+              <h3>Limited Edition: Monsoon Series</h3>
+              <p style="opacity:0.9;margin-top:8px">Each piece painted with gold leaf accents — limited to 25 copies.</p>
+            </div>
+          </div>
+          <div class="carousel-item" style="background-image:linear-gradient(90deg,#5b21b6,#7c3aed);">
+            <div style="text-align:center">
+              <h3>Gift Bundles & Packaging</h3>
+              <p style="opacity:0.95;margin-top:8px">Beautiful gift boxes and fast shipping across India.</p>
+            </div>
+          </div>
+          <div class="carousel-item" style="background-image:linear-gradient(90deg,#0ea5a4,#06b6d4);">
+            <div style="text-align:center">
+              <h3>Commission Work</h3>
+              <p style="opacity:0.95;margin-top:8px">Want a portrait on a coin? Let’s create together.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-controls">
+          <button id="carouselPrev" aria-label="Previous">◀</button>
+          <button id="carouselNext" aria-label="Next">▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features & Info -->
+  <section class="section">
+    <div class="wrap">
+      <h2>Why MudrArt?</h2>
+      <div class="features">
+        <div class="feature-card reveal" data-reveal>
+          <div class="icon">✳</div>
+          <div>
+            <h4>Authentic Coins</h4>
+            <p style="color:var(--muted)">All coins are sourced and authenticated. We document provenance for collectors.</p>
+          </div>
+        </div>
+
+        <div class="feature-card reveal" data-reveal>
+          <div class="icon">🎨</div>
+          <div>
+            <h4>Hand-Painted by Artists</h4>
+            <p style="color:var(--muted)">Work is painted by skilled miniaturists using archival pigments and varnishes.</p>
+          </div>
+        </div>
+
+        <div class="feature-card reveal" data-reveal>
+          <div class="icon">🔒</div>
+          <div>
+            <h4>Secure Payments</h4>
+            <p style="color:var(--muted)">Razorpay integration and TLS encryption for a safe checkout experience.</p>
+          </div>
+        </div>
+
+        <div class="feature-card reveal" data-reveal>
+          <div class="icon">🚚</div>
+          <div>
+            <h4>Fast & Insured Shipping</h4>
+            <p style="color:var(--muted)">Carefully packed and insured shipments across India & internationally.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-strip reveal" data-reveal style="margin-top:28px">
+        <div class="text">
+          <h3 style="margin-bottom:6px">Ready to own a miniature masterpiece?</h3>
+          <div style="color:rgba(255,255,255,0.8)">Explore our latest collections or request a custom commission.</div>
+        </div>
+        <div>
+          <a class="btn btn-primary" href="shop.html">Browse Collections</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="wrap">
+      <div class="col">
+        <div class="logo-small">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:28px;width:28px">
+            <circle cx="32" cy="32" r="30" fill="#FFB703"/>
+            <path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="32" cy="32" r="4" fill="#111827"/>
+          </svg>
+          MUDRART
+        </div>
+        <p style="color:rgba(255,255,255,0.86);margin-top:12px;max-width:300px">Tiny masterpieces — hand painted on real Indian coins. Curated collections and commissions.</p>
+        <div class="socials" aria-hidden="true" style="margin-top:12px">
+          <a href="#" style="background:#111;padding:8px;border-radius:8px;color:white;text-decoration:none">IG</a>
+          <a href="#" style="background:#111;padding:8px;border-radius:8px;color:white;text-decoration:none">WA</a>
+          <a href="#" style="background:#111;padding:8px;border-radius:8px;color:white;text-decoration:none">YT</a>
+        </div>
+      </div>
+
+      <div class="col">
+        <h4>Quick links</h4>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="signin.html">Account</a>
+      </div>
+
+      <div class="col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@mudrart.in">hello@mudrart.in</a>
+        <a href="tel:+917385184575">+91 73851 84575</a>
+        <div style="margin-top:12px">© 2025 MudrArt</div>
+      </div>
+
+      <div class="col">
+        <h4>Newsletter</h4>
+        <p style="color:rgba(255,255,255,0.86)">Get updates on new drops & commissions.</p>
+        <form id="footerSubscribe" style="margin-top:8px;display:flex;gap:8px">
+          <input id="footerEmail" type="email" placeholder="you@domain.com" style="padding:8px;border-radius:8px;border:0;flex:1" required>
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
   </footer>
 
-  <script>
-    const API_BASE =
-      window.location.hostname === "localhost"
-        ? "http://localhost:5001"
-        : "https://mudrart-admin.onrender.com";
+  <!-- Newsletter modal (hidden) -->
+  <div id="newsletterModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center;z-index:120">
+    <div style="background:white;padding:20px;border-radius:12px;max-width:420px;width:92%;box-shadow:0 18px 40px rgba(2,6,23,0.28)">
+      <h3>Join our newsletter</h3>
+      <p style="color:var(--muted)">Get notified about new collections and limited drops.</p>
+      <form id="newsForm" style="display:flex;gap:8px;margin-top:12px">
+        <input id="newsEmail" type="email" placeholder="Enter your email" required style="padding:10px;border-radius:8px;border:1px solid #e6e9ee;flex:1">
+        <button class="btn btn-primary">Join</button>
+      </form>
+      <div style="text-align:right;margin-top:12px"><button id="closeNews" style="background:transparent;border:0;color:var(--muted);cursor:pointer">Close</button></div>
+    </div>
+  </div>
 
-    function toAbs(p) {
-      if (!p) return "https://via.placeholder.com/250x200?text=No+Image";
+<!-- Embedded JS -->
+<script>
+  (function(){
+    // Base API detection
+    const API_BASE = window.location.hostname === "localhost" ? "http://localhost:5001" : "https://mudrart-admin.onrender.com";
+
+    // Utility to convert image/video path -> absolute URL
+    function toAbs(p){
+      if(!p) return '/favicon.ico';
       const s = String(p);
-      if (s.startsWith("http://") || s.startsWith("https://")) return s;
-      if (s.startsWith("/")) return API_BASE + s;
-      return API_BASE + "/uploads/" + s;
+      if(s.startsWith('http://') || s.startsWith('https://')) return s;
+      if(s.startsWith('/')) return API_BASE + s;
+      return API_BASE + '/uploads/' + s;
     }
 
-    async function loadArtworks() {
-      try {
-        const res = await fetch(`${API_BASE}/api/artworks`);
-        const artworks = await res.json();
-        const gallery = document.getElementById("artGallery");
+    // DOM refs
+    const artGrid = document.getElementById('artGrid');
+    const heroPreviewImg = document.getElementById('heroPreviewImg');
+    const heroPreviewTitle = document.getElementById('heroPreviewTitle');
+    const wlCount = document.getElementById('wlCount');
+    const cartCount = document.getElementById('cartCount');
 
-        gallery.innerHTML = artworks.map(a => {
-          const mainImage = toAbs(a.mainImage);
-          return `
-            <div class="art-card" onclick="viewArtwork('${a._id}')">
-              <img src="${mainImage}" alt="${a.title}">
-              <h3>${a.title}</h3>
-              <p>${a.description ? a.description.substring(0, 60) + '...' : ''}</p>
-              <p class="price">₹${a.price}</p>
+    let page = 1, limit = 9; // pagination for load more
+    let totalLoaded = 0;
+
+    // load first set
+    async function loadArtworks(reset){
+      if(reset){ page = 1; artGrid.innerHTML=''; totalLoaded=0;}
+      try{
+        const res = await fetch(`${API_BASE}/api/artworks?limit=${limit}&page=${page}`);
+        const json = await res.json();
+        // older admin API returned array, new returns { items, total } -> unify
+        let items = [];
+        if(Array.isArray(json)) items = json;
+        else if(json.items) items = json.items;
+        else items = json;
+
+        if(!items || !items.length){
+          if(page===1) artGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted)">No artworks yet.</div>';
+          return;
+        }
+
+        items.forEach(a => {
+          const main = toAbs(a.mainImage || a.images?.[0]?.url || a.images?.[0]);
+          const card = document.createElement('article');
+          card.className = 'card reveal';
+          card.innerHTML = `
+            <div class="media"><img loading="lazy" src="${main}" alt="${escapeHtml(a.title || 'Artwork')}"></div>
+            <div class="body">
+              <h3>${escapeHtml(a.title||'Untitled')}</h3>
+              <p>${escapeHtml((a.description||'').slice(0,90))}${(a.description||'').length>90?'...':''}</p>
+              <div class="meta">
+                <div>₹${a.price ?? '-'}</div>
+                <div style="display:flex;gap:8px">
+                  <button class="icon-btn btn-wish" data-id="${a._id}" title="Add to wishlist">♡</button>
+                  <button class="icon-btn btn-cart" data-id="${a._id}" title="Add to cart">🛒</button>
+                </div>
+              </div>
             </div>
           `;
-        }).join("");
-      } catch (err) {
-        console.error("Error loading artworks:", err);
+          card.addEventListener('click', (e)=> {
+            // if user clicked one of the small buttons, don't navigate
+            if(e.target.closest('.btn-wish') || e.target.closest('.btn-cart')) return;
+            window.location.href = `artwork.html?id=${a._id}`;
+          });
+          artGrid.appendChild(card);
+        });
+
+        totalLoaded += items.length;
+        page++;
+        setupReveal();
+        setupButtons(); // attach listeners for new items
+
+        // fill hero preview with first loaded artwork
+        if(!heroPreviewTitle.dataset.filled && items[0]){
+          heroPreviewImg.src = toAbs(items[0].mainImage || items[0].images?.[0]?.url || items[0].images?.[0]);
+          heroPreviewTitle.textContent = items[0].title || 'Featured piece';
+          heroPreviewTitle.dataset.filled = '1';
+        }
+      }catch(err){
+        console.error('Failed to load artworks', err);
       }
     }
 
-    function viewArtwork(id) {
-      window.location.href = "artwork.html?id=" + id;
+    // "Load more" control
+    document.getElementById('loadMore').addEventListener('click', ()=> loadArtworks(false));
+
+    // small helpers
+    function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[s]) }
+
+    // wishlist / cart (local storage)
+    function getWL(){ return JSON.parse(localStorage.getItem('mudr_wl')||'[]') }
+    function setWL(v){ localStorage.setItem('mudr_wl', JSON.stringify(v)) }
+    function getCart(){ return JSON.parse(localStorage.getItem('mudr_cart')||'[]') }
+    function setCart(v){ localStorage.setItem('mudr_cart', JSON.stringify(v)) }
+    function refreshCounters(){
+      wlCount.textContent = getWL().length;
+      cartCount.textContent = getCart().reduce((s,i)=>s+(i.qty||0),0);
     }
 
-    loadArtworks();
-  </script>
+    function setupButtons(){
+      document.querySelectorAll('.btn-wish').forEach(b=>{
+        if(b.dataset.bound) return; b.dataset.bound='1';
+        b.addEventListener('click', (ev)=>{
+          ev.stopPropagation();
+          const id = b.dataset.id;
+          let wl = getWL();
+          if(!wl.find(x=>x.id===id)){
+            wl.push({id,added:Date.now()});
+            setWL(wl);
+            animateBtn(b,'Added!');
+          } else {
+            wl = wl.filter(x=>x.id!==id);
+            setWL(wl);
+            animateBtn(b,'Removed');
+          }
+          refreshCounters();
+        });
+      });
+      document.querySelectorAll('.btn-cart').forEach(b=>{
+        if(b.dataset.bound) return; b.dataset.bound='1';
+        b.addEventListener('click', (ev)=>{
+          ev.stopPropagation();
+          const id = b.dataset.id;
+          let cart = getCart();
+          let it = cart.find(x=>x.id===id);
+          if(it) it.qty = (it.qty||1)+1; else cart.push({id,qty:1,added:Date.now()});
+          setCart(cart);
+          animateBtn(b,'Added to cart');
+          refreshCounters();
+        });
+      });
+    }
+
+    function animateBtn(el,msg){
+      const t = document.createElement('span'); t.textContent = msg; t.style.position='absolute'; t.style.left='50%'; t.style.top='-26px'; t.style.transform='translateX(-50%)'; t.style.background='var(--accent)'; t.style.color='white'; t.style.padding='6px 8px'; t.style.borderRadius='8px'; t.style.fontSize='12px';
+      el.style.position='relative'; el.appendChild(t);
+      setTimeout(()=> t.style.opacity='0',800);
+      setTimeout(()=> t.remove(),1200);
+    }
+
+    // reveal animation using IntersectionObserver
+    let obs;
+    function setupReveal(){
+      if(obs) obs.disconnect();
+      obs = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); }
+        });
+      }, {threshold:0.12});
+      document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    }
+
+    // carousel controls
+    const track = document.getElementById('carouselTrack');
+    let idx = 0;
+    const totalSlides = track.children.length;
+    function setSlide(i){
+      idx = (i+totalSlides)%totalSlides;
+      track.style.transform = `translateX(-${idx*100}%)`;
+    }
+    document.getElementById('carouselPrev').addEventListener('click', ()=> setSlide(idx-1));
+    document.getElementById('carouselNext').addEventListener('click', ()=> setSlide(idx+1));
+    setInterval(()=> setSlide(idx+1), 6000);
+
+    // search input quick filter (client-side)
+    document.getElementById('searchInput').addEventListener('input', function(){
+      const q = this.value.trim().toLowerCase();
+      document.querySelectorAll('#artGrid .card').forEach(card=>{
+        const t = card.querySelector('h3').textContent.toLowerCase();
+        card.style.display = t.includes(q) ? '' : 'none';
+      });
+    });
+
+    // initial load
+    loadArtworks(true);
+    refreshCounters();
+
+    // Newsletter modal handlers
+    const modal = document.getElementById('newsletterModal');
+    document.getElementById('openNewsletter').addEventListener('click', ()=> modal.style.display='flex');
+    document.getElementById('closeNews').addEventListener('click', ()=> modal.style.display='none');
+    document.getElementById('newsForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('newsEmail').value;
+      if(!email) return alert('Enter email');
+      alert('Subscribed — thank you!');
+      modal.style.display='none';
+      document.getElementById('newsForm').reset();
+    });
+
+    // footer subscribe
+    document.getElementById('footerSubscribe').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const em = document.getElementById('footerEmail').value;
+      if(!em) return alert('Enter email');
+      alert('Thanks — you are subscribed!');
+      document.getElementById('footerSubscribe').reset();
+    });
+
+    // accessibility: keyboard nav to cart/wl
+    document.getElementById('wishlistBtn').addEventListener('click', ()=> window.location.href='wishlist.html');
+    document.getElementById('cartBtn').addEventListener('click', ()=> window.location.href='cart.html');
+
+  })();
+</script>
 </body>
 </html>

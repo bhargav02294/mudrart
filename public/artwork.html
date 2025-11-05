@@ -1,241 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MudrArt | Artwork Details</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="/favicon.ico" />
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; margin: 0; }
-     header { background: #333; padding: 12px; text-align: center; }
-    header a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; }
-    header a:hover { text-decoration: underline; }
-    .art-container { max-width: 900px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .main-image { width: 100%; max-height: 420px; object-fit: contain; border-radius: 8px; }
-    .details { margin-top: 20px; }
-    .details h2 { margin: 10px 0; font-size: 26px; }
-    .details p { margin: 6px 0; font-size: 16px; }
-    .price { font-size: 22px; font-weight: bold; color: #222; margin: 10px 0; }
-    .stock { color: green; font-weight: bold; }
-    .gallery { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-    .gallery img { width: 120px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
-    .videos { margin-top: 20px; }
-    .videos video { width: 100%; max-height: 400px; border-radius: 6px; margin-bottom: 15px; }
-    .back { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #333; font-weight: bold; }
-    .back:hover { text-decoration: underline; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MudrArt | Artwork Details</title>
+<link rel="icon" href="/favicon.ico" />
+<style>
+  :root{
+    --accent:#0d6efd;
+    --accent-2:#ffb703;
+    --muted:#6b7280;
+    --radius:14px;
+    --glass-bg:rgba(255,255,255,0.1);
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;
+    background:linear-gradient(180deg,#f7f8fb,#fafcff);
+    color:#111827;line-height:1.5;
+  }
 
-    .order-btn, .email-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .order-btn { background: #25D366; }
-    .order-btn:hover { background: #1da851; }
-    .email-btn { background: #2b6cb0; margin-left: 12px; }
-    .email-btn:hover { background: #225a97; }
+  /* NAVBAR (same as home) */
+  .nav-wrap{
+    position:sticky;top:0;z-index:90;
+    backdrop-filter:blur(8px);
+    background:rgba(255,255,255,0.6);
+    border-bottom:1px solid rgba(0,0,0,0.05);
+  }
+  .nav{max-width:var(--maxw);margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px;}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--accent)}
+  .logo svg{width:32px;height:32px}
+  .nav-links{display:flex;gap:14px}
+  .nav-links a{color:#0f172a;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;transition:all .25s}
+  .nav-links a:hover{background:#e0e7ff;color:var(--accent)}
+  .nav-actions{margin-left:auto;display:flex;gap:10px}
+  .icon-btn{background:white;border:1px solid rgba(0,0,0,0.05);padding:8px;border-radius:10px;cursor:pointer;font-size:18px}
 
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:999; }
-    .modal.open { display:flex; }
-    .modal-card { width:95%; max-width:520px; background:#fff; border-radius:10px; padding:20px; }
-    .modal-card h3 { margin-top:0; }
-    .form-row { display:flex; gap:10px; }
-    .form-row > div { flex:1; }
-    input[type="text"], input[type="email"], textarea { width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; }
-    textarea { min-height:120px; resize:vertical; }
-    .modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:12px; }
-    .btn { padding:10px 16px; border:none; border-radius:6px; cursor:pointer; }
-    .btn.secondary { background:#eee; }
-    .btn.primary { background:#2b6cb0; color:#fff; }
-    .success { color:green; font-weight:bold; margin-top:10px; }
-    .error { color:crimson; font-weight:bold; margin-top:10px; }
-  </style>
+  /* ARTWORK DETAIL */
+  .art-wrap{max-width:var(--maxw);margin:50px auto;padding:0 20px;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:start}
+  .art-left img{width:100%;border-radius:var(--radius);box-shadow:0 8px 20px rgba(0,0,0,0.08);object-fit:contain}
+  .art-right h1{font-size:28px;margin-bottom:10px;color:#0f172a}
+  .art-right .price{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:10px}
+  .art-right .desc{color:var(--muted);margin-bottom:14px}
+  .specs{background:white;border-radius:var(--radius);padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-top:10px}
+  .specs p{margin:4px 0;color:#374151}
+  .btns{display:flex;gap:12px;margin-top:20px}
+  .btn{padding:12px 22px;border:0;border-radius:10px;font-weight:700;cursor:pointer;transition:transform .25s,box-shadow .25s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(13,110,253,0.2)}
+  .btn-primary{background:var(--accent);color:white}
+  .btn-green{background:#25d366;color:white}
+  .btn-outline{background:white;border:1px solid var(--accent);color:var(--accent)}
+
+  .gallery{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
+  .gallery img{width:140px;height:140px;object-fit:cover;border-radius:10px;transition:transform .3s;cursor:pointer}
+  .gallery img:hover{transform:scale(1.08)}
+  .videos{margin-top:30px}
+  .videos video{width:100%;max-height:420px;border-radius:12px;margin-top:10px;box-shadow:0 6px 18px rgba(0,0,0,0.1)}
+
+  /* MODAL */
+  .modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.55);align-items:center;justify-content:center}
+  .modal.open{display:flex;animation:fadeIn .3s ease}
+  .modal-card{background:white;padding:24px;border-radius:14px;max-width:520px;width:92%;box-shadow:0 12px 30px rgba(0,0,0,0.25);animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+  .modal-card h3{margin-bottom:10px}
+  .form-row{display:flex;gap:10px;margin-bottom:10px}
+  .form-row>div{flex:1}
+  input,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
+  textarea{min-height:100px;resize:vertical}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
+  .btn.secondary{background:#eee}
+  .btn.primary{background:var(--accent);color:white}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes pop{from{transform:scale(.9);opacity:.3}to{transform:scale(1);opacity:1}}
+
+  /* FOOTER */
+  footer{background:#0b1220;color:white;padding:40px 20px;margin-top:60px}
+  footer .wrap{max-width:var(--maxw);margin:auto;display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+  footer .col{min-width:200px}
+  footer a{color:rgba(255,255,255,0.9);text-decoration:none;display:block;margin:6px 0}
+  footer h4{margin-bottom:8px}
+  footer .logo-small{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent)}
+
+  /* fade reveal */
+  .fade{opacity:0;transform:translateY(20px);transition:all .6s ease}
+  .fade.in{opacity:1;transform:none}
+
+  @media(max-width:900px){
+    .art-wrap{grid-template-columns:1fr}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="wishlist.html">Wishlist ❤️</a>
-    <a href="cart.html">Cart 🛒</a>
-  </header>
 
- <a href="index.html" class="back">⬅ Back to Home</a>
-  <div class="art-container" id="artDetails">Loading artwork...</div>
-
-  <!-- Email Modal -->
-  <div id="emailModal" class="modal" aria-hidden="true">
-    <div class="modal-card">
-      <h3>Contact via Email</h3>
-      <form id="emailForm" enctype="multipart/form-data">
-        <div class="form-row">
-          <div>
-            <label>Your Name *</label>
-            <input type="text" name="name" id="c_name" required />
-          </div>
-          <div>
-            <label>Your Email *</label>
-            <input type="email" name="email" id="c_email" required />
-          </div>
-        </div>
-        <div>
-          <label>Subject *</label>
-          <input type="text" name="subject" id="c_subject" required />
-        </div>
-        <div>
-          <label>Message *</label>
-          <textarea name="message" id="c_message" placeholder="Write your message..." required></textarea>
-        </div>
-        <div>
-          <label>Attachments (optional, up to 3)</label>
-          <input type="file" name="attachments" id="c_files" multiple accept="image/*,application/pdf" />
-          <small>Max 10MB per file.</small>
-        </div>
-        <input type="hidden" name="artworkId" id="c_artworkId" />
-        <input type="hidden" name="artworkTitle" id="c_artworkTitle" />
-
-        <div class="modal-actions">
-          <button type="button" class="btn secondary" id="closeModalBtn">Cancel</button>
-          <button type="submit" class="btn primary">Send Email</button>
-        </div>
-        <div id="emailMsg"></div>
-      </form>
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav">
+    <a class="logo" href="index.html">
+      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#ffb703"/><path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
+      MUDRART
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="wishlist.html">Wishlist ❤️</a>
+      <a href="cart.html">Cart 🛒</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" onclick="history.back()" title="Go Back">⬅</button>
     </div>
   </div>
+</div>
 
-  <script>
-    // 👉 Change to your real WhatsApp number
-    const WHATSAPP_NUMBER = "918700000000"; 
+<!-- CONTENT -->
+<div id="artDetails" class="art-wrap fade">
+  Loading artwork...
+</div>
 
-    function openEmailModal() {
-      document.getElementById("emailModal").classList.add("open");
-      document.getElementById("emailModal").setAttribute("aria-hidden", "false");
-    }
-    function closeEmailModal() {
-      document.getElementById("emailModal").classList.remove("open");
-      document.getElementById("emailModal").setAttribute("aria-hidden", "true");
-    }
-    document.getElementById("closeModalBtn").addEventListener("click", closeEmailModal);
+<!-- EMAIL MODAL -->
+<div id="emailModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <h3>Contact via Email</h3>
+    <form id="emailForm">
+      <div class="form-row">
+        <div><label>Name *</label><input type="text" id="c_name" required></div>
+        <div><label>Email *</label><input type="email" id="c_email" required></div>
+      </div>
+      <div><label>Subject *</label><input type="text" id="c_subject" required></div>
+      <div><label>Message *</label><textarea id="c_message" required></textarea></div>
+      <div><label>Attachments</label><input type="file" id="c_files" multiple accept="image/*,application/pdf"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn secondary" id="closeModalBtn">Cancel</button>
+        <button type="submit" class="btn primary">Send</button>
+      </div>
+      <div id="emailMsg" style="margin-top:10px;font-weight:600"></div>
+    </form>
+  </div>
+</div>
 
-     const API_BASE =
-      window.location.hostname === "localhost"
-        ? "http://localhost:5001"
-        : "https://mudrart-admin.onrender.com";
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="col">
+      <div class="logo-small">
+        <svg viewBox="0 0 64 64" style="width:28px;height:28px"><circle cx="32" cy="32" r="30" fill="#ffb703"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
+        MUDRART
+      </div>
+      <p style="margin-top:10px;max-width:280px;color:rgba(255,255,255,0.85)">Authentic hand-painted art on Indian coins.</p>
+    </div>
+    <div class="col">
+      <h4>Explore</h4>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="col">
+      <h4>Reach us</h4>
+      <a href="mailto:hello@mudrart.in">hello@mudrart.in</a>
+      <a href="tel:+917385184575">+91 73851 84575</a>
+    </div>
+  </div>
+</footer>
 
-    function toAbs(p, type = "img") {
-      if (!p) {
-        return type === "img"
-          ? "https://via.placeholder.com/400x300?text=No+Image"
-          : "";
-      }
-      const s = String(p);
-      if (s.startsWith("http://") || s.startsWith("https://")) return s;
-      if (s.startsWith("/")) return API_BASE + s;
-      return API_BASE + "/uploads/" + s;
-    }
+<script>
+const WHATSAPP_NUMBER="918700000000";
+const API_BASE=location.hostname==="localhost"?"http://localhost:5001":"https://mudrart-admin.onrender.com";
 
-    async function loadArtworkDetails() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-      if (!id) return;
+function toAbs(p,type="img"){
+  if(!p)return type==="img"?"https://via.placeholder.com/400x300?text=No+Image":"";
+  const s=String(p);
+  if(s.startsWith("http"))return s;
+  if(s.startsWith("/"))return API_BASE+s;
+  return API_BASE+"/uploads/"+s;
+}
 
-      try {
-        const res = await fetch(`${API_BASE}/api/artworks`);
-        const artworks = await res.json();
-        const art = artworks.find(a => a._id === id);
+// Fade reveal
+const fadeEl=document.querySelector(".fade");
+const obs=new IntersectionObserver(e=>{e.forEach(x=>x.isIntersecting&&x.target.classList.add("in"))},{threshold:.2});
+obs.observe(fadeEl);
 
-        if (!art) {
-          document.getElementById("artDetails").innerHTML = "<p>Artwork not found.</p>";
-          return;
-        }
+async function loadArtworkDetails(){
+  const id=new URLSearchParams(location.search).get("id");
+  if(!id)return;
+  try{
+    const res=await fetch(API_BASE+"/api/artworks");
+    const list=await res.json();
+    const art=Array.isArray(list)?list.find(a=>a._id===id):(list.items||[]).find(a=>a._id===id);
+    const wrap=document.getElementById("artDetails");
+    if(!art){wrap.innerHTML="<p>Artwork not found.</p>";return;}
+    const main=toAbs(art.mainImage);
+    const imgs=(art.additionalImages||[]).map(i=>`<img src="${toAbs(i)}" alt="">`).join("");
+    const vids=(art.videos||[]).map(v=>`<video controls src="${toAbs(v,'video')}"></video>`).join("");
 
-        const mainImage = toAbs(art.mainImage, "img");
-        const additionalImages = (Array.isArray(art.additionalImages) ? art.additionalImages : [])
-          .map(img => `<img src="${toAbs(img, 'img')}" alt="">`)
-          .join("");
-        const videos = (Array.isArray(art.videos) ? art.videos : [])
-          .map(v => {
-            const src = toAbs(v, "video");
-            return src ? `<video controls src="${src}"></video>` : "";
-          })
-          .join("");
+    wrap.innerHTML=`
+      <div class="art-left">
+        <img src="${main}" alt="${art.title}">
+        ${imgs?`<div class="gallery">${imgs}</div>`:""}
+        ${vids?`<div class="videos">${vids}</div>`:""}
+      </div>
+      <div class="art-right">
+        <h1>${art.title}</h1>
+        <div class="price">₹${art.price}</div>
+        <p class="desc">${art.description||""}</p>
+        <div class="specs">
+          <p><strong>Material:</strong> ${art.material||"-"}</p>
+          <p><strong>Color Finish:</strong> ${art.colorFinish||"-"}</p>
+          <p><strong>Weight:</strong> ${art.weight||"-"} g</p>
+          <p><strong>Diameter:</strong> ${art.diameter||"-"} mm</p>
+        </div>
+        <div class="btns">
+          <button class="btn btn-primary" onclick="addToCart('${art._id}','${art.title}',${art.price},'${main}')">Add to Cart 🛒</button>
+          <button class="btn btn-outline" onclick="addToWishlist('${art._id}','${art.title}',${art.price},'${main}')">Wishlist ❤️</button>
+          <button class="btn btn-green" onclick="openWhatsApp('${art.title}')">Order via WhatsApp</button>
+          <button class="btn btn-outline" onclick="openEmailModal()">Email</button>
+        </div>
+      </div>`;
+  }catch(e){console.error(e);}
+}
 
-        document.getElementById("artDetails").innerHTML = `
-          <img class="main-image" src="${mainImage}" alt="${art.title}">
-          <div class="details">
-            <h2>${art.title}</h2>
-            <p class="price">₹${art.price}</p>
-            <p><strong>Material:</strong> ${art.material || '-'}</p>
-            <p><strong>Color Finish:</strong> ${art.colorFinish || '-'}</p>
-            <p><strong>Weight:</strong> ${art.weight || '-'} g</p>
-            <p><strong>Diameter:</strong> ${art.diameter || '-'} mm</p>
-            <p>${art.description || ''}</p>
-          </div>
-          ${additionalImages ? `<h3>More Images</h3><div class="gallery">${additionalImages}</div>` : ""}
-          ${videos ? `<h3>Videos</h3><div class="videos">${videos}</div>` : ""}
-        `;
-      } catch (err) {
-        console.error("Error loading artwork:", err);
-      }
-    }
+// Wishlist / Cart local
+function addToWishlist(id,t,p,img){
+  let wl=JSON.parse(localStorage.getItem("wishlist")||"[]");
+  if(!wl.find(x=>x.id===id)){wl.push({id,title:t,price:p,img});localStorage.setItem("wishlist",JSON.stringify(wl));alert("❤️ Added to Wishlist!");}
+  else alert("Already in wishlist");
+}
+function addToCart(id,t,p,img){
+  let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+  const it=cart.find(x=>x.id===id);
+  if(it)it.qty++;else cart.push({id,title:t,price:p,img,qty:1});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  alert("🛒 Added to Cart!");
+}
 
-    // 📧 Email inquiry submit
-    document.getElementById("emailForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const msg = document.getElementById("emailMsg");
-      msg.textContent = "Sending...";
-      msg.className = "";
+// WhatsApp
+function openWhatsApp(title){
+  const msg=encodeURIComponent(`Hello, I'm interested in "${title}". Please share details.`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,"_blank");
+}
 
-      try {
-        const fd = new FormData(e.target);
-        const res = await fetch("https://mudrart-admin.onrender.com/api/inquiries", {
-          method: "POST",
-          body: fd
-        });
-        const data = await res.json();
-        if (data.success) {
-          msg.textContent = "✅ Email sent successfully!";
-          msg.className = "success";
-          e.target.reset();
-          setTimeout(closeEmailModal, 1500);
-        } else {
-          msg.textContent = "❌ " + (data.error || "Failed to send email");
-          msg.className = "error";
-        }
-      } catch (err) {
-        console.error(err);
-        msg.textContent = "❌ Server error";
-        msg.className = "error";
-      }
-    });
+// Email Modal
+const modal=document.getElementById("emailModal");
+document.getElementById("closeModalBtn").onclick=()=>modal.classList.remove("open");
+function openEmailModal(){modal.classList.add("open");}
+document.getElementById("emailForm").onsubmit=async e=>{
+  e.preventDefault();
+  const msg=document.getElementById("emailMsg");
+  msg.textContent="Sending...";
+  try{
+    const fd=new FormData();
+    fd.append("name",c_name.value);fd.append("email",c_email.value);
+    fd.append("subject",c_subject.value);fd.append("message",c_message.value);
+    for(const f of c_files.files)fd.append("attachments",f);
+    const r=await fetch(API_BASE+"/api/inquiries",{method:"POST",body:fd});
+    const d=await r.json();
+    msg.textContent=d.success?"✅ Sent successfully!":"❌ "+(d.error||"Failed");
+    if(d.success)setTimeout(()=>modal.classList.remove("open"),1200);
+  }catch(err){msg.textContent="❌ Server error";}
+};
 
-    // ❤️ Wishlist
-    function addToWishlist(id, title, price, image) {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      if (!wishlist.find(item => item.id === id)) {
-        wishlist.push({ id, title, price, image });
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        alert("❤️ Added to Wishlist!");
-      } else {
-        alert("Already in Wishlist");
-      }
-    }
-
-    // 🛒 Cart
-    function addToCart(id, title, price, image) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let item = cart.find(item => item.id === id);
-      if (item) item.qty += 1;
-      else cart.push({ id, title, price, image, qty: 1 });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert("🛒 Added to Cart!");
-    }
-
-    loadArtworkDetails();
-  </script>
+loadArtworkDetails();
+</script>
 </body>
 </html>
