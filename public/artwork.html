@@ -121,13 +121,18 @@
     }
     document.getElementById("closeModalBtn").addEventListener("click", closeEmailModal);
 
+     const API_BASE =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5001"
+        : "https://mudrart-admin.onrender.com";
+
     async function loadArtworkDetails() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
       if (!id) return;
 
       try {
-        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
+        const res = await fetch(`${API_BASE}/api/artworks`);
         const artworks = await res.json();
         const art = artworks.find(a => a._id === id);
 
@@ -136,48 +141,32 @@
           return;
         }
 
-        document.getElementById("c_artworkId").value = art._id;
-        document.getElementById("c_artworkTitle").value = art.title;
-        document.getElementById("c_subject").value = `Inquiry: ${art.title}`;
+        const mainImage = art.mainImage
+          ? `${API_BASE}${art.mainImage.startsWith('/') ? art.mainImage : '/uploads/' + art.mainImage}`
+          : "https://via.placeholder.com/400x300?text=No+Image";
 
-        const artworkUrl = window.location.href;
-        const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=` +
-          encodeURIComponent(`Hello, I am interested in "${art.title}" (Price: ₹${art.price})\nArtwork Link: ${artworkUrl}`);
+        const additionalImages = (Array.isArray(art.additionalImages) ? art.additionalImages : [])
+          .map(img => `<img src="${API_BASE}${img.startsWith('/') ? img : '/uploads/' + img}" alt="">`)
+          .join("");
 
-        // --- Render artwork details
+        const videos = (Array.isArray(art.videos) ? art.videos : [])
+          .map(v => `<video controls src="${API_BASE}${v.startsWith('/') ? v : '/uploads/' + v}"></video>`)
+          .join("");
+
         document.getElementById("artDetails").innerHTML = `
-          <img class="main-image" src="https://mudrart-admin.onrender.com${art.mainImage?.startsWith('/uploads') ? art.mainImage : '/uploads/' + art.mainImage}" alt="${art.title}">
+          <img class="main-image" src="${mainImage}" alt="${art.title}">
           <div class="details">
             <h2>${art.title}</h2>
             <p class="price">₹${art.price}</p>
-            <p class="stock">Stock Available: ${art.stock}</p>
-            <p><strong>Description:</strong> ${art.description || 'No description available'}</p>
             <p><strong>Material:</strong> ${art.material || '-'}</p>
+            <p><strong>Color Finish:</strong> ${art.colorFinish || '-'}</p>
             <p><strong>Weight:</strong> ${art.weight || '-'} g</p>
             <p><strong>Diameter:</strong> ${art.diameter || '-'} mm</p>
-            <p><strong>Color Finish:</strong> ${art.colorFinish || '-'}</p>
-            <p><strong>Coin Type:</strong> ${art.coinType || '-'}</p>
-
-            <a href="${waLink}" target="_blank" class="order-btn">📲 Order Now on WhatsApp</a>
-            <a href="javascript:void(0)" class="email-btn" id="emailBtn">✉️ Email Us</a>
-            <a href="javascript:void(0)" class="email-btn" style="background:#e63946;" onclick="addToWishlist('${art._id}', '${art.title}', '${art.price}', 'https://mudrart-admin.onrender.com${art.mainImage}')">❤️ Wishlist</a>
-            <a href="javascript:void(0)" class="email-btn" style="background:#38a169;" onclick="addToCart('${art._id}', '${art.title}', '${art.price}', 'https://mudrart-admin.onrender.com${art.mainImage}')">🛒 Add to Cart</a>
+            <p>${art.description || ''}</p>
           </div>
-
-          ${Array.isArray(art.additionalImages) && art.additionalImages.length ? `
-            <h3>More Images</h3>
-            <div class="gallery">
-              ${art.additionalImages.map(img => `<img src="https://mudrart-admin.onrender.com${img.startsWith('/uploads') ? img : '/uploads/' + img}" alt="">`).join("")}
-            </div>` : ""}
-
-          ${Array.isArray(art.videos) && art.videos.length ? `
-            <h3>Videos</h3>
-            <div class="videos">
-              ${art.videos.map(v => `<video controls src="https://mudrart-admin.onrender.com${v.startsWith('/uploads') ? v : '/uploads/' + v}"></video>`).join("")}
-            </div>` : ""}
+          ${additionalImages ? `<h3>More Images</h3><div class="gallery">${additionalImages}</div>` : ""}
+          ${videos ? `<h3>Videos</h3><div class="videos">${videos}</div>` : ""}
         `;
-
-        document.getElementById("emailBtn").addEventListener("click", openEmailModal);
       } catch (err) {
         console.error("Error loading artwork:", err);
       }

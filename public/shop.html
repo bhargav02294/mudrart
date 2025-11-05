@@ -45,20 +45,30 @@
   <div id="artList"></div>
 
   <script>
+    const API_BASE =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5001"
+        : "https://mudrart-admin.onrender.com";
+
     async function loadAll() {
       try {
-        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
+        const res = await fetch(`${API_BASE}/api/artworks`);
         const data = await res.json();
         const list = document.getElementById("artList");
 
-        list.innerHTML = data.map(a => `
-          <div class="product" onclick="viewArtwork('${a._id}')">
-            <img src="https://mudrart-admin.onrender.com${a.mainImage?.startsWith('/uploads') ? a.mainImage : '/uploads/' + a.mainImage}" alt="${a.title}">
-            <h3>${a.title}</h3>
-            <p>${a.description ? a.description.substring(0, 80) + '...' : ''}</p>
-            <p class="price">₹${a.price}</p>
-          </div>
-        `).join("");
+        list.innerHTML = data.map(a => {
+          const mainImage = a.mainImage
+            ? `${API_BASE}${a.mainImage.startsWith('/') ? a.mainImage : '/uploads/' + a.mainImage}`
+            : "https://via.placeholder.com/250x200?text=No+Image";
+          return `
+            <div class="product" onclick="viewArtwork('${a._id}')">
+              <img src="${mainImage}" alt="${a.title}">
+              <h3>${a.title}</h3>
+              <p>${a.description ? a.description.substring(0, 80) + '...' : ''}</p>
+              <p class="price">₹${a.price}</p>
+            </div>
+          `;
+        }).join("");
       } catch (e) {
         console.error("Error loading artworks:", e);
       }
