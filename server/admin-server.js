@@ -26,6 +26,23 @@ mongoose
 app.use("/api/artworks", artworkRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 
+// ✅ Admin login route
+app.post("/api/admin/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // You can change credentials here if needed
+  const ADMIN_USERNAME = "admin";
+  const ADMIN_PASSWORD = "1234";
+
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    res.json({ success: true, message: "Login successful" });
+  } else {
+    res.status(401).json({ success: false, message: "Invalid username or password" });
+  }
+});
+
+
+
 app.get("/admin/:page", (req, res) =>
   res.sendFile(path.join(__dirname, "../public/admin", req.params.page))
 );
