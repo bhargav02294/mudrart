@@ -6,94 +6,233 @@
   <title>MudrArt – Miniature Coin Paintings</title>
   <link rel="icon" href="/favicon.ico" />
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; color: #222; }
-    header { background: #333; padding: 12px 0; }
-    header nav { text-align: center; }
-    header nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
-    header nav a:hover { text-decoration: underline; }
-
-    .hero { text-align: center; padding: 50px 20px; background: #eee; }
-    .hero h1 { font-size: 2.2em; margin-bottom: 10px; }
-    .hero p { font-size: 1.1em; color: #555; }
-    .hero a { background: #222; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; }
-
-    h2 { text-align: center; margin: 30px 0 10px; }
-
-    #artGallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
+    /* 🌙 Dark Sticky Navbar */
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      background: #121212;
+      color: #f2f2f2;
+      overflow-x: hidden;
+    }
+    header {
+      background: rgba(0,0,0,0.95);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       max-width: 1200px;
       margin: auto;
+      padding: 12px 20px;
     }
+    .logo {
+      font-size: 1.6em;
+      font-weight: 700;
+      color: #f2f2f2;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+    .logo:hover { color: #ffcc00; }
+    .nav-links a {
+      color: #f2f2f2;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: #ffcc00;
+      transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+      background: linear-gradient(145deg, #1e1e1e, #111);
+    }
+    .hero h1 {
+      font-size: 2.6em;
+      margin-bottom: 15px;
+      color: #ffcc00;
+      animation: fadeIn 1.2s ease;
+    }
+    .hero p {
+      font-size: 1.1em;
+      color: #ccc;
+      margin-bottom: 25px;
+    }
+    .hero a {
+      background: #ffcc00;
+      color: #111;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .hero a:hover {
+      background: #ffd633;
+      transform: scale(1.05);
+    }
+
+    /* Gallery Masonry Grid (Pinterest-style) */
+    #artGallery {
+      column-count: 4;
+      column-gap: 15px;
+      padding: 30px;
+      max-width: 1300px;
+      margin: auto;
+    }
+    @media (max-width: 1100px) { #artGallery { column-count: 3; } }
+    @media (max-width: 768px) { #artGallery { column-count: 2; } }
+    @media (max-width: 500px) { #artGallery { column-count: 1; } }
+
     .art-card {
-      background: #fff;
+      background: #1e1e1e;
+      display: inline-block;
+      margin-bottom: 15px;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      transition: transform 0.3s;
+      cursor: pointer;
     }
-    .art-card:hover { transform: scale(1.03); cursor: pointer; }
-    .art-card img { width: 100%; height: 220px; object-fit: cover; }
-    .art-card h3 { margin: 10px; font-size: 1.1em; }
-    .art-card p { margin: 0 10px 10px; font-size: 14px; color: #555; }
-    .art-card .price { color: #111; font-weight: bold; margin: 0 10px 15px; }
+    .art-card:hover { transform: scale(1.03); }
+    .art-card img {
+      width: 100%;
+      border-bottom: 2px solid #ffcc00;
+      display: block;
+    }
+    .art-card-content {
+      padding: 10px 12px 15px;
+    }
+    .art-card h3 {
+      margin: 5px 0;
+      color: #fff;
+      font-size: 1.1em;
+    }
+    .art-card p {
+      font-size: 0.9em;
+      color: #bbb;
+      margin: 5px 0 10px;
+    }
+    .price {
+      color: #ffcc00;
+      font-weight: bold;
+    }
 
-    footer { background: #333; color: white; text-align: center; padding: 15px 0; margin-top: 40px; }
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #000;
+      color: #888;
+      margin-top: 50px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
+  <!-- 🌙 Sticky Navbar -->
   <header>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="wishlist.html">Wishlist ❤️</a>
-      <a href="cart.html">Cart 🛒</a>
-      <a href="signin.html">Login</a>
-      <a href="signup.html">Signup</a>
+      <div class="logo">MudrArt</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="wishlist.html">Wishlist ❤️</a>
+        <a href="cart.html">Cart 🛒</a>
+        <a href="signin.html">Login</a>
+        <a href="signup.html">Signup</a>
+      </div>
     </nav>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
-    <h1>Miniature Paintings on Indian Coins</h1>
-    <p>Discover rare hand-painted artworks crafted on authentic Indian coins.</p>
-    <a href="shop.html">Shop Now</a>
+    <h1>Miniature Art on Indian Coins</h1>
+    <p>Unique hand-painted artwork crafted on authentic Indian coins.</p>
+    <a href="#artGallery">Explore Gallery</a>
   </section>
 
-  <h2>Featured Artworks</h2>
+  <!-- Gallery -->
+  <h2 style="text-align:center;margin-top:30px;color:#ffcc00;">Featured Artworks</h2>
   <div id="artGallery"></div>
 
-  <footer>
-    <p>© 2025 MudrArt India — Miniature Coin Paintings</p>
-  </footer>
+  <footer>© 2025 MudrArt India — Miniature Coin Paintings</footer>
 
   <script>
-    async function loadArtworks() {
-      try {
-        const res = await fetch("https://mudrart-admin.onrender.com/api/artworks");
-        const artworks = await res.json();
-        const gallery = document.getElementById("artGallery");
-
-        gallery.innerHTML = artworks.map(a => `
-          <div class="art-card" onclick="viewArtwork('${a._id}')">
-            <img src="https://mudrart-admin.onrender.com${a.mainImage?.startsWith('/uploads') ? a.mainImage : '/uploads/' + a.mainImage}" alt="${a.title}">
-            <h3>${a.title}</h3>
-            <p>${a.description ? a.description.substring(0, 60) + '...' : ''}</p>
-            <p class="price">₹${a.price}</p>
-          </div>
-        `).join("");
-      } catch (err) {
-        console.error("Error loading artworks:", err);
+    // For demo, we'll use static sample artworks
+    const artworks = [
+      {
+        id: 1,
+        title: "The Royal Peacock",
+        description: "A vivid hand-painted artwork symbolizing royalty and grace.",
+        price: 1200,
+        img: "https://res.cloudinary.com/demo/image/upload/v1729928772/sample.jpg"
+      },
+      {
+        id: 2,
+        title: "Lord Ganesha",
+        description: "Blessings of wisdom and prosperity on pure copper coin.",
+        price: 1500,
+        img: "https://res.cloudinary.com/demo/image/upload/v1729928798/ganesha.png"
+      },
+      {
+        id: 3,
+        title: "Radha Krishna Divine Love",
+        description: "Miniature painting depicting divine eternal love.",
+        price: 1800,
+        img: "https://res.cloudinary.com/demo/image/upload/v1729928760/krishna.jpg"
+      },
+      {
+        id: 4,
+        title: "Shiva Trident Power",
+        description: "Symbol of power, courage, and devotion to Lord Shiva.",
+        price: 1400,
+        img: "https://res.cloudinary.com/demo/image/upload/v1729928750/shiva.png"
+      },
+      {
+        id: 5,
+        title: "Indian Lotus",
+        description: "National flower painted on silver coin.",
+        price: 1300,
+        img: "https://res.cloudinary.com/demo/image/upload/v1729928740/lotus.jpg"
       }
-    }
+    ];
+
+    const gallery = document.getElementById("artGallery");
+
+    gallery.innerHTML = artworks.map(a => `
+      <div class="art-card" onclick="viewArtwork(${a.id})">
+        <img src="${a.img}" alt="${a.title}">
+        <div class="art-card-content">
+          <h3>${a.title}</h3>
+          <p>${a.description.substring(0, 60)}...</p>
+          <div class="price">₹${a.price}</div>
+        </div>
+      </div>
+    `).join("");
 
     function viewArtwork(id) {
       window.location.href = "artwork.html?id=" + id;
     }
-
-    loadArtworks();
   </script>
 </body>
 </html>
