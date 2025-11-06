@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const Artwork = require("./models/artwork");
 const artworkRoutes = require("./routes/artwork");
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") }); 
 
 const app = express();
 

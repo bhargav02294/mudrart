@@ -1,11 +1,11 @@
 const express = require("express");
 // ✅ Load .env from the exact path you said
-require("dotenv").config({ path: "E:/coin-art/.env" });
 
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const mongoose = require("mongoose");
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") }); 
 
 const artworkRoutes = require("./routes/artwork");
 // ✅ Make sure the filename is routes/inquiry.js (NOT enquiry.js)

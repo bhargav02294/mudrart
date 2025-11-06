@@ -1,32 +1,35 @@
+// C:\Users\bharg\mudrart\server\routes\artwork.js
 const express = require("express");
 const router = express.Router();
 const Artwork = require("../models/artwork");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("../config/cloudinary");
 
-// Ensure uploads folder exists (backend/uploads)
-const uploadDir = path.join(__dirname, "../uploads");
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+// temporary folder for multer uploads before Cloudinary
+const TEMP_DIR = path.join(__dirname, "..", "temp_uploads");
+if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 
-// Multer storage config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const timestamp = Date.now();
-    const cleanName = file.originalname.replace(/[^a-zA-Z0-9_.-]/g, "_");
-    cb(null, `${timestamp}_${cleanName}`);
+  destination: function (req, file, cb) {
+    cb(null, TEMP_DIR);
+  },
+  filename: function (req, file, cb) {
+    const ts = Date.now();
+    const safe = file.originalname.replace(/[^a-zA-Z0-9_.-]/g, "_");
+    cb(null, `${ts}_${safe}`);
   }
 });
 const upload = multer({ storage });
 
-// Add artwork
+// POST /api/artworks  -> uploads to Cloudinary
 router.post(
   "/",
   upload.fields([
     { name: "mainImage", maxCount: 1 },
-    { name: "additionalImages", maxCount: 5 },
-    { name: "videos", maxCount: 2 }
+    { name: "additionalImages", maxCount: 10 },
+    { name: "videos", maxCount: 5 }
   ]),
   async (req, res) => {
     try {
@@ -42,82 +45,84 @@ router.post(
         coinType
       } = req.body;
 
-      if (!req.files || !req.files.mainImage) {
-        return res.status(400).json({ error: "Main image is required." });
+      if (!req.files || !req.files.mainImage || !req.files.mainImage[0]) {
+        return res.status(400).json({ error: "Main image required" });
       }
 
+      // Upload main image
+      const mainPath = req.files.mainImage[0].path;
+      const mainUpload = await cloudinary.uploader.upload(mainPath, {
+        folder: "mudrart/artworks"
+      });
+
+      // Upload additional images
+      const addUploads = (req.files.additionalImages || []).map(f => f.path);
+      const addResults = [];
+      for (const p of addUploads) {
+        const r = await cloudinary.uploader.upload(p, { folder: "mudrart/artworks" });
+        addResults.push(r.secure_url);
+      }
+
+      // Upload videos (resource_type: video)
+      const vidUploads = (req.files.videos || []).map(f => f.path);
+      const vidResults = [];
+      for (const p of vidUploads) {
+        const r = await cloudinary.uploader.upload(p, {
+          folder: "mudrart/videos",
+          resource_type: "video"
+        });
+        vidResults.push(r.secure_url);
+      }
+
+      // Create DB document with secure URLs
       const artwork = new Artwork({
         title,
         description,
-        stock,
-        price,
+        stock: Number(stock) || 0,
+        price: Number(price) || 0,
         colorFinish,
-        weight,
-        diameter,
+        weight: Number(weight) || undefined,
+        diameter: Number(diameter) || undefined,
         material,
         coinType,
-        mainImage: `/uploads/${req.files.mainImage[0].filename}`,
-        additionalImages: req.files.additionalImages
-          ? req.files.additionalImages.map(f => `/uploads/${f.filename}`)
-          : [],
-        videos: req.files.videos
-          ? req.files.videos.map(f => `/uploads/${f.filename}`)
-          : []
+        mainImage: mainUpload.secure_url,
+        additionalImages: addResults,
+        videos: vidResults
       });
 
       await artwork.save();
-      res.json({ message: "Artwork added successfully", artwork });
+
+      // cleanup temp files
+      Object.keys(req.files || {}).forEach(key => {
+        (req.files[key] || []).forEach(f => {
+          try { fs.unlinkSync(f.path); } catch (e) { /* noop */ }
+        });
+      });
+
+      res.json({ message: "Artwork uploaded", artwork });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Server error", details: err.message });
+      console.error("Artwork upload error:", err);
+      res.status(500).json({ error: err.message });
     }
   }
 );
 
-// Get all artworks
+// GET /api/artworks -> returns DB objects (mainImage, additionalImages, videos are full secure URLs already)
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
-    const host = `${req.protocol}://${req.get("host")}`;
-
-    const artworksWithUrls = artworks.map(a => ({
-      ...a._doc,
-      mainImage: a.mainImage ? host + a.mainImage : null,
-      additionalImages: Array.isArray(a.additionalImages)
-        ? a.additionalImages.map(img => host + img)
-        : [],
-      videos: Array.isArray(a.videos)
-        ? a.videos.map(v => host + v)
-        : []
-    }));
-
-    res.json(artworksWithUrls);
+    res.json(artworks);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Delete artwork
+// DELETE (simple) - does not remove from Cloudinary (optional: implement public_id deletes later)
 router.delete("/:id", async (req, res) => {
   try {
-    const artwork = await Artwork.findById(req.params.id);
-    if (!artwork) return res.status(404).json({ error: "Artwork not found" });
-
-    const filesToDelete = [
-      artwork.mainImage,
-      ...(artwork.additionalImages || []),
-      ...(artwork.videos || [])
-    ];
-
-    filesToDelete.forEach(filePath => {
-      const relativePath = filePath.replace(/^\/uploads\//, "");
-      const fullPath = path.join(__dirname, "../uploads", relativePath);
-      if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
-    });
-
     await Artwork.findByIdAndDelete(req.params.id);
-    res.json({ message: "Artwork deleted" });
+    res.json({ message: "Deleted" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

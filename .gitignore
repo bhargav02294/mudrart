@@ -1,0 +1,5 @@
+node_modules/
+temp_uploads/
+server/temp_uploads/
+uploads/
+.env
