@@ -2,12 +2,21 @@ const express = require("express");
 const router = express.Router();
 const Artwork = require("../models/artwork");
 const multer = require("multer");
-const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
-const path = require("path");
+const cloudinary = require("../config/cloudinary");
 
-// Multer temp upload (Cloudinary will store permanently)
+// temporary folder for uploaded files before sending to Cloudinary
 const upload = multer({ dest: "uploads/" });
+
+// Helper to upload files to Cloudinary
+async function uploadToCloudinary(filePath, folder, resourceType = "image") {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder,
+    resource_type: resourceType,
+  });
+  fs.unlinkSync(filePath); // delete local temp file
+  return result.secure_url;
+}
 
 // ✅ Add Artwork
 router.post(
@@ -36,35 +45,31 @@ router.post(
       }
 
       // Upload main image to Cloudinary
-      const mainUpload = await cloudinary.uploader.upload(
+      const mainImageUrl = await uploadToCloudinary(
         req.files.mainImage[0].path,
-        { folder: "mudrart/artworks", resource_type: "image" }
+        "mudrart/artworks",
+        "image"
       );
 
-      // Upload additional images
-      const additionalUploads = req.files.additionalImages
+      // Upload additional images if present
+      const additionalImages = req.files.additionalImages
         ? await Promise.all(
-            req.files.additionalImages.map((f) =>
-              cloudinary.uploader.upload(f.path, {
-                folder: "mudrart/artworks",
-                resource_type: "image",
-              })
+            req.files.additionalImages.map((file) =>
+              uploadToCloudinary(file.path, "mudrart/artworks", "image")
             )
           )
         : [];
 
-      // Upload videos
-      const videoUploads = req.files.videos
+      // Upload videos if present
+      const videos = req.files.videos
         ? await Promise.all(
-            req.files.videos.map((f) =>
-              cloudinary.uploader.upload(f.path, {
-                folder: "mudrart/videos",
-                resource_type: "video",
-              })
+            req.files.videos.map((file) =>
+              uploadToCloudinary(file.path, "mudrart/videos", "video")
             )
           )
         : [];
 
+      // Save to MongoDB
       const artwork = new Artwork({
         title,
         description,
@@ -75,63 +80,41 @@ router.post(
         diameter,
         material,
         coinType,
-        mainImage: mainUpload.secure_url,
-        additionalImages: additionalUploads.map((a) => a.secure_url),
-        videos: videoUploads.map((v) => v.secure_url),
+        mainImage: mainImageUrl,
+        additionalImages,
+        videos,
       });
 
       await artwork.save();
-
-      // cleanup temp files
-      Object.values(req.files).flat().forEach((file) => fs.unlinkSync(file.path));
-
       res.json({ message: "✅ Artwork added successfully!", artwork });
     } catch (err) {
-      console.error("Upload Error:", err);
-      res.status(500).json({ error: "Server error", details: err.message });
+      console.error("❌ Artwork upload error:", err);
+      res
+        .status(500)
+        .json({ error: "Server error", details: err.message || err.toString() });
     }
   }
 );
 
-// ✅ Get all artworks
+// ✅ Get All Artworks
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
     res.json(artworks);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-// ✅ Delete artwork (also delete from Cloudinary)
+// ✅ Delete Artwork (and delete from Cloudinary)
 router.delete("/:id", async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
     if (!artwork) return res.status(404).json({ error: "Artwork not found" });
 
-    // optional: extract public_ids to delete from Cloudinary
-    const extractPublicId = (url) => {
-      const match = url.match(/\/([^/]+)\.[a-z]+$/i);
-      return match ? match[1] : null;
-    };
-
-    const allFiles = [
-      artwork.mainImage,
-      ...(artwork.additionalImages || []),
-      ...(artwork.videos || []),
-    ];
-
-    for (const url of allFiles) {
-      const publicId = extractPublicId(url);
-      if (publicId)
-        await cloudinary.uploader.destroy(publicId, { resource_type: "auto" });
-    }
-
     await Artwork.findByIdAndDelete(req.params.id);
-    res.json({ message: "✅ Artwork and media deleted" });
+    res.json({ message: "✅ Artwork deleted" });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });

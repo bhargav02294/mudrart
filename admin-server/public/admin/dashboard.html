@@ -91,70 +91,74 @@
   <h2>All Artworks</h2>
   <ul id="artworkList"></ul>
 
-  <script>
-    const API_BASE =
-      window.location.hostname === "localhost"
-        ? "http://localhost:5001"
-        : "https://mudrart-admin.onrender.com";
+ <script>
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5001"
+    : "https://mudrart-admin.onrender.com";
 
-    const form = document.getElementById("addArtworkForm");
-    const list = document.getElementById("artworkList");
+const form = document.getElementById("addArtworkForm");
+const list = document.getElementById("artworkList");
+const msg = document.getElementById("msg");
 
-    async function fetchArtworks() {
-      try {
-        const res = await fetch(`${API_BASE}/api/artworks`);
-        const artworks = await res.json();
-        list.innerHTML = artworks.map(a => `
-          <li>
-            <strong>${a.title}</strong> (${a.coinType}) - ₹${a.price} - Stock: ${a.stock}
-            <br>${a.description}
-            <br>Main Image: ${a.mainImage ? `<img src="${a.mainImage}" width="120"/>` : "None"}
-            <br>Additional Images: ${a.additionalImages?.length
-              ? a.additionalImages.map(img => `<img src="${img}" width="80" style="margin-right:5px;"/>`).join("")
-              : "None"}
-            <br>Videos: ${a.videos?.length
-              ? a.videos.map(v => `<video width="200" controls src="${v}" style="margin-right:5px;"></video>`).join("")
-              : "None"}
-            <br><button onclick="deleteArtwork('${a._id}')">Delete</button>
-          </li>`).join("");
-      } catch (err) {
-        console.error(err);
-        list.innerHTML = "<li>Error loading artworks.</li>";
-      }
-    }
+async function fetchArtworks() {
+  try {
+    const res = await fetch(`${API_BASE}/api/artworks`);
+    const artworks = await res.json();
 
-    async function deleteArtwork(id) {
-      if (!confirm("Delete this artwork?")) return;
-      try {
-        await fetch(`${API_BASE}/api/artworks/${id}`, { method: "DELETE" });
-        fetchArtworks();
-      } catch (err) {
-        console.error(err);
-      }
-    }
+    list.innerHTML = artworks.map(a => `
+      <li>
+        <strong>${a.title}</strong> (${a.coinType}) - ₹${a.price} - Stock: ${a.stock}
+        <br>${a.description}
+        <br>Main Image: ${a.mainImage ? `<img src="${a.mainImage}" width="120"/>` : "None"}
+        <br>Additional Images: ${a.additionalImages?.length
+          ? a.additionalImages.map(img => `<img src="${img}" width="80" style="margin-right:5px;"/>`).join("")
+          : "None"}
+        <br>Videos: ${a.videos?.length
+          ? a.videos.map(v => `<video width="200" controls src="${v}" style="margin-right:5px;"></video>`).join("")
+          : "None"}
+        <br><button onclick="deleteArtwork('${a._id}')">Delete</button>
+      </li>
+    `).join("");
+  } catch (err) {
+    console.error("Error loading artworks:", err);
+    list.innerHTML = "<li>Error loading artworks.</li>";
+  }
+}
 
-    form.addEventListener("submit", async e => {
-      e.preventDefault();
-      const formData = new FormData();
-      ["title","description","stock","price","colorFinish","weight","diameter","material","coinType"]
-        .forEach(id => formData.append(id, document.getElementById(id).value));
-      formData.append("mainImage", document.getElementById("mainImage").files[0]);
-      Array.from(document.getElementById("additionalImages").files).forEach(f => formData.append("additionalImages", f));
-      Array.from(document.getElementById("videos").files).forEach(f => formData.append("videos", f));
+async function deleteArtwork(id) {
+  if (!confirm("Delete this artwork?")) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/artworks/${id}`, { method: "DELETE" });
+    if (res.ok) fetchArtworks();
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
+}
 
-      try {
-        const res = await fetch(`${API_BASE}/api/artworks`, { method: "POST", body: formData });
-        const data = await res.json();
-        document.getElementById("msg").innerText = data.message || data.error || "Done";
-        form.reset();
-        fetchArtworks();
-      } catch (err) {
-        console.error(err);
-        document.getElementById("msg").innerText = "Error adding artwork";
-      }
-    });
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  ["title","description","stock","price","colorFinish","weight","diameter","material","coinType"]
+    .forEach(id => formData.append(id, document.getElementById(id).value));
+  formData.append("mainImage", document.getElementById("mainImage").files[0]);
+  Array.from(document.getElementById("additionalImages").files).forEach(f => formData.append("additionalImages", f));
+  Array.from(document.getElementById("videos").files).forEach(f => formData.append("videos", f));
 
+  try {
+    const res = await fetch(`${API_BASE}/api/artworks`, { method: "POST", body: formData });
+    const data = await res.json();
+    msg.innerText = data.message || data.error || "Unknown response";
     fetchArtworks();
-  </script>
+    form.reset();
+  } catch (err) {
+    console.error("Submit error:", err);
+    msg.innerText = "Error adding artwork";
+  }
+});
+
+fetchArtworks();
+</script>
+
 </body>
 </html>
