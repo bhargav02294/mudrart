@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Manage Artworks · CoinArt Admin</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="text-xl font-semibold">Manage Artworks</div>
+      <nav class="space-x-3 text-sm">
+        <a class="px-3 py-1.5 border rounded" href="/admin/dashboard.html">Dashboard</a>
+        <a class="px-3 py-1.5 border rounded" href="/admin/products-add.html">Add New</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div id="list" class="grid md:grid-cols-3 gap-4"></div>
+  </main>
+
+  <template id="cardTpl">
+    <div class="bg-white border rounded-2xl p-3">
+      <img class="w-full h-40 object-cover rounded" />
+      <div class="mt-2 font-medium title"></div>
+      <div class="text-sm text-gray-500 price"></div>
+      <div class="text-xs mt-1 status"></div>
+      <div class="mt-3 flex items-center gap-2">
+        <button class="px-3 py-1 text-sm border rounded pub">Publish</button>
+        <button class="px-3 py-1 text-sm border rounded unpub">Unpublish</button>
+        <button class="px-3 py-1 text-sm border rounded del text-red-600">Delete</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="/admin/admin-common.js"></script>
+  <script>
+    requireAuthOrRedirect();
+
+    async function load(){
+      const { items } = await api("/admin/products?limit=100");
+      const wrap = document.getElementById("list");
+      wrap.innerHTML = "";
+      items.forEach(p=>{
+        const t = document.getElementById("cardTpl").content.cloneNode(true);
+        const img = t.querySelector("img");
+        img.src = p.images?.[0]?.url || "https://via.placeholder.com/600x400?text=No+Image";
+        t.querySelector(".title").textContent = p.title;
+        t.querySelector(".price").textContent = "₹" + p.price + (p.compareAt ? "  (MRP ₹"+p.compareAt+")" : "");
+        t.querySelector(".status").textContent = `Status: ${p.status} · Stock: ${p.stock}`;
+
+        t.querySelector(".pub").onclick = async ()=>{
+          await api(`/admin/products/${p._id}/publish`, { method:"PATCH", body:{ status:"active" } });
+          load();
+        };
+        t.querySelector(".unpub").onclick = async ()=>{
+          await api(`/admin/products/${p._id}/publish`, { method:"PATCH", body:{ status:"draft" } });
+          load();
+        };
+        t.querySelector(".del").onclick = async ()=>{
+          if(!confirm("Delete this artwork?")) return;
+          await api(`/admin/products/${p._id}`, { method:"DELETE" });
+          load();
+        };
+        wrap.appendChild(t);
+      });
+    }
+    load();
+  </script>
+</body>
+</html>

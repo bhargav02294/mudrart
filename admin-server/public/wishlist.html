@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Wishlist</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .item { display: flex; align-items: center; gap: 15px; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+    img { width: 100px; border-radius: 6px; }
+    .remove-btn { background: crimson; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>❤️ My Wishlist</h1>
+  <div id="wishlistContainer"></div>
+
+  <script>
+    function loadWishlist() {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const container = document.getElementById("wishlistContainer");
+      if (wishlist.length === 0) {
+        container.innerHTML = "<p>No items in Wishlist.</p>";
+        return;
+      }
+      container.innerHTML = wishlist.map((item, i) => `
+        <div class="item">
+          <img src="${item.image}" alt="${item.title}">
+          <div>
+            <h3>${item.title}</h3>
+            <p>Price: ₹${item.price}</p>
+            <button class="remove-btn" onclick="removeFromWishlist(${i})">Remove</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function removeFromWishlist(index) {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist.splice(index, 1);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      loadWishlist();
+    }
+
+    loadWishlist();
+  </script>
+</body>
+</html>

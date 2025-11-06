@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Admin - Email Inquiries</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  h1 { margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+  .status { font-weight: bold; }
+  select { padding: 6px; }
+  .small { color:#666; font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>📧 Email Inquiries</h1>
+  <p class="small">Refresh the page to see latest messages. Use the status dropdown to update.</p>
+  <table id="tbl">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Artwork</th>
+        <th>Message</th>
+        <th>Attachments</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+<script>
+async function loadInquiries() {
+  const res = await fetch("/api/inquiries");
+  const items = await res.json();
+
+  const rows = document.getElementById("rows");
+  rows.innerHTML = items.map(x => `
+    <tr>
+      <td>${new Date(x.createdAt).toLocaleString()}</td>
+      <td>${x.name} <br/><span class="small">${x.email}</span></td>
+      <td>${x.subject}</td>
+      <td>${x.artworkTitle ? x.artworkTitle : "-"}</td>
+      <td style="max-width:300px">${(x.message || "").replace(/</g,"&lt;").replace(/\n/g,"<br/>")}</td>
+      <td>
+        ${Array.isArray(x.attachments) && x.attachments.length
+          ? x.attachments.map(u => `<div><a href="${u}" target="_blank">${u.split("/").pop()}</a></div>`).join("")
+          : "<span class='small'>None</span>"
+        }
+      </td>
+      <td>
+        <select onchange="updateStatus('${x._id}', this.value)">
+          ${["Pending","Replied","Closed"].map(s => `<option value="${s}" ${x.status===s?"selected":""}>${s}</option>`).join("")}
+        </select>
+      </td>
+    </tr>
+  `).join("");
+}
+
+async function updateStatus(id, status) {
+  await fetch(`/api/inquiries/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status })
+  });
+}
+
+loadInquiries();
+</script>
+</body>
+</html>

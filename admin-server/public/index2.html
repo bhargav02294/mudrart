@@ -1,0 +1,53 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CoinArt India</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <section id="artworks">
+  <h2>Featured Artworks</h2>
+  <div id="artGallery"></div>
+</section>
+  <section class="hero">
+    <h1>Miniature Coin Art</h1>
+    <p>Rare Indian coins painted into timeless artwork.</p>
+    <a href="js/shop.html" class="btn">Shop Now</a>
+  </section>
+
+  <footer>
+    <p>© 2025 CoinArt India</p>
+  </footer>
+
+  <script>
+
+    async function loadArtworks() {
+    const res = await fetch("http://localhost:5000/api/artworks");
+    const artworks = await res.json();
+
+    const gallery = document.getElementById("artGallery");
+    gallery.innerHTML = artworks.map(
+      art => `
+        <div>
+          <img src="${art.imageUrl}" width="200">
+          <h3>${art.title}</h3>
+          <p>${art.description}</p>
+        </div>
+      `
+    ).join("");
+  }
+  loadArtworks();
+  </script>
+</body>
+</html>
