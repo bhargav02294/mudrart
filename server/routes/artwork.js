@@ -5,20 +5,20 @@ const multer = require("multer");
 const fs = require("fs");
 const cloudinary = require("../config/cloudinary");
 
-// temporary folder for uploaded files before sending to Cloudinary
+// Temporary upload directory before Cloudinary
 const upload = multer({ dest: "uploads/" });
 
-// Helper to upload files to Cloudinary
-async function uploadToCloudinary(filePath, folder, resourceType = "image") {
-  const result = await cloudinary.uploader.upload(filePath, {
+// Helper for Cloudinary uploads
+async function uploadToCloudinary(file, folder, type = "image") {
+  const result = await cloudinary.uploader.upload(file.path, {
     folder,
-    resource_type: resourceType,
+    resource_type: type,
   });
-  fs.unlinkSync(filePath); // delete local temp file
+  fs.unlinkSync(file.path); // remove temp file
   return result.secure_url;
 }
 
-// ✅ Add Artwork
+// ========== ADD ARTWORK ==========
 router.post(
   "/",
   upload.fields([
@@ -28,48 +28,25 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      const {
-        title,
-        description,
-        stock,
-        price,
-        colorFinish,
-        weight,
-        diameter,
-        material,
-        coinType,
-      } = req.body;
+      const { title, description, stock, price, colorFinish, weight, diameter, material, coinType } = req.body;
 
       if (!req.files || !req.files.mainImage) {
-        return res.status(400).json({ error: "Main image is required." });
+        return res.status(400).json({ error: "Main image required" });
       }
 
-      // Upload main image to Cloudinary
-      const mainImageUrl = await uploadToCloudinary(
-        req.files.mainImage[0].path,
-        "mudrart/artworks",
-        "image"
-      );
+      // Upload to Cloudinary
+      const mainImage = await uploadToCloudinary(req.files.mainImage[0], "mudrart/artworks", "image");
 
-      // Upload additional images if present
       const additionalImages = req.files.additionalImages
         ? await Promise.all(
-            req.files.additionalImages.map((file) =>
-              uploadToCloudinary(file.path, "mudrart/artworks", "image")
-            )
+            req.files.additionalImages.map((f) => uploadToCloudinary(f, "mudrart/artworks", "image"))
           )
         : [];
 
-      // Upload videos if present
       const videos = req.files.videos
-        ? await Promise.all(
-            req.files.videos.map((file) =>
-              uploadToCloudinary(file.path, "mudrart/videos", "video")
-            )
-          )
+        ? await Promise.all(req.files.videos.map((f) => uploadToCloudinary(f, "mudrart/videos", "video")))
         : [];
 
-      // Save to MongoDB
       const artwork = new Artwork({
         title,
         description,
@@ -80,23 +57,21 @@ router.post(
         diameter,
         material,
         coinType,
-        mainImage: mainImageUrl,
+        mainImage,
         additionalImages,
         videos,
       });
 
       await artwork.save();
-      res.json({ message: "✅ Artwork added successfully!", artwork });
+      res.json({ message: "✅ Artwork added successfully", artwork });
     } catch (err) {
-      console.error("❌ Artwork upload error:", err);
-      res
-        .status(500)
-        .json({ error: "Server error", details: err.message || err.toString() });
+      console.error("❌ Upload failed:", err);
+      res.status(500).json({ error: "Server error", details: err.message });
     }
   }
 );
 
-// ✅ Get All Artworks
+// ========== GET ARTWORKS ==========
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
@@ -106,12 +81,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ Delete Artwork (and delete from Cloudinary)
+// ========== DELETE ARTWORK ==========
 router.delete("/:id", async (req, res) => {
   try {
     const artwork = await Artwork.findById(req.params.id);
-    if (!artwork) return res.status(404).json({ error: "Artwork not found" });
-
+    if (!artwork) return res.status(404).json({ error: "Not found" });
     await Artwork.findByIdAndDelete(req.params.id);
     res.json({ message: "✅ Artwork deleted" });
   } catch (err) {
