@@ -1,14 +1,11 @@
 const express = require("express");
-// ✅ Load .env from the exact path you said
-
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const mongoose = require("mongoose");
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") }); 
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const artworkRoutes = require("./routes/artwork");
-// ✅ Make sure the filename is routes/inquiry.js (NOT enquiry.js)
 const inquiryRoutes = require("./routes/inquiry");
 
 const app = express();
@@ -18,46 +15,29 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve frontend
+// Serve public folder
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Serve uploads (if you later save files to disk)
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/email_uploads", express.static(path.join(__dirname, "../public/email_uploads")));
-const uploadDir = path.join(__dirname, "uploads");
-app.use("/uploads", express.static(uploadDir));
-// MongoDB
+// MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/coinart";
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// API routes
+// API Routes
 app.use("/api/artworks", artworkRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 
-// Admin pages (optional)
+// Admin Panel Pages
 app.get("/admin/:page", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/admin", req.params.page));
 });
 
-// Example Admin Login (placeholder)
-app.post("/api/admin/login", (req, res) => {
-  const { username, password } = req.body;
-  if (username === "admin" && password === "1234") {
-    res.json({ success: true, message: "Login successful" });
-  } else {
-    res.status(401).json({ success: false, message: "Invalid credentials" });
-  }
-});
-
-// Root -> public/index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// Start server
 const PORT = process.env.PORT_ADMIN || 5001;
 app.listen(PORT, () =>
   console.log(`🚀 Admin backend running on http://localhost:${PORT}`)

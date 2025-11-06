@@ -1,35 +1,21 @@
-// C:\Users\bharg\mudrart\server\routes\artwork.js
 const express = require("express");
 const router = express.Router();
 const Artwork = require("../models/artwork");
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
+const path = require("path");
 
-// temporary folder for multer uploads before Cloudinary
-const TEMP_DIR = path.join(__dirname, "..", "temp_uploads");
-if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
+// Multer temp upload (Cloudinary will store permanently)
+const upload = multer({ dest: "uploads/" });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, TEMP_DIR);
-  },
-  filename: function (req, file, cb) {
-    const ts = Date.now();
-    const safe = file.originalname.replace(/[^a-zA-Z0-9_.-]/g, "_");
-    cb(null, `${ts}_${safe}`);
-  }
-});
-const upload = multer({ storage });
-
-// POST /api/artworks  -> uploads to Cloudinary
+// ✅ Add Artwork
 router.post(
   "/",
   upload.fields([
     { name: "mainImage", maxCount: 1 },
-    { name: "additionalImages", maxCount: 10 },
-    { name: "videos", maxCount: 5 }
+    { name: "additionalImages", maxCount: 5 },
+    { name: "videos", maxCount: 2 },
   ]),
   async (req, res) => {
     try {
@@ -42,72 +28,72 @@ router.post(
         weight,
         diameter,
         material,
-        coinType
+        coinType,
       } = req.body;
 
-      if (!req.files || !req.files.mainImage || !req.files.mainImage[0]) {
-        return res.status(400).json({ error: "Main image required" });
+      if (!req.files || !req.files.mainImage) {
+        return res.status(400).json({ error: "Main image is required." });
       }
 
-      // Upload main image
-      const mainPath = req.files.mainImage[0].path;
-      const mainUpload = await cloudinary.uploader.upload(mainPath, {
-        folder: "mudrart/artworks"
-      });
+      // Upload main image to Cloudinary
+      const mainUpload = await cloudinary.uploader.upload(
+        req.files.mainImage[0].path,
+        { folder: "mudrart/artworks", resource_type: "image" }
+      );
 
       // Upload additional images
-      const addUploads = (req.files.additionalImages || []).map(f => f.path);
-      const addResults = [];
-      for (const p of addUploads) {
-        const r = await cloudinary.uploader.upload(p, { folder: "mudrart/artworks" });
-        addResults.push(r.secure_url);
-      }
+      const additionalUploads = req.files.additionalImages
+        ? await Promise.all(
+            req.files.additionalImages.map((f) =>
+              cloudinary.uploader.upload(f.path, {
+                folder: "mudrart/artworks",
+                resource_type: "image",
+              })
+            )
+          )
+        : [];
 
-      // Upload videos (resource_type: video)
-      const vidUploads = (req.files.videos || []).map(f => f.path);
-      const vidResults = [];
-      for (const p of vidUploads) {
-        const r = await cloudinary.uploader.upload(p, {
-          folder: "mudrart/videos",
-          resource_type: "video"
-        });
-        vidResults.push(r.secure_url);
-      }
+      // Upload videos
+      const videoUploads = req.files.videos
+        ? await Promise.all(
+            req.files.videos.map((f) =>
+              cloudinary.uploader.upload(f.path, {
+                folder: "mudrart/videos",
+                resource_type: "video",
+              })
+            )
+          )
+        : [];
 
-      // Create DB document with secure URLs
       const artwork = new Artwork({
         title,
         description,
-        stock: Number(stock) || 0,
-        price: Number(price) || 0,
+        stock,
+        price,
         colorFinish,
-        weight: Number(weight) || undefined,
-        diameter: Number(diameter) || undefined,
+        weight,
+        diameter,
         material,
         coinType,
         mainImage: mainUpload.secure_url,
-        additionalImages: addResults,
-        videos: vidResults
+        additionalImages: additionalUploads.map((a) => a.secure_url),
+        videos: videoUploads.map((v) => v.secure_url),
       });
 
       await artwork.save();
 
       // cleanup temp files
-      Object.keys(req.files || {}).forEach(key => {
-        (req.files[key] || []).forEach(f => {
-          try { fs.unlinkSync(f.path); } catch (e) { /* noop */ }
-        });
-      });
+      Object.values(req.files).flat().forEach((file) => fs.unlinkSync(file.path));
 
-      res.json({ message: "Artwork uploaded", artwork });
+      res.json({ message: "✅ Artwork added successfully!", artwork });
     } catch (err) {
-      console.error("Artwork upload error:", err);
-      res.status(500).json({ error: err.message });
+      console.error("Upload Error:", err);
+      res.status(500).json({ error: "Server error", details: err.message });
     }
   }
 );
 
-// GET /api/artworks -> returns DB objects (mainImage, additionalImages, videos are full secure URLs already)
+// ✅ Get all artworks
 router.get("/", async (req, res) => {
   try {
     const artworks = await Artwork.find().sort({ createdAt: -1 });
@@ -118,11 +104,32 @@ router.get("/", async (req, res) => {
   }
 });
 
-// DELETE (simple) - does not remove from Cloudinary (optional: implement public_id deletes later)
+// ✅ Delete artwork (also delete from Cloudinary)
 router.delete("/:id", async (req, res) => {
   try {
+    const artwork = await Artwork.findById(req.params.id);
+    if (!artwork) return res.status(404).json({ error: "Artwork not found" });
+
+    // optional: extract public_ids to delete from Cloudinary
+    const extractPublicId = (url) => {
+      const match = url.match(/\/([^/]+)\.[a-z]+$/i);
+      return match ? match[1] : null;
+    };
+
+    const allFiles = [
+      artwork.mainImage,
+      ...(artwork.additionalImages || []),
+      ...(artwork.videos || []),
+    ];
+
+    for (const url of allFiles) {
+      const publicId = extractPublicId(url);
+      if (publicId)
+        await cloudinary.uploader.destroy(publicId, { resource_type: "auto" });
+    }
+
     await Artwork.findByIdAndDelete(req.params.id);
-    res.json({ message: "Deleted" });
+    res.json({ message: "✅ Artwork and media deleted" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
