@@ -6,172 +6,296 @@
 <title>Shop · MudrArt</title>
 <link rel="icon" href="/favicon.ico" />
 <style>
-  :root{
-    --accent:#0d6efd;
-    --accent-2:#ffb703;
-    --muted:#6b7280;
-    --maxw:1200px;
-    --radius:14px;
+  :root {
+    --bg-dark: #0d0d0d;
+    --card-dark: #1a1a1a;
+    --text-light: #f5f5f5;
+    --text-muted: #b3b3b3;
+    --accent: #ffcc00;
+    --radius: 14px;
+    --maxw: 1200px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;
-    background:linear-gradient(180deg,#f7f8fb,#fafcff);
-    color:#111827;
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
   }
 
   /* NAVBAR */
-  .nav-wrap{
-    position:sticky;top:0;z-index:80;
-    backdrop-filter:blur(8px);
-    background:rgba(255,255,255,0.6);
-    border-bottom:1px solid rgba(0,0,0,0.05);
+  .navbar {
+    position: sticky;
+    top: 0;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .nav{max-width:var(--maxw);margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px;}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--accent)}
-  .logo svg{width:32px;height:32px}
-  .nav-links{display:flex;gap:14px}
-  .nav-links a{color:#0f172a;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;transition:all .25s}
-  .nav-links a:hover{background:#e0e7ff;color:var(--accent)}
-  .nav-actions{margin-left:auto;display:flex;gap:10px}
-  .icon-btn{background:white;border:1px solid rgba(0,0,0,0.05);padding:8px;border-radius:10px;cursor:pointer;font-size:18px}
 
-  /* HERO / HEADER */
-  .hero{
-    background:linear-gradient(90deg,#0d6efd,#2563eb);
-    color:white;
-    padding:80px 20px 60px;
-    text-align:center;
+  .nav-container {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
   }
-  .hero h1{font-size:clamp(30px,5vw,48px);margin-bottom:10px;}
-  .hero p{color:rgba(255,255,255,0.9);font-size:18px;max-width:600px;margin:auto}
+
+  .logo {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .icon-btn {
+    background: var(--card-dark);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+
+  .icon-btn:hover {
+    background: var(--accent);
+    color: #000;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 20px 50px;
+    background: linear-gradient(145deg, #111, #1e1e1e);
+  }
+
+  .hero h1 {
+    font-size: 2.8em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+    max-width: 650px;
+    margin: auto;
+  }
 
   /* FILTER BAR */
-  .filter-bar{
-    max-width:var(--maxw);
-    margin:30px auto 10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    padding:0 20px;
+  .filter-bar {
+    max-width: var(--maxw);
+    margin: 30px auto 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0 20px;
   }
-  select,input{
-    padding:10px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:15px;
+
+  select,
+  input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    font-size: 15px;
+    background: #121212;
+    color: var(--text-light);
   }
-  #searchBox{flex:1;min-width:200px;}
+
+  select:focus,
+  input:focus {
+    outline: 1px solid var(--accent);
+  }
+
+  #searchBox {
+    flex: 1;
+    min-width: 220px;
+  }
 
   /* GRID */
-  #artList{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:22px;
-    max-width:var(--maxw);
-    margin:20px auto 60px;
-    padding:0 20px;
+  #artList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+    max-width: var(--maxw);
+    margin: 30px auto 60px;
+    padding: 0 20px;
   }
-  .product{
-    background:white;
-    border-radius:var(--radius);
-    box-shadow:0 4px 18px rgba(0,0,0,0.05);
-    overflow:hidden;
-    transition:transform .3s, box-shadow .3s;
-    position:relative;
+
+  .product {
+    background: var(--card-dark);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
   }
-  .product:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 32px rgba(13,110,253,0.15);
+
+  .product:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(255, 204, 0, 0.15);
   }
-  .product img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    display:block;
+
+  .product img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    background: #000;
   }
-  .product .body{
-    padding:14px;
+
+  .product .body {
+    padding: 16px;
   }
-  .product h3{
-    font-size:17px;
-    margin-bottom:6px;
-    color:#0f172a;
+
+  .product h3 {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 6px;
   }
-  .product p{
-    color:var(--muted);
-    font-size:14px;
-    margin-bottom:8px;
+
+  .product p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 8px;
   }
-  .price{
-    font-weight:700;
-    color:var(--accent);
+
+  .price {
+    font-weight: 700;
+    color: var(--accent);
   }
-  .btn-mini{
-    position:absolute;
-    top:12px;
-    right:12px;
-    background:white;
-    border-radius:10px;
-    padding:6px 8px;
-    border:1px solid rgba(0,0,0,0.05);
-    cursor:pointer;
-    font-size:16px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-    transition:transform .25s;
+
+  .btn-mini {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--card-dark);
+    color: var(--text-light);
+    border-radius: 10px;
+    padding: 6px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s, background 0.3s;
   }
-  .btn-mini:hover{transform:scale(1.1)}
+
+  .btn-mini:hover {
+    transform: scale(1.1);
+    background: var(--accent);
+    color: #000;
+  }
 
   /* FOOTER */
-  footer{
-    background:#0b1220;
-    color:white;
-    padding:40px 20px;
+  footer {
+    background: #0b0b0b;
+    color: var(--text-light);
+    padding: 50px 20px 25px;
   }
-  footer .wrap{
-    max-width:var(--maxw);
-    margin:auto;
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    justify-content:space-between;
+
+  .footer-wrap {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
-  footer .col{min-width:200px}
-  footer a{color:rgba(255,255,255,0.9);text-decoration:none;display:block;margin:6px 0}
-  footer h4{margin-bottom:8px}
-  footer .logo-small{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent)}
 
-  /* reveal animation */
-  .fade{opacity:0;transform:translateY(20px);transition:all .6s ease}
-  .fade.in{opacity:1;transform:none}
+  .footer-logo {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
 
-  @media(max-width:600px){
-    .filter-bar{flex-direction:column;align-items:stretch}
+  .footer-socials a {
+    margin-right: 10px;
+    opacity: 0.8;
+  }
+
+  .footer-socials a img {
+    width: 24px;
+    height: 24px;
+  }
+
+  footer h4 {
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    margin: 6px 0;
+    transition: 0.3s;
+  }
+
+  footer a:hover {
+    color: var(--accent);
+  }
+
+  .fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .fade.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 600px) {
+    .filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<div class="nav-wrap">
-  <div class="nav">
-    <a class="logo" href="index.html">
-      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#ffb703"/><path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
-      MUDRART
-    </a>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">MudrArt</div>
     <div class="nav-links">
-      <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
-      <a href="wishlist.html">Wishlist ❤️</a>
-      <a href="cart.html">Cart 🛒</a>
+      <a href="about.html">About</a>
+      <a href="signin.html">Login</a>
     </div>
-    <div class="nav-actions">
-      <button class="icon-btn" onclick="history.back()">⬅</button>
+    <div>
+      <button class="icon-btn" onclick="location.href='wishlist.html'">❤️ <span id="wlCount"></span></button>
+      <button class="icon-btn" onclick="location.href='cart.html'">🛒 <span id="cartCount"></span></button>
     </div>
   </div>
-</div>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -200,26 +324,33 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap">
-    <div class="col">
-      <div class="logo-small">
-        <svg viewBox="0 0 64 64" style="width:28px;height:28px"><circle cx="32" cy="32" r="30" fill="#ffb703"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
-        MUDRART
+  <div class="footer-wrap">
+    <div>
+      <div class="footer-logo">MudrArt</div>
+      <p style="max-width:280px;margin-top:10px;color:var(--text-muted)">
+        Preserving India's extinct miniature coin painting tradition through art and technology.
+      </p>
+      <div class="footer-socials">
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" alt="Instagram"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5969/5969020.png" alt="Twitter"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" alt="Facebook"></a>
       </div>
-      <p style="margin-top:10px;max-width:280px;color:rgba(255,255,255,0.85)">Authentic hand-painted art on Indian coins.</p>
     </div>
-    <div class="col">
-      <h4>Explore</h4>
+    <div>
+      <h4>Quick Links</h4>
       <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
-    <div class="col">
-      <h4>Reach us</h4>
-      <a href="mailto:hello@mudrart.in">hello@mudrart.in</a>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@mudrart.in">mudrart@gmail.com</a>
       <a href="tel:+917385184575">+91 73851 84575</a>
     </div>
   </div>
+  <p style="text-align:center;margin-top:40px;font-size:14px;color:var(--text-muted)">
+    © 2025 MudrArt — All Rights Reserved
+  </p>
 </footer>
 
 <script>
@@ -275,20 +406,20 @@ function renderGrid(){
     `;
   }).join("") || "<p style='text-align:center;color:#888;'>No artworks found.</p>";
 
-  // fade-in
   document.querySelector(".fade")?.classList.add("in");
 }
 
 function viewArtwork(id){ location.href="artwork.html?id="+id; }
 
-// Wishlist local
 function addToWishlist(id,t,p,img){
   let wl=JSON.parse(localStorage.getItem("wishlist")||"[]");
-  if(!wl.find(x=>x.id===id)){wl.push({id,title:t,price:p,img});localStorage.setItem("wishlist",JSON.stringify(wl));alert("❤️ Added to Wishlist!");}
-  else alert("Already in Wishlist");
+  if(!wl.find(x=>x.id===id)){
+    wl.push({id,title:t,price:p,img});
+    localStorage.setItem("wishlist",JSON.stringify(wl));
+    alert("❤️ Added to Wishlist!");
+  } else alert("Already in Wishlist");
 }
 
-// filters
 document.getElementById("searchBox").oninput=renderGrid;
 document.getElementById("materialFilter").onchange=renderGrid;
 document.getElementById("sortPrice").onchange=renderGrid;

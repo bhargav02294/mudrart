@@ -6,159 +6,380 @@
 <title>MudrArt | Artwork Details</title>
 <link rel="icon" href="/favicon.ico" />
 <style>
-  :root{
-    --accent:#0d6efd;
-    --accent-2:#ffb703;
-    --muted:#6b7280;
-    --radius:14px;
-    --glass-bg:rgba(255,255,255,0.1);
-    --maxw:1100px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;
-    background:linear-gradient(180deg,#f7f8fb,#fafcff);
-    color:#111827;line-height:1.5;
+  :root {
+    --bg-dark: #0d0d0d;
+    --card-dark: #1a1a1a;
+    --text-light: #f5f5f5;
+    --text-muted: #b3b3b3;
+    --accent: #ffcc00;
+    --radius: 14px;
+    --maxw: 1100px;
   }
 
-  /* NAVBAR (same as home) */
-  .nav-wrap{
-    position:sticky;top:0;z-index:90;
-    backdrop-filter:blur(8px);
-    background:rgba(255,255,255,0.6);
-    border-bottom:1px solid rgba(0,0,0,0.05);
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  .nav{max-width:var(--maxw);margin:auto;display:flex;align-items:center;gap:16px;padding:12px 20px;}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--accent)}
-  .logo svg{width:32px;height:32px}
-  .nav-links{display:flex;gap:14px}
-  .nav-links a{color:#0f172a;text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;transition:all .25s}
-  .nav-links a:hover{background:#e0e7ff;color:var(--accent)}
-  .nav-actions{margin-left:auto;display:flex;gap:10px}
-  .icon-btn{background:white;border:1px solid rgba(0,0,0,0.05);padding:8px;border-radius:10px;cursor:pointer;font-size:18px}
 
-  /* ARTWORK DETAIL */
-  .art-wrap{max-width:var(--maxw);margin:50px auto;padding:0 20px;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:start}
-  .art-left img{width:100%;border-radius:var(--radius);box-shadow:0 8px 20px rgba(0,0,0,0.08);object-fit:contain}
-  .art-right h1{font-size:28px;margin-bottom:10px;color:#0f172a}
-  .art-right .price{font-size:22px;font-weight:700;color:var(--accent);margin-bottom:10px}
-  .art-right .desc{color:var(--muted);margin-bottom:14px}
-  .specs{background:white;border-radius:var(--radius);padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-top:10px}
-  .specs p{margin:4px 0;color:#374151}
-  .btns{display:flex;gap:12px;margin-top:20px}
-  .btn{padding:12px 22px;border:0;border-radius:10px;font-weight:700;cursor:pointer;transition:transform .25s,box-shadow .25s}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(13,110,253,0.2)}
-  .btn-primary{background:var(--accent);color:white}
-  .btn-green{background:#25d366;color:white}
-  .btn-outline{background:white;border:1px solid var(--accent);color:var(--accent)}
+  body {
+    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+  }
 
-  .gallery{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
-  .gallery img{width:140px;height:140px;object-fit:cover;border-radius:10px;transition:transform .3s;cursor:pointer}
-  .gallery img:hover{transform:scale(1.08)}
-  .videos{margin-top:30px}
-  .videos video{width:100%;max-height:420px;border-radius:12px;margin-top:10px;box-shadow:0 6px 18px rgba(0,0,0,0.1)}
+  /* NAVBAR */
+  .navbar {
+    position: sticky;
+    top: 0;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-container {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+  }
+
+  .logo {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin: 0 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .icon-btn {
+    background: var(--card-dark);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+
+  .icon-btn:hover {
+    background: var(--accent);
+    color: #000;
+  }
+
+  /* ARTWORK SECTION */
+  .art-wrap {
+    max-width: var(--maxw);
+    margin: 60px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .art-left img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    background: #000;
+  }
+
+  .gallery {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .gallery img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #000;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+
+  .gallery img:hover {
+    transform: scale(1.1);
+  }
+
+  .videos {
+    margin-top: 25px;
+  }
+
+  .videos video {
+    width: 100%;
+    max-height: 420px;
+    border-radius: 12px;
+    margin-top: 10px;
+    background: #000;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  }
+
+  .art-right h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  .price {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 15px;
+  }
+
+  .desc {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .specs {
+    background: var(--card-dark);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .specs p {
+    margin: 5px 0;
+    color: var(--text-light);
+  }
+
+  .btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-green {
+    background: #25d366;
+    color: #000;
+  }
 
   /* MODAL */
-  .modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.55);align-items:center;justify-content:center}
-  .modal.open{display:flex;animation:fadeIn .3s ease}
-  .modal-card{background:white;padding:24px;border-radius:14px;max-width:520px;width:92%;box-shadow:0 12px 30px rgba(0,0,0,0.25);animation:pop .35s cubic-bezier(.2,.8,.2,1)}
-  .modal-card h3{margin-bottom:10px}
-  .form-row{display:flex;gap:10px;margin-bottom:10px}
-  .form-row>div{flex:1}
-  input,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
-  textarea{min-height:100px;resize:vertical}
-  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
-  .btn.secondary{background:#eee}
-  .btn.primary{background:var(--accent);color:white}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes pop{from{transform:scale(.9);opacity:.3}to{transform:scale(1);opacity:1}}
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal.open {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-card {
+    background: var(--card-dark);
+    color: var(--text-light);
+    padding: 24px;
+    border-radius: 14px;
+    max-width: 520px;
+    width: 92%;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    animation: pop 0.35s ease;
+  }
+
+  .modal-card input,
+  .modal-card textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #121212;
+    color: var(--text-light);
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  @keyframes pop {
+    from {transform: scale(.9); opacity: .3;}
+    to {transform: scale(1); opacity: 1;}
+  }
 
   /* FOOTER */
-  footer{background:#0b1220;color:white;padding:40px 20px;margin-top:60px}
-  footer .wrap{max-width:var(--maxw);margin:auto;display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
-  footer .col{min-width:200px}
-  footer a{color:rgba(255,255,255,0.9);text-decoration:none;display:block;margin:6px 0}
-  footer h4{margin-bottom:8px}
-  footer .logo-small{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent)}
+  footer {
+    background: #0b0b0b;
+    color: var(--text-light);
+    padding: 50px 20px 25px;
+    margin-top: 80px;
+  }
 
-  /* fade reveal */
-  .fade{opacity:0;transform:translateY(20px);transition:all .6s ease}
-  .fade.in{opacity:1;transform:none}
+  .footer-wrap {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
-  @media(max-width:900px){
-    .art-wrap{grid-template-columns:1fr}
+  .footer-logo {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .footer-socials a img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  footer h4 {
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    margin: 6px 0;
+  }
+
+  footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .art-wrap {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<div class="nav-wrap">
-  <div class="nav">
-    <a class="logo" href="index.html">
-      <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#ffb703"/><path d="M20 36c0-8 8-12 12-12s12 4 12 12" stroke="#111827" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
-      MUDRART
-    </a>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">MudrArt</div>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="wishlist.html">Wishlist ❤️</a>
       <a href="cart.html">Cart 🛒</a>
     </div>
-    <div class="nav-actions">
-      <button class="icon-btn" onclick="history.back()" title="Go Back">⬅</button>
+    <div>
+      <button class="icon-btn" onclick="history.back()">⬅ Back</button>
     </div>
   </div>
-</div>
+</nav>
 
-<!-- CONTENT -->
-<div id="artDetails" class="art-wrap fade">
-  Loading artwork...
-</div>
+<!-- ARTWORK DETAILS -->
+<div id="artDetails" class="art-wrap fade">Loading artwork...</div>
 
 <!-- EMAIL MODAL -->
-<div id="emailModal" class="modal" aria-hidden="true">
+<div id="emailModal" class="modal">
   <div class="modal-card">
     <h3>Contact via Email</h3>
     <form id="emailForm">
-      <div class="form-row">
-        <div><label>Name *</label><input type="text" id="c_name" required></div>
-        <div><label>Email *</label><input type="email" id="c_email" required></div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;">
+        <input type="text" id="c_name" placeholder="Your Name" required />
+        <input type="email" id="c_email" placeholder="Your Email" required />
       </div>
-      <div><label>Subject *</label><input type="text" id="c_subject" required></div>
-      <div><label>Message *</label><textarea id="c_message" required></textarea></div>
-      <div><label>Attachments</label><input type="file" id="c_files" multiple accept="image/*,application/pdf"></div>
+      <input type="text" id="c_subject" placeholder="Subject" required style="margin-bottom:10px;" />
+      <textarea id="c_message" placeholder="Your Message" required></textarea>
+      <input type="file" id="c_files" multiple accept="image/*,application/pdf" style="margin-top:10px;" />
       <div class="modal-actions">
-        <button type="button" class="btn secondary" id="closeModalBtn">Cancel</button>
-        <button type="submit" class="btn primary">Send</button>
+        <button type="button" class="btn btn-outline" id="closeModalBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send</button>
       </div>
-      <div id="emailMsg" style="margin-top:10px;font-weight:600"></div>
+      <div id="emailMsg" style="margin-top:10px;font-weight:600;"></div>
     </form>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap">
-    <div class="col">
-      <div class="logo-small">
-        <svg viewBox="0 0 64 64" style="width:28px;height:28px"><circle cx="32" cy="32" r="30" fill="#ffb703"/><circle cx="32" cy="32" r="4" fill="#111827"/></svg>
-        MUDRART
+  <div class="footer-wrap">
+    <div>
+      <div class="footer-logo">MudrArt</div>
+      <p style="max-width:280px;margin-top:10px;color:var(--text-muted)">
+        Preserving India's extinct miniature coin painting tradition through art and technology.
+      </p>
+      <div class="footer-socials">
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" alt="Instagram"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5969/5969020.png" alt="Twitter"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" alt="Facebook"></a>
       </div>
-      <p style="margin-top:10px;max-width:280px;color:rgba(255,255,255,0.85)">Authentic hand-painted art on Indian coins.</p>
     </div>
-    <div class="col">
-      <h4>Explore</h4>
+    <div>
+      <h4>Quick Links</h4>
       <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
-    <div class="col">
-      <h4>Reach us</h4>
-      <a href="mailto:hello@mudrart.in">hello@mudrart.in</a>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@mudrart.in">mudrart@gmail.com</a>
       <a href="tel:+917385184575">+91 73851 84575</a>
     </div>
   </div>
+  <p style="text-align:center;margin-top:40px;font-size:14px;color:var(--text-muted)">
+    © 2025 MudrArt — All Rights Reserved
+  </p>
 </footer>
 
 <script>
@@ -172,11 +393,6 @@ function toAbs(p,type="img"){
   if(s.startsWith("/"))return API_BASE+s;
   return API_BASE+"/uploads/"+s;
 }
-
-// Fade reveal
-const fadeEl=document.querySelector(".fade");
-const obs=new IntersectionObserver(e=>{e.forEach(x=>x.isIntersecting&&x.target.classList.add("in"))},{threshold:.2});
-obs.observe(fadeEl);
 
 async function loadArtworkDetails(){
   const id=new URLSearchParams(location.search).get("id");
@@ -217,12 +433,16 @@ async function loadArtworkDetails(){
   }catch(e){console.error(e);}
 }
 
-// Wishlist / Cart local
+// Wishlist & Cart
 function addToWishlist(id,t,p,img){
   let wl=JSON.parse(localStorage.getItem("wishlist")||"[]");
-  if(!wl.find(x=>x.id===id)){wl.push({id,title:t,price:p,img});localStorage.setItem("wishlist",JSON.stringify(wl));alert("❤️ Added to Wishlist!");}
-  else alert("Already in wishlist");
+  if(!wl.find(x=>x.id===id)){
+    wl.push({id,title:t,price:p,img});
+    localStorage.setItem("wishlist",JSON.stringify(wl));
+    alert("❤️ Added to Wishlist!");
+  } else alert("Already in wishlist");
 }
+
 function addToCart(id,t,p,img){
   let cart=JSON.parse(localStorage.getItem("cart")||"[]");
   const it=cart.find(x=>x.id===id);
@@ -247,8 +467,10 @@ document.getElementById("emailForm").onsubmit=async e=>{
   msg.textContent="Sending...";
   try{
     const fd=new FormData();
-    fd.append("name",c_name.value);fd.append("email",c_email.value);
-    fd.append("subject",c_subject.value);fd.append("message",c_message.value);
+    fd.append("name",c_name.value);
+    fd.append("email",c_email.value);
+    fd.append("subject",c_subject.value);
+    fd.append("message",c_message.value);
     for(const f of c_files.files)fd.append("attachments",f);
     const r=await fetch(API_BASE+"/api/inquiries",{method:"POST",body:fd});
     const d=await r.json();
