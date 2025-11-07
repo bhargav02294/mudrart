@@ -56,36 +56,71 @@
     }
     .nav-links a:hover::after { width: 100%; }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 80px 20px 40px;
-      background: linear-gradient(145deg, #1e1e1e, #111);
-    }
-    .hero h1 {
-      font-size: 2.6em;
-      margin-bottom: 15px;
-      color: #ffcc00;
-      animation: fadeIn 1.2s ease;
-    }
-    .hero p {
-      font-size: 1.1em;
-      color: #ccc;
-      margin-bottom: 25px;
-    }
-    .hero a {
-      background: #ffcc00;
-      color: #111;
-      padding: 10px 25px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .hero a:hover {
-      background: #ffd633;
-      transform: scale(1.05);
-    }
+    /* 🌟 Hero Section with Background Image */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 120px 20px;
+  background: url('https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg') center/cover no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 1.2s ease;
+}
+
+.hero h1 {
+  font-size: 2.8em;
+  margin-bottom: 15px;
+  color: #ffcc00;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.hero p {
+  font-size: 1.2em;
+  color: #ddd;
+  margin-bottom: 25px;
+}
+
+.hero a {
+  background: #ffcc00;
+  color: #111;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.hero a:hover {
+  background: #ffd633;
+  transform: scale(1.07);
+}
+
+/* ✨ Smooth Fade Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
     /* Gallery Masonry Grid (Pinterest-style) */
     #artGallery {
@@ -163,12 +198,14 @@
     </nav>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
+  <div class="hero-overlay">
     <h1>Miniature Art on Indian Coins</h1>
     <p>Unique hand-painted artwork crafted on authentic Indian coins.</p>
     <a href="#artGallery">Explore Gallery</a>
-  </section>
+  </div>
+</section>
+
 
   <!-- Gallery -->
   <h2 style="text-align:center;margin-top:30px;color:#ffcc00;">Featured Artworks</h2>
