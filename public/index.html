@@ -202,18 +202,51 @@ body {
 }
 
 /* === FOOTER === */
-footer {
-  background: #0b0b0b;
-  padding: 50px 20px;
-}
-.footer-wrap {
-  max-width: var(--maxw);
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-}
+/* FOOTER */
+  footer {
+    background: #0b0b0b;
+    color: var(--text-light);
+    padding: 50px 20px 25px;
+    margin-top: 80px;
+  }
+
+  .footer-wrap {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .footer-socials a img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  footer h4 {
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    margin: 6px 0;
+  }
+
+  footer a:hover {
+    color: var(--accent);
+  }
 
 /* Animations */
 @keyframes fadeIn {
@@ -284,16 +317,27 @@ footer {
 <footer>
   <div class="footer-wrap">
     <div>
-      <h4>Contact Us</h4>
-      <p style="color:#bbb">mudrart@gmail.com<br>+91 73851 84575</p>
+      <div class="footer-logo">MudrArt</div>
+      <p style="max-width:280px;margin-top:10px;color:var(--text-muted)">
+        Preserving India's extinct miniature coin painting tradition through art and technology.
+      </p>
+      
     </div>
     <div>
-      <h4>Links</h4>
-      <a href="shop.html">Shop</a><br>
+      <h4>Quick Links</h4>
+      <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
+      <a href="account.html">Account</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@mudrart.in">mudrart@gmail.com</a>
+      <a href="tel:+917385184575">+91 73851 84575</a>
     </div>
   </div>
-  <p style="text-align:center;color:#666;margin-top:20px">© 2025 MudrArt — All Rights Reserved</p>
+  <p style="text-align:center;margin-top:40px;font-size:14px;color:var(--text-muted)">
+    © 2025 MudrArt — All Rights Reserved
+  </p>
 </footer>
 
 <!-- JS LOAD ARTWORKS -->
