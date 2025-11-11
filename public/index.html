@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MudrArt — Miniature Paintings on Indian Coins</title>
 <link rel="icon" href="/favicon.ico" />
+
 <style>
 /* === Global Dark Theme === */
 :root {
   --bg: #0a0a0a;
-  --card-bg: #111;
+  --card-bg: #151515;
   --accent: #ffb703;
   --accent2: #ff8800;
   --text: #f8f9fa;
   --muted: #9ca3af;
   --radius: 12px;
-  --shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
   --maxw: 1200px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -33,8 +35,8 @@ body {
   top: 0;
   z-index: 999;
   backdrop-filter: blur(10px);
-  background: rgba(10,10,10,0.8);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,10,10,0.85);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
   box-shadow: var(--shadow);
 }
 .nav-container {
@@ -43,68 +45,47 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 22px;
+  padding: 14px 20px;
 }
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-weight: 800;
   font-size: 22px;
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
-.logo svg { height: 36px; width: 36px; }
 
+/* Navigation links */
 .nav-links {
   display: flex;
-  gap: 24px;
+  gap: 20px;
 }
 .nav-links a {
-  position: relative;
   color: var(--text);
   text-decoration: none;
   font-weight: 500;
+  position: relative;
   padding: 6px 0;
 }
 .nav-links a::after {
   content: "";
+  width: 0%;
+  height: 2px;
   position: absolute;
   bottom: -3px;
   left: 0;
-  width: 0%;
-  height: 2px;
   background: var(--accent);
-  transition: width 0.3s ease;
+  transition: width .3s;
 }
-.nav-links a:hover::after {
-  width: 100%;
-}
+.nav-links a:hover::after { width: 100%; }
 
-/* wishlist / cart icons same animation */
+/* Icons */
 .icon-btn {
   background: none;
   border: none;
   color: var(--text);
   cursor: pointer;
   font-size: 18px;
-  position: relative;
-  padding: 6px 10px;
-  transition: all 0.3s ease;
-}
-.icon-btn::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--accent);
-  transition: width 0.3s ease;
-}
-.icon-btn:hover::after {
-  width: 100%;
+  padding: 8px;
 }
 .icon-btn span {
   font-size: 12px;
@@ -115,11 +96,10 @@ body {
 /* === HERO === */
 .hero {
   background: url('https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg') center/cover no-repeat;
-  min-height: 85vh;
+  height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   position: relative;
 }
 .hero::before {
@@ -130,117 +110,100 @@ body {
 }
 .hero-content {
   position: relative;
-  max-width: 800px;
-  padding: 30px;
+  text-align: center;
+  max-width: 700px;
 }
 .hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 18px;
+  font-size: 2.5rem;
   color: var(--accent);
-  text-shadow: 0 0 20px rgba(255,183,3,0.4);
 }
 .hero-content p {
-  color: #e5e7eb;
-  margin-bottom: 28px;
-  font-size: 1.1rem;
+  color: var(--text);
+  margin: 12px 0 24px;
 }
 .hero-btn {
   background: var(--accent);
-  color: #000;
-  text-decoration: none;
   padding: 12px 28px;
+  color: #000;
   border-radius: var(--radius);
+  text-decoration: none;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: .3s;
 }
-.hero-btn:hover {
-  background: var(--accent2);
-  transform: translateY(-3px);
-}
+.hero-btn:hover { background: var(--accent2); transform: scale(1.05); }
 
-/* === GALLERY (Pinterest-style) === */
+/* === GALLERY === */
 .gallery-section {
   max-width: var(--maxw);
-  margin: 80px auto;
-  padding: 0 20px;
+  margin: 70px auto;
+  padding: 10px 20px;
 }
 .gallery-section h2 {
   text-align: center;
   color: var(--accent);
-  margin-bottom: 20px;
-  font-size: 2rem;
+  margin-bottom: 18px;
 }
+
 .pinterest-grid {
   column-count: 3;
-  column-gap: 18px;
+  column-gap: 14px;
 }
+
 .art-card {
   background: var(--card-bg);
-  margin-bottom: 18px;
   border-radius: var(--radius);
-  overflow: hidden;
-  display: inline-block;
-  width: 100%;
   box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  margin: 0 0 16px;
+  overflow: hidden;
+  transition: .3s;
   cursor: pointer;
+  transform: scale(1);
+  animation: fadeIn 0.8s ease;
 }
 .art-card:hover {
-  transform: translateY(-6px);
+  transform: scale(1.04);
 }
 .art-card img {
   width: 100%;
   display: block;
-  height: auto;
+  transition: transform 0.4s ease;
+}
+.art-card:hover img {
+  transform: scale(1.08);
 }
 .art-card .info {
-  padding: 14px;
+  padding: 12px;
 }
 .art-card .info h3 {
+  font-size: 1rem;
   color: var(--accent);
-  margin-bottom: 6px;
-  font-size: 1.1rem;
 }
 .art-card .info p {
-  color: var(--muted);
   font-size: 0.9rem;
+  color: var(--muted);
 }
 
-/* === INFO / HISTORY SECTION === */
+/* === INFO SECTION === */
 .info-section {
-  background: #111;
-  padding: 70px 20px;
+  padding: 60px 20px;
   text-align: center;
-  background-image: radial-gradient(circle at center, rgba(255,183,3,0.15) 0%, transparent 60%);
+  background: #111;
 }
-.info-section h2 {
-  color: var(--accent);
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
+.info-section h2 { color: var(--accent); }
 .info-section ul {
+  max-width: 700px;
+  margin: 20px auto 0;
   list-style: none;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: left;
 }
 .info-section li {
-  margin-bottom: 16px;
-  position: relative;
-  padding-left: 28px;
-  color: var(--text);
-}
-.info-section li::before {
-  content: "🪙";
-  position: absolute;
-  left: 0;
-  top: 0;
+  padding-left: 20px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
 }
 
 /* === FOOTER === */
 footer {
-  background: #090909;
-  color: var(--muted);
+  background: #0b0b0b;
   padding: 50px 20px;
 }
 .footer-wrap {
@@ -248,155 +211,99 @@ footer {
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  gap: 20px;
   justify-content: space-between;
-  gap: 30px;
-}
-footer h4 {
-  color: var(--accent);
-  margin-bottom: 10px;
-}
-footer a {
-  display: inline-block;
-  color: var(--text);
-  text-decoration: none;
-  margin-bottom: 8px;
-  position: relative;
-}
-footer a::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--accent);
-  transition: width 0.3s ease;
-}
-footer a:hover::after {
-  width: 100%;
-}
-.footer-socials {
-  display: flex;
-  gap: 14px;
-  margin-top: 12px;
-}
-.footer-socials a {
-  color: var(--accent);
-  font-size: 20px;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-.footer-socials a:hover {
-  transform: scale(1.2);
-}
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 20px;
-  color: var(--accent);
 }
 
-/* responsive */
-@media (max-width: 900px) {
-  .pinterest-grid { column-count: 2; }
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-@media (max-width: 600px) {
+
+/* Responsive */
+@media(max-width:900px){
+  .pinterest-grid { column-count: 2; }
+  .hero-content h1 { font-size: 2rem; }
+}
+@media(max-width:600px){
   .pinterest-grid { column-count: 1; }
-  .nav-links { display:none; }
+  .nav-links { display: none; }
+  .hero { height: 60vh; }
+  .hero-content h1 { font-size: 1.7rem; }
+  .art-card { margin-bottom: 10px; }
 }
 </style>
 </head>
 
 <body>
-  <!-- NAV -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="logo">
-        
-        MudrArt
-      </div>
-      <div class="nav-links">
-        <a href="shop.html">Shop</a>
-        <a href="about.html">About</a>
-        <a href="signin.html">Login</a>
-      </div>
-      <div>
-        <button class="icon-btn" id="wishlist.html">❤️ <span id="wlCount"></span></button>
-        <button class="icon-btn" id="cart.html">🛒 <span id="cartCount"></span></button>
-      </div>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">MudrArt</div>
+    <div class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="signin.html">Login</a>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Miniature Paintings on Authentic Indian Coins</h1>
-      <p>Preserving the ancient Indian art of micro painting — now in a digital era. Own a piece of heritage and history.</p>
-      <a href="shop.html" class="hero-btn">Explore Artworks</a>
+    <div>
+      <button class="icon-btn">❤️<span id="wlCount"></span></button>
+      <button class="icon-btn">🛒<span id="cartCount"></span></button>
     </div>
-  </section>
+  </div>
+</nav>
 
-  <!-- GALLERY -->
-  <section class="gallery-section">
-    <h2>Featured Artworks</h2>
-    <div id="gallery" class="pinterest-grid">
-      <!-- JS will fill artworks dynamically -->
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Miniature Paintings on Authentic Indian Coins</h1>
+    <p>Preserving the ancient art of micro-painting — now in a digital era.</p>
+    <a href="shop.html" class="hero-btn">Explore Artworks</a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <h2>Featured Artworks</h2>
+  <div id="gallery" class="pinterest-grid"></div>
+</section>
+
+<!-- INFO -->
+<section class="info-section">
+  <h2>About Miniature Coin Art</h2>
+  <ul>
+    <li>Originated in Rajasthan and Mughal courts centuries ago.</li>
+    <li>Created using micro brushes finer than a hair.</li>
+    <li>Each artwork requires high precision and patience.</li>
+    <li>Eco-friendly paints and long-lasting protection coatings used.</li>
+    <li>This platform revives the rare Indian miniature painting tradition.</li>
+  </ul>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-wrap">
+    <div>
+      <h4>Contact Us</h4>
+      <p style="color:#bbb">mudrart@gmail.com<br>+91 73851 84575</p>
     </div>
-  </section>
-
-  <!-- INFO -->
-  <section class="info-section">
-    <h2>About Miniature Coin Art</h2>
-    <ul>
-      <li>Originated in Rajasthan and Mughal courts centuries ago.</li>
-      <li>Created using brushes finer than a strand of hair.</li>
-      <li>Each coin artwork takes 2–3 days of intricate work.</li>
-      <li>Made using eco-friendly paints and archival coatings.</li>
-      <li>MudrArt revives this rare tradition through modern technology.</li>
-    </ul>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-wrap">
-      <div>
-        <div class="footer-logo">
-          
-          MudrArt
-        </div>
-        <p style="max-width:280px;margin-top:10px;color:var(--muted)">Preserving India's extinct miniature coin painting tradition through art and technology.</p>
-        <div class="footer-socials">
-          <a href="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" title="Instagram"></a>
-          <a href="https://cdn-icons-png.flaticon.com/128/5969/5969020.png" title="Twitter"></a>
-          <a href="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" title="Facebook"></a>
-        </div>
-      </div>
-
-      <div>
-        <h4>Quick Links</h4>
-        <a href="shop.html">Shop</a><br>
-        <a href="about.html">About</a><br>
-        <a href="contact.html">Contact</a>
-      </div>
-
-      <div>
-        <h4>Contact</h4>
-        <a href="mailto:hello@mudrart.in">mudrart@gmail.com</a><br>
-        <a href="tel:+917385184575">+91 73851 84575</a>
-      </div>
+    <div>
+      <h4>Links</h4>
+      <a href="shop.html">Shop</a><br>
+      <a href="about.html">About</a>
     </div>
-    <p style="text-align:center;margin-top:40px;font-size:14px;color:var(--muted)">© 2025 MudrArt — All Rights Reserved</p>
-  </footer>
+  </div>
+  <p style="text-align:center;color:#666;margin-top:20px">© 2025 MudrArt — All Rights Reserved</p>
+</footer>
 
+<!-- JS LOAD ARTWORKS -->
 <script>
 const API_BASE = window.location.hostname === "localhost"
   ? "http://localhost:5001"
   : "https://mudrart-admin.onrender.com";
 
 function toAbs(p){
-  if(!p) return "https://via.placeholder.com/300x300?text=Artwork";
+  if(!p) return "https://via.placeholder.com/350";
   if(p.startsWith("http")) return p;
   return API_BASE + "/uploads/" + p;
 }
@@ -406,6 +313,7 @@ async function loadArtworks(){
     const res = await fetch(`${API_BASE}/api/artworks`);
     const data = await res.json();
     const gallery = document.getElementById("gallery");
+
     gallery.innerHTML = data.map(a => `
       <div class="art-card" onclick="window.location='artwork.html?id=${a._id}'">
         <img src="${toAbs(a.mainImage)}" alt="${a.title}">

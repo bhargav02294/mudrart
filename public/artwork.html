@@ -173,34 +173,51 @@
     margin-top: 20px;
   }
 
-  .btn {
-    padding: 12px 22px;
-    border: 0;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
+  .btns {
+  display: flex;
+  gap: 18px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
 
-  .btn:hover {
-    transform: translateY(-2px);
-  }
+.btn {
+  padding: 14px 28px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.35s ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  letter-spacing: 0.5px;
+}
 
-  .btn-primary {
-    background: var(--accent);
-    color: #000;
-  }
+/* ADD TO CART BUTTON */
+.btn-cart {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+}
 
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-  }
+.btn-cart:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(255, 204, 0, 0.4);
+  background: linear-gradient(135deg, #ffd633, #ffb300);
+}
 
-  .btn-green {
-    background: #25d366;
-    color: #000;
-  }
+/* WHATSAPP BUTTON */
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: white;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45);
+  background: linear-gradient(135deg, #32e676, #0f7a6d);
+}
+
 
   /* MODAL */
   .modal {
@@ -318,8 +335,8 @@
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
-      <a href="wishlist.html">Wishlist ❤️</a>
-      <a href="cart.html">Cart 🛒</a>
+      <a href="wishlist.html">Wishlist </a>
+      <a href="cart.html">Cart </a>
     </div>
     <div>
       <button class="icon-btn" onclick="history.back()">⬅ Back</button>
@@ -359,17 +376,13 @@
       <p style="max-width:280px;margin-top:10px;color:var(--text-muted)">
         Preserving India's extinct miniature coin painting tradition through art and technology.
       </p>
-      <div class="footer-socials">
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" alt="Instagram"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5969/5969020.png" alt="Twitter"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" alt="Facebook"></a>
-      </div>
+      
     </div>
     <div>
       <h4>Quick Links</h4>
       <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="account.html">Account</a>
     </div>
     <div>
       <h4>Contact</h4>
@@ -424,11 +437,15 @@ async function loadArtworkDetails(){
           <p><strong>Diameter:</strong> ${art.diameter||"-"} mm</p>
         </div>
         <div class="btns">
-          <button class="btn btn-primary" onclick="addToCart('${art._id}','${art.title}',${art.price},'${main}')">Add to Cart 🛒</button>
-          <button class="btn btn-outline" onclick="addToWishlist('${art._id}','${art.title}',${art.price},'${main}')">Wishlist ❤️</button>
-          <button class="btn btn-green" onclick="openWhatsApp('${art.title}')">Order via WhatsApp</button>
-          <button class="btn btn-outline" onclick="openEmailModal()">Email</button>
-        </div>
+  <button class="btn btn-cart" onclick="addToCart('${art._id}','${art.title}',${art.price},'${main}')">
+     Add to Cart
+  </button>
+
+  <button class="btn btn-whatsapp" onclick="openWhatsApp('${art.title}')">
+     Order via WhatsApp
+  </button>
+</div>
+
       </div>`;
   }catch(e){console.error(e);}
 }

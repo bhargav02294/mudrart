@@ -8,7 +8,7 @@
 <style>
   :root {
     --bg-dark: #0d0d0d;
-    --card-dark: #1a1a1a;
+    --card-dark: #161616;
     --text-light: #f5f5f5;
     --text-muted: #b3b3b3;
     --accent: #ffcc00;
@@ -17,13 +17,13 @@
   }
 
   * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
 
   body {
-    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+    font-family: "Poppins", sans-serif;
     background: var(--bg-dark);
     color: var(--text-light);
     line-height: 1.6;
@@ -36,7 +36,7 @@
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(10px);
     z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .nav-container {
@@ -52,7 +52,6 @@
     font-size: 1.6em;
     font-weight: 700;
     color: var(--accent);
-    letter-spacing: 1px;
   }
 
   .nav-links a {
@@ -60,7 +59,7 @@
     text-decoration: none;
     margin: 0 14px;
     font-weight: 500;
-    transition: color 0.3s;
+    transition: 0.3s;
   }
 
   .nav-links a:hover {
@@ -70,7 +69,7 @@
   .icon-btn {
     background: var(--card-dark);
     color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 8px 10px;
     margin-left: 8px;
@@ -87,32 +86,28 @@
   /* HERO */
   .hero {
     text-align: center;
-    padding: 80px 20px 50px;
-    background: linear-gradient(145deg, #111, #1e1e1e);
+    padding: 80px 20px;
+    background: linear-gradient(145deg, #111, #1a1a1a);
   }
 
   .hero h1 {
     font-size: 2.8em;
     color: var(--accent);
-    margin-bottom: 10px;
   }
 
   .hero p {
     color: var(--text-muted);
-    font-size: 1.1em;
-    max-width: 650px;
-    margin: auto;
+    font-size: 1.2em;
   }
 
   /* FILTER BAR */
   .filter-bar {
     max-width: var(--maxw);
-    margin: 30px auto 10px;
+    margin: 25px auto;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
     gap: 12px;
+    justify-content: space-between;
     padding: 0 20px;
   }
 
@@ -121,99 +116,92 @@
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #333;
-    font-size: 15px;
-    background: #121212;
+    background: #0f0f0f;
     color: var(--text-light);
+    font-size: 15px;
   }
 
-  select:focus,
-  input:focus {
-    outline: 1px solid var(--accent);
-  }
-
-  #searchBox {
-    flex: 1;
-    min-width: 220px;
-  }
-
-  /* GRID */
+  /* ARTWORK CARDS */
   #artList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 22px;
     max-width: var(--maxw);
-    margin: 30px auto 60px;
+    margin: 20px auto 60px;
     padding: 0 20px;
   }
 
   .product {
     background: var(--card-dark);
     border-radius: var(--radius);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
     position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.35s ease;
+    border: 1px solid rgba(255,255,255,0.07);
   }
 
   .product:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(255, 204, 0, 0.15);
+    transform: translateY(-8px) scale(1.04) rotateX(3deg);
+    box-shadow: 0 15px 40px rgba(255, 204, 0, 0.12);
   }
 
   .product img {
     width: 100%;
     height: auto;
-    object-fit: contain;
-    display: block;
     background: #000;
+    transition: transform 0.4s ease;
+  }
+
+  .product:hover img {
+    transform: scale(1.1);
   }
 
   .product .body {
-    padding: 16px;
+    padding: 14px;
   }
 
   .product h3 {
-    font-size: 18px;
-    color: var(--text-light);
-    margin-bottom: 6px;
+    color: var(--accent);
+    font-size: 17px;
+    margin-bottom: 4px;
   }
 
   .product p {
     color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
   }
 
   .price {
-    font-weight: 700;
     color: var(--accent);
+    font-weight: 700;
+    margin-top: 6px;
   }
 
   .btn-mini {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: var(--card-dark);
-    color: var(--text-light);
-    border-radius: 10px;
+    top: 10px;
+    right: 10px;
     padding: 6px 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
+    border-radius: 10px;
+    background: #00000099;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
     font-size: 16px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.25s, background 0.3s;
+    cursor: pointer;
+    transition: 0.3s ease;
   }
 
   .btn-mini:hover {
-    transform: scale(1.1);
     background: var(--accent);
     color: #000;
+    transform: scale(1.1);
   }
 
   /* FOOTER */
   footer {
     background: #0b0b0b;
-    color: var(--text-light);
     padding: 50px 20px 25px;
   }
 
@@ -221,56 +209,28 @@
     max-width: var(--maxw);
     margin: auto;
     display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
     justify-content: space-between;
-  }
-
-  .footer-logo {
-    font-size: 1.4em;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .footer-socials a {
-    margin-right: 10px;
-    opacity: 0.8;
-  }
-
-  .footer-socials a img {
-    width: 24px;
-    height: 24px;
+    flex-wrap: wrap;
   }
 
   footer h4 {
-    margin-bottom: 10px;
     color: var(--accent);
+    margin-bottom: 8px;
   }
 
   footer a {
     color: var(--text-muted);
     text-decoration: none;
     display: block;
-    margin: 6px 0;
-    transition: 0.3s;
+    font-size: 15px;
+    margin-top: 6px;
   }
 
   footer a:hover {
     color: var(--accent);
   }
 
-  .fade {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-  }
-
-  .fade.in {
-    opacity: 1;
-    transform: none;
-  }
-
+  /* RESPONSIVE */
   @media (max-width: 600px) {
     .filter-bar {
       flex-direction: column;
@@ -279,20 +239,24 @@
   }
 </style>
 </head>
+
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="nav-container">
     <div class="logo">MudrArt</div>
+
     <div class="nav-links">
+      <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="about.html">About</a>
       <a href="signin.html">Login</a>
     </div>
+
     <div>
-      <button class="icon-btn" onclick="location.href='wishlist.html'">❤️ <span id="wlCount"></span></button>
-      <button class="icon-btn" onclick="location.href='cart.html'">🛒 <span id="cartCount"></span></button>
+      <button class="icon-btn" onclick="location.href='wishlist.html'">❤️</button>
+      <button class="icon-btn" onclick="location.href='cart.html'">🛒</button>
     </div>
   </div>
 </nav>
@@ -312,6 +276,7 @@
     <option value="Silver">Silver</option>
     <option value="Copper">Copper</option>
   </select>
+
   <select id="sortPrice">
     <option value="">Sort by</option>
     <option value="low">Price: Low to High</option>
@@ -319,100 +284,90 @@
   </select>
 </div>
 
-<!-- ARTWORK GRID -->
-<div id="artList" class="fade">Loading artworks...</div>
+<!-- ARTWORKS -->
+<div id="artList">Loading artworks...</div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-wrap">
     <div>
-      <div class="footer-logo">MudrArt</div>
-      <p style="max-width:280px;margin-top:10px;color:var(--text-muted)">
-        Preserving India's extinct miniature coin painting tradition through art and technology.
-      </p>
-      <div class="footer-socials">
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" alt="Instagram"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5969/5969020.png" alt="Twitter"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" alt="Facebook"></a>
-      </div>
-    </div>
-    <div>
       <h4>Quick Links</h4>
       <a href="shop.html">Shop</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html">About Us</a>
+      <a href="account.html">Account</a>
     </div>
     <div>
       <h4>Contact</h4>
-      <a href="mailto:hello@mudrart.in">mudrart@gmail.com</a>
+      <a href="mailto:mudrart@gmail.com">mudrart@gmail.com</a>
       <a href="tel:+917385184575">+91 73851 84575</a>
     </div>
   </div>
-  <p style="text-align:center;margin-top:40px;font-size:14px;color:var(--text-muted)">
+  <p style="text-align:center;color:var(--text-muted);margin-top:20px;">
     © 2025 MudrArt — All Rights Reserved
   </p>
 </footer>
 
 <script>
-const API_BASE = location.hostname==="localhost" ? "http://localhost:5001" : "https://mudrart-admin.onrender.com";
+const API_BASE = location.hostname==="localhost"
+  ? "http://localhost:5001"
+  : "https://mudrart-admin.onrender.com";
+
 let artworks=[];
 
 function toAbs(p){
-  if(!p) return "https://via.placeholder.com/250x200?text=No+Image";
-  const s=String(p);
-  if(s.startsWith("http")) return s;
-  if(s.startsWith("/")) return API_BASE+s;
-  return API_BASE+"/uploads/"+s;
+  if(!p) return "https://via.placeholder.com/250?text=No+Image";
+  if(p.startsWith("http")) return p;
+  return API_BASE + "/uploads/" + p;
 }
 
 async function loadAll(){
   try{
     const res = await fetch(API_BASE+"/api/artworks");
     const data = await res.json();
-    artworks = Array.isArray(data) ? data : (data.items||[]);
+    artworks = Array.isArray(data) ? data : data.items || [];
     renderGrid();
-  }catch(e){
+  } catch(e){
     console.error(e);
-    document.getElementById("artList").innerHTML = "<p style='text-align:center;color:#888;'>Error loading artworks.</p>";
+    document.getElementById("artList").innerHTML = "Error loading artworks.";
   }
 }
 
 function renderGrid(){
   const list = document.getElementById("artList");
-  const search = document.getElementById("searchBox").value.toLowerCase();
-  const material = document.getElementById("materialFilter").value;
-  const sort = document.getElementById("sortPrice").value;
+  const search = searchBox.value.toLowerCase();
+  const material = materialFilter.value;
+  const sort = sortPrice.value;
 
-  let filtered = artworks.filter(a=>{
-    return (!material || a.material===material) &&
-           (!search || (a.title||'').toLowerCase().includes(search));
-  });
+  let filtered = artworks.filter(a =>
+    (!material || a.material === material) &&
+    (!search || a.title.toLowerCase().includes(search))
+  );
 
   if(sort==="low") filtered.sort((a,b)=>a.price-b.price);
   if(sort==="high") filtered.sort((a,b)=>b.price-a.price);
 
-  list.innerHTML = filtered.map(a=>{
+  list.innerHTML = filtered.map(a => {
     const img = toAbs(a.mainImage);
     return `
       <div class="product" onclick="viewArtwork('${a._id}')">
         <img src="${img}" alt="${a.title}">
         <div class="body">
           <h3>${a.title}</h3>
-          <p>${(a.description||'').substring(0,80)}...</p>
+          <p>${(a.description||'').substring(0,60)}...</p>
           <div class="price">₹${a.price}</div>
         </div>
         <button class="btn-mini" onclick="event.stopPropagation();addToWishlist('${a._id}','${a.title}',${a.price},'${img}')">♡</button>
       </div>
     `;
-  }).join("") || "<p style='text-align:center;color:#888;'>No artworks found.</p>";
-
-  document.querySelector(".fade")?.classList.add("in");
+  }).join("");
 }
 
-function viewArtwork(id){ location.href="artwork.html?id="+id; }
+function viewArtwork(id){
+  location.href="artwork.html?id="+id;
+}
 
 function addToWishlist(id,t,p,img){
-  let wl=JSON.parse(localStorage.getItem("wishlist")||"[]");
+  let wl = JSON.parse(localStorage.getItem("wishlist")||"[]");
   if(!wl.find(x=>x.id===id)){
     wl.push({id,title:t,price:p,img});
     localStorage.setItem("wishlist",JSON.stringify(wl));
@@ -420,11 +375,12 @@ function addToWishlist(id,t,p,img){
   } else alert("Already in Wishlist");
 }
 
-document.getElementById("searchBox").oninput=renderGrid;
-document.getElementById("materialFilter").onchange=renderGrid;
-document.getElementById("sortPrice").onchange=renderGrid;
+searchBox.oninput = renderGrid;
+materialFilter.onchange = renderGrid;
+sortPrice.onchange = renderGrid;
 
 loadAll();
 </script>
+
 </body>
 </html>
