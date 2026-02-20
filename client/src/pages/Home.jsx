@@ -8,8 +8,7 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/posters")
       .then(res => res.json())
-      .then(data => setPosters(data))
-      .catch(err => console.log(err));
+      .then(data => setPosters(data));
   }, []);
 
   return (
@@ -17,8 +16,8 @@ export default function Home() {
       <Navbar />
 
       <section className="hero">
-        <h1>Premium Wall Posters</h1>
-        <p>Modern. Minimal. Artistic.</p>
+        <h1>Art That Defines Your Space</h1>
+        <p>Curated premium wall posters for modern interiors.</p>
       </section>
 
       <section className="poster-grid">

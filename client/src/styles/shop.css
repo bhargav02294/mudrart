@@ -1,48 +1,109 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #ffffff;
+  color: #111;
+}
+
+/* ================= NAVBAR ================= */
+
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 20px 40px;
-  border-bottom: 1px solid #eee;
+  align-items: center;
+  padding: 24px 60px;
+  border-bottom: 1px solid #eaeaea;
+  background: #fff;
 }
 
 .logo {
   font-size: 22px;
   font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .nav-links a {
-  margin-left: 20px;
+  margin-left: 30px;
   text-decoration: none;
   color: #111;
+  font-size: 15px;
+  transition: opacity 0.3s ease;
 }
 
-.hero {
-  text-align: center;
-  padding: 80px 20px;
+.nav-links a:hover {
+  opacity: 0.6;
 }
+
+/* ================= HERO ================= */
+
+.hero {
+  padding: 120px 20px 80px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #666;
+}
+
+/* ================= POSTER GRID ================= */
 
 .poster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 30px;
-  padding: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  padding: 60px;
 }
 
 .poster-item {
   background: #fff;
   border: 1px solid #eee;
-  padding: 20px;
-  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.poster-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
 }
 
 .poster-item img {
   width: 100%;
-  height: 300px;
+  height: 360px;
   object-fit: cover;
 }
 
+.poster-item h3 {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 20px 20px 5px 20px;
+}
+
+.poster-item p {
+  padding: 0 20px 20px 20px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* ================= FOOTER ================= */
+
 .footer {
-  text-align: center;
-  padding: 40px;
   border-top: 1px solid #eee;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 80px;
+  font-size: 14px;
+  color: #777;
 }

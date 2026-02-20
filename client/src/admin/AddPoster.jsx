@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function AddPoster() {
   const [form, setForm] = useState({});
-  const [images, setImages] = useState([]);
+  const [files, setFiles] = useState({});
 
   const handleSubmit = async () => {
     const data = new FormData();
@@ -11,9 +11,9 @@ export default function AddPoster() {
       data.append(key, form[key]);
     });
 
-    for (let i = 0; i < images.length; i++) {
-      data.append("images", images[i]);
-    }
+    Object.keys(files).forEach(key => {
+      data.append(key, files[key]);
+    });
 
     await fetch("/api/posters", {
       method: "POST",
@@ -28,10 +28,32 @@ export default function AddPoster() {
 
   return (
     <div className="admin-container">
-      <h2 className="admin-header">Add Poster</h2>
+      <h2>Add Poster</h2>
 
       <input placeholder="Name"
         onChange={(e)=>setForm({...form, name:e.target.value})}/>
+
+      <h3>Images</h3>
+
+      <label>Thumbnail (Required)</label>
+      <input type="file"
+        onChange={(e)=>setFiles({...files, thumbnail:e.target.files[0]})}/>
+
+      <label>Image 1</label>
+      <input type="file"
+        onChange={(e)=>setFiles({...files, image1:e.target.files[0]})}/>
+
+      <label>Image 2</label>
+      <input type="file"
+        onChange={(e)=>setFiles({...files, image2:e.target.files[0]})}/>
+
+      <label>Image 3</label>
+      <input type="file"
+        onChange={(e)=>setFiles({...files, image3:e.target.files[0]})}/>
+
+      <label>Image 4</label>
+      <input type="file"
+        onChange={(e)=>setFiles({...files, image4:e.target.files[0]})}/>
 
       <h3>A4 Pricing</h3>
       <input placeholder="Display Price"
@@ -63,13 +85,7 @@ export default function AddPoster() {
       <textarea placeholder="Description"
         onChange={(e)=>setForm({...form, description:e.target.value})}/>
 
-      <h3>Upload 5 Images (First = Thumbnail)</h3>
-      <input type="file" multiple
-        onChange={(e)=>setImages(e.target.files)}/>
-
-      <button className="btn-accent" onClick={handleSubmit}>
-        Add Poster
-      </button>
+      <button onClick={handleSubmit}>Add Poster</button>
     </div>
   );
 }

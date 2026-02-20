@@ -8,9 +8,11 @@ const sizeSchema = new mongoose.Schema({
 const posterSchema = new mongoose.Schema({
   name: { type: String, required: true },
 
-  thumbnail: String, // first image
-
-  images: [String], // other 4 images
+  thumbnail: { type: String, required: true },
+  image1: String,
+  image2: String,
+  image3: String,
+  image4: String,
 
   sizes: {
     A4: sizeSchema,
