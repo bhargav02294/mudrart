@@ -23,8 +23,8 @@ export default function AddPoster() {
   };
 
   return (
-    <div>
-      <h2>Add Poster</h2>
+    <div className="admin-container">
+  <h2 className="admin-header">Add Poster</h2>
       <input placeholder="Title"
         onChange={(e)=>setForm({...form,title:e.target.value})}/>
       <input placeholder="Description"
@@ -32,7 +32,7 @@ export default function AddPoster() {
       <input placeholder="Price"
         onChange={(e)=>setForm({...form,price:e.target.value})}/>
       <input type="file" onChange={(e)=>setImage(e.target.files[0])}/>
-      <button onClick={handleSubmit}>Add</button>
-    </div>
+       <button className="btn-accent">Add Poster</button>
+</div>
   );
 }

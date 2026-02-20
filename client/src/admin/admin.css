@@ -1,0 +1,143 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* LAYOUT */
+.admin-container {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 40px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.admin-dashboard {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 40px;
+}
+
+.admin-header {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #111111;
+  background: #ffffff;
+}
+
+/* BUTTONS */
+button {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background: #111111;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #1f1f1f;
+}
+
+.btn-accent {
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+.btn-accent:hover {
+  background: #1558b0;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* DASHBOARD CARDS */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: #f5f5f5;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.dashboard-card:hover {
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* POSTER LIST */
+.poster-card {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.poster-card img {
+  width: 120px;
+  border-radius: 8px;
+}
+
+.poster-info {
+  flex: 1;
+}
+
+.poster-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.poster-desc {
+  font-size: 14px;
+  color: #555;
+}
