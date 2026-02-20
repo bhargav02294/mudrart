@@ -4,6 +4,7 @@ import AdminSignup from "./admin/AdminSignup";
 import Dashboard from "./admin/Dashboard";
 import AddPoster from "./admin/AddPoster";
 import ProtectedRoute from "./admin/ProtectedRoute";
+import ListPosters from "./admin/ListPosters";
 
 function App() {
   return (
@@ -16,6 +17,11 @@ function App() {
           <Dashboard />
         </ProtectedRoute>
       }/>
+      <Route path="/admin/list" element={
+  <ProtectedRoute>
+    <ListPosters />
+  </ProtectedRoute>
+}/>
 
       <Route path="/admin/add" element={
         <ProtectedRoute>
