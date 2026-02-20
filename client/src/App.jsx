@@ -9,6 +9,21 @@ function App() {
       .then(data => setMessage(data.message));
   }, []);
 
+  useEffect(() => {
+  fetch("/api/posters")
+    .then(res => res.json())
+    .then(setPosters);
+}, []);
+
+{posters.map(p => (
+  <div key={p._id}>
+    <img src={`/uploads/${p.image}`} width="200"/>
+    <h3>{p.title}</h3>
+    <p>{p.description}</p>
+  </div>
+))}
+
+
   return (
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>🎨 MudrArt</h1>

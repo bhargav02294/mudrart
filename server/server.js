@@ -16,6 +16,16 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+
+const adminAuthRoutes = require("./routes/adminAuth");
+const posterRoutes = require("./routes/posterRoutes");
+
+app.use("/api/admin", adminAuthRoutes);
+app.use("/api/posters", posterRoutes);
+app.use("/uploads", express.static("server/uploads"));
+
+
+
 // Example test route
 app.get("/api/test", (req, res) => {
   res.json({ message: "API working 🚀" });
