@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+
 import AdminLogin from "./admin/AdminLogin";
 import AdminSignup from "./admin/AdminSignup";
 import Dashboard from "./admin/Dashboard";
@@ -9,6 +11,11 @@ import ListPosters from "./admin/ListPosters";
 function App() {
   return (
     <Routes>
+
+      {/* PUBLIC ROUTE */}
+      <Route path="/" element={<Home />} />
+
+      {/* ADMIN ROUTES */}
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/signup" element={<AdminSignup />} />
 
@@ -17,17 +24,19 @@ function App() {
           <Dashboard />
         </ProtectedRoute>
       }/>
+
       <Route path="/admin/list" element={
-  <ProtectedRoute>
-    <ListPosters />
-  </ProtectedRoute>
-}/>
+        <ProtectedRoute>
+          <ListPosters />
+        </ProtectedRoute>
+      }/>
 
       <Route path="/admin/add" element={
         <ProtectedRoute>
           <AddPoster />
         </ProtectedRoute>
       }/>
+
     </Routes>
   );
 }

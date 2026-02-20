@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className="logo">MudrArt</div>
       <div className="nav-links">
         <Link to="/">Home</Link>
-        <Link to="/shop">Shop</Link>
+        <Link to="/admin/login">Admin</Link>
       </div>
     </nav>
   );
