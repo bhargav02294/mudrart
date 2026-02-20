@@ -33,30 +33,37 @@ export default function AddPoster() {
       <input placeholder="Name"
         onChange={(e)=>setForm({...form, name:e.target.value})}/>
 
-      <h4>A4 Pricing</h4>
+      <h3>A4 Pricing</h3>
       <input placeholder="Display Price"
         onChange={(e)=>setForm({...form, A4_display:e.target.value})}/>
       <input placeholder="Discounted Price"
         onChange={(e)=>setForm({...form, A4_discount:e.target.value})}/>
 
-      <h4>A5 Pricing</h4>
+      <h3>A5 Pricing</h3>
       <input placeholder="Display Price"
         onChange={(e)=>setForm({...form, A5_display:e.target.value})}/>
       <input placeholder="Discounted Price"
         onChange={(e)=>setForm({...form, A5_discount:e.target.value})}/>
 
-      <h4>12x18 Pricing</h4>
+      <h3>12x18 Pricing</h3>
       <input placeholder="Display Price"
         onChange={(e)=>setForm({...form, size12_display:e.target.value})}/>
       <input placeholder="Discounted Price"
         onChange={(e)=>setForm({...form, size12_discount:e.target.value})}/>
 
+      <h3>Custom Size Pricing</h3>
+      <input placeholder="Display Price"
+        onChange={(e)=>setForm({...form, custom_display:e.target.value})}/>
+      <input placeholder="Discounted Price"
+        onChange={(e)=>setForm({...form, custom_discount:e.target.value})}/>
+
       <input placeholder="Quantity"
         onChange={(e)=>setForm({...form, quantity:e.target.value})}/>
 
-      <input placeholder="Description"
+      <textarea placeholder="Description"
         onChange={(e)=>setForm({...form, description:e.target.value})}/>
 
+      <h3>Upload 5 Images (First = Thumbnail)</h3>
       <input type="file" multiple
         onChange={(e)=>setImages(e.target.files)}/>
 
