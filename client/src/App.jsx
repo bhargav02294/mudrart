@@ -1,35 +1,38 @@
+import { Routes, Route } from "react-router-dom";
+import AdminLogin from "./admin/AdminLogin";
+import AddPoster from "./admin/AddPoster";
 import { useEffect, useState } from "react";
 
-function App() {
-  const [message, setMessage] = useState("");
+function Home() {
+  const [posters, setPosters] = useState([]);
 
   useEffect(() => {
-    fetch("/api/test")
+    fetch("/api/posters")
       .then(res => res.json())
-      .then(data => setMessage(data.message));
+      .then(setPosters);
   }, []);
 
-  useEffect(() => {
-  fetch("/api/posters")
-    .then(res => res.json())
-    .then(setPosters);
-}, []);
-
-{posters.map(p => (
-  <div key={p._id}>
-    <img src={`/uploads/${p.image}`} width="200"/>
-    <h3>{p.title}</h3>
-    <p>{p.description}</p>
-  </div>
-))}
-
-
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
+    <div>
       <h1>🎨 MudrArt</h1>
-      <p>Backend Response:</p>
-      <h3>{message}</h3>
+      {posters.map(p => (
+        <div key={p._id}>
+          <img src={`/uploads/${p.image}`} width="200" />
+          <h3>{p.title}</h3>
+          <p>{p.description}</p>
+        </div>
+      ))}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/add" element={<AddPoster />} />
+    </Routes>
   );
 }
 
