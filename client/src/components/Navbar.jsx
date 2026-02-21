@@ -4,11 +4,11 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="logo">MudrArt</div>
+
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/admin/login">Admin</Link>
-        <Link to="/signup">Signup</Link>
-        <Link to="/login">Login</Link>
+        <Link to="/account">Account</Link>
       </div>
     </nav>
   );
