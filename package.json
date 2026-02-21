@@ -7,6 +7,7 @@
     "start": "node server/server.js"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.995.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
@@ -17,6 +18,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
-    "nodemailer": "^8.0.1"
+    "nodemailer": "^8.0.1",
+    "resend": "^6.9.2"
   }
 }

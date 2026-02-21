@@ -6,78 +6,147 @@ const sendMail = require("../util/sendMail");
 
 const router = express.Router();
 
-/* SIGNUP */
+/* ================= SIGNUP ================= */
 router.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  const existing = await User.findOne({ email });
-  if (existing) return res.status(400).json({ message: "Email already exists" });
+    if (!name || !email || !password)
+      return res.status(400).json({ message: "All fields required" });
 
-  const hashed = await bcrypt.hash(password, 10);
+    let user = await User.findOne({ email });
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (user && user.isVerified)
+      return res.status(400).json({ message: "Email already registered" });
 
-  const user = new User({
-    name,
-    email,
-    password: hashed,
-    otp,
-    otpExpires: Date.now() + 10 * 60 * 1000
-  });
+    const hashed = await bcrypt.hash(password, 10);
 
-  await user.save();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-  await sendMail(
-    email,
-    "MudrArt OTP Verification",
-    `<h2>Your OTP: ${otp}</h2><p>Valid for 10 minutes.</p>`
-  );
+    if (!user) {
+      user = new User({
+        name,
+        email,
+        password: hashed
+      });
+    }
 
-  res.json({ message: "OTP sent to email" });
-});
+    user.otp = otp;
+    user.otpExpires = Date.now() + 10 * 60 * 1000;
 
-/* VERIFY OTP */
-router.post("/verify", async (req, res) => {
-  const { email, otp } = req.body;
+    await user.save();
 
-  const user = await User.findOne({ email });
+    await sendMail(
+      email,
+      "MudrArt Email Verification",
+      `<h2>Your OTP: ${otp}</h2>
+       <p>This OTP is valid for 10 minutes.</p>`
+    );
 
-  if (!user) return res.status(400).json({ message: "User not found" });
+    res.json({ message: "OTP sent to email" });
 
-  if (user.otp !== otp || user.otpExpires < Date.now()) {
-    return res.status(400).json({ message: "Invalid or expired OTP" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-
-  user.isVerified = true;
-  user.otp = null;
-  await user.save();
-
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "7d"
-  });
-
-  res.json({ token });
 });
 
-/* LOGIN */
+
+/* ================= RESEND OTP ================= */
+router.post("/resend-otp", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user)
+      return res.status(400).json({ message: "User not found" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.otp = otp;
+    user.otpExpires = Date.now() + 10 * 60 * 1000;
+
+    await user.save();
+
+    await sendMail(
+      email,
+      "MudrArt OTP Resend",
+      `<h2>Your new OTP: ${otp}</h2>`
+    );
+
+    res.json({ message: "OTP resent successfully" });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+/* ================= VERIFY OTP ================= */
+router.post("/verify", async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user)
+      return res.status(400).json({ message: "User not found" });
+
+    if (user.otp !== otp)
+      return res.status(400).json({ message: "Invalid OTP" });
+
+    if (user.otpExpires < Date.now())
+      return res.status(400).json({ message: "OTP expired" });
+
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpires = null;
+
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({ token });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+/* ================= LOGIN ================= */
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    const user = await User.findOne({ email });
 
-  if (!user.isVerified)
-    return res.status(400).json({ message: "Verify email first" });
+    if (!user)
+      return res.status(400).json({ message: "Invalid credentials" });
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch)
-    return res.status(400).json({ message: "Invalid credentials" });
+    if (!user.isVerified)
+      return res.status(400).json({ message: "Verify email first" });
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "7d"
-  });
+    const match = await bcrypt.compare(password, user.password);
 
-  res.json({ token });
+    if (!match)
+      return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({ token });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 module.exports = router;
