@@ -22,6 +22,7 @@ function App() {
       <Route path="/" element={<Home />} />
 
       {/* USER AUTH */}
+      <Route path="/account" element={<UserAuth />} />
 
       {/* ADMIN ROUTES */}
       <Route path="/admin/login" element={<AdminLogin />} />
