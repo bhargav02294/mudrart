@@ -45,7 +45,7 @@ export default function UserAuth() {
     }
 
     localStorage.setItem("userToken", data.token);
-    navigate("/");
+    navigate("/account");
   };
 
   return (

@@ -35,6 +35,16 @@ export default function Account() {
       <button onClick={() => navigate("/account/edit")}>
         Edit Profile
       </button>
+
+      <button
+  onClick={() => {
+    localStorage.removeItem("userToken");
+    window.location.href = "/";
+  }}
+  className="logout-account-btn"
+>
+  Logout
+</button>
     </div>
   );
 }
