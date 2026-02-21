@@ -19,13 +19,13 @@ app.use(morgan("dev"));
 
 const adminAuthRoutes = require("./routes/adminAuth");
 const posterRoutes = require("./routes/posterRoutes");
-app.use("/api/cart", require("./routes/cartRoutes"));
 
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/posters", posterRoutes);
 app.use("/uploads", express.static("server/uploads"));
 app.use("/api/users", require("./routes/userAuth"));
 app.use("/api/profile", require("./routes/profileRoutes"));
+app.use("/api/cart", require("./routes/cartRoutes"));
 
 
 // Example test route
