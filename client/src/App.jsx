@@ -7,9 +7,8 @@ import Dashboard from "./admin/Dashboard";
 import AddPoster from "./admin/AddPoster";
 import ProtectedRoute from "./admin/ProtectedRoute";
 import ListPosters from "./admin/ListPosters";
-import UserSignup from "./pages/UserSignup";
-import UserLogin from "./pages/UserLogin";
 
+import UserAuth from "./pages/UserAuth";
 
 function App() {
   return (
@@ -17,6 +16,9 @@ function App() {
 
       {/* PUBLIC ROUTE */}
       <Route path="/" element={<Home />} />
+
+      {/* USER AUTH */}
+      <Route path="/account" element={<UserAuth />} />
 
       {/* ADMIN ROUTES */}
       <Route path="/admin/login" element={<AdminLogin />} />
@@ -33,9 +35,6 @@ function App() {
           <ListPosters />
         </ProtectedRoute>
       }/>
-      
-<Route path="/signup" element={<UserSignup />} />
-<Route path="/login" element={<UserLogin />} />
 
       <Route path="/admin/add" element={
         <ProtectedRoute>
