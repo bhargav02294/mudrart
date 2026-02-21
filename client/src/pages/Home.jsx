@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [posters, setPosters] = useState([]);
@@ -23,12 +24,18 @@ export default function Home() {
       <section className="poster-grid">
         {posters.map(p => (
           <div className="poster-item" key={p._id}>
-            <img src={p.thumbnail} alt={p.name} />
-            <h3>{p.name}</h3>
-            <p>From ₹{p?.sizes?.A4?.discountedPrice}</p>
+            import { Link } from "react-router-dom";
+
+<Link to={`/poster/${p._id}`}>
+  <img src={p.thumbnail} alt={p.name} />
+  <h3>{p.name}</h3>
+  <p>From ₹{p?.sizes?.A4?.discountedPrice}</p>
+</Link>
           </div>
         ))}
+
       </section>
+
 
       <Footer />
     </>

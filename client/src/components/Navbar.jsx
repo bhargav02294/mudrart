@@ -15,7 +15,9 @@ export default function Navbar() {
           <Link to="/account">My Account</Link>
         ) : (
           <Link to="/auth">Login</Link>
+          
         )}
+        <Link to="/cart">Cart</Link>
       </div>
     </nav>
   );

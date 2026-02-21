@@ -12,6 +12,8 @@ import Account from "./pages/Account";
 import EditProfile from "./pages/EditProfile";
 import UserProtectedRoute from "./components/UserProtectedRoute";
 import UserAuth from "./pages/UserAuth";
+import PosterDetails from "./pages/PosterDetails";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -29,6 +31,10 @@ function App() {
           <Account />
         </UserProtectedRoute>
       } />
+
+      
+<Route path="/poster/:id" element={<PosterDetails />} />
+<Route path="/cart" element={<Cart />} />
 
       <Route path="/account/edit" element={
         <UserProtectedRoute>
