@@ -29,7 +29,9 @@ export default function Home() {
 <Link to={`/poster/${p._id}`}>
   <img src={p.thumbnail} alt={p.name} />
   <h3>{p.name}</h3>
-  <p>From ₹{p?.sizes?.A4?.discountedPrice}</p>
+<p>
+  From ₹{p?.sizes?.A4?.discountedPrice || 0}
+</p>
 </Link>
           </div>
         ))}

@@ -45,9 +45,9 @@ export default function Cart() {
       <div className="cart-container">
         <h2>Your Cart</h2>
 
-        {cart.items.map(item => (
-          <div key={item._id}>
-            <h3>{item.poster.name}</h3>
+       {cart.items.map((item, index) => (
+  <div key={index}>
+<h3>{item.poster?.name}</h3>
             <p>Size: {item.size}</p>
             <p>Qty: {item.quantity}</p>
           </div>
