@@ -12,15 +12,18 @@ export default function Navbar() {
         <Link to="/admin/login">Admin</Link>
 
         {token ? (
-          <button
-            className="logout-btn"
-            onClick={() => {
-              localStorage.removeItem("userToken");
-              window.location.reload();
-            }}
-          >
-            Logout
-          </button>
+          <>
+            <Link to="/account">My Account</Link>
+            <button
+              className="logout-btn"
+              onClick={() => {
+                localStorage.removeItem("userToken");
+                window.location.href = "/";
+              }}
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <Link to="/account">Login</Link>
         )}

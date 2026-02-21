@@ -7,6 +7,10 @@ import Dashboard from "./admin/Dashboard";
 import AddPoster from "./admin/AddPoster";
 import ProtectedRoute from "./admin/ProtectedRoute";
 import ListPosters from "./admin/ListPosters";
+import Account from "./pages/Account";
+import EditProfile from "./pages/EditProfile";
+import UserProtectedRoute from "./components/UserProtectedRoute";
+
 
 import UserAuth from "./pages/UserAuth";
 
@@ -18,7 +22,6 @@ function App() {
       <Route path="/" element={<Home />} />
 
       {/* USER AUTH */}
-      <Route path="/account" element={<UserAuth />} />
 
       {/* ADMIN ROUTES */}
       <Route path="/admin/login" element={<AdminLogin />} />
@@ -35,6 +38,21 @@ function App() {
           <ListPosters />
         </ProtectedRoute>
       }/>
+
+
+
+<Route path="/account" element={
+  <UserProtectedRoute>
+    <Account />
+  </UserProtectedRoute>
+} />
+
+<Route path="/account/edit" element={
+  <UserProtectedRoute>
+    <EditProfile />
+  </UserProtectedRoute>
+} />
+
 
       <Route path="/admin/add" element={
         <ProtectedRoute>

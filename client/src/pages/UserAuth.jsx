@@ -84,6 +84,7 @@ export default function UserAuth() {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
+            <button onClick={sendOtp}>Resend OTP</button>
 
             <button onClick={verifyOtp}>
               Verify & Continue
