@@ -9,15 +9,13 @@ export default function Navbar() {
 
       <div className="nav-links">
         <Link to="/">Home</Link>
-        <Link to="/admin/login">Admin</Link>
+        <Link to="/cart">Cart</Link>
 
         {token ? (
           <Link to="/account">My Account</Link>
         ) : (
           <Link to="/auth">Login</Link>
-          
         )}
-        <Link to="/cart">Cart</Link>
       </div>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 
 export default function Home() {
   const [posters, setPosters] = useState([]);
@@ -9,7 +9,13 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/posters")
       .then(res => res.json())
-      .then(data => setPosters(data));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setPosters(data);
+        } else {
+          setPosters([]);
+        }
+      });
   }, []);
 
   return (
@@ -22,22 +28,20 @@ export default function Home() {
       </section>
 
       <section className="poster-grid">
-        {posters.map(p => (
-          <div className="poster-item" key={p._id}>
-            import { Link } from "react-router-dom";
-
-<Link to={`/poster/${p._id}`}>
-  <img src={p.thumbnail} alt={p.name} />
-  <h3>{p.name}</h3>
-<p>
-  From ₹{p?.sizes?.A4?.discountedPrice || 0}
-</p>
-</Link>
-          </div>
+        {posters.map((p) => (
+          <Link
+            to={`/poster/${p._id}`}
+            className="poster-item"
+            key={p._id}
+          >
+            <img src={p.thumbnail} alt={p.name} />
+            <h3>{p.name}</h3>
+            <p>
+              From ₹{p?.sizes?.A4?.discountedPrice || 0}
+            </p>
+          </Link>
         ))}
-
       </section>
-
 
       <Footer />
     </>
