@@ -7,6 +7,9 @@ import Dashboard from "./admin/Dashboard";
 import AddPoster from "./admin/AddPoster";
 import ProtectedRoute from "./admin/ProtectedRoute";
 import ListPosters from "./admin/ListPosters";
+import UserSignup from "./pages/UserSignup";
+import UserLogin from "./pages/UserLogin";
+
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
           <ListPosters />
         </ProtectedRoute>
       }/>
+      
+<Route path="/signup" element={<UserSignup />} />
+<Route path="/login" element={<UserLogin />} />
 
       <Route path="/admin/add" element={
         <ProtectedRoute>

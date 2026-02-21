@@ -23,7 +23,7 @@ const posterRoutes = require("./routes/posterRoutes");
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/posters", posterRoutes);
 app.use("/uploads", express.static("server/uploads"));
-
+app.use("/api/users", require("./routes/userAuth"));
 
 
 // Example test route
