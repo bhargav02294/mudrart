@@ -34,7 +34,10 @@ export default function Account() {
 
 if (user === null) return <div>Loading...</div>;
   return (
-    <div className="account-container">
+
+    <div className="container">
+  <div className="card account-container">
+   
       <h2>My Account</h2>
 
       <p><strong>Name:</strong> {user.name}</p>
@@ -61,6 +64,7 @@ if (user === null) return <div>Loading...</div>;
 >
   Logout
 </button>
-    </div>
-  );
+ 
+  </div>
+</div>  );
 }

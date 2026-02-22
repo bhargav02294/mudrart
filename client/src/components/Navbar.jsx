@@ -12,17 +12,18 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="logo">MudrArt</div>
+      <div className="navbar-container">
+        <Link to="/" className="logo">MudrArt</Link>
 
-      <div className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/cart">Cart</Link>
-
-        {isLoggedIn ? (
-          <Link to="/account">My Account</Link>
-        ) : (
-          <Link to="/auth">Login</Link>
-        )}
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/cart">Cart</Link>
+          {isLoggedIn ? (
+            <Link to="/account">My Account</Link>
+          ) : (
+            <Link to="/auth">Login</Link>
+          )}
+        </div>
       </div>
     </nav>
   );
