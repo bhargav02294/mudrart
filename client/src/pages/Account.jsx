@@ -5,18 +5,34 @@ export default function Account() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("/api/profile", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("userToken")
+ useEffect(() => {
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch("/api/profile", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken")
+        }
+      });
+
+      if (!res.ok) {
+        localStorage.removeItem("userToken");
+        navigate("/auth");
+        return;
       }
-    })
-      .then(res => res.json())
-      .then(data => setUser(data));
-  }, []);
 
-  if (!user) return <div>Loading...</div>;
+      const data = await res.json();
+      setUser(data);
 
+    } catch (err) {
+      localStorage.removeItem("userToken");
+      navigate("/auth");
+    }
+  };
+
+  fetchProfile();
+}, [navigate]);
+
+if (user === null) return <div>Loading...</div>;
   return (
     <div className="account-container">
       <h2>My Account</h2>

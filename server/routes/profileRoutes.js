@@ -4,10 +4,20 @@ const userAuth = require("../middleware/userAuth");
 
 const router = express.Router();
 
-/* GET PROFILE */
 router.get("/", userAuth, async (req, res) => {
-  const user = await User.findById(req.user.id).select("-otp -otpExpires");
-  res.json(user);
+  try {
+    const user = await User.findById(req.user.id)
+      .select("-otp -otpExpires");
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    res.json(user);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 /* UPDATE PROFILE */

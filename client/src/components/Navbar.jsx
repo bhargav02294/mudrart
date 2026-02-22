@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  const token = localStorage.getItem("userToken");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    setIsLoggedIn(!!token);
+  }, [location]);
 
   return (
     <nav className="navbar">
@@ -11,7 +18,7 @@ export default function Navbar() {
         <Link to="/">Home</Link>
         <Link to="/cart">Cart</Link>
 
-        {token ? (
+        {isLoggedIn ? (
           <Link to="/account">My Account</Link>
         ) : (
           <Link to="/auth">Login</Link>
