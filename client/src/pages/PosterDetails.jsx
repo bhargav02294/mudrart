@@ -18,7 +18,8 @@ export default function PosterDetails() {
   }, [id]);
 
   const addToCart = async () => {
-    const sessionId = localStorage.getItem("sessionId") || Date.now().toString();
+    const sessionId =
+      localStorage.getItem("sessionId") || Date.now().toString();
     localStorage.setItem("sessionId", sessionId);
 
     await fetch("/api/cart/add", {
@@ -40,29 +41,59 @@ export default function PosterDetails() {
     alert("Added to cart");
   };
 
-  if (!poster) return <div>Loading...</div>;
+  if (!poster) return <div className="container">Loading...</div>;
 
   return (
     <>
       <Navbar />
-      <div className="poster-detail">
-        <img src={poster.thumbnail} alt={poster.name} />
-        <h2>{poster.name}</h2>
 
-        <select onChange={e=>setSize(e.target.value)}>
-          <option value="A4">A4</option>
-          <option value="A5">A5</option>
-          <option value="12x18">12x18</option>
-          <option value="Custom">Custom</option>
-        </select>
+      <div className="container">
+        <div className="poster-detail-wrapper">
 
-        <input type="number" value={qty}
-          onChange={e=>setQty(Number(e.target.value))} />
+          <div className="poster-detail-image">
+            <img src={poster.thumbnail} alt={poster.name} />
+          </div>
 
-        <p>Free Shipping Available</p>
-        <p>COD Available (+₹89)</p>
+          <div className="poster-detail-info">
+            <h2>{poster.name}</h2>
 
-        <button onClick={addToCart}>Add to Cart</button>
+            <p className="detail-price">
+              ₹{poster?.sizes?.[size]?.discountedPrice || 0}
+            </p>
+
+            <label>Size</label>
+            <select
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+            >
+              <option value="A4">A4</option>
+              <option value="A5">A5</option>
+              <option value="12x18">12x18</option>
+              <option value="Custom">Custom</option>
+            </select>
+
+            <label>Quantity</label>
+            <input
+              type="number"
+              min="1"
+              value={qty}
+              onChange={(e) => setQty(Number(e.target.value))}
+            />
+
+            <div className="delivery-info">
+              <p>✔ Free Shipping Available</p>
+              <p>✔ COD Available (+₹89)</p>
+            </div>
+
+            <button
+              className="btn-primary detail-btn"
+              onClick={addToCart}
+            >
+              Add to Cart
+            </button>
+
+          </div>
+        </div>
       </div>
     </>
   );

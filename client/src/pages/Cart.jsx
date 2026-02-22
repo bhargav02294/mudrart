@@ -18,18 +18,7 @@ export default function Cart() {
       .then(data => setCart(data));
   }, []);
 
-  if (!cart) return <div>Loading...</div>;
-
-  const totalQty = cart.items.reduce((sum, i) => sum + i.quantity, 0);
-
-  const applyOffer = (qty) => {
-    if (qty >= 10) return 20;
-    if (qty >= 6) return 4;
-    if (qty >= 2) return 1;
-    return 0;
-  };
-
-  const freeItems = applyOffer(totalQty);
+  if (!cart) return <div className="container">Loading...</div>;
 
   const subtotal = cart.items.reduce(
     (sum, i) => sum + i.quantity * i.price,
@@ -42,21 +31,43 @@ export default function Cart() {
     <>
       <Navbar />
 
-      <div className="cart-container">
+      <div className="container">
         <h2>Your Cart</h2>
 
-       {cart.items.map((item, index) => (
-  <div key={index}>
-<h3>{item.poster?.name}</h3>
-            <p>Size: {item.size}</p>
-            <p>Qty: {item.quantity}</p>
-          </div>
-        ))}
+        <div className="cart-wrapper">
+          <div className="cart-items">
 
-        <h3>Subtotal: ₹{subtotal}</h3>
-        <p>Free Items Applied: {freeItems}</p>
-        <p>Shipping: ₹{shipping}</p>
-        <h2>Total: ₹{subtotal + shipping}</h2>
+            {cart.items.map((item, index) => (
+              <div className="cart-item" key={index}>
+
+                <div className="cart-image">
+                  <img
+                    src={item.poster?.thumbnail}
+                    alt={item.poster?.name}
+                  />
+                </div>
+
+                <div className="cart-info">
+                  <h3>{item.poster?.name}</h3>
+                  <p>Size: {item.size}</p>
+                  <p>Qty: {item.quantity}</p>
+                  <p>Price: ₹{item.price}</p>
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+
+          <div className="cart-summary card">
+            <h3>Order Summary</h3>
+            <p>Subtotal: ₹{subtotal}</p>
+            <p>Shipping: ₹{shipping}</p>
+            <h2>Total: ₹{subtotal + shipping}</h2>
+            <button className="btn-primary">Proceed to Checkout</button>
+          </div>
+
+        </div>
       </div>
     </>
   );
