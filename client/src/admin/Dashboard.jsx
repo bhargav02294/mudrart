@@ -5,24 +5,36 @@ export default function Dashboard() {
 
   return (
     <div className="admin-dashboard">
-  <h2 className="admin-header">Admin Dashboard</h2>
 
-  <div className="dashboard-grid">
-    <div className="dashboard-card" onClick={()=>navigate("/admin/add")}>
-      Add Poster
-    </div>
+      <h2>Admin Control Panel</h2>
 
-    <div className="dashboard-card" onClick={()=>navigate("/admin/list")}>
-      View Posters
-    </div>
+      <div className="admin-grid">
 
-    <div className="dashboard-card" onClick={()=>{
-      localStorage.removeItem("token");
-      navigate("/admin/login");
-    }}>
-      Logout
+        <div
+          className="admin-card"
+          onClick={() => navigate("/admin/select")}
+        >
+          Add Product
+        </div>
+
+        <div
+          className="admin-card"
+          onClick={() => navigate("/admin/list")}
+        >
+          View Products
+        </div>
+
+        <div
+          className="admin-card danger"
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/admin/login");
+          }}
+        >
+          Logout
+        </div>
+
+      </div>
     </div>
-  </div>
-</div>
   );
 }

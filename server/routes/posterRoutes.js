@@ -28,6 +28,9 @@ router.post("/", auth, upload.fields([
       });
       return result.secure_url;
     };
+    const downloadableFile = req.files.downloadableFile
+  ? await uploadToCloudinary(req.files.downloadableFile[0])
+  : null;
 
     const thumbnail = await uploadToCloudinary(req.files.thumbnail[0]);
 
@@ -47,21 +50,20 @@ router.post("/", auth, upload.fields([
     } = req.body;
 
     const poster = new Poster({
-      name,
-      thumbnail,
-      image1,
-      image2,
-      image3,
-      image4,
-      sizes: {
-        A4: { displayPrice: A4_display, discountedPrice: A4_discount },
-        A5: { displayPrice: A5_display, discountedPrice: A5_discount },
-        "12x18": { displayPrice: size12_display, discountedPrice: size12_discount },
-        Custom: { displayPrice: custom_display, discountedPrice: custom_discount }
-      },
-      quantity,
-      description
-    });
+  name,
+  productType,
+  setCount,
+  thumbnail,
+  image1,
+  image2,
+  image3,
+  image4,
+  downloadableFile,
+  downloadPrice,
+  sizes,
+  quantity,
+  description
+});
 
     await poster.save();
     res.json({ message: "Poster created", poster });
