@@ -5,7 +5,6 @@ export default function SelectProductType() {
 
   return (
     <div className="admin-container">
-
       <h2>Select Product Type</h2>
 
       <div className="selection-grid">
@@ -17,13 +16,13 @@ export default function SelectProductType() {
         </button>
 
         <button
-          onClick={() => navigate("/admin/set")}
+          onClick={() => navigate("/admin/add?type=set")}
         >
           Set Poster
         </button>
 
         <button
-          onClick={() => navigate("/admin/polarized")}
+          onClick={() => navigate("/admin/add?type=polarized")}
         >
           Polarized Set
         </button>
