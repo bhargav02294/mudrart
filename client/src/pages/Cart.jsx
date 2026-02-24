@@ -1,38 +1,27 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
-const BASE_URL = "http://localhost:5000";
-
 export default function Cart() {
   const [cart, setCart] = useState(null);
 
+  const sessionId =
+    localStorage.getItem("sessionId") || Date.now().toString();
+
+  useEffect(() => {
+    localStorage.setItem("sessionId", sessionId);
+    fetchCart();
+  }, []);
+
   const fetchCart = async () => {
-    const sessionId = localStorage.getItem("sessionId");
-
-    const res = await fetch(`/api/cart?sessionId=${sessionId}`, {
-      headers: {
-        Authorization: localStorage.getItem("userToken")
-          ? "Bearer " + localStorage.getItem("userToken")
-          : ""
-      }
-    });
-
+    const res = await fetch(`/api/cart?sessionId=${sessionId}`);
     const data = await res.json();
     setCart(data);
   };
 
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
-  const updateQuantity = async (item, change) => {
-    const sessionId = localStorage.getItem("sessionId");
-
-    await fetch("/api/cart/update", {
+  const updateQty = async (item, change) => {
+    const res = await fetch("/api/cart/update", {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         posterId: item.poster._id,
         size: item.size,
@@ -41,17 +30,14 @@ export default function Cart() {
       })
     });
 
-    fetchCart();
+    const data = await res.json();
+    setCart(data);
   };
 
   const removeItem = async (item) => {
-    const sessionId = localStorage.getItem("sessionId");
-
-    await fetch("/api/cart/remove", {
+    const res = await fetch("/api/cart/remove", {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         posterId: item.poster._id,
         size: item.size,
@@ -59,7 +45,8 @@ export default function Cart() {
       })
     });
 
-    fetchCart();
+    const data = await res.json();
+    setCart(data);
   };
 
   if (!cart) return <div className="container">Loading...</div>;
@@ -68,71 +55,88 @@ export default function Cart() {
     <>
       <Navbar />
 
-      <div className="container">
-        <h1 className="cart-title">Your Cart</h1>
+      <div className="cart-container">
 
-        <div className="cart-layout">
+        <div className="cart-left">
+          <h2>Your Cart</h2>
 
-          <div className="cart-items">
+          {cart.items.length === 0 && (
+            <div className="empty-cart">
+              Your cart is empty.
+            </div>
+          )}
 
-            {cart.items.length === 0 && <p>Cart is empty.</p>}
+          {cart.items.map((item, index) => (
+            <div className="cart-card" key={index}>
 
-            {cart.items.map((item, index) => (
-              <div className="cart-item" key={index}>
+              <img
+                src={item.poster.thumbnail}
+                alt={item.poster.name}
+              />
 
-                <img
-                  src={`${BASE_URL}${item.poster?.thumbnail}`}
-                  alt={item.poster?.name}
-                />
+              <div className="cart-card-info">
+                <h3>{item.poster.name}</h3>
+                <p className="size-label">Size: {item.size}</p>
 
-                <div className="cart-details">
-                  <h3>{item.poster?.name}</h3>
-                  <p>Size: {item.size}</p>
-                  <p>Price: ₹{item.unitPrice}</p>
-
-                  <div className="qty-control">
-                    <button onClick={() => updateQuantity(item, -1)}>-</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item, 1)}>+</button>
-                  </div>
-
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeItem(item)}
-                  >
-                    Remove
-                  </button>
+                <div className="qty-wrapper">
+                  <button onClick={() => updateQty(item, -1)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => updateQty(item, 1)}>+</button>
                 </div>
 
+                <button
+                  className="remove-btn"
+                  onClick={() => removeItem(item)}
+                >
+                  Remove
+                </button>
               </div>
-            ))}
 
-          </div>
+              <div className="cart-price">
+                ₹{item.unitPrice * item.quantity}
+              </div>
 
-          <div className="cart-summary">
-            <h3>Order Summary</h3>
-
-            <p>Subtotal: ₹{cart.subtotal}</p>
-            <p>Shipping: ₹{cart.shipping}</p>
-            <p>Free Items: {cart.totalFreeItems}</p>
-
-            {!cart.minimumValid && (
-              <p className="min-warning">
-                Minimum order value ₹199 required.
-              </p>
-            )}
-
-            <h2>Total: ₹{cart.total}</h2>
-
-            <button
-              className="btn-primary full-btn"
-              disabled={!cart.minimumValid}
-            >
-              Proceed to Checkout
-            </button>
-          </div>
-
+            </div>
+          ))}
         </div>
+
+        <div className="cart-right">
+          <h3>Order Summary</h3>
+
+          <div className="summary-row">
+            <span>Subtotal</span>
+            <span>₹{cart.subtotal}</span>
+          </div>
+
+          <div className="summary-row">
+            <span>Shipping</span>
+            <span>₹{cart.shipping}</span>
+          </div>
+
+          <div className="summary-row">
+            <span>Free Items</span>
+            <span>{cart.totalFreeItems}</span>
+          </div>
+
+          {!cart.minimumValid && (
+            <div className="min-alert">
+              Minimum order value ₹199 required
+            </div>
+          )}
+
+          <div className="summary-total">
+            <span>Total</span>
+            <span>₹{cart.total}</span>
+          </div>
+
+          <button
+            className="checkout-btn"
+            disabled={!cart.minimumValid}
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+
       </div>
     </>
   );

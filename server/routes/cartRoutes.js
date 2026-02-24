@@ -2,81 +2,122 @@ const express = require("express");
 const Cart = require("../models/Cart");
 const Poster = require("../models/Poster");
 const jwt = require("jsonwebtoken");
-
-const {
-  SINGLE_PRICES,
-  SET_PRICES,
-  calculateCart
-} = require("../util/pricingEngine");
+const { calculateCart } = require("../util/pricingEngine");
 
 const router = express.Router();
 
-/* ADD TO CART */
+/* Helper: get cart */
+async function getCart(req, sessionId) {
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let cart = await Cart.findOne({ user: decoded.id });
+    if (!cart) cart = new Cart({ user: decoded.id, items: [] });
+    return cart;
+  } else {
+    let cart = await Cart.findOne({ sessionId });
+    if (!cart) cart = new Cart({ sessionId, items: [] });
+    return cart;
+  }
+}
+
+/* ADD */
 router.post("/add", async (req, res) => {
   try {
-    const { posterId, size, quantity, sessionId, type, setCount } = req.body;
+    const { posterId, size, quantity, sessionId } = req.body;
 
     const poster = await Poster.findById(posterId);
     if (!poster) return res.status(404).json({ message: "Poster not found" });
 
-    let unitPrice = 0;
-
-    if (type === "single") {
-      unitPrice = SINGLE_PRICES[size];
-    }
-
-    if (type === "set") {
-      unitPrice = SET_PRICES[setCount][size];
-    }
-
+    const unitPrice = poster.sizes[size]?.discountedPrice;
     if (!unitPrice)
-      return res.status(400).json({ message: "Invalid size or set" });
+      return res.status(400).json({ message: "Invalid size" });
 
-    let cart;
+    const cart = await getCart(req, sessionId);
 
-    if (req.headers.authorization) {
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      cart = await Cart.findOne({ user: decoded.id });
-
-      if (!cart) cart = new Cart({ user: decoded.id, items: [] });
-    } else {
-      cart = await Cart.findOne({ sessionId });
-      if (!cart) cart = new Cart({ sessionId, items: [] });
-    }
-
-    const existingItem = cart.items.find(item =>
-      item.poster.toString() === posterId &&
-      item.size === size &&
-      item.type === type &&
-      item.setCount === setCount
+    const existing = cart.items.find(
+      i =>
+        i.poster.toString() === posterId &&
+        i.size === size
     );
 
-    if (existingItem) {
-      existingItem.quantity += quantity;
+    if (existing) {
+      existing.quantity += quantity;
     } else {
       cart.items.push({
         poster: posterId,
         size,
         quantity,
-        type,
-        setCount,
+        type: "single",
+        setCount: 1,
         unitPrice
       });
     }
 
     await cart.save();
-
-    const populatedCart = await cart.populate("items.poster");
-
-    res.json(calculateCart(populatedCart));
+    const populated = await cart.populate("items.poster");
+    res.json(calculateCart(populated));
 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-/* GET CART */
+/* UPDATE QUANTITY */
+router.put("/update", async (req, res) => {
+  try {
+    const { posterId, size, change, sessionId } = req.body;
+
+    const cart = await getCart(req, sessionId);
+
+    const item = cart.items.find(
+      i =>
+        i.poster.toString() === posterId &&
+        i.size === size
+    );
+
+    if (!item) return res.status(404).json({ message: "Item not found" });
+
+    item.quantity += change;
+
+    if (item.quantity <= 0) {
+      cart.items = cart.items.filter(
+        i =>
+          !(i.poster.toString() === posterId && i.size === size)
+      );
+    }
+
+    await cart.save();
+    const populated = await cart.populate("items.poster");
+    res.json(calculateCart(populated));
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/* REMOVE */
+router.delete("/remove", async (req, res) => {
+  try {
+    const { posterId, size, sessionId } = req.body;
+
+    const cart = await getCart(req, sessionId);
+
+    cart.items = cart.items.filter(
+      i =>
+        !(i.poster.toString() === posterId && i.size === size)
+    );
+
+    await cart.save();
+    const populated = await cart.populate("items.poster");
+    res.json(calculateCart(populated));
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/* GET */
 router.get("/", async (req, res) => {
   try {
     const { sessionId } = req.query;
@@ -86,14 +127,22 @@ router.get("/", async (req, res) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      cart = await Cart.findOne({ user: decoded.id }).populate("items.poster");
+      cart = await Cart.findOne({ user: decoded.id });
     } else {
-      cart = await Cart.findOne({ sessionId }).populate("items.poster");
+      cart = await Cart.findOne({ sessionId });
     }
 
-    if (!cart) return res.json({ items: [] });
+    if (!cart) return res.json({
+      items: [],
+      subtotal: 0,
+      shipping: 0,
+      total: 0,
+      totalFreeItems: 0,
+      minimumValid: false
+    });
 
-    res.json(calculateCart(cart));
+    const populated = await cart.populate("items.poster");
+    res.json(calculateCart(populated));
 
   } catch (err) {
     res.status(500).json({ message: err.message });
