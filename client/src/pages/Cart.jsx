@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function Cart() {
-  const [cart, setCart] = useState(null);
+  const [cart, setCart] = useState({
+    items: [],
+    subtotal: 0,
+    shipping: 0,
+    total: 0,
+    totalFreeItems: 0,
+    minimumValid: false
+  });
 
   const sessionId =
     localStorage.getItem("sessionId") || Date.now().toString();
@@ -13,43 +20,61 @@ export default function Cart() {
   }, []);
 
   const fetchCart = async () => {
-    const res = await fetch(`/api/cart?sessionId=${sessionId}`);
-    const data = await res.json();
-    setCart(data);
+    try {
+      const res = await fetch(`/api/cart?sessionId=${sessionId}`);
+      const data = await res.json();
+
+      setCart({
+        items: data.items || [],
+        subtotal: data.subtotal || 0,
+        shipping: data.shipping || 0,
+        total: data.total || 0,
+        totalFreeItems: data.totalFreeItems || 0,
+        minimumValid: data.minimumValid || false
+      });
+    } catch (err) {
+      console.error("Cart fetch error:", err);
+    }
   };
 
   const updateQty = async (item, change) => {
-    const res = await fetch("/api/cart/update", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        posterId: item.poster._id,
-        size: item.size,
-        change,
-        sessionId
-      })
-    });
+    try {
+      const res = await fetch("/api/cart/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          posterId: item.poster?._id,
+          size: item.size,
+          change,
+          sessionId
+        })
+      });
 
-    const data = await res.json();
-    setCart(data);
+      const data = await res.json();
+      setCart(data);
+    } catch (err) {
+      console.error("Update error:", err);
+    }
   };
 
   const removeItem = async (item) => {
-    const res = await fetch("/api/cart/remove", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        posterId: item.poster._id,
-        size: item.size,
-        sessionId
-      })
-    });
+    try {
+      const res = await fetch("/api/cart/remove", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          posterId: item.poster?._id,
+          size: item.size,
+          sessionId
+        })
+      });
 
-    const data = await res.json();
-    setCart(data);
+      const data = await res.json();
+      setCart(data);
+    } catch (err) {
+      console.error("Remove error:", err);
+    }
   };
-
-  if (!cart) return <div className="container">Loading...</div>;
 
   return (
     <>
@@ -61,8 +86,9 @@ export default function Cart() {
           <h2>Your Cart</h2>
 
           {cart.items.length === 0 && (
-            <div className="empty-cart">
-              Your cart is empty.
+            <div className="empty-cart-card">
+              <h3>Your cart is empty</h3>
+              <p>Add beautiful posters to start decorating.</p>
             </div>
           )}
 
@@ -70,18 +96,29 @@ export default function Cart() {
             <div className="cart-card" key={index}>
 
               <img
-                src={item.poster.thumbnail}
-                alt={item.poster.name}
+                src={item.poster?.thumbnail}
+                alt={item.poster?.name}
               />
 
-              <div className="cart-card-info">
-                <h3>{item.poster.name}</h3>
-                <p className="size-label">Size: {item.size}</p>
+              <div className="cart-info">
+                <h3>{item.poster?.name}</h3>
+                <p className="cart-size">Size: {item.size}</p>
 
-                <div className="qty-wrapper">
-                  <button onClick={() => updateQty(item, -1)}>-</button>
+                <div className="qty-control">
+                  <button
+                    onClick={() => updateQty(item, -1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    −
+                  </button>
+
                   <span>{item.quantity}</span>
-                  <button onClick={() => updateQty(item, 1)}>+</button>
+
+                  <button
+                    onClick={() => updateQty(item, 1)}
+                  >
+                    +
+                  </button>
                 </div>
 
                 <button
@@ -101,19 +138,20 @@ export default function Cart() {
         </div>
 
         <div className="cart-right">
+
           <h3>Order Summary</h3>
 
-          <div className="summary-row">
+          <div className="summary-line">
             <span>Subtotal</span>
             <span>₹{cart.subtotal}</span>
           </div>
 
-          <div className="summary-row">
+          <div className="summary-line">
             <span>Shipping</span>
             <span>₹{cart.shipping}</span>
           </div>
 
-          <div className="summary-row">
+          <div className="summary-line">
             <span>Free Items</span>
             <span>{cart.totalFreeItems}</span>
           </div>
@@ -135,8 +173,8 @@ export default function Cart() {
           >
             Proceed to Checkout
           </button>
-        </div>
 
+        </div>
       </div>
     </>
   );

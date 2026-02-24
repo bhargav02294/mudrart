@@ -1,68 +1,80 @@
 .cart-container {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 50px;
-  margin: 60px auto;
+  gap: 60px;
   max-width: 1200px;
+  margin: 60px auto;
 }
 
 .cart-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: #fff;
   padding: 20px;
   margin-bottom: 20px;
-  background: white;
   border-radius: 16px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.cart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
 }
 
 .cart-card img {
   width: 120px;
   height: 160px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
-.cart-card-info {
+.cart-info {
   flex: 1;
   margin-left: 25px;
 }
 
-.size-label {
+.cart-size {
   color: #6B7280;
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
-.qty-wrapper {
+.qty-control {
   display: flex;
   align-items: center;
   gap: 12px;
   margin: 10px 0;
 }
 
-.qty-wrapper button {
+.qty-control button {
   width: 32px;
   height: 32px;
   border-radius: 8px;
   border: 1px solid #ddd;
   background: white;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.qty-control button:hover {
+  background: #4F46E5;
+  color: white;
 }
 
 .cart-price {
-  font-weight: 600;
   font-size: 18px;
+  font-weight: 600;
 }
 
 .cart-right {
   background: white;
   padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.05);
 }
 
-.summary-row {
+.summary-line {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
@@ -78,14 +90,19 @@
 
 .checkout-btn {
   width: 100%;
-  margin-top: 20px;
   padding: 14px;
+  margin-top: 20px;
   border-radius: 12px;
   border: none;
-  background: #4F46E5;
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  transform: translateY(-2px);
 }
 
 .checkout-btn:disabled {
@@ -95,6 +112,16 @@
 
 .min-alert {
   margin-top: 15px;
-  color: #DC2626;
-  font-weight: 500;
+  padding: 10px;
+  background: #FEE2E2;
+  color: #B91C1C;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.empty-cart-card {
+  padding: 40px;
+  background: #F9FAFB;
+  border-radius: 16px;
+  text-align: center;
 }
