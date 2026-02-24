@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
+const BASE_URL = "http://localhost:5000"; // change in production
+
 export default function PosterDetails() {
   const { id } = useParams();
   const [poster, setPoster] = useState(null);
   const [size, setSize] = useState("A4");
   const [qty, setQty] = useState(1);
-  const [type, setType] = useState("single");
-  const [setCount, setSetCount] = useState(2);
 
   useEffect(() => {
-    fetch("/api/posters")
+    fetch(`/api/posters/${id}`)
       .then(res => res.json())
-      .then(data => {
-        const found = data.find(p => p._id === id);
-        setPoster(found);
-      });
+      .then(data => setPoster(data));
   }, [id]);
 
   const addToCart = async () => {
@@ -36,9 +33,7 @@ export default function PosterDetails() {
         posterId: id,
         size,
         quantity: qty,
-        sessionId,
-        type,
-        setCount
+        sessionId
       })
     });
 
@@ -47,51 +42,76 @@ export default function PosterDetails() {
     if (!data.minimumValid) {
       alert("Minimum purchase ₹199 required.");
     } else {
-      alert("Added to cart successfully.");
+      alert("Added to cart.");
     }
   };
 
-  if (!poster) return <div>Loading...</div>;
+  if (!poster) return <div className="container">Loading...</div>;
 
   return (
     <>
       <Navbar />
 
       <div className="container">
-        <h2>{poster.name}</h2>
+        <div className="poster-detail-layout">
 
-        <select onChange={(e) => setType(e.target.value)}>
-          <option value="single">Single Poster</option>
-          <option value="set">Poster Set</option>
-        </select>
+          <div className="poster-image-section">
+            <img
+              src={`${BASE_URL}${poster.thumbnail}`}
+              alt={poster.name}
+            />
+          </div>
 
-        {type === "set" && (
-          <select onChange={(e) => setSetCount(Number(e.target.value))}>
-            <option value="2">2 Set</option>
-            <option value="3">3 Set</option>
-            <option value="4">4 Set</option>
-            <option value="6">6 Set</option>
-            <option value="8">8 Set</option>
-            <option value="9">9 Set</option>
-            <option value="10">10 Set</option>
-            <option value="20">20 Set</option>
-          </select>
-        )}
+          <div className="poster-info-section">
 
-        <select onChange={(e) => setSize(e.target.value)}>
-          <option value="A5">A5</option>
-          <option value="A4">A4</option>
-          <option value="12x18">12x18</option>
-        </select>
+            <h1>{poster.name}</h1>
 
-        <input
-          type="number"
-          min="1"
-          value={qty}
-          onChange={(e) => setQty(Number(e.target.value))}
-        />
+            <p className="poster-type">
+              {poster.type === "set"
+                ? `${poster.setCount} Poster Set`
+                : "Single Poster"}
+            </p>
 
-        <button onClick={addToCart}>Add To Cart</button>
+            <p className="poster-price">
+              ₹{poster?.sizes?.[size]?.discountedPrice}
+            </p>
+
+            <div className="field-group">
+              <label>Select Size</label>
+              <select
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+              >
+                {Object.keys(poster.sizes).map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="field-group">
+              <label>Quantity</label>
+              <input
+                type="number"
+                min="1"
+                value={qty}
+                onChange={(e) => setQty(Number(e.target.value))}
+              />
+            </div>
+
+            <div className="poster-delivery">
+              <p>✔ Free Shipping Above ₹999</p>
+              <p>✔ COD Available (+₹89)</p>
+            </div>
+
+            <button
+              className="btn-primary full-btn"
+              onClick={addToCart}
+            >
+              Add To Cart
+            </button>
+
+          </div>
+        </div>
       </div>
     </>
   );
