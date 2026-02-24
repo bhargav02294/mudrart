@@ -12,9 +12,12 @@ router.post("/", auth, upload.fields([
   { name: "image1", maxCount: 1 },
   { name: "image2", maxCount: 1 },
   { name: "image3", maxCount: 1 },
-  { name: "image4", maxCount: 1 }
+  { name: "image4", maxCount: 1 },
+  { name: "downloadableFile", maxCount: 1 }
 ]), async (req, res) => {
+
   try {
+
     const uploadToCloudinary = async (file) => {
       const result = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
@@ -28,47 +31,61 @@ router.post("/", auth, upload.fields([
       });
       return result.secure_url;
     };
-    const downloadableFile = req.files.downloadableFile
-  ? await uploadToCloudinary(req.files.downloadableFile[0])
-  : null;
 
+    // Upload Images
     const thumbnail = await uploadToCloudinary(req.files.thumbnail[0]);
 
-    const image1 = req.files.image1 ? await uploadToCloudinary(req.files.image1[0]) : null;
-    const image2 = req.files.image2 ? await uploadToCloudinary(req.files.image2[0]) : null;
-    const image3 = req.files.image3 ? await uploadToCloudinary(req.files.image3[0]) : null;
-    const image4 = req.files.image4 ? await uploadToCloudinary(req.files.image4[0]) : null;
+    const image1 = req.files.image1
+      ? await uploadToCloudinary(req.files.image1[0])
+      : null;
+
+    const image2 = req.files.image2
+      ? await uploadToCloudinary(req.files.image2[0])
+      : null;
+
+    const image3 = req.files.image3
+      ? await uploadToCloudinary(req.files.image3[0])
+      : null;
+
+    const image4 = req.files.image4
+      ? await uploadToCloudinary(req.files.image4[0])
+      : null;
+
+    const downloadableFile = req.files.downloadableFile
+      ? await uploadToCloudinary(req.files.downloadableFile[0])
+      : null;
 
     const {
       name,
-      A4_display, A4_discount,
-      A5_display, A5_discount,
-      size12_display, size12_discount,
-      custom_display, custom_discount,
+      productType,
+      setCount,
       quantity,
-      description
+      description,
+      downloadPrice
     } = req.body;
 
     const poster = new Poster({
-  name,
-  productType,
-  setCount,
-  thumbnail,
-  image1,
-  image2,
-  image3,
-  image4,
-  downloadableFile,
-  downloadPrice,
-  sizes,
-  quantity,
-  description
-});
+      name,
+      productType: productType || "single",
+      setCount: setCount || 1,
+      thumbnail,
+      image1,
+      image2,
+      image3,
+      image4,
+      downloadableFile,
+      downloadPrice: downloadPrice || 0,
+      quantity,
+      description,
+      sizes: {} // we will handle dynamic pricing later
+    });
 
     await poster.save();
-    res.json({ message: "Poster created", poster });
+
+    res.json({ message: "Poster created successfully", poster });
 
   } catch (err) {
+    console.error("POSTER CREATE ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 });
