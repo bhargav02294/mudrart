@@ -18,14 +18,7 @@ export default function Cart() {
       .then(data => setCart(data));
   }, []);
 
-  if (!cart) return <div className="container">Loading...</div>;
-
-  const subtotal = cart.items.reduce(
-    (sum, i) => sum + i.quantity * i.price,
-    0
-  );
-
-  const shipping = subtotal > 999 ? 0 : 89;
+  if (!cart) return <div>Loading...</div>;
 
   return (
     <>
@@ -34,40 +27,33 @@ export default function Cart() {
       <div className="container">
         <h2>Your Cart</h2>
 
-        <div className="cart-wrapper">
-          <div className="cart-items">
-
-            {cart.items.map((item, index) => (
-              <div className="cart-item" key={index}>
-
-                <div className="cart-image">
-                  <img
-                    src={item.poster?.thumbnail}
-                    alt={item.poster?.name}
-                  />
-                </div>
-
-                <div className="cart-info">
-                  <h3>{item.poster?.name}</h3>
-                  <p>Size: {item.size}</p>
-                  <p>Qty: {item.quantity}</p>
-                  <p>Price: ₹{item.price}</p>
-                </div>
-
-              </div>
-            ))}
-
+        {cart.items.map((item, index) => (
+          <div key={index}>
+            <h3>{item.poster?.name}</h3>
+            <p>Type: {item.type}</p>
+            <p>Size: {item.size}</p>
+            <p>Quantity: {item.quantity}</p>
+            <p>Price: ₹{item.unitPrice}</p>
           </div>
+        ))}
 
-          <div className="cart-summary card">
-            <h3>Order Summary</h3>
-            <p>Subtotal: ₹{subtotal}</p>
-            <p>Shipping: ₹{shipping}</p>
-            <h2>Total: ₹{subtotal + shipping}</h2>
-            <button className="btn-primary">Proceed to Checkout</button>
-          </div>
+        <hr />
 
-        </div>
+        <p>Subtotal: ₹{cart.subtotal}</p>
+        <p>Shipping: ₹{cart.shipping}</p>
+        <p>Free Items: {cart.totalFreeItems}</p>
+
+        {!cart.minimumValid && (
+          <p style={{ color: "red" }}>
+            Minimum order value ₹199 required.
+          </p>
+        )}
+
+        <h2>Total: ₹{cart.total}</h2>
+
+        <button disabled={!cart.minimumValid}>
+          Proceed to Checkout
+        </button>
       </div>
     </>
   );

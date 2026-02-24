@@ -7,6 +7,8 @@ export default function PosterDetails() {
   const [poster, setPoster] = useState(null);
   const [size, setSize] = useState("A4");
   const [qty, setQty] = useState(1);
+  const [type, setType] = useState("single");
+  const [setCount, setSetCount] = useState(2);
 
   useEffect(() => {
     fetch("/api/posters")
@@ -22,7 +24,7 @@ export default function PosterDetails() {
       localStorage.getItem("sessionId") || Date.now().toString();
     localStorage.setItem("sessionId", sessionId);
 
-    await fetch("/api/cart/add", {
+    const res = await fetch("/api/cart/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,66 +36,62 @@ export default function PosterDetails() {
         posterId: id,
         size,
         quantity: qty,
-        sessionId
+        sessionId,
+        type,
+        setCount
       })
     });
 
-    alert("Added to cart");
+    const data = await res.json();
+
+    if (!data.minimumValid) {
+      alert("Minimum purchase ₹199 required.");
+    } else {
+      alert("Added to cart successfully.");
+    }
   };
 
-  if (!poster) return <div className="container">Loading...</div>;
+  if (!poster) return <div>Loading...</div>;
 
   return (
     <>
       <Navbar />
 
       <div className="container">
-        <div className="poster-detail-wrapper">
+        <h2>{poster.name}</h2>
 
-          <div className="poster-detail-image">
-            <img src={poster.thumbnail} alt={poster.name} />
-          </div>
+        <select onChange={(e) => setType(e.target.value)}>
+          <option value="single">Single Poster</option>
+          <option value="set">Poster Set</option>
+        </select>
 
-          <div className="poster-detail-info">
-            <h2>{poster.name}</h2>
+        {type === "set" && (
+          <select onChange={(e) => setSetCount(Number(e.target.value))}>
+            <option value="2">2 Set</option>
+            <option value="3">3 Set</option>
+            <option value="4">4 Set</option>
+            <option value="6">6 Set</option>
+            <option value="8">8 Set</option>
+            <option value="9">9 Set</option>
+            <option value="10">10 Set</option>
+            <option value="20">20 Set</option>
+          </select>
+        )}
 
-            <p className="detail-price">
-              ₹{poster?.sizes?.[size]?.discountedPrice || 0}
-            </p>
+        <select onChange={(e) => setSize(e.target.value)}>
+          <option value="A5">A5</option>
+          <option value="A4">A4</option>
+          <option value="12x18">12x18</option>
+        </select>
 
-            <label>Size</label>
-            <select
-              value={size}
-              onChange={(e) => setSize(e.target.value)}
-            >
-              <option value="A4">A4</option>
-              <option value="A5">A5</option>
-              <option value="12x18">12x18</option>
-              <option value="Custom">Custom</option>
-            </select>
+        <input
+          type="number"
+          min="1"
+          value={qty}
+          onChange={(e) => setQty(Number(e.target.value))}
+        />
 
-            <label>Quantity</label>
-            <input
-              type="number"
-              min="1"
-              value={qty}
-              onChange={(e) => setQty(Number(e.target.value))}
-            />
-
-            <div className="delivery-info">
-              <p>✔ Free Shipping Available</p>
-              <p>✔ COD Available (+₹89)</p>
-            </div>
-
-            <button
-              className="btn-primary detail-btn"
-              onClick={addToCart}
-            >
-              Add to Cart
-            </button>
-
-          </div>
-        </div>
+        <button onClick={addToCart}>Add To Cart</button>
       </div>
     </>
   );

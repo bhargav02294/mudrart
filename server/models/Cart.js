@@ -5,9 +5,30 @@ const cartItemSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Poster"
   },
-  size: String,
-  quantity: Number,
-  price: Number
+
+  type: {
+    type: String,
+    enum: ["single", "set"],
+    required: true
+  },
+
+  size: String, // A5, A4, 12x18
+
+  setCount: {
+    type: Number,
+    default: 1 // 1 = single poster, 2 = 2-set, 3 = 3-set, etc.
+  },
+
+  quantity: {
+    type: Number,
+    required: true
+  },
+
+  unitPrice: {
+    type: Number,
+    required: true
+  }
+
 }, { _id: false });
 
 const cartSchema = new mongoose.Schema({
