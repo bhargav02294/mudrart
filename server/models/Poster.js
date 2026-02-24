@@ -10,15 +10,24 @@ const posterSchema = new mongoose.Schema({
   name: { type: String, required: true },
 
   productType: {
-    type: String,
-    enum: ["single", "set", "polarized"],
-    required: true
-  },
+  type: String,
+  enum: ["single", "set", "polarized"],
+  default: "single"
+},
 
-  setCount: {
-    type: Number,
-    default: 1
-  },
+setCount: {
+  type: Number,
+  default: 1
+},
+
+downloadableFile: String,
+
+downloadPrice: {
+  type: Number,
+  default: 0
+},
+
+
 
   thumbnail: { type: String, required: true },
   image1: String,
@@ -26,11 +35,7 @@ const posterSchema = new mongoose.Schema({
   image3: String,
   image4: String,
 
-  downloadableFile: String,   // digital file
-  downloadPrice: {
-    type: Number,
-    default: 0
-  },
+ 
 
   sizes: {
     A6: sizeSchema,
