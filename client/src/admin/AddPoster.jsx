@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-const type = searchParams.get("type") || "single";
-const setCount = searchParams.get("count") || 1;
+
 
 const FIXED_PRICING = {
   single: {
@@ -12,11 +11,12 @@ const FIXED_PRICING = {
 };
 
 export default function AddPoster() {
-  const [searchParams] = useSearchParams();
-  const type = searchParams.get("type") || "single";
 
-  data.append("productType", type);
-data.append("setCount", setCount);
+  const type = searchParams.get("type") || "single";
+const setCount = searchParams.get("count") || 1;
+  const [searchParams] = useSearchParams();
+
+
   const [form, setForm] = useState({
     name: "",
     quantity: "",
@@ -29,7 +29,8 @@ data.append("setCount", setCount);
   const handleSubmit = async () => {
     const data = new FormData();
 
-    data.append("productType", type);
+      data.append("productType", type);
+data.append("setCount", setCount);
 
     Object.keys(form).forEach(key =>
       data.append(key, form[key])
