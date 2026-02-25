@@ -4,11 +4,14 @@ import Navbar from "../components/Navbar";
 
 export default function PosterDetails() {
   const { id } = useParams();
+
   const [poster, setPoster] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  /* ---------------- FETCH POSTER ---------------- */
   useEffect(() => {
     const fetchPoster = async () => {
       try {
@@ -23,11 +26,14 @@ export default function PosterDetails() {
         }
 
         setPoster(found);
+        setSelectedImage(found.thumbnail);
 
-        // auto select first available size
-        const availableSizes = Object.keys(found.sizes || {});
-        if (availableSizes.length > 0) {
-          setSize(availableSizes[0]);
+        // Priority size: A6 → A5 → A4 → A3
+        const priority = ["A6", "A5", "A4", "A3"];
+        const available = priority.find(s => found.sizes?.[s]);
+
+        if (available) {
+          setSize(available);
         }
 
         setLoading(false);
@@ -41,9 +47,19 @@ export default function PosterDetails() {
     fetchPoster();
   }, [id]);
 
+  /* ---------------- PRICE LOGIC ---------------- */
+  const getCurrentPrice = () => {
+    if (!poster || !size) return 0;
+    return poster.sizes?.[size]?.discountedPrice || 0;
+  };
+
+  /* ---------------- CART ---------------- */
   const addToCart = async () => {
+    if (!size) return alert("Please select a size");
+
     const sessionId =
       localStorage.getItem("sessionId") || Date.now().toString();
+
     localStorage.setItem("sessionId", sessionId);
 
     await fetch("/api/cart/add", {
@@ -65,71 +81,128 @@ export default function PosterDetails() {
     alert("Added to cart");
   };
 
+  /* ---------------- LOADING ---------------- */
   if (loading) return <div className="container">Loading...</div>;
   if (!poster) return <div className="container">Poster not found</div>;
+
+  const galleryImages = [
+    poster.thumbnail,
+    poster.image1,
+    poster.image2,
+    poster.image3,
+    poster.image4
+  ].filter(Boolean);
 
   return (
     <>
       <Navbar />
 
-      <div className="container">
+      <div className="container pd-container">
+
         <div className="pd-layout">
 
-          <div className="pd-image">
-            <img src={poster.thumbnail} alt={poster.name} />
+          {/* -------- LEFT SIDE GALLERY -------- */}
+          <div className="pd-gallery">
+
+            <div className="pd-main-image">
+              <img src={selectedImage} alt={poster.name} />
+            </div>
+
+            <div className="pd-thumbnails">
+              {galleryImages.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt=""
+                  className={selectedImage === img ? "active-thumb" : ""}
+                  onClick={() => setSelectedImage(img)}
+                />
+              ))}
+            </div>
+
           </div>
 
+          {/* -------- RIGHT SIDE INFO -------- */}
           <div className="pd-info">
 
-            <h1>{poster.name}</h1>
+            <div className="pd-badge">
+              {poster.productType === "single" && "Single Poster"}
+              {poster.productType === "set" && `Set of ${poster.setCount}`}
+              {poster.productType === "polarized" && `Polarized (${poster.setCount})`}
+            </div>
 
-            <p className="pd-price">
-  ₹{poster.sizes?.[size]?.discountedPrice || 0}
-</p>
+            <h1 className="pd-title">{poster.name}</h1>
 
-{poster.downloadPrice > 0 && (
-  <p className="pd-download">
-    Digital Download: ₹{poster.downloadPrice}
-  </p>
-)}
+            <div className="pd-price-block">
+              <span className="pd-price">
+                ₹{getCurrentPrice()}
+              </span>
 
+              {poster.downloadPrice > 0 && (
+                <span className="pd-download-price">
+                  Digital Download ₹{poster.downloadPrice}
+                </span>
+              )}
+            </div>
+
+            {/* -------- SIZE SELECTION -------- */}
             <div className="pd-section">
               <h4>Select Size</h4>
               <div className="size-buttons">
-                {Object.keys(poster.sizes).map((s) => (
-                  <button
-                    key={s}
-                    className={`size-btn ${size === s ? "active" : ""}`}
-                    onClick={() => setSize(s)}
-                  >
-                    {s}
-                  </button>
-                ))}
+                {["A6", "A5", "A4", "A3"].map(s =>
+                  poster.sizes?.[s] ? (
+                    <button
+                      key={s}
+                      className={`size-btn ${size === s ? "active" : ""}`}
+                      onClick={() => setSize(s)}
+                    >
+                      {s}
+                    </button>
+                  ) : null
+                )}
               </div>
             </div>
 
+            {/* -------- QUANTITY -------- */}
             <div className="pd-section">
               <h4>Quantity</h4>
-              <div className="qty-box">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))}>−</button>
+              <div className="qty-control">
+                <button onClick={() => setQty(q => Math.max(1, q - 1))}>
+                  −
+                </button>
                 <span>{qty}</span>
-                <button onClick={() => setQty(q => q + 1)}>+</button>
+                <button onClick={() => setQty(q => q + 1)}>
+                  +
+                </button>
               </div>
             </div>
 
-            <div className="pd-meta">
-              <p>✔ Premium Matte Finish</p>
-              <p>✔ Free Shipping Above ₹999</p>
-              <p>✔ COD Available</p>
+            {/* -------- DESCRIPTION -------- */}
+            <div className="pd-description">
+              <h4>Description</h4>
+              <p>{poster.description || "Premium quality art print."}</p>
             </div>
 
-            <button className="add-btn" onClick={addToCart}>
-              Add To Cart
-            </button>
+            {/* -------- ACTION BUTTONS -------- */}
+            <div className="pd-actions">
+              <button className="add-cart-btn" onClick={addToCart}>
+                Add To Cart
+              </button>
+
+              {poster.downloadableFile && (
+                <a
+                  href="#"
+                  className="download-btn disabled"
+                >
+                  Download After Purchase
+                </a>
+              )}
+            </div>
 
           </div>
 
         </div>
+
       </div>
     </>
   );
