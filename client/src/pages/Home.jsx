@@ -14,6 +14,73 @@ export default function Home() {
       });
   }, []);
 
+  const single = posters.filter(p => p.productType === "single");
+  const sets = posters.filter(p => p.productType === "set");
+  const polarized = posters.filter(p => p.productType === "polarized");
+
+  const getDisplayPrice = (poster) => {
+    if (!poster?.sizes) return 0;
+
+    if (poster.sizes.A6) {
+      return poster.sizes.A6.discountedPrice;
+    }
+
+    if (poster.sizes.A5) {
+      return poster.sizes.A5.discountedPrice;
+    }
+
+    const firstSize = Object.keys(poster.sizes)[0];
+    return poster.sizes[firstSize]?.discountedPrice || 0;
+  };
+
+  const CategorySection = ({ title, data }) => {
+    if (data.length === 0) return null;
+
+    return (
+      <section className="category-section">
+        <h2 className="category-heading">{title}</h2>
+
+        <div className="shop-grid">
+          {data.map((p) => (
+            <Link
+              to={`/poster/${p._id}`}
+              className="shop-card"
+              key={p._id}
+            >
+              <div className="shop-image">
+                <img src={p.thumbnail} alt={p.name} />
+              </div>
+
+              <div className="shop-body">
+
+                <div className="shop-type">
+                  {p.productType === "single" && "Single"}
+                  {p.productType === "set" && `Set of ${p.setCount}`}
+                  {p.productType === "polarized" && `Polarized (${p.setCount})`}
+                </div>
+
+                <h3>{p.name}</h3>
+
+                <div className="price-block">
+                  <span className="main-price">
+                    ₹{getDisplayPrice(p)}
+                  </span>
+
+                  {p.downloadPrice > 0 && (
+                    <span className="download-price">
+                      Download ₹{p.downloadPrice}
+                    </span>
+                  )}
+                </div>
+
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
   return (
     <>
       <Navbar />
@@ -21,31 +88,16 @@ export default function Home() {
       <section className="hero-section">
         <div className="hero-content">
           <h1>Art That Defines Your Space</h1>
-          <p>Curated premium wall posters for modern interiors.</p>
+          <p>Premium curated posters for modern interiors.</p>
         </div>
       </section>
 
       <div className="container">
-        <div className="poster-grid">
-          {posters.map((p) => (
-            <Link
-              to={`/poster/${p._id}`}
-              className="poster-card"
-              key={p._id}
-            >
-              <div className="poster-image-wrapper">
-                <img src={p.thumbnail} alt={p.name} />
-              </div>
 
-              <div className="poster-card-body">
-                <h3>{p.name}</h3>
-                <p className="poster-price">
-                  From ₹{p?.sizes?.A4?.discountedPrice || 0}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <CategorySection title="Single Posters" data={single} />
+        <CategorySection title="Poster Sets" data={sets} />
+        <CategorySection title="Polarized Collection" data={polarized} />
+
       </div>
 
       <Footer />

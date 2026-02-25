@@ -84,8 +84,14 @@ export default function PosterDetails() {
             <h1>{poster.name}</h1>
 
             <p className="pd-price">
-              ₹{poster.sizes?.[size]?.discountedPrice}
-            </p>
+  ₹{poster.sizes?.[size]?.discountedPrice || 0}
+</p>
+
+{poster.downloadPrice > 0 && (
+  <p className="pd-download">
+    Digital Download: ₹{poster.downloadPrice}
+  </p>
+)}
 
             <div className="pd-section">
               <h4>Select Size</h4>
