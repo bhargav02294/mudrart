@@ -6,7 +6,8 @@ const multer = require("multer");
 
 const {
   SINGLE_PRICES,
-  SET_PRICES
+  SET_PRICES,
+  POLARIZED_PRICES
 } = require("../util/pricingEngine");
 
 const router = express.Router();
@@ -74,38 +75,46 @@ router.post(
       // 🔥 AUTO ASSIGN PRICING HERE
       let sizes = {};
 
-      if (productType === "single") {
-        Object.keys(SINGLE_PRICES).forEach((size) => {
-          sizes[size] = {
-            displayPrice: SINGLE_PRICES[size] + 30,
-            discountedPrice: SINGLE_PRICES[size]
-          };
-        });
-      }
+if (productType === "single") {
+  const pricing = SINGLE_PRICES;
 
-      if (productType === "set") {
-        const setPricing = SET_PRICES[setCount];
-        if (!setPricing) {
-          return res.status(400).json({ message: "Invalid set count" });
-        }
+  Object.keys(pricing).forEach(size => {
+    sizes[size] = {
+      displayPrice: pricing[size].display,
+      discountedPrice: pricing[size].discount
+    };
+  });
+}
 
-        Object.keys(setPricing).forEach((size) => {
-          sizes[size] = {
-            displayPrice: setPricing[size] + 40,
-            discountedPrice: setPricing[size]
-          };
-        });
-      }
+if (productType === "set") {
+  const pricing = SET_PRICES[setCount];
 
-      if (productType === "polarized") {
-        // Example polarized pricing
-        sizes = {
-          A6: {
-            displayPrice: 299,
-            discountedPrice: 229
-          }
-        };
-      }
+  if (!pricing) {
+    return res.status(400).json({ message: "Invalid set count" });
+  }
+
+  Object.keys(pricing).forEach(size => {
+    sizes[size] = {
+      displayPrice: pricing[size].display,
+      discountedPrice: pricing[size].discount
+    };
+  });
+}
+
+if (productType === "polarized") {
+  const pricing = POLARIZED_PRICES[setCount];
+
+  if (!pricing) {
+    return res.status(400).json({ message: "Invalid polarized count" });
+  }
+
+  Object.keys(pricing).forEach(size => {
+    sizes[size] = {
+      displayPrice: pricing[size].display,
+      discountedPrice: pricing[size].discount
+    };
+  });
+}
 
       const poster = new Poster({
         name,

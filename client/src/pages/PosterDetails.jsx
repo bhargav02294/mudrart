@@ -134,9 +134,15 @@ export default function PosterDetails() {
             <h1 className="pd-title">{poster.name}</h1>
 
             <div className="pd-price-block">
-              <span className="pd-price">
-                ₹{getCurrentPrice()}
-              </span>
+              <div className="pd-price-group">
+  <span className="pd-discount-price">
+    ₹{poster.sizes?.[size]?.discountedPrice}
+  </span>
+
+  <span className="pd-display-price">
+    ₹{poster.sizes?.[size]?.displayPrice}
+  </span>
+</div>
 
               {poster.downloadPrice > 0 && (
                 <span className="pd-download-price">

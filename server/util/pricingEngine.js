@@ -1,23 +1,99 @@
 const MIN_PURCHASE = 199;
 
-/* SINGLE POSTER PRICES */
+/* =======================
+   SINGLE PRICES
+======================= */
+
 const SINGLE_PRICES = {
-  A5: 69,
-  A4: 99,
-  A3: 149
+  A5: { display: 99, discount: 69 },
+  A4: { display: 129, discount: 99 },
+  A3: { display: 199, discount: 149 }
 };
 
-/* SET PRICES */
+/* =======================
+   SET PRICES
+======================= */
+
 const SET_PRICES = {
-  2: { A5: 159, A4: 189, A3: 249 },
-  3: { A5: 249, A4: 299, A3: 349 },
-  4: { A5: 289, A4: 329, A3: 399 },
-  6: { A6: 299, A5: 329, A4: 359, A3: 449 },
-  8: { A6: 349, A5: 399, A4: 449, A3: 649 },
-  9: { A6: 399, A5: 429, A4: 599, A3: 749 },
-  10: { A6: 449, A5: 499, A4: 699, A3: 849 },
-  20: { A5: 599, A4: 799, A3: 999 }
+
+  2: {
+    A5: { display: 199, discount: 159 },
+    A4: { display: 249, discount: 189 },
+    A3: { display: 299, discount: 249 }
+  },
+
+  3: {
+    A5: { display: 299, discount: 249 },
+    A4: { display: 349, discount: 299 },
+    A3: { display: 399, discount: 349 }
+  },
+
+  4: {
+    A5: { display: 359, discount: 289 },
+    A4: { display: 399, discount: 329 },
+    A3: { display: 469, discount: 399 }
+  },
+
+  6: {
+    A6: { display: 349, discount: 299 },
+    A5: { display: 389, discount: 329 },
+    A4: { display: 419, discount: 359 },
+    A3: { display: 519, discount: 449 }
+  },
+
+  8: {
+    A6: { display: 399, discount: 349 },
+    A5: { display: 459, discount: 399 },
+    A4: { display: 519, discount: 449 },
+    A3: { display: 729, discount: 649 }
+  },
+
+  9: {
+    A6: { display: 459, discount: 399 },
+    A5: { display: 499, discount: 429 },
+    A4: { display: 679, discount: 599 },
+    A3: { display: 849, discount: 749 }
+  },
+
+  10: {
+    A6: { display: 499, discount: 449 },
+    A5: { display: 559, discount: 499 },
+    A4: { display: 789, discount: 699 },
+    A3: { display: 959, discount: 849 }
+  },
+
+  20: {
+    A5: { display: 749, discount: 599 },
+    A4: { display: 949, discount: 799 },
+    A3: { display: 1199, discount: 999 }
+  }
+
 };
+
+/* =======================
+   POLARIZED PRICES
+======================= */
+
+const POLARIZED_PRICES = {
+
+  12: {
+    A6: { display: 299, discount: 229 }
+  },
+
+  24: {
+    A6: { display: 459, discount: 399 }
+  },
+
+  36: {
+    A6: { display: 629, discount: 525 }
+  },
+
+  48: {
+    A6: { display: 769, discount: 649 }
+  }
+
+};
+
 
 /* OFFERS */
 const SINGLE_OFFERS = [
@@ -93,7 +169,9 @@ function calculateCart(cart) {
 }
 
 module.exports = {
-  SINGLE_PRICES,
+    SINGLE_PRICES,
   SET_PRICES,
+  POLARIZED_PRICES,
+  MIN_PURCHASE,
   calculateCart
 };

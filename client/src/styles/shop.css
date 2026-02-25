@@ -215,6 +215,30 @@
 
 
 
+.pd-price-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.pd-discount-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pd-display-price {
+  font-size: 18px;
+  color: #9CA3AF;
+  text-decoration: line-through;
+}
+
+
+
+
+
+
+
 
 
 
