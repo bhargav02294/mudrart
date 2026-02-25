@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-
-const FIXED_PRICING = {
-  single: {
-    A3: { display: 199, discount: 149 },
-    A4: { display: 129, discount: 99 },
-    A5: { display: 99, discount: 69 }
-  }
-};
-
 export default function AddPoster() {
 
-  const type = searchParams.get("type") || "single";
-const setCount = searchParams.get("count") || 1;
+  // ✅ FIRST initialize searchParams
   const [searchParams] = useSearchParams();
 
+  // ✅ THEN use it
+  const type = searchParams.get("type") || "single";
+  const setCount = searchParams.get("count") || 1;
 
   const [form, setForm] = useState({
     name: "",
@@ -29,16 +22,16 @@ const setCount = searchParams.get("count") || 1;
   const handleSubmit = async () => {
     const data = new FormData();
 
-      data.append("productType", type);
-data.append("setCount", setCount);
+    data.append("productType", type);
+    data.append("setCount", setCount);
 
-    Object.keys(form).forEach(key =>
-      data.append(key, form[key])
-    );
+    Object.keys(form).forEach(key => {
+      data.append(key, form[key]);
+    });
 
-    Object.keys(files).forEach(key =>
-      data.append(key, files[key])
-    );
+    Object.keys(files).forEach(key => {
+      data.append(key, files[key]);
+    });
 
     await fetch("/api/posters", {
       method: "POST",
@@ -54,7 +47,10 @@ data.append("setCount", setCount);
   return (
     <div className="admin-container">
 
-      <h2>Add {type.toUpperCase()} Poster</h2>
+      <h2>
+        Add {type.toUpperCase()}
+        {type !== "single" && ` (Set of ${setCount})`}
+      </h2>
 
       <input
         placeholder="Product Name"
@@ -103,6 +99,7 @@ data.append("setCount", setCount);
       />
 
       <h3>Digital Download Price (₹)</h3>
+
       <input
         type="number"
         value={form.downloadPrice}
@@ -112,6 +109,7 @@ data.append("setCount", setCount);
       />
 
       <h3>Stock Quantity</h3>
+
       <input
         type="number"
         onChange={(e) =>
