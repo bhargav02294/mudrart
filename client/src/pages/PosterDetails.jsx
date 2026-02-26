@@ -207,14 +207,7 @@ export default function PosterDetails() {
                 Add To Cart
               </button>
 
-              {poster.downloadableFile && (
-                <a
-                  href="#"
-                  className="download-btn disabled"
-                >
-                  Download After Purchase
-                </a>
-              )}
+              
             </div>
 
           </div>
