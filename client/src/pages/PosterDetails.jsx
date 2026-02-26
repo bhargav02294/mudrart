@@ -145,10 +145,22 @@ export default function PosterDetails() {
 </div>
 
               {poster.downloadPrice > 0 && (
-                <span className="pd-download-price">
-                  Digital Download ₹{poster.downloadPrice}
-                </span>
-              )}
+  <div className="pd-digital-box">
+    <div className="pd-digital-info">
+      <span className="pd-digital-label">Digital Version</span>
+      <span className="pd-digital-price">
+        ₹{poster.downloadPrice}
+      </span>
+      <span className="pd-digital-note">
+        Instant access after payment
+      </span>
+    </div>
+
+    <button className="pd-digital-btn">
+      Buy Digital
+    </button>
+  </div>
+)}
             </div>
 
             {/* -------- SIZE SELECTION -------- */}

@@ -116,6 +116,29 @@ if (productType === "polarized") {
   });
 }
 
+
+
+/* ========================
+         DIGITAL PRICING (HYBRID)
+      ======================== */
+
+      let finalDownloadPrice = 0;
+
+      if (productType === "single") {
+        finalDownloadPrice = 19;
+      }
+
+      if (productType === "set") {
+        finalDownloadPrice = 29;
+      }
+
+      if (productType === "polarized") {
+        finalDownloadPrice = 39;
+      }
+
+
+
+
       const poster = new Poster({
         name,
         productType: productType || "single",
@@ -126,7 +149,7 @@ if (productType === "polarized") {
         image3,
         image4,
         downloadableFile,
-        downloadPrice: downloadPrice || 0,
+        downloadPrice: finalDownloadPrice,
         quantity,
         description,
         sizes

@@ -39,7 +39,7 @@
 .admin-container textarea {
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ffffff;
 }
 
 .admin-container button {
@@ -87,7 +87,7 @@
   padding: 15px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  background: white;
+  background: rgb(235, 234, 247);
   cursor: pointer;
   font-weight: 600;
   transition: 0.3s;
