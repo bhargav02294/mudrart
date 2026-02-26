@@ -26,6 +26,7 @@ router.post(
   ]),
   async (req, res) => {
     try {
+
       const uploadToCloudinary = async (file) => {
         const result = await new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
@@ -40,7 +41,8 @@ router.post(
         return result.secure_url;
       };
 
-      // Upload Images
+      // ------------------ Upload Images ------------------
+
       const thumbnail = await uploadToCloudinary(req.files.thumbnail[0]);
 
       const image1 = req.files.image1
@@ -68,57 +70,57 @@ router.post(
         productType,
         setCount,
         quantity,
-        description,
-        downloadPrice
+        description
       } = req.body;
 
-      // 🔥 AUTO ASSIGN PRICING HERE
+      /* ========================
+         PHYSICAL PRICING LOGIC
+      ======================== */
+
       let sizes = {};
 
-if (productType === "single") {
-  const pricing = SINGLE_PRICES;
+      if (productType === "single") {
+        const pricing = SINGLE_PRICES;
 
-  Object.keys(pricing).forEach(size => {
-    sizes[size] = {
-      displayPrice: pricing[size].display,
-      discountedPrice: pricing[size].discount
-    };
-  });
-}
+        Object.keys(pricing).forEach(size => {
+          sizes[size] = {
+            displayPrice: pricing[size].display,
+            discountedPrice: pricing[size].discount
+          };
+        });
+      }
 
-if (productType === "set") {
-  const pricing = SET_PRICES[setCount];
+      if (productType === "set") {
+        const pricing = SET_PRICES[setCount];
 
-  if (!pricing) {
-    return res.status(400).json({ message: "Invalid set count" });
-  }
+        if (!pricing) {
+          return res.status(400).json({ message: "Invalid set count" });
+        }
 
-  Object.keys(pricing).forEach(size => {
-    sizes[size] = {
-      displayPrice: pricing[size].display,
-      discountedPrice: pricing[size].discount
-    };
-  });
-}
+        Object.keys(pricing).forEach(size => {
+          sizes[size] = {
+            displayPrice: pricing[size].display,
+            discountedPrice: pricing[size].discount
+          };
+        });
+      }
 
-if (productType === "polarized") {
-  const pricing = POLARIZED_PRICES[setCount];
+      if (productType === "polarized") {
+        const pricing = POLARIZED_PRICES[setCount];
 
-  if (!pricing) {
-    return res.status(400).json({ message: "Invalid polarized count" });
-  }
+        if (!pricing) {
+          return res.status(400).json({ message: "Invalid polarized count" });
+        }
 
-  Object.keys(pricing).forEach(size => {
-    sizes[size] = {
-      displayPrice: pricing[size].display,
-      discountedPrice: pricing[size].discount
-    };
-  });
-}
+        Object.keys(pricing).forEach(size => {
+          sizes[size] = {
+            displayPrice: pricing[size].display,
+            discountedPrice: pricing[size].discount
+          };
+        });
+      }
 
-
-
-/* ========================
+      /* ========================
          DIGITAL PRICING (HYBRID)
       ======================== */
 
@@ -136,8 +138,9 @@ if (productType === "polarized") {
         finalDownloadPrice = 39;
       }
 
-
-
+      /* ========================
+         CREATE POSTER
+      ======================== */
 
       const poster = new Poster({
         name,
