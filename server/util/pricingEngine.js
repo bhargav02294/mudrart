@@ -156,6 +156,8 @@ function calculateCart(cart) {
 
   const minimumValid = subtotal >= MIN_PURCHASE;
 
+  const freeDistribution = assignFreeSizes(cart, totalFreeItems);
+
   return {
     items: cart.items,
     subtotal,
@@ -164,9 +166,43 @@ function calculateCart(cart) {
     totalFreeItems,
     singleOffer: singleResult.appliedOffer,
     setOffer: setResult.appliedOffer,
-    minimumValid
+    minimumValid,
+    freeDistribution
   };
 }
+
+
+
+function assignFreeSizes(cart, freeQty) {
+
+  const priority = ["A6","A5","A4","A3"];
+
+  const freeItems = [];
+
+  for (let size of priority) {
+
+    const items = cart.items.filter(i => i.size === size);
+
+    for (let item of items) {
+
+      if (freeQty <= 0) break;
+
+      const free = Math.min(item.quantity, freeQty);
+
+      freeItems.push({
+        poster: item.poster,
+        size,
+        freeQty: free
+      });
+
+      freeQty -= free;
+    }
+  }
+
+  return freeItems;
+}
+
+
 
 module.exports = {
     SINGLE_PRICES,

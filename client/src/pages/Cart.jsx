@@ -2,179 +2,242 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function Cart() {
-  const [cart, setCart] = useState({
-    items: [],
-    subtotal: 0,
-    shipping: 0,
-    total: 0,
-    totalFreeItems: 0,
-    minimumValid: false
-  });
 
-  const sessionId =
-    localStorage.getItem("sessionId") || Date.now().toString();
+  const [cart, setCart] = useState(null);
+  const sessionId = localStorage.getItem("sessionId");
+
+  /* ===============================
+     FETCH CART
+  =============================== */
+
+  const fetchCart = async () => {
+
+    const res = await fetch(`/api/cart?sessionId=${sessionId}`, {
+      headers: {
+        Authorization: localStorage.getItem("userToken")
+          ? "Bearer " + localStorage.getItem("userToken")
+          : ""
+      }
+    });
+
+    const data = await res.json();
+    setCart(data);
+  };
 
   useEffect(() => {
-    localStorage.setItem("sessionId", sessionId);
     fetchCart();
   }, []);
 
-  const fetchCart = async () => {
-    try {
-      const res = await fetch(`/api/cart?sessionId=${sessionId}`);
-      const data = await res.json();
+  /* ===============================
+     UPDATE QTY
+  =============================== */
 
-      setCart({
-        items: data.items || [],
-        subtotal: data.subtotal || 0,
-        shipping: data.shipping || 0,
-        total: data.total || 0,
-        totalFreeItems: data.totalFreeItems || 0,
-        minimumValid: data.minimumValid || false
-      });
-    } catch (err) {
-      console.error("Cart fetch error:", err);
-    }
+  const updateQty = async (posterId, size, change) => {
+
+    await fetch("/api/cart/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("userToken")
+          ? "Bearer " + localStorage.getItem("userToken")
+          : ""
+      },
+      body: JSON.stringify({
+        posterId,
+        size,
+        change,
+        sessionId
+      })
+    });
+
+    fetchCart();
   };
 
-  const updateQty = async (item, change) => {
-    try {
-      const res = await fetch("/api/cart/update", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          posterId: item.poster?._id,
-          size: item.size,
-          change,
-          sessionId
-        })
-      });
+  /* ===============================
+     REMOVE ITEM
+  =============================== */
 
-      const data = await res.json();
-      setCart(data);
-    } catch (err) {
-      console.error("Update error:", err);
-    }
+  const removeItem = async (posterId, size) => {
+
+    await fetch("/api/cart/remove", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("userToken")
+          ? "Bearer " + localStorage.getItem("userToken")
+          : ""
+      },
+      body: JSON.stringify({
+        posterId,
+        size,
+        sessionId
+      })
+    });
+
+    fetchCart();
   };
 
-  const removeItem = async (item) => {
-    try {
-      const res = await fetch("/api/cart/remove", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          posterId: item.poster?._id,
-          size: item.size,
-          sessionId
-        })
-      });
-
-      const data = await res.json();
-      setCart(data);
-    } catch (err) {
-      console.error("Remove error:", err);
-    }
-  };
+  if (!cart) return <div className="container">Loading...</div>;
 
   return (
     <>
       <Navbar />
 
-      <div className="cart-container">
+      <div className="container cart-page">
 
-        <div className="cart-left">
-          <h2>Your Cart</h2>
+        <h1>Your Cart</h1>
 
-          {cart.items.length === 0 && (
-            <div className="empty-cart-card">
-              <h3>Your cart is empty</h3>
-              <p>Add beautiful posters to start decorating.</p>
-            </div>
-          )}
+        {cart.items.length === 0 && (
+          <div className="empty-cart">
+            Your cart is empty
+          </div>
+        )}
 
-          {cart.items.map((item, index) => (
-            <div className="cart-card" key={index}>
+        <div className="cart-layout">
 
-              <img
-                src={item.poster?.thumbnail}
-                alt={item.poster?.name}
-              />
+          {/* CART ITEMS */}
+          <div className="cart-items">
 
-              <div className="cart-info">
-                <h3>{item.poster?.name}</h3>
-                <p className="cart-size">Size: {item.size}</p>
+            {cart.items.map((item, index) => (
 
-                <div className="qty-control">
-                  <button
-                    onClick={() => updateQty(item, -1)}
-                    disabled={item.quantity <= 1}
-                  >
-                    −
-                  </button>
+              <div className="cart-item" key={index}>
 
-                  <span>{item.quantity}</span>
+                <img
+                  src={item.poster.thumbnail}
+                  className="cart-thumb"
+                />
 
-                  <button
-                    onClick={() => updateQty(item, 1)}
-                  >
-                    +
-                  </button>
+                <div className="cart-details">
+
+                  <h3>{item.poster.name}</h3>
+
+                  <p className="cart-size">
+                    Size : {item.size}
+                  </p>
+
+                  <div className="qty-control">
+
+                    <button
+                      onClick={() =>
+                        updateQty(item.poster._id, item.size, -1)
+                      }
+                    >
+                      −
+                    </button>
+
+                    <span>{item.quantity}</span>
+
+                    <button
+                      onClick={() =>
+                        updateQty(item.poster._id, item.size, 1)
+                      }
+                    >
+                      +
+                    </button>
+
+                  </div>
+
                 </div>
 
-                <button
-                  className="remove-btn"
-                  onClick={() => removeItem(item)}
-                >
-                  Remove
-                </button>
+                <div className="cart-price">
+
+                  <div className="price">
+                    ₹{item.unitPrice * item.quantity}
+                  </div>
+
+                  <button
+                    className="remove-btn"
+                    onClick={() =>
+                      removeItem(item.poster._id, item.size)
+                    }
+                  >
+                    Remove
+                  </button>
+
+                </div>
+
               </div>
 
-              <div className="cart-price">
-                ₹{item.unitPrice * item.quantity}
+            ))}
+
+          </div>
+
+
+          {/* CART SUMMARY */}
+
+          <div className="cart-summary">
+
+            <h3>Order Summary</h3>
+
+            <div className="summary-row">
+              <span>Subtotal</span>
+              <span>₹{cart.subtotal}</span>
+            </div>
+
+            <div className="summary-row">
+              <span>Shipping</span>
+              <span>
+                {cart.shipping === 0 ? "FREE" : `₹${cart.shipping}`}
+              </span>
+            </div>
+
+            {cart.totalFreeItems > 0 && (
+              <div className="offer-box">
+
+                🎁 You received <strong>{cart.totalFreeItems}</strong> free posters
+
+                {cart.singleOffer && (
+                  <p>
+                    Single Offer : Buy {cart.singleOffer.buy} Get {cart.singleOffer.free}
+                  </p>
+                )}
+
+                {cart.setOffer && (
+                  <p>
+                    Set Offer : Buy {cart.setOffer.buy} Get {cart.setOffer.free}
+                  </p>
+                )}
+
+              </div>
+            )}
+
+            <div className="summary-total">
+              Total : ₹{cart.total}
+            </div>
+
+            {!cart.minimumValid && (
+              <div className="minimum-note">
+                Minimum order ₹199 required
+              </div>
+            )}
+
+            <button
+              className="checkout-btn"
+              disabled={!cart.minimumValid}
+            >
+              Proceed To Checkout
+            </button>
+
+            {cart.freeDistribution?.length > 0 && (
+
+              <div className="free-items">
+
+              <h4>Free Posters</h4>
+
+              {cart.freeDistribution.map((f,i)=>(
+              <p key={i}>
+              {f.freeQty} × {f.size} posters
+              </p>
+              ))}
+
               </div>
 
-            </div>
-          ))}
+              )}
+
+          </div>
+
         </div>
 
-        <div className="cart-right">
-
-          <h3>Order Summary</h3>
-
-          <div className="summary-line">
-            <span>Subtotal</span>
-            <span>₹{cart.subtotal}</span>
-          </div>
-
-          <div className="summary-line">
-            <span>Shipping</span>
-            <span>₹{cart.shipping}</span>
-          </div>
-
-          <div className="summary-line">
-            <span>Free Items</span>
-            <span>{cart.totalFreeItems}</span>
-          </div>
-
-          {!cart.minimumValid && (
-            <div className="min-alert">
-              Minimum order value ₹199 required
-            </div>
-          )}
-
-          <div className="summary-total">
-            <span>Total</span>
-            <span>₹{cart.total}</span>
-          </div>
-
-          <button
-            className="checkout-btn"
-            disabled={!cart.minimumValid}
-          >
-            Proceed to Checkout
-          </button>
-
-        </div>
       </div>
     </>
   );
