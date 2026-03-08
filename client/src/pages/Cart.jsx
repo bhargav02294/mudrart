@@ -213,12 +213,7 @@ const navigate = useNavigate();
               </div>
             )}
 
-            <button
-              className="checkout-btn"
-              disabled={!cart.minimumValid}
-            >
-              Proceed To Checkout
-            </button>
+            
 
             <button
               className="checkout-btn"

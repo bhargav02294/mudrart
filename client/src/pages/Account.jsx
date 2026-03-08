@@ -68,3 +68,14 @@ if (user === null) return <div>Loading...</div>;
   </div>
 </div>  );
 }
+
+router.get("/my", async(req,res)=>{
+const token=req.headers.authorization.split(" ")[1];
+const decoded=jwt.verify(token,process.env.JWT_SECRET);
+
+const orders = await Order.find({user:decoded.id})
+.sort({createdAt:-1});
+
+res.json(orders);
+});
+

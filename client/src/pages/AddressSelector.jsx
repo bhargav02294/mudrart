@@ -85,6 +85,76 @@ alert("Address Saved");
 };
 
 
+
+
+const startPayment = async()=>{
+
+const res = await fetch("/api/orders/create",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("userToken")
+? "Bearer "+localStorage.getItem("userToken")
+: ""
+},
+
+body:JSON.stringify({
+sessionId,
+address
+})
+
+});
+
+const data = await res.json();
+
+
+const options = {
+
+key:data.key,
+
+amount:data.amount * 100,
+
+currency:"INR",
+
+name:"Mudrart",
+
+description:"Poster Purchase",
+
+order_id:data.razorpayOrderId,
+
+handler:async function(response){
+
+await fetch("/api/payment/verify",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+...response,
+orderId:data.orderId
+
+})
+
+});
+
+window.location="/account";
+
+}
+
+};
+
+const rzp = new window.Razorpay(options);
+
+rzp.open();
+
+};
+
 /* ===========================
 LOADING
 =========================== */
@@ -223,12 +293,10 @@ Total ₹{cart.total}
 
 </div>
 
-<button className="payment-btn">
 
+<button className="payment-btn" onClick={startPayment}>
 Proceed To Payment
-
 </button>
-
 </div>
 
 </div>

@@ -21,6 +21,11 @@ const adminAuthRoutes = require("./routes/adminAuth");
 const posterRoutes = require("./routes/posterRoutes");
 const addressRoutes = require("./routes/addressRoutes");
 
+const orderRoutes = require("./routes/orderRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+
+app.use("/api/orders",orderRoutes);
+app.use("/api/payment",paymentRoutes);
 app.use("/api/address", addressRoutes);
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/posters", posterRoutes);
