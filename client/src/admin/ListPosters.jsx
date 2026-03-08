@@ -64,8 +64,12 @@ export default function ListPosters() {
                 {p.productType === "polarized" && `Polarized (${p.setCount})`}
               </div>
 
-              <h3>{p.name}</h3>
+                <h3>{p.name}</h3>
 
+                <div className="poster-category">
+                  Category: {p.category}
+                </div>
+                
               <p className="poster-description">
                 {p.description || "No description"}
               </p>

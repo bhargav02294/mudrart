@@ -66,12 +66,13 @@ router.post(
         : null;
 
       const {
-        name,
-        productType,
-        setCount,
-        quantity,
-        description
-      } = req.body;
+  name,
+  productType,
+  category,
+  setCount,
+  quantity,
+  description
+} = req.body;
 
       /* ========================
          PHYSICAL PRICING LOGIC
@@ -144,6 +145,7 @@ router.post(
 
       const poster = new Poster({
         name,
+        category,
         productType: productType || "single",
         setCount: setCount || 1,
         thumbnail,

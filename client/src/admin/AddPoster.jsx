@@ -11,11 +11,11 @@ export default function AddPoster() {
   const setCount = searchParams.get("count") || 1;
 
   const [form, setForm] = useState({
-    name: "",
-    quantity: "",
-    description: "",
-    downloadPrice: 19
-  });
+  name: "",
+  category: "",
+  quantity: "",
+  description: ""
+});
 
   const [files, setFiles] = useState({});
 
@@ -58,6 +58,28 @@ export default function AddPoster() {
           setForm({ ...form, name: e.target.value })
         }
       />
+
+
+      <h3>Category</h3>
+
+<select
+  onChange={(e) =>
+    setForm({ ...form, category: e.target.value })
+  }
+>
+  <option value="">Select Category</option>
+
+  <option value="cars">Cars</option>
+  <option value="anime">Anime</option>
+  <option value="devotional">Devotional</option>
+  <option value="motivational">Motivational</option>
+  <option value="bollywood">Bollywood</option>
+  <option value="actors">Actors</option>
+  <option value="cricket">Cricket</option>
+  <option value="nature">Nature</option>
+  <option value="sports">Sports</option>
+
+</select>
 
       <h3>Images</h3>
 

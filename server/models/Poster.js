@@ -15,6 +15,14 @@ const posterSchema = new mongoose.Schema({
   default: "single"
 },
 
+/* CATEGORY */
+  category: {
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
+  },
+  
 setCount: {
   type: Number,
   default: 1
