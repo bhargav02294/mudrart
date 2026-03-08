@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function AddressSelector(){
+
+const navigate = useNavigate();
 
 const [address,setAddress]=useState({});
 const [cart,setCart]=useState(null);
@@ -23,7 +26,6 @@ Authorization:localStorage.getItem("userToken")
 });
 
 const data = await res.json();
-
 setAddress(data);
 
 };
@@ -43,7 +45,6 @@ Authorization:localStorage.getItem("userToken")
 });
 
 const data = await res.json();
-
 setCart(data);
 
 };
@@ -85,7 +86,9 @@ alert("Address Saved");
 };
 
 
-
+/* ===========================
+PAYMENT START
+=========================== */
 
 const startPayment = async()=>{
 
@@ -108,7 +111,6 @@ address
 });
 
 const data = await res.json();
-
 
 const options = {
 
@@ -143,7 +145,9 @@ orderId:data.orderId
 
 });
 
-window.location="/account";
+/* redirect correctly */
+
+navigate("/account");
 
 }
 
@@ -154,6 +158,7 @@ const rzp = new window.Razorpay(options);
 rzp.open();
 
 };
+
 
 /* ===========================
 LOADING
@@ -258,14 +263,9 @@ Save Address
 <div>
 
 ₹{item.payablePrice}
+
 </div>
 
-
-{item.freeQty>0 && (
-<p className="free-label">
-🎁 {item.freeQty} Free
-</p>
-)}
 </div>
 
 ))}
@@ -275,7 +275,6 @@ Save Address
 <span>Subtotal</span>
 <span>₹{cart.subtotal}</span>
 </div>
-
 
 {cart.totalFreeItems>0 && (
 
@@ -293,10 +292,12 @@ Total ₹{cart.total}
 
 </div>
 
-
 <button className="payment-btn" onClick={startPayment}>
+
 Proceed To Payment
+
 </button>
+
 </div>
 
 </div>
