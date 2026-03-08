@@ -16,6 +16,9 @@ import ListPosters from "./admin/ListPosters";
 import ProtectedRoute from "./admin/ProtectedRoute";
 import SelectProductType from "./admin/SelectProductType"; // ✅ IMPORTANT
 
+import AddressSelector from "./pages/AddressSelector";
+
+
 function App() {
   return (
     <Routes>
@@ -84,6 +87,9 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+            <Route path="/checkout/address" element={<AddressSelector />} />
+
 
     </Routes>
   );

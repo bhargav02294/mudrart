@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
 export default function Cart() {
+const navigate = useNavigate();
 
   const [cart, setCart] = useState(null);
   const sessionId = localStorage.getItem("sessionId");
