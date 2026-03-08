@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
+const navigate = useNavigate();
 export default function Cart() {
 
   const [cart, setCart] = useState(null);
@@ -217,6 +219,14 @@ export default function Cart() {
             >
               Proceed To Checkout
             </button>
+
+            <button
+              className="checkout-btn"
+              disabled={!cart.minimumValid}
+              onClick={()=>navigate("/checkout/address")}
+              >
+              Proceed To Checkout
+              </button>
 
             {cart.freeDistribution?.length > 0 && (
 

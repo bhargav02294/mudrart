@@ -19,7 +19,9 @@ app.use(morgan("dev"));
 
 const adminAuthRoutes = require("./routes/adminAuth");
 const posterRoutes = require("./routes/posterRoutes");
+const addressRoutes = require("./routes/addressRoutes");
 
+app.use("/api/address", addressRoutes);
 app.use("/api/admin", adminAuthRoutes);
 app.use("/api/posters", posterRoutes);
 app.use("/uploads", express.static("server/uploads"));
