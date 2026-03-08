@@ -112,94 +112,142 @@ const SET_OFFERS = [
 ];
 
 function applyOffer(totalQty, offers) {
+
   for (let offer of offers) {
+
     const required = offer.buy + offer.free;
 
     if (totalQty >= required) {
+
       const times = Math.floor(totalQty / required);
+
       return {
         free: times * offer.free,
         appliedOffer: offer
       };
     }
+
   }
 
   return { free: 0, appliedOffer: null };
+
 }
 
 function calculateCart(cart) {
-  let subtotal = 0;
 
   let totalSingles = 0;
   let totalSets = 0;
 
   cart.items.forEach(item => {
-    subtotal += item.quantity * item.unitPrice;
 
-    if (item.type === "single") {
-      totalSingles += item.quantity;
-    }
+    if (item.type === "single") totalSingles += item.quantity;
+    if (item.type === "set") totalSets += item.quantity;
 
-    if (item.type === "set") {
-      totalSets += item.quantity;
-    }
   });
+
 
   const singleResult = applyOffer(totalSingles, SINGLE_OFFERS);
   const setResult = applyOffer(totalSets, SET_OFFERS);
 
   const totalFreeItems = singleResult.free + setResult.free;
 
-  const shipping = subtotal > 999 ? 0 : 89;
 
-  const total = subtotal + shipping;
+  /* =======================
+     DISTRIBUTE FREE ITEMS
+  ======================= */
 
-  const minimumValid = subtotal >= MIN_PURCHASE;
+  const freeMap = assignFreeSizes(cart.items, totalFreeItems);
 
-  const freeDistribution = assignFreeSizes(cart, totalFreeItems);
+
+  /* =======================
+     CALCULATE PAYABLE
+  ======================= */
+
+  let payableSubtotal = 0;
+
+  const processedItems = [];
+
+  cart.items.forEach(item=>{
+
+    const key = item.poster._id + "_" + item.size;
+
+    const freeQty = freeMap[key] || 0;
+
+    const payableQty = item.quantity - freeQty;
+
+    const payablePrice = payableQty * item.unitPrice;
+
+    payableSubtotal += payablePrice;
+
+    processedItems.push({
+      ...item.toObject ? item.toObject() : item,
+      freeQty,
+      payableQty,
+      payablePrice
+    });
+
+  });
+
+
+  /* =======================
+     FINAL TOTAL
+  ======================= */
+
+  const total = payableSubtotal;
+
+  const minimumValid = payableSubtotal >= MIN_PURCHASE;
+
 
   return {
-    items: cart.items,
-    subtotal,
-    shipping,
+
+    items: processedItems,
+
+    subtotal: payableSubtotal,
+
+    shipping: 0,
+
     total,
+
     totalFreeItems,
+
     singleOffer: singleResult.appliedOffer,
+
     setOffer: setResult.appliedOffer,
-    minimumValid,
-    freeDistribution
+
+    minimumValid
+
   };
+
 }
 
 
 
-function assignFreeSizes(cart, freeQty) {
+function assignFreeSizes(cartItems, freeQty) {
 
   const priority = ["A6","A5","A4","A3"];
 
-  const freeItems = [];
+  const freeMap = {};
 
   for (let size of priority) {
 
-    const items = cart.items.filter(i => i.size === size);
-
-    for (let item of items) {
+    for (let item of cartItems.filter(i=>i.size===size)) {
 
       if (freeQty <= 0) break;
 
       const free = Math.min(item.quantity, freeQty);
 
-      freeItems.push({
-        poster: item.poster,
-        size,
-        freeQty: free
-      });
+      const key = item.poster._id + "_" + size;
+
+      freeMap[key] = free;
 
       freeQty -= free;
+
     }
+
   }
 
-  return freeItems;
+  return freeMap;
+
 }
 
 

@@ -144,9 +144,14 @@ const navigate = useNavigate();
                 <div className="cart-price">
 
                   <div className="price">
-                    ₹{item.unitPrice * item.quantity}
+                    ₹{item.payablePrice}
                   </div>
 
+                    {item.freeQty > 0 && (
+                    <div className="free-tag">
+                    🎁 {item.freeQty} free
+                    </div>
+                    )}
                   <button
                     className="remove-btn"
                     onClick={() =>
@@ -176,12 +181,7 @@ const navigate = useNavigate();
               <span>₹{cart.subtotal}</span>
             </div>
 
-            <div className="summary-row">
-              <span>Shipping</span>
-              <span>
-                {cart.shipping === 0 ? "FREE" : `₹${cart.shipping}`}
-              </span>
-            </div>
+            
 
             {cart.totalFreeItems > 0 && (
               <div className="offer-box">

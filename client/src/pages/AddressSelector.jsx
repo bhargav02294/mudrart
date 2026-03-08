@@ -187,10 +187,15 @@ Save Address
 
 <div>
 
-₹{item.unitPrice * item.quantity}
-
+₹{item.payablePrice}
 </div>
 
+
+{item.freeQty>0 && (
+<p className="free-label">
+🎁 {item.freeQty} Free
+</p>
+)}
 </div>
 
 ))}
@@ -201,10 +206,6 @@ Save Address
 <span>₹{cart.subtotal}</span>
 </div>
 
-<div className="summary-row">
-<span>Shipping</span>
-<span>{cart.shipping===0?"FREE":"₹"+cart.shipping}</span>
-</div>
 
 {cart.totalFreeItems>0 && (
 
