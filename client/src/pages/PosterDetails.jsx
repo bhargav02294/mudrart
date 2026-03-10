@@ -152,7 +152,7 @@ export default function PosterDetails() {
     <div className="pd-digital-info">
       <span className="pd-digital-label">Digital Version</span>
       <span className="pd-digital-price">
-        ₹{poster.downloadPrice}
+        ₹{poster.finalDownloadPrice}
       </span>
       <span className="pd-digital-note">
         Instant access after payment

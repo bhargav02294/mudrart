@@ -124,7 +124,7 @@ return(
 
 <h3>{poster.name}</h3>
 
-<p>Price ₹{poster.downloadPrice}</p>
+<p>Price ₹{poster.finalDownloadPrice}</p>
 
 <input
 placeholder="Email"
