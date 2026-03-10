@@ -9,6 +9,9 @@ const navigate = useNavigate();
 const [address,setAddress]=useState({});
 const [cart,setCart]=useState(null);
 
+/* error messages */
+const [errors,setErrors]=useState({});
+
 const sessionId = localStorage.getItem("sessionId");
 
 /* ===========================
@@ -50,11 +53,49 @@ setCart(data);
 };
 
 useEffect(()=>{
-
 fetchAddress();
 fetchCart();
-
 },[]);
+
+
+/* ===========================
+VALIDATE ADDRESS
+=========================== */
+
+const validateAddress = () => {
+
+let newErrors = {};
+
+if(!address.name || address.name.trim()==="")
+newErrors.name="Full name is required";
+
+if(!address.mobile || address.mobile.trim()==="")
+newErrors.mobile="Mobile number is required";
+else if(address.mobile.length !== 10)
+newErrors.mobile="Enter valid 10 digit mobile number";
+
+if(!address.addressLine1 || address.addressLine1.trim()==="")
+newErrors.addressLine1="Address line is required";
+
+if(!address.area || address.area.trim()==="")
+newErrors.area="Area is required";
+
+if(!address.district || address.district.trim()==="")
+newErrors.district="District is required";
+
+if(!address.state || address.state.trim()==="")
+newErrors.state="State is required";
+
+if(!address.pincode || address.pincode.trim()==="")
+newErrors.pincode="Pincode is required";
+else if(address.pincode.length !== 6)
+newErrors.pincode="Enter valid 6 digit pincode";
+
+setErrors(newErrors);
+
+return Object.keys(newErrors).length===0;
+
+};
 
 
 /* ===========================
@@ -62,6 +103,8 @@ SAVE ADDRESS
 =========================== */
 
 const saveAddress = async()=>{
+
+if(!validateAddress()) return;
 
 await fetch("/api/address",{
 
@@ -81,14 +124,9 @@ address
 
 });
 
-alert("Address Saved");
+alert("Address saved successfully");
 
 };
-
-
-
-
-
 
 
 /* ===========================
@@ -97,41 +135,7 @@ PAYMENT START
 
 const startPayment = async()=>{
 
-/* ===========================
-ADDRESS VALIDATION
-=========================== */
-
-if(
-!address.name ||
-!address.mobile ||
-!address.addressLine1 ||
-!address.area ||
-!address.district ||
-!address.state ||
-!address.pincode
-){
-alert("Please complete the full shipping address before payment.");
-return;
-}
-
-/* mobile validation */
-
-if(address.mobile.length !== 10){
-alert("Enter valid 10 digit mobile number");
-return;
-}
-
-/* pincode validation */
-
-if(address.pincode.length !== 6){
-alert("Enter valid 6 digit pincode");
-return;
-}
-
-
-/* ===========================
-CREATE ORDER
-=========================== */
+if(!validateAddress()) return;
 
 const res = await fetch("/api/orders/create",{
 
@@ -153,23 +157,15 @@ address
 
 const data = await res.json();
 
-
-/* ===========================
-RAZORPAY
-=========================== */
+/* Razorpay */
 
 const options = {
 
 key:data.key,
-
 amount:data.amount * 100,
-
 currency:"INR",
-
 name:"Mudrart",
-
 description:"Poster Purchase",
-
 order_id:data.razorpayOrderId,
 
 handler:async function(response){
@@ -183,10 +179,8 @@ headers:{
 },
 
 body:JSON.stringify({
-
 ...response,
 orderId:data.orderId
-
 })
 
 });
@@ -198,15 +192,9 @@ navigate("/account");
 };
 
 const rzp = new window.Razorpay(options);
-
 rzp.open();
 
 };
-
-
-
-
-
 
 
 /* ===========================
@@ -216,10 +204,13 @@ LOADING
 if(!cart) return <div className="container">Loading...</div>;
 
 
+/* ===========================
+UI
+=========================== */
+
 return(
 
 <>
-
 <Navbar/>
 
 <div className="container address-page">
@@ -232,23 +223,43 @@ return(
 
 <div className="address-form">
 
+{/* NAME */}
+
 <input
 placeholder="Full Name"
+className={errors.name ? "input-error":""}
 value={address.name || ""}
 onChange={e=>setAddress({...address,name:e.target.value})}
 />
 
+{errors.name && <p className="error-text">{errors.name}</p>}
+
+
+/* MOBILE */
+
 <input
 placeholder="Mobile"
+className={errors.mobile ? "input-error":""}
 value={address.mobile || ""}
 onChange={e=>setAddress({...address,mobile:e.target.value})}
 />
 
+{errors.mobile && <p className="error-text">{errors.mobile}</p>}
+
+
+/* ADDRESS LINE */
+
 <input
 placeholder="Address Line 1"
+className={errors.addressLine1 ? "input-error":""}
 value={address.addressLine1 || ""}
 onChange={e=>setAddress({...address,addressLine1:e.target.value})}
 />
+
+{errors.addressLine1 && <p className="error-text">{errors.addressLine1}</p>}
+
+
+/* ADDRESS LINE 2 */
 
 <input
 placeholder="Address Line 2"
@@ -256,29 +267,54 @@ value={address.addressLine2 || ""}
 onChange={e=>setAddress({...address,addressLine2:e.target.value})}
 />
 
+
+/* AREA */
+
 <input
 placeholder="Area"
+className={errors.area ? "input-error":""}
 value={address.area || ""}
 onChange={e=>setAddress({...address,area:e.target.value})}
 />
 
+{errors.area && <p className="error-text">{errors.area}</p>}
+
+
+/* DISTRICT */
+
 <input
 placeholder="District"
+className={errors.district ? "input-error":""}
 value={address.district || ""}
 onChange={e=>setAddress({...address,district:e.target.value})}
 />
 
+{errors.district && <p className="error-text">{errors.district}</p>}
+
+
+/* STATE */
+
 <input
 placeholder="State"
+className={errors.state ? "input-error":""}
 value={address.state || ""}
 onChange={e=>setAddress({...address,state:e.target.value})}
 />
 
+{errors.state && <p className="error-text">{errors.state}</p>}
+
+
+/* PINCODE */
+
 <input
 placeholder="Pincode"
+className={errors.pincode ? "input-error":""}
 value={address.pincode || ""}
 onChange={e=>setAddress({...address,pincode:e.target.value})}
 />
+
+{errors.pincode && <p className="error-text">{errors.pincode}</p>}
+
 
 <button className="save-address-btn" onClick={saveAddress}>
 Save Address
@@ -287,7 +323,7 @@ Save Address
 </div>
 
 
-{/* CART SUMMARY */}
+{/* ORDER SUMMARY */}
 
 <div className="checkout-summary">
 
@@ -302,23 +338,18 @@ Save Address
 <div>
 
 <p>{item.poster.name}</p>
-
 <p>Size : {item.size}</p>
-
 <p>Qty : {item.quantity}</p>
 
 </div>
 
 <div>
-
 ₹{item.payablePrice}
-
 </div>
 
 </div>
 
 ))}
-
 
 <div className="summary-row">
 <span>Subtotal</span>
@@ -328,31 +359,18 @@ Save Address
 {cart.totalFreeItems>0 && (
 
 <div className="offer-box">
-
 🎁 {cart.totalFreeItems} Free Posters
-
 </div>
 
 )}
 
 <div className="summary-total">
-
 Total ₹{cart.total}
-
 </div>
 
 <button
 className="payment-btn"
 onClick={startPayment}
-disabled={
-!address.name ||
-!address.mobile ||
-!address.addressLine1 ||
-!address.area ||
-!address.district ||
-!address.state ||
-!address.pincode
-}
 >
 Proceed To Payment
 </button>
@@ -360,11 +378,8 @@ Proceed To Payment
 </div>
 
 </div>
-
 </div>
-
 </>
-
 );
 
 }
