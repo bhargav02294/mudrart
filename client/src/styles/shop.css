@@ -818,6 +818,8 @@ margin-bottom:10px;
 
 
 
+
+
 /* ==============================     Digital Checkout Page  ===========================*/
 
 
@@ -856,5 +858,410 @@ padding:12px;
 width:100%;
 border:none;
 border-radius:6px;
+
+}
+
+
+
+
+
+/* ==============================     user account Dashboard  ===========================*/
+
+/* ===============================
+ACCOUNT PAGE LAYOUT
+=============================== */
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+font-family:Inter, sans-serif;
+}
+
+
+/* ===============================
+ACCOUNT PROFILE CARD
+=============================== */
+
+.account-container{
+
+background:white;
+
+padding:35px;
+
+border-radius:14px;
+
+box-shadow:0 8px 25px rgba(0,0,0,0.06);
+
+margin-bottom:40px;
+
+border:1px solid #f0f0f0;
+
+transition:all .3s ease;
+
+}
+
+.account-container:hover{
+
+box-shadow:0 10px 35px rgba(0,0,0,0.08);
+
+}
+
+
+/* ===============================
+PROFILE HEADER
+=============================== */
+
+.account-container h2{
+
+font-size:26px;
+
+margin-bottom:20px;
+
+font-weight:600;
+
+color:#111;
+
+border-bottom:1px solid #eee;
+
+padding-bottom:10px;
+
+}
+
+
+/* ===============================
+PROFILE TEXT
+=============================== */
+
+.account-container p{
+
+margin:8px 0;
+
+font-size:15px;
+
+color:#444;
+
+line-height:1.6;
+
+}
+
+.account-container strong{
+
+color:#000;
+
+font-weight:600;
+
+}
+
+
+/* ===============================
+SECTION TITLES
+=============================== */
+
+.orders-section h2{
+
+font-size:24px;
+
+margin-bottom:20px;
+
+font-weight:600;
+
+color:#111;
+
+}
+
+
+/* ===============================
+ORDER CARD
+=============================== */
+
+.order-card{
+
+background:white;
+
+border-radius:14px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+border:1px solid #f0f0f0;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.04);
+
+transition:all .25s ease;
+
+}
+
+.order-card:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 10px 28px rgba(0,0,0,0.07);
+
+}
+
+
+/* ===============================
+ORDER HEADER
+=============================== */
+
+.order-header{
+
+display:flex;
+
+justify-content:space-between;
+
+flex-wrap:wrap;
+
+font-size:14px;
+
+margin-bottom:14px;
+
+color:#555;
+
+}
+
+
+/* ===============================
+ORDER ITEM
+=============================== */
+
+.order-item{
+
+display:flex;
+
+align-items:center;
+
+gap:16px;
+
+padding:12px 0;
+
+border-top:1px solid #f3f3f3;
+
+}
+
+
+/* ===============================
+POSTER THUMBNAIL
+=============================== */
+
+.order-thumb{
+
+width:70px;
+
+height:90px;
+
+object-fit:cover;
+
+border-radius:6px;
+
+border:1px solid #eee;
+
+}
+
+
+/* ===============================
+ORDER TEXT
+=============================== */
+
+.order-info{
+
+flex:1;
+
+font-size:14px;
+
+color:#444;
+
+}
+
+.order-name{
+
+font-weight:600;
+
+color:#111;
+
+margin-bottom:4px;
+
+}
+
+
+/* ===============================
+DOWNLOAD BUTTON
+=============================== */
+
+.download-btn{
+
+display:inline-block;
+
+margin-top:6px;
+
+padding:8px 14px;
+
+background:#111;
+
+color:white;
+
+font-size:13px;
+
+border-radius:6px;
+
+text-decoration:none;
+
+transition:all .25s ease;
+
+}
+
+.download-btn:hover{
+
+background:#333;
+
+}
+
+
+/* ===============================
+ACCOUNT BUTTONS
+=============================== */
+
+.account-container button{
+
+margin-top:12px;
+
+padding:10px 16px;
+
+border:none;
+
+border-radius:6px;
+
+font-size:14px;
+
+cursor:pointer;
+
+background:#111;
+
+color:white;
+
+transition:all .25s ease;
+
+}
+
+.account-container button:hover{
+
+background:#333;
+
+}
+
+
+/* ===============================
+LOGOUT BUTTON
+=============================== */
+
+.logout-account-btn{
+
+background:#e53935;
+
+margin-left:10px;
+
+}
+
+.logout-account-btn:hover{
+
+background:#c62828;
+
+}
+
+
+/* ===============================
+EDIT PROFILE PAGE
+=============================== */
+
+.account-container input{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:14px;
+
+border-radius:6px;
+
+border:1px solid #ddd;
+
+font-size:14px;
+
+transition:all .25s ease;
+
+}
+
+.account-container input:focus{
+
+outline:none;
+
+border-color:#111;
+
+box-shadow:0 0 0 2px rgba(0,0,0,0.05);
+
+}
+
+
+/* ===============================
+SAVE BUTTON
+=============================== */
+
+.account-container button{
+
+width:160px;
+
+margin-top:10px;
+
+}
+
+
+/* ===============================
+EMPTY STATE
+=============================== */
+
+.orders-section p{
+
+color:#777;
+
+font-size:14px;
+
+margin-top:10px;
+
+}
+
+
+/* ===============================
+RESPONSIVE DESIGN
+=============================== */
+
+@media (max-width:768px){
+
+.order-item{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.order-thumb{
+
+width:100%;
+
+height:auto;
+
+max-width:220px;
+
+}
+
+.order-header{
+
+flex-direction:column;
+
+gap:6px;
+
+}
 
 }

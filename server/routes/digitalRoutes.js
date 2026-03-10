@@ -145,4 +145,36 @@ res.json({success:true});
 });
 
 
+
+
+/* ============================
+GET DIGITAL ORDERS
+============================ */
+
+router.get("/my", async (req,res)=>{
+
+try{
+
+const { email } = req.query;
+
+if(!email){
+return res.status(400).json({message:"Email required"});
+}
+
+const orders = await DigitalOrder.find({
+buyerEmail:email,
+paymentStatus:"paid"
+})
+.sort({createdAt:-1});
+
+res.json(orders);
+
+}catch(err){
+
+res.status(500).json({message:err.message});
+
+}
+
+});
+
 module.exports = router;
