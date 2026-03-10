@@ -18,6 +18,7 @@ import SelectProductType from "./admin/SelectProductType"; // ✅ IMPORTANT
 
 import AddressSelector from "./pages/AddressSelector";
 
+import DigitalCheckout from "./pages/DigitalCheckout"
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
       {/* ADMIN */}
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/signup" element={<AdminSignup />} />
+
+<Route path="/digital/:id" element={<DigitalCheckout/>}/>
 
       <Route
         path="/admin/dashboard"

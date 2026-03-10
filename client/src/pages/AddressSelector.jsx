@@ -235,7 +235,6 @@ onChange={e=>setAddress({...address,name:e.target.value})}
 {errors.name && <p className="error-text">{errors.name}</p>}
 
 
-/* MOBILE */
 
 <input
 placeholder="Mobile"
@@ -247,7 +246,6 @@ onChange={e=>setAddress({...address,mobile:e.target.value})}
 {errors.mobile && <p className="error-text">{errors.mobile}</p>}
 
 
-/* ADDRESS LINE */
 
 <input
 placeholder="Address Line 1"
@@ -259,7 +257,6 @@ onChange={e=>setAddress({...address,addressLine1:e.target.value})}
 {errors.addressLine1 && <p className="error-text">{errors.addressLine1}</p>}
 
 
-/* ADDRESS LINE 2 */
 
 <input
 placeholder="Address Line 2"
@@ -268,7 +265,6 @@ onChange={e=>setAddress({...address,addressLine2:e.target.value})}
 />
 
 
-/* AREA */
 
 <input
 placeholder="Area"
@@ -280,7 +276,6 @@ onChange={e=>setAddress({...address,area:e.target.value})}
 {errors.area && <p className="error-text">{errors.area}</p>}
 
 
-/* DISTRICT */
 
 <input
 placeholder="District"
@@ -292,7 +287,6 @@ onChange={e=>setAddress({...address,district:e.target.value})}
 {errors.district && <p className="error-text">{errors.district}</p>}
 
 
-/* STATE */
 
 <input
 placeholder="State"
@@ -304,7 +298,6 @@ onChange={e=>setAddress({...address,state:e.target.value})}
 {errors.state && <p className="error-text">{errors.state}</p>}
 
 
-/* PINCODE */
 
 <input
 placeholder="Pincode"

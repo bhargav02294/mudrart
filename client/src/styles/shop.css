@@ -813,3 +813,48 @@ font-size:13px;
 margin-top:-8px;
 margin-bottom:10px;
 }
+
+
+
+
+
+/* ==============================     Digital Checkout Page  ===========================*/
+
+
+.digital-checkout{
+
+background:white;
+padding:30px;
+max-width:400px;
+margin:auto;
+border-radius:10px;
+
+}
+
+.digital-thumb{
+
+width:150px;
+display:block;
+margin:auto;
+}
+
+.digital-checkout input{
+
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:6px;
+
+}
+
+.digital-checkout button{
+
+background:black;
+color:white;
+padding:12px;
+width:100%;
+border:none;
+border-radius:6px;
+
+}

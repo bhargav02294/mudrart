@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import {useNavigate} from "react-router-dom"
 import Navbar from "../components/Navbar";
+
 
 export default function PosterDetails() {
   const { id } = useParams();
@@ -10,6 +12,7 @@ export default function PosterDetails() {
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   /* ---------------- FETCH POSTER ---------------- */
   useEffect(() => {
@@ -156,9 +159,12 @@ export default function PosterDetails() {
       </span>
     </div>
 
-    <button className="pd-digital-btn">
-      Buy Digital
-    </button>
+   <button
+className="pd-digital-btn"
+onClick={()=>navigate(`/digital/${poster._id}`)}
+>
+Buy Digital
+</button>
   </div>
 )}
             </div>

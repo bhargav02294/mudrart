@@ -23,6 +23,9 @@ const addressRoutes = require("./routes/addressRoutes");
 
 const orderRoutes = require("./routes/orderRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const digitalRoutes = require("./routes/digitalRoutes");
+
+app.use("/api/digital",digitalRoutes);
 
 app.use("/api/orders",orderRoutes);
 app.use("/api/payment",paymentRoutes);
