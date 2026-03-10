@@ -86,11 +86,52 @@ alert("Address Saved");
 };
 
 
+
+
+
+
+
 /* ===========================
 PAYMENT START
 =========================== */
 
 const startPayment = async()=>{
+
+/* ===========================
+ADDRESS VALIDATION
+=========================== */
+
+if(
+!address.name ||
+!address.mobile ||
+!address.addressLine1 ||
+!address.area ||
+!address.district ||
+!address.state ||
+!address.pincode
+){
+alert("Please complete the full shipping address before payment.");
+return;
+}
+
+/* mobile validation */
+
+if(address.mobile.length !== 10){
+alert("Enter valid 10 digit mobile number");
+return;
+}
+
+/* pincode validation */
+
+if(address.pincode.length !== 6){
+alert("Enter valid 6 digit pincode");
+return;
+}
+
+
+/* ===========================
+CREATE ORDER
+=========================== */
 
 const res = await fetch("/api/orders/create",{
 
@@ -111,6 +152,11 @@ address
 });
 
 const data = await res.json();
+
+
+/* ===========================
+RAZORPAY
+=========================== */
 
 const options = {
 
@@ -145,8 +191,6 @@ orderId:data.orderId
 
 });
 
-/* redirect correctly */
-
 navigate("/account");
 
 }
@@ -158,6 +202,11 @@ const rzp = new window.Razorpay(options);
 rzp.open();
 
 };
+
+
+
+
+
 
 
 /* ===========================
@@ -292,10 +341,20 @@ Total ₹{cart.total}
 
 </div>
 
-<button className="payment-btn" onClick={startPayment}>
-
+<button
+className="payment-btn"
+onClick={startPayment}
+disabled={
+!address.name ||
+!address.mobile ||
+!address.addressLine1 ||
+!address.area ||
+!address.district ||
+!address.state ||
+!address.pincode
+}
+>
 Proceed To Payment
-
 </button>
 
 </div>

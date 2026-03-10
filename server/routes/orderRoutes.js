@@ -58,6 +58,17 @@ thumbnail:item.poster.thumbnail
 
 }));
 
+if(
+!address.name ||
+!address.mobile ||
+!address.addressLine1 ||
+!address.area ||
+!address.district ||
+!address.state ||
+!address.pincode
+){
+return res.status(400).json({message:"Complete address required"});
+}
 
 const order = new Order({
 
