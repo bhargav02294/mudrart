@@ -125,40 +125,66 @@ router.post(
          DIGITAL PRICING (HYBRID)
       ======================== */
 
-      let finalDownloadPrice = 0;
+      /* ========================
+   DIGITAL PRICING (HYBRID)
+======================== */
 
-      if (productType === "single") {
-        finalDownloadPrice = 19;
-      }
+let finalDownloadPrice = 0;
 
-      if (productType === "set") {
-        finalDownloadPrice = 29;
-      }
+/* normalize productType */
 
-      if (productType === "polarized") {
-        finalDownloadPrice = 39;
-      }
+const normalizedType = (productType || "single").toLowerCase();
+
+/* assign digital price */
+
+if (normalizedType === "single") {
+  finalDownloadPrice = 19;
+}
+
+else if (normalizedType === "set") {
+  finalDownloadPrice = 29;
+}
+
+else if (normalizedType === "polarized") {
+  finalDownloadPrice = 39;
+}
+
+else {
+  finalDownloadPrice = 19;
+}
 
       /* ========================
          CREATE POSTER
       ======================== */
 
       const poster = new Poster({
-        name,
-        category,
-        productType: productType || "single",
-        setCount: setCount || 1,
-        thumbnail,
-        image1,
-        image2,
-        image3,
-        image4,
-        downloadableFile,
-        downloadPrice: finalDownloadPrice,
-        quantity,
-        description,
-        sizes
-      });
+
+  name,
+
+  category,
+
+  productType: normalizedType,
+
+  setCount: Number(setCount) || 1,
+
+  thumbnail,
+
+  image1,
+  image2,
+  image3,
+  image4,
+
+  downloadableFile,
+
+  downloadPrice: finalDownloadPrice,
+
+  quantity,
+
+  description,
+
+  sizes
+
+});
 
       await poster.save();
 
