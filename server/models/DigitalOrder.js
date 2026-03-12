@@ -20,12 +20,18 @@ buyerMobile:String,
 
 downloadUrl:String,
 
+downloadToken:{
+type:String,
+unique:true
+},
+
 paymentStatus:{
 type:String,
 default:"pending"
 },
 
 razorpayOrderId:String,
+
 razorpayPaymentId:String,
 
 createdAt:{

@@ -260,7 +260,7 @@ className="order-thumb"
 <p>Price: ₹{order.price}</p>
 
 <a
-href={order.downloadUrl}
+href={`/api/download/${order.downloadToken}`}
 target="_blank"
 rel="noreferrer"
 className="download-btn"

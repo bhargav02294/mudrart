@@ -1,6 +1,6 @@
 const express = require("express");
 const Razorpay = require("razorpay");
-const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const Poster = require("../models/Poster");
 const DigitalOrder = require("../models/DigitalOrder");
@@ -32,15 +32,28 @@ if(!poster) return res.status(404).json({message:"Poster not found"});
 
 const price = poster.downloadPrice;
 
+/* create secure token */
+
+const token = crypto.randomBytes(32).toString("hex");
+
+
 const order = new DigitalOrder({
 
 posterId:poster._id,
+
 posterName:poster.name,
+
 thumbnail:poster.thumbnail,
+
 price,
+
 buyerEmail:email,
+
 buyerMobile:mobile,
-downloadUrl:poster.downloadableFile
+
+downloadUrl:poster.downloadableFile,
+
+downloadToken:token
 
 });
 
@@ -50,10 +63,13 @@ await order.save();
 const razorpayOrder = await razorpay.orders.create({
 
 amount:price * 100,
+
 currency:"INR",
+
 receipt:order._id.toString()
 
 });
+
 
 order.razorpayOrderId = razorpayOrder.id;
 
@@ -63,8 +79,11 @@ await order.save();
 res.json({
 
 orderId:order._id,
+
 razorpayOrderId:razorpayOrder.id,
+
 amount:price,
+
 key:process.env.RAZORPAY_KEY_ID
 
 });
@@ -84,8 +103,6 @@ VERIFY DIGITAL PAYMENT
 
 router.post("/verify",async(req,res)=>{
 
-const crypto = require("crypto");
-
 const{
 
 razorpay_order_id,
@@ -95,6 +112,7 @@ orderId
 
 }=req.body;
 
+
 const body = razorpay_order_id + "|" + razorpay_payment_id;
 
 const expected = crypto
@@ -103,20 +121,28 @@ const expected = crypto
 .digest("hex");
 
 if(expected !== razorpay_signature){
+
 return res.status(400).json({message:"Payment verification failed"});
+
 }
 
 
 const order = await DigitalOrder.findById(orderId);
 
 order.paymentStatus="paid";
+
 order.razorpayPaymentId = razorpay_payment_id;
 
 await order.save();
 
 
+/* secure download link */
+
+const downloadLink = `${process.env.BASE_URL}/api/download/${order.downloadToken}`;
+
+
 /* ============================
-SEND EMAIL WITH DOWNLOAD LINK
+SEND EMAIL WITH SECURE LINK
 ============================ */
 
 await sendMail(
@@ -130,11 +156,16 @@ order.buyerEmail,
 
 <p>Your download is ready.</p>
 
-<a href="${order.downloadUrl}">
+<p>
+<a href="${downloadLink}" style="padding:10px 20px;background:#000;color:#fff;text-decoration:none;border-radius:6px;">
 Download Poster
 </a>
+</p>
 
 <p>Poster: ${order.posterName}</p>
+
+<p>This download link is secure.</p>
+
 `
 
 );
@@ -143,7 +174,6 @@ Download Poster
 res.json({success:true});
 
 });
-
 
 
 
@@ -164,8 +194,7 @@ return res.status(400).json({message:"Email required"});
 const orders = await DigitalOrder.find({
 buyerEmail:email,
 paymentStatus:"paid"
-})
-.sort({createdAt:-1});
+}).sort({createdAt:-1});
 
 res.json(orders);
 
