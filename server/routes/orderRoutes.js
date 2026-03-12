@@ -41,7 +41,9 @@ cart = await Cart.findOne({sessionId});
 
 }
 
-if(!cart) return res.status(400).json({message:"Cart empty"});
+if(!cart){
+return res.status(400).json({message:"Cart empty"});
+}
 
 const populated = await cart.populate("items.poster");
 
@@ -79,7 +81,15 @@ items:orderItems,
 
 total:calculated.total,
 
-address
+address,
+
+paymentStatus:"pending",
+
+orderStatus:"Processing",
+
+deliveryEstimate:new Date(
+Date.now() + 7 * 24 * 60 * 60 * 1000
+)
 
 });
 
@@ -89,13 +99,10 @@ await order.save();
 const razorpayOrder = await razorpay.orders.create({
 
 amount:calculated.total * 100,
-
 currency:"INR",
-
 receipt:order._id.toString()
 
 });
-
 
 order.razorpayOrderId = razorpayOrder.id;
 
@@ -105,15 +112,11 @@ await order.save();
 res.json({
 
 orderId:order._id,
-
 razorpayOrderId:razorpayOrder.id,
-
 amount:calculated.total,
-
 key:process.env.RAZORPAY_KEY_ID
 
 });
-
 
 }catch(err){
 
@@ -127,20 +130,36 @@ res.status(500).json({message:err.message});
 
 
 router.get("/my", async (req, res) => {
-  try {
 
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+try{
 
-    const orders = await Order.find({ user: decoded.id })
-      .sort({ createdAt: -1 });
+if(!req.headers.authorization){
+return res.json([]);
+}
 
-    res.json(orders);
+const token = req.headers.authorization.split(" ")[1];
 
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+const decoded = jwt.verify(token,process.env.JWT_SECRET);
+
+const orders = await Order.find({
+
+user:decoded.id
+
+})
+.sort({createdAt:-1});
+
+res.json(orders);
+
+}catch(err){
+
+console.error("Fetch orders error:",err);
+
+res.status(500).json({message:"Server error"});
+
+}
+
 });
+
 
 
 module.exports = router;

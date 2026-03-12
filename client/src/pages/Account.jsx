@@ -181,13 +181,17 @@ Logout
 
 <p><strong>Order ID:</strong> {order._id}</p>
 
-<p><strong>Status:</strong> {order.orderStatus}</p>
+<p><strong>Status:</strong> {order.orderStatus || "Processing"}</p>
 
-<p><strong>Delivery:</strong> {order.deliveryEstimate}</p>
+<p><strong>Delivery:</strong> {
+order.deliveryEstimate
+? new Date(order.deliveryEstimate).toDateString()
+: "7-10 days"
+}</p>
 
 </div>
 
-{order.items.map((item,i)=>(
+{order.items?.map((item,i)=>(
 
 <div key={i} className="order-item">
 
@@ -198,9 +202,7 @@ className="order-thumb"
 
 <div className="order-info">
 
-<p className="order-name">
-{item.name}
-</p>
+<p className="order-name">{item.name}</p>
 
 <p>Size: {item.size}</p>
 
