@@ -136,11 +136,9 @@ router.post("/create", async (req, res) => {
 
       paymentStatus: "pending",
 
-      orderStatus: "Processing",
+      orderStatus: "processing",
 
-      deliveryEstimate: new Date(
-        Date.now() + 7 * 24 * 60 * 60 * 1000
-      )
+      deliveryEstimate:"7 - 10 Days"
 
     });
 
