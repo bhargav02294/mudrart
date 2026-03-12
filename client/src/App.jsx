@@ -20,6 +20,9 @@ import AddressSelector from "./pages/AddressSelector";
 
 import DigitalCheckout from "./pages/DigitalCheckout"
 
+import PaymentSuccess from "./pages/PaymentSuccess"
+import PaymentFailed from "./pages/PaymentFailed"
+
 function App() {
   return (
     <Routes>
@@ -53,6 +56,10 @@ function App() {
       <Route path="/admin/signup" element={<AdminSignup />} />
 
 <Route path="/digital/:id" element={<DigitalCheckout/>}/>
+
+
+<Route path="/payment-success" element={<PaymentSuccess />} />
+<Route path="/payment-failed" element={<PaymentFailed />} />
 
       <Route
         path="/admin/dashboard"

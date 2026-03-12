@@ -13,9 +13,16 @@ const [poster,setPoster] = useState(null)
 const [email,setEmail] = useState("")
 const [mobile,setMobile] = useState("")
 
+
+/* ===============================
+FETCH POSTER
+=============================== */
+
 useEffect(()=>{
 
 const fetchPoster = async()=>{
+
+try{
 
 const res = await fetch("/api/posters")
 
@@ -25,6 +32,12 @@ const found = data.find(p=>p._id===id)
 
 setPoster(found)
 
+}catch(err){
+
+console.error(err)
+
+}
+
 }
 
 fetchPoster()
@@ -32,12 +45,22 @@ fetchPoster()
 },[id])
 
 
+
+/* ===============================
+START PAYMENT
+=============================== */
+
 const startPayment = async()=>{
 
 if(!email || !mobile){
-alert("Enter email and mobile")
+
+alert("Please enter email and mobile")
+
 return
+
 }
+
+try{
 
 const res = await fetch("/api/digital/create",{
 
@@ -60,6 +83,10 @@ mobile
 const data = await res.json()
 
 
+/* ===============================
+RAZORPAY OPTIONS
+=============================== */
+
 const options = {
 
 key:data.key,
@@ -74,7 +101,10 @@ description:"Digital Poster",
 
 order_id:data.razorpayOrderId,
 
+
 handler:async function(response){
+
+/* SUCCESS PAYMENT */
 
 await fetch("/api/digital/verify",{
 
@@ -93,25 +123,53 @@ orderId:data.orderId
 
 })
 
-navigate("/account")
+navigate("/payment-success")
+
+},
+
+
+modal:{
+
+ondismiss:function(){
+
+navigate("/payment-failed")
 
 }
 
 }
+
+
+}
+
+
+/* ===============================
+OPEN RAZORPAY
+=============================== */
 
 const rzp = new window.Razorpay(options)
 
 rzp.open()
 
+}catch(err){
+
+console.error(err)
+
+navigate("/payment-failed")
+
+}
+
 }
 
 
-if(!poster) return <div>Loading...</div>
+
+if(!poster) return <div className="container">Loading...</div>
+
 
 
 return(
 
 <>
+
 <Navbar/>
 
 <div className="container">

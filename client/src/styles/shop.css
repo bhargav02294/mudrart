@@ -1265,3 +1265,32 @@ gap:6px;
 }
 
 }
+
+
+
+
+
+
+
+
+
+
+/* ==============================     Payment success - failed page  ===========================*/
+.payment-page{
+text-align:center;
+padding:60px;
+}
+
+.payment-page h1{
+font-size:32px;
+margin-bottom:20px;
+}
+
+.payment-page button{
+background:black;
+color:white;
+padding:12px 22px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
