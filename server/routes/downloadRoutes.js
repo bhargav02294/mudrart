@@ -1,11 +1,16 @@
 const express = require("express");
+const axios = require("axios");
 
 const DigitalOrder = require("../models/DigitalOrder");
 
 const router = express.Router();
 
 
-router.get("/:token", async(req,res)=>{
+/* =================================
+DOWNLOAD DIGITAL POSTER
+================================= */
+
+router.get("/:token", async (req,res)=>{
 
 try{
 
@@ -22,14 +27,55 @@ return res.status(404).send("Invalid download link");
 
 }
 
-res.redirect(order.downloadUrl);
+
+/* ===============================
+GET FILE FROM CLOUDINARY
+=============================== */
+
+const fileResponse = await axios({
+
+url:order.downloadUrl,
+method:"GET",
+responseType:"stream"
+
+});
+
+
+/* ===============================
+SET DOWNLOAD HEADERS
+=============================== */
+
+res.setHeader(
+
+"Content-Disposition",
+`attachment; filename="${order.posterName}.png"`
+
+);
+
+res.setHeader(
+
+"Content-Type",
+fileResponse.headers["content-type"]
+
+);
+
+
+/* ===============================
+STREAM FILE TO USER
+=============================== */
+
+fileResponse.data.pipe(res);
+
 
 }catch(err){
 
-res.status(500).send("Download error");
+console.error("DOWNLOAD ERROR:",err);
+
+res.status(500).send("Download failed");
 
 }
 
 });
+
 
 module.exports = router;
