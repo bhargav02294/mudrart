@@ -105,18 +105,20 @@ res.status(500).json({message:err.message});
 VERIFY DIGITAL PAYMENT
 ================================= */
 
-router.post("/verify",async(req,res)=>{
+
+
+router.post("/verify", async (req,res)=>{
 
 try{
 
-const{
+const {
 
 razorpay_order_id,
 razorpay_payment_id,
 razorpay_signature,
 orderId
 
-}=req.body;
+} = req.body;
 
 
 const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -126,14 +128,30 @@ const expected = crypto
 .update(body)
 .digest("hex");
 
+
 if(expected !== razorpay_signature){
 
-return res.status(400).json({message:"Payment verification failed"});
+return res.status(400).json({
+message:"Payment verification failed"
+});
 
 }
 
 
+/* find order */
+
 const order = await DigitalOrder.findById(orderId);
+
+if(!order){
+
+return res.status(404).json({
+message:"Order not found"
+});
+
+}
+
+
+/* mark paid */
 
 order.paymentStatus = "paid";
 
@@ -142,35 +160,58 @@ order.razorpayPaymentId = razorpay_payment_id;
 await order.save();
 
 
-/* create secure email link */
+/* ============================
+CREATE SECURE DOWNLOAD LINK
+============================ */
+
+/*
+Fallback if BASE_URL missing
+*/
+
+const baseUrl =
+process.env.BASE_URL ||
+req.protocol + "://" + req.get("host");
 
 const downloadLink =
-`${process.env.BASE_URL}/api/download/${order.downloadToken}`;
+`${baseUrl}/api/download/${order.downloadToken}`;
 
 
-/* send email */
+/* ============================
+SEND EMAIL
+============================ */
 
 await sendMail(
 
 order.buyerEmail,
 
-"Mudrart Digital Download",
+"Your Mudrart Digital Poster",
 
 `
 <h2>Thank you for your purchase</h2>
 
-<p>Your poster is ready.</p>
+<p>Your poster download is ready.</p>
 
 <p>
-<a href="${downloadLink}" 
-style="background:#000;color:#fff;padding:12px 18px;border-radius:6px;text-decoration:none;">
+<a href="${downloadLink}"
+style="
+background:#000;
+color:#fff;
+padding:12px 18px;
+text-decoration:none;
+border-radius:6px;
+display:inline-block;
+">
 Download Poster
 </a>
 </p>
 
-<p>Poster: ${order.posterName}</p>
+<p><strong>Poster:</strong> ${order.posterName}</p>
 
-<p>This is a secure download link.</p>
+<p>If the button does not work, copy this link:</p>
+
+<p>${downloadLink}</p>
+
+<p>Enjoy your artwork.</p>
 `
 
 );
@@ -179,9 +220,11 @@ res.json({success:true});
 
 }catch(err){
 
-console.error(err);
+console.error("Digital verify error:",err);
 
-res.status(500).json({message:"Verification failed"});
+res.status(500).json({
+message:"Server error"
+});
 
 }
 
