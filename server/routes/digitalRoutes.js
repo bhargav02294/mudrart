@@ -10,32 +10,32 @@ const sendMail = require("../util/sendMail");
 const router = express.Router();
 
 const razorpay = new Razorpay({
-key_id:process.env.RAZORPAY_KEY_ID,
-key_secret:process.env.RAZORPAY_KEY_SECRET
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
 
-/* ============================
+/* =================================
 CREATE DIGITAL ORDER
-============================ */
+================================= */
 
-router.post("/create",async(req,res)=>{
+router.post("/create", async (req,res)=>{
 
 try{
 
-const {posterId,email,mobile} = req.body;
+const { posterId,email,mobile } = req.body;
 
 const poster = await Poster.findById(posterId);
 
-if(!poster) return res.status(404).json({message:"Poster not found"});
-
+if(!poster){
+return res.status(404).json({message:"Poster not found"});
+}
 
 const price = poster.downloadPrice;
 
 /* create secure token */
 
 const token = crypto.randomBytes(32).toString("hex");
-
 
 const order = new DigitalOrder({
 
@@ -45,7 +45,7 @@ posterName:poster.name,
 
 thumbnail:poster.thumbnail,
 
-price,
+price:price,
 
 buyerEmail:email,
 
@@ -60,6 +60,8 @@ downloadToken:token
 await order.save();
 
 
+/* create razorpay order */
+
 const razorpayOrder = await razorpay.orders.create({
 
 amount:price * 100,
@@ -69,7 +71,6 @@ currency:"INR",
 receipt:order._id.toString()
 
 });
-
 
 order.razorpayOrderId = razorpayOrder.id;
 
@@ -90,6 +91,8 @@ key:process.env.RAZORPAY_KEY_ID
 
 }catch(err){
 
+console.error(err);
+
 res.status(500).json({message:err.message});
 
 }
@@ -97,11 +100,14 @@ res.status(500).json({message:err.message});
 });
 
 
-/* ============================
+
+/* =================================
 VERIFY DIGITAL PAYMENT
-============================ */
+================================= */
 
 router.post("/verify",async(req,res)=>{
+
+try{
 
 const{
 
@@ -129,78 +135,109 @@ return res.status(400).json({message:"Payment verification failed"});
 
 const order = await DigitalOrder.findById(orderId);
 
-order.paymentStatus="paid";
+order.paymentStatus = "paid";
 
 order.razorpayPaymentId = razorpay_payment_id;
 
 await order.save();
 
 
-/* secure download link */
+/* create secure email link */
 
-const downloadLink = `${process.env.BASE_URL}/api/download/${order.downloadToken}`;
+const downloadLink =
+`${process.env.BASE_URL}/api/download/${order.downloadToken}`;
 
 
-/* ============================
-SEND EMAIL WITH SECURE LINK
-============================ */
+/* send email */
 
 await sendMail(
 
 order.buyerEmail,
 
-"Your Mudrart Digital Poster",
+"Mudrart Digital Download",
 
 `
 <h2>Thank you for your purchase</h2>
 
-<p>Your download is ready.</p>
+<p>Your poster is ready.</p>
 
 <p>
-<a href="${downloadLink}" style="padding:10px 20px;background:#000;color:#fff;text-decoration:none;border-radius:6px;">
+<a href="${downloadLink}" 
+style="background:#000;color:#fff;padding:12px 18px;border-radius:6px;text-decoration:none;">
 Download Poster
 </a>
 </p>
 
 <p>Poster: ${order.posterName}</p>
 
-<p>This download link is secure.</p>
-
+<p>This is a secure download link.</p>
 `
 
 );
 
-
 res.json({success:true});
+
+}catch(err){
+
+console.error(err);
+
+res.status(500).json({message:"Verification failed"});
+
+}
 
 });
 
 
 
-/* ============================
+/* =================================
 GET DIGITAL ORDERS
-============================ */
+================================= */
 
-router.get("/my", async (req,res)=>{
+router.get("/my",async(req,res)=>{
 
 try{
 
 const { email } = req.query;
 
 if(!email){
+
 return res.status(400).json({message:"Email required"});
+
 }
 
 const orders = await DigitalOrder.find({
+
 buyerEmail:email,
 paymentStatus:"paid"
+
 }).sort({createdAt:-1});
 
-res.json(orders);
+
+/* return only needed fields */
+
+const formatted = orders.map(o=>({
+
+_id:o._id,
+
+posterName:o.posterName,
+
+thumbnail:o.thumbnail,
+
+price:o.price,
+
+paymentStatus:o.paymentStatus,
+
+downloadToken:o.downloadToken
+
+}));
+
+res.json(formatted);
 
 }catch(err){
 
-res.status(500).json({message:err.message});
+console.error(err);
+
+res.status(500).json({message:"Server error"});
 
 }
 
