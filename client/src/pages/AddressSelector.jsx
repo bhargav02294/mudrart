@@ -137,6 +137,8 @@ const startPayment = async()=>{
 
 if(!validateAddress()) return;
 
+try{
+
 const res = await fetch("/api/orders/create",{
 
 method:"POST",
@@ -155,17 +157,46 @@ address
 
 });
 
+
+if(!res.ok){
+
+const err = await res.json();
+
+alert(err.message || "Order creation failed");
+
+return;
+
+}
+
+
 const data = await res.json();
 
-/* Razorpay */
+
+if(!data.key){
+
+alert("Payment configuration error");
+
+return;
+
+}
+
+
+/* ===============================
+RAZORPAY
+=============================== */
 
 const options = {
 
 key:data.key,
+
 amount:data.amount * 100,
+
 currency:"INR",
+
 name:"Mudrart",
+
 description:"Poster Purchase",
+
 order_id:data.razorpayOrderId,
 
 handler:async function(response){
@@ -179,24 +210,43 @@ headers:{
 },
 
 body:JSON.stringify({
+
 ...response,
 orderId:data.orderId
+
 })
 
 });
 
 navigate("/account");
 
+},
+
+modal:{
+
+ondismiss:function(){
+
+alert("Payment cancelled");
+
+}
+
 }
 
 };
 
 const rzp = new window.Razorpay(options);
+
 rzp.open();
 
+}catch(err){
+
+console.error(err);
+
+alert("Payment failed");
+
+}
+
 };
-
-
 /* ===========================
 LOADING
 =========================== */
