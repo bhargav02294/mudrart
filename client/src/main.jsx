@@ -10,6 +10,11 @@ import "./styles/shop.css";
 import "./styles/auth.css";
 import "./admin/admin.css";
 
+
+
+import "./styles/navbar.css";
+import "./styles/footer.css";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <App />
