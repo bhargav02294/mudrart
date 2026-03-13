@@ -1,147 +1,220 @@
+/* HERO */
+
 .hero{
-height:90vh;
+height:60vh;
 background-size:cover;
 background-position:center;
 display:flex;
 align-items:center;
+justify-content:center;
 position:relative;
 }
 
-/* dark gradient overlay */
-
-.hero::before{
-content:"";
-position:absolute;
-left:0;
-top:0;
+.hero-overlay{
+background:rgba(0,0,0,0.45);
 width:100%;
 height:100%;
-
-background:linear-gradient(
-90deg,
-rgba(0,0,0,0.85) 0%,
-rgba(0,0,0,0.65) 35%,
-rgba(0,0,0,0.25) 60%,
-transparent 100%
-);
-
-z-index:1;
-}
-
-.hero-content{
-position:relative;
-z-index:2;
-
-max-width:1200px;
-margin:auto;
-padding:0 40px;
-color:white;
-}
-
-/* heading */
-
-.hero-content h1{
-font-size:56px;
-font-weight:600;
-line-height:1.2;
-max-width:650px;
-}
-
-.hero-content span{
-display:block;
-font-weight:700;
-margin-top:6px;
-}
-
-/* paragraph */
-
-.hero-content p{
-margin-top:18px;
-font-size:18px;
-max-width:500px;
-opacity:0.85;
-}
-
-/* buttons */
-
-.hero-buttons{
-margin-top:28px;
 display:flex;
-gap:16px;
-}
-
-.primary-btn{
-background:#ff6a2f;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 color:white;
-border:none;
-padding:14px 28px;
-font-weight:600;
-border-radius:6px;
-cursor:pointer;
+text-align:center;
+padding:20px;
 }
 
-.secondary-btn{
+.hero-overlay h1{
+font-size:42px;
+max-width:800px;
+}
+
+.hero-overlay span{
+color:#e5e5e5;
+}
+
+.hero-btn{
+margin-top:25px;
 background:white;
 color:black;
+padding:14px 30px;
 border:none;
-padding:14px 28px;
-border-radius:6px;
 cursor:pointer;
+font-weight:600;
+transition:0.3s;
 }
 
-.primary-btn:hover{
-background:#ff8253;
-}
-
-.secondary-btn:hover{
-background:#eee;
-}
-
-/* mobile */
-
-@media(max-width:768px){
-
-.hero{
-height:80vh;
-}
-
-.hero-content h1{
-font-size:34px;
-}
-
-.hero-content p{
-font-size:15px;
-}
-
-.hero-buttons{
-flex-direction:column;
-align-items:flex-start;
-}
-
+.hero-btn:hover{
+background:black;
+color:white;
 }
 
 
 
-@media(max-width:768px){
+/* OFFER SLIDERS */
+
+.offer-wrapper{
+background:black;
+padding:20px 0;
+overflow:hidden;
+}
 
 .offer-row{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
+overflow:hidden;
+position:relative;
+margin:10px 0;
 }
 
-.offer-title{
-padding:0;
-margin-bottom:8px;
+/* TRACK */
+
+.offer-track{
+display:flex;
+gap:40px;
+width:max-content;
+animation:scrollLeft 20s linear infinite;
 }
 
-.offer-slider{
+.offer-track.reverse{
+animation:scrollRight 20s linear infinite;
+}
+
+
+
+/* CARD */
+
+.offer-card{
+background:white;
+color:black;
+padding:12px 28px;
+font-weight:700;
+border-radius:40px;
+font-size:15px;
+white-space:nowrap;
+}
+
+.offer-card.set{
+background:#222;
+color:white;
+border:1px solid white;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes scrollLeft{
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
+}
+
+@keyframes scrollRight{
+0%{transform:translateX(-50%)}
+100%{transform:translateX(0)}
+}
+
+
+
+/* POSTER SECTION */
+
+.poster-section{
+padding:70px 5%;
+}
+
+.poster-section h2{
+margin-bottom:25px;
+font-size:32px;
+}
+
+
+
+/* HORIZONTAL POSTER SLIDER */
+
+.poster-slider{
+display:flex;
+gap:20px;
+overflow-x:auto;
+scroll-behavior:smooth;
+padding-bottom:20px;
+}
+
+.poster-slider::-webkit-scrollbar{
+display:none;
+}
+
+
+/* CARD */
+
+.poster-card{
+min-width:220px;
+border:1px solid #eee;
+border-radius:8px;
+overflow:hidden;
+background:white;
+text-decoration:none;
+color:black;
+transition:0.25s;
+}
+
+.poster-card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.poster-card img{
 width:100%;
+height:240px;
+object-fit:cover;
+}
+
+.poster-card h3{
+padding:12px;
+font-size:16px;
+}
+
+.poster-card span{
+padding:0 12px 12px;
+display:block;
+font-weight:600;
+}
+
+
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.hero{
+height:55vh;
+}
+
+.hero-overlay h1{
+font-size:30px;
 }
 
 .offer-track{
-gap:20px;
-animation-duration:14s;
+animation-duration:12s;
+}
+
+.poster-card{
+min-width:180px;
+}
+
+}
+
+@media(max-width:600px){
+
+.hero{
+height:50vh;
+}
+
+.hero-overlay h1{
+font-size:24px;
+}
+
+.offer-track{
+animation-duration:8s;
+}
+
+.poster-card{
+min-width:160px;
 }
 
 }
