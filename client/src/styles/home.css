@@ -4,98 +4,116 @@ background-size:cover;
 background-position:center;
 display:flex;
 align-items:center;
-justify-content:center;
 position:relative;
 }
 
-.hero-overlay{
-background:rgba(0,0,0,0.55);
-width:100%;
+/* BLACK GRADIENT OVER IMAGE */
+
+.hero::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
 height:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-padding:20px;
+width:100%;
+
+background:linear-gradient(
+90deg,
+rgba(0,0,0,0.85) 0%,
+rgba(0,0,0,0.65) 35%,
+rgba(0,0,0,0.35) 55%,
+rgba(0,0,0,0.05) 75%,
+transparent 100%
+);
+
+z-index:1;
 }
 
+.hero-overlay{
+position:relative;
+z-index:2;
+max-width:1200px;
+margin:auto;
+padding:0 30px;
+color:#fff;
+}
+
+/* text */
+
 .hero-overlay h1{
-font-size:48px;
-max-width:900px;
-line-height:1.3;
+font-size:52px;
+font-weight:600;
+max-width:600px;
+line-height:1.2;
 }
 
 .hero-overlay span{
 display:block;
 font-weight:700;
+margin-top:6px;
 }
 
 .hero-overlay p{
-margin-top:12px;
-opacity:0.9;
+margin-top:16px;
+opacity:0.85;
+font-size:18px;
 }
 
-.hero-buttons{
-display:flex;
-gap:16px;
-margin-top:26px;
-}
+/* buttons */
 
-.primary-btn{
+.hero-btn{
+margin-top:30px;
 background:#ff6a2f;
-color:white;
+color:#fff;
 border:none;
 padding:14px 28px;
+border-radius:6px;
 font-weight:600;
-border-radius:6px;
 cursor:pointer;
+transition:0.25s;
 }
 
-.secondary-btn{
-background:white;
-color:black;
-border:none;
-padding:14px 28px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.primary-btn:hover{
-opacity:0.9;
-}
-
-.secondary-btn:hover{
-background:#eee;
+.hero-btn:hover{
+background:#ff824f;
 }
 
 
-/* OFFER SECTION */
 
 .offer-wrapper{
-background:black;
-padding:28px 0;
+background:#fff;
+padding:26px 0;
 overflow:hidden;
 }
+
+/* row */
 
 .offer-row{
 display:flex;
 align-items:center;
-margin:20px 0;
+gap:20px;
+max-width:1200px;
+margin:18px auto;
+padding:0 20px;
 }
 
+/* titles */
+
 .offer-title{
-color:white;
 font-weight:700;
-padding:0 25px;
+font-size:15px;
 white-space:nowrap;
+color:#000;
 }
+
+/* slider */
 
 .offer-slider{
 flex:1;
 overflow:hidden;
+position:relative;
 }
+
+/* track */
 
 .offer-track{
 display:flex;
@@ -103,57 +121,89 @@ gap:40px;
 width:max-content;
 }
 
+/* directions */
+
 .offer-track.left{
-animation:scrollLeft 25s linear infinite;
+animation:slideLeft 22s linear infinite;
 }
 
 .offer-track.right{
-animation:scrollRight 25s linear infinite;
+animation:slideRight 22s linear infinite;
 }
 
+/* cards */
+
 .offer-card{
-background:white;
-padding:10px 28px;
+background:#000;
+color:#fff;
+padding:10px 26px;
 border-radius:40px;
 font-weight:700;
+font-size:14px;
 white-space:nowrap;
 }
 
 .offer-card.set{
-background:#222;
-color:white;
-border:1px solid white;
+background:#111;
 }
 
+/* animation */
 
-/* CONTINUOUS */
-
-@keyframes scrollLeft{
+@keyframes slideLeft{
 0%{transform:translateX(0)}
 100%{transform:translateX(-50%)}
 }
 
-@keyframes scrollRight{
+@keyframes slideRight{
 0%{transform:translateX(-50%)}
 100%{transform:translateX(0)}
 }
 
 
-/* POSTERS */
+@media(max-width:900px){
+
+.offer-row{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.offer-title{
+margin-bottom:8px;
+}
+
+.offer-track{
+gap:22px;
+animation-duration:14s;
+}
+
+.offer-card{
+font-size:13px;
+padding:8px 18px;
+}
+
+}
+
+
+
+
 
 .poster-section{
 padding:80px 6%;
+background:#fafafa;
 }
 
 .poster-section h2{
 font-size:34px;
-margin-bottom:30px;
+margin-bottom:35px;
+font-weight:600;
 }
 
 .poster-slider{
 display:flex;
-gap:22px;
+gap:24px;
 overflow-x:auto;
+scroll-behavior:smooth;
+padding-bottom:16px;
 }
 
 .poster-slider::-webkit-scrollbar{
@@ -162,17 +212,18 @@ display:none;
 
 .poster-card{
 min-width:240px;
-border:1px solid #eee;
-border-radius:8px;
+border-radius:10px;
 overflow:hidden;
+background:#fff;
 text-decoration:none;
-color:black;
-transition:0.3s;
+color:#000;
+border:1px solid #eee;
+transition:0.25s;
 }
 
 .poster-card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transform:translateY(-8px);
+box-shadow:0 14px 35px rgba(0,0,0,0.12);
 }
 
 .poster-card img{
@@ -182,7 +233,12 @@ object-fit:cover;
 }
 
 .poster-info{
-padding:12px;
+padding:14px;
+}
+
+.poster-info h3{
+font-size:16px;
+margin-bottom:6px;
 }
 
 .poster-info span{
@@ -190,7 +246,6 @@ font-weight:600;
 }
 
 
-/* MOBILE */
 
 @media(max-width:768px){
 
@@ -202,25 +257,12 @@ height:65vh;
 font-size:30px;
 }
 
-.hero-buttons{
-flex-direction:column;
+.hero-overlay p{
+font-size:15px;
 }
 
-.offer-row{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.offer-title{
-margin-bottom:10px;
-}
-
-.offer-track{
-animation-duration:15s;
-}
-
-.poster-card{
-min-width:180px;
+.hero-btn{
+padding:12px 22px;
 }
 
 }

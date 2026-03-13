@@ -1,71 +1,98 @@
+/* NAVBAR */
+
 .navbar{
 width:100%;
-background:black;
+background:linear-gradient(
+180deg,
+#000000,
+#0c0c0c
+);
+backdrop-filter: blur(10px);
+border-bottom:1px solid rgba(255,255,255,0.08);
 position:sticky;
 top:0;
-z-index:100;
+z-index:1000;
 }
+
+/* container */
 
 .navbar-container{
 max-width:1200px;
 margin:auto;
 display:flex;
-height:65px;
-justify-content:space-between;
 align-items:center;
-padding:0 24px;
+justify-content:space-between;
+padding:14px 22px;
+}
+
+/* logo */
+
+.logo{
+display:flex;
+align-items:center;
 }
 
 .logo-image{
-max-width:170px;
-transition:0.3s;
+max-width:180px;
+object-fit:contain;
+transition:0.25s;
 }
 
 .logo-image:hover{
 transform:scale(1.05);
 }
 
+/* links */
+
 .nav-links{
 display:flex;
-gap:22px;
 align-items:center;
+gap:24px;
 }
 
 .nav-links a{
-color:white;
+color:#fff;
 text-decoration:none;
 font-size:15px;
 font-weight:500;
-transition:0.2s;
+transition:0.25s;
 }
 
 .nav-links a:hover{
-opacity:0.8;
+color:#d1d1d1;
 }
+
+/* buttons */
 
 .cart-btn,
 .login-btn,
 .account-btn{
+border:1px solid rgba(255,255,255,0.4);
 padding:8px 16px;
-border:1px solid white;
 border-radius:6px;
 }
 
 .cart-btn:hover,
 .login-btn:hover,
 .account-btn:hover{
-background:white;
-color:black;
+background:#fff;
+color:#000;
 }
 
+/* mobile */
+
 @media(max-width:768px){
+
+.logo-image{
+max-width:140px;
+}
 
 .nav-links{
 gap:14px;
 }
 
-.logo-image{
-max-width:140px;
+.nav-links a{
+font-size:14px;
 }
 
 }
