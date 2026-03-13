@@ -9,6 +9,8 @@ export default function Home(){
 
 const [posters,setPosters] = useState([]);
 const posterSectionRef = useRef(null);
+const revealRefs = useRef([]);
+
 
 /* OFFERS */
 
@@ -39,6 +41,29 @@ fetch("/api/posters")
 },[]);
 
 
+
+/* SCROLL REVEAL */
+
+useEffect(()=>{
+
+const observer = new IntersectionObserver(
+(entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},
+{threshold:0.2}
+);
+
+revealRefs.current.forEach(el=>{
+if(el) observer.observe(el);
+});
+
+},[]);
+
+
 /* SCROLL BUTTON */
 
 const scrollToPosters = ()=>{
@@ -65,46 +90,29 @@ return p.sizes[first]?.discountedPrice || 0;
 };
 
 
-/* SCROLL ANIMATION */
-
-useEffect(()=>{
-
-const observer = new IntersectionObserver((entries)=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("show");
-}
-});
-},{threshold:0.15});
-
-document.querySelectorAll(".reveal").forEach(el=>{
-observer.observe(el);
-});
-
-},[]);
-
-
 return(
 <>
 
 <Navbar/>
 
+
 {/* HERO */}
 
 <section
 className="hero reveal"
+ref={el=>revealRefs.current[0]=el}
 style={{backgroundImage:`url(${heroImage})`}}
 >
 
 <div className="hero-overlay">
 
 <h1>
-Modernize Your Home With
-<span> Minimalistic Precision</span>
+Transform Your Space With
+<span> Artistic Minimal Posters</span>
 </h1>
 
 <p>
-Premium posters designed to elevate modern interiors.
+Curated poster collections designed for modern interiors.
 </p>
 
 <button
@@ -119,21 +127,25 @@ Explore Posters
 </section>
 
 
+
 {/* OFFER SLIDERS */}
 
-<section className="offer-wrapper reveal">
+<section className="offer-wrapper reveal"
+ref={el=>revealRefs.current[1]=el}
+>
 
-{/* SINGLE POSTER OFFERS */}
+
+{/* SINGLE POSTER */}
 
 <div className="offer-row">
 
-<div className="offer-title left-title">
+<div className="offer-title left">
 Single Poster Offers
 </div>
 
-<div className="offer-track-container">
+<div className="offer-slider">
 
-<div className="offer-track scroll-left">
+<div className="offer-track left">
 
 {[...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS].map((o,i)=>(
 <div className="offer-card" key={i}>
@@ -148,13 +160,14 @@ Buy {o.buy} Get {o.free} Free
 </div>
 
 
-{/* SET POSTER OFFERS */}
+
+{/* SET POSTER */}
 
 <div className="offer-row">
 
-<div className="offer-track-container">
+<div className="offer-slider">
 
-<div className="offer-track scroll-right">
+<div className="offer-track right">
 
 {[...SET_OFFERS,...SET_OFFERS,...SET_OFFERS,...SET_OFFERS].map((o,i)=>(
 <div className="offer-card set" key={i}>
@@ -166,7 +179,7 @@ Buy {o.buy} Get {o.free} Free
 
 </div>
 
-<div className="offer-title right-title">
+<div className="offer-title right">
 Set Wise Offers
 </div>
 
@@ -175,16 +188,20 @@ Set Wise Offers
 </section>
 
 
+
 {/* POSTERS */}
 
 <section
 className="poster-section reveal"
-ref={posterSectionRef}
+ref={(el)=>{
+posterSectionRef.current = el;
+revealRefs.current[2] = el;
+}}
 >
 
 <h2>Explore Posters</h2>
 
-<div className="poster-grid">
+<div className="poster-slider">
 
 {posters.map(p=>(
 
