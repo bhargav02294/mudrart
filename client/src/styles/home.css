@@ -1,7 +1,7 @@
 /* HERO */
 
 .hero{
-height:85vh;
+height:60vh;
 background-size:cover;
 background-position:center;
 display:flex;
@@ -18,35 +18,28 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-text-align:center;
 color:white;
+text-align:center;
 padding:20px;
 }
 
 .hero-overlay h1{
-font-size:46px;
+font-size:42px;
 max-width:800px;
-line-height:1.2;
 }
 
 .hero-overlay span{
-color:#e0e0e0;
-}
-
-.hero-overlay p{
-margin-top:20px;
-font-size:18px;
-max-width:600px;
+color:#e5e5e5;
 }
 
 .hero-btn{
-margin-top:30px;
+margin-top:25px;
 background:white;
 color:black;
-padding:14px 28px;
+padding:14px 30px;
 border:none;
-font-weight:600;
 cursor:pointer;
+font-weight:600;
 transition:0.3s;
 }
 
@@ -57,30 +50,64 @@ color:white;
 
 
 
-/* OFFER SLIDER */
+/* OFFER SLIDERS */
 
-.offer-section{
+.offer-wrapper{
 background:black;
-color:white;
+padding:20px 0;
 overflow:hidden;
-padding:12px 0;
 }
+
+.offer-row{
+overflow:hidden;
+position:relative;
+margin:10px 0;
+}
+
+/* TRACK */
 
 .offer-track{
 display:flex;
-gap:60px;
-animation:offerScroll 25s linear infinite;
+gap:40px;
+width:max-content;
+animation:scrollLeft 20s linear infinite;
 }
 
-.offer-item{
+.offer-track.reverse{
+animation:scrollRight 20s linear infinite;
+}
+
+
+
+/* CARD */
+
+.offer-card{
+background:white;
+color:black;
+padding:12px 28px;
+font-weight:700;
+border-radius:40px;
+font-size:15px;
 white-space:nowrap;
-font-weight:600;
-font-size:14px;
 }
 
-@keyframes offerScroll{
+.offer-card.set{
+background:#222;
+color:white;
+border:1px solid white;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes scrollLeft{
 0%{transform:translateX(0)}
 100%{transform:translateX(-50%)}
+}
+
+@keyframes scrollRight{
+0%{transform:translateX(-50%)}
+100%{transform:translateX(0)}
 }
 
 
@@ -88,20 +115,21 @@ font-size:14px;
 /* POSTER SECTION */
 
 .poster-section{
-padding:80px 5%;
+padding:70px 5%;
 }
 
 .poster-section h2{
+margin-bottom:25px;
 font-size:32px;
-margin-bottom:30px;
 }
 
 
-/* POSTER SLIDER */
+
+/* HORIZONTAL POSTER SLIDER */
 
 .poster-slider{
 display:flex;
-gap:25px;
+gap:20px;
 overflow-x:auto;
 scroll-behavior:smooth;
 padding-bottom:20px;
@@ -116,12 +144,12 @@ display:none;
 
 .poster-card{
 min-width:220px;
-text-decoration:none;
-color:black;
 border:1px solid #eee;
 border-radius:8px;
 overflow:hidden;
 background:white;
+text-decoration:none;
+color:black;
 transition:0.25s;
 }
 
@@ -137,8 +165,8 @@ object-fit:cover;
 }
 
 .poster-card h3{
-font-size:16px;
 padding:12px;
+font-size:16px;
 }
 
 .poster-card span{
@@ -153,8 +181,16 @@ font-weight:600;
 
 @media(max-width:900px){
 
+.hero{
+height:55vh;
+}
+
 .hero-overlay h1{
-font-size:34px;
+font-size:30px;
+}
+
+.offer-track{
+animation-duration:12s;
 }
 
 .poster-card{
@@ -166,15 +202,15 @@ min-width:180px;
 @media(max-width:600px){
 
 .hero{
-height:70vh;
+height:50vh;
 }
 
 .hero-overlay h1{
-font-size:26px;
+font-size:24px;
 }
 
-.hero-overlay p{
-font-size:15px;
+.offer-track{
+animation-duration:8s;
 }
 
 .poster-card{
