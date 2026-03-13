@@ -65,6 +65,25 @@ return p.sizes[first]?.discountedPrice || 0;
 };
 
 
+/* SCROLL ANIMATION */
+
+useEffect(()=>{
+
+const observer = new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},{threshold:0.15});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+observer.observe(el);
+});
+
+},[]);
+
+
 return(
 <>
 
@@ -73,7 +92,7 @@ return(
 {/* HERO */}
 
 <section
-className="hero"
+className="hero reveal"
 style={{backgroundImage:`url(${heroImage})`}}
 >
 
@@ -102,15 +121,21 @@ Explore Posters
 
 {/* OFFER SLIDERS */}
 
-<section className="offer-wrapper">
+<section className="offer-wrapper reveal">
 
 {/* SINGLE POSTER OFFERS */}
 
-<div className="offer-row left">
+<div className="offer-row">
 
-<div className="offer-track">
+<div className="offer-title left-title">
+Single Poster Offers
+</div>
 
-{[...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS].map((o,i)=>(
+<div className="offer-track-container">
+
+<div className="offer-track scroll-left">
+
+{[...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS].map((o,i)=>(
 <div className="offer-card" key={i}>
 Buy {o.buy} Get {o.free} Free
 </div>
@@ -120,19 +145,29 @@ Buy {o.buy} Get {o.free} Free
 
 </div>
 
+</div>
+
 
 {/* SET POSTER OFFERS */}
 
-<div className="offer-row right">
+<div className="offer-row">
 
-<div className="offer-track reverse">
+<div className="offer-track-container">
 
-{[...SET_OFFERS,...SET_OFFERS,...SET_OFFERS].map((o,i)=>(
+<div className="offer-track scroll-right">
+
+{[...SET_OFFERS,...SET_OFFERS,...SET_OFFERS,...SET_OFFERS].map((o,i)=>(
 <div className="offer-card set" key={i}>
 Buy {o.buy} Get {o.free} Free
 </div>
 ))}
 
+</div>
+
+</div>
+
+<div className="offer-title right-title">
+Set Wise Offers
 </div>
 
 </div>
@@ -143,13 +178,13 @@ Buy {o.buy} Get {o.free} Free
 {/* POSTERS */}
 
 <section
-className="poster-section"
+className="poster-section reveal"
 ref={posterSectionRef}
 >
 
 <h2>Explore Posters</h2>
 
-<div className="poster-slider">
+<div className="poster-grid">
 
 {posters.map(p=>(
 
@@ -159,11 +194,15 @@ className="poster-card"
 key={p._id}
 >
 
-<img src={p.thumbnail}/>
+<img src={p.thumbnail} alt={p.name}/>
+
+<div className="poster-info">
 
 <h3>{p.name}</h3>
 
 <span>₹{getPrice(p)}</span>
+
+</div>
 
 </a>
 

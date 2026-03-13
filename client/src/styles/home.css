@@ -1,7 +1,8 @@
+
 /* HERO */
 
 .hero{
-height:60vh;
+height:85vh;
 background-size:cover;
 background-position:center;
 display:flex;
@@ -11,210 +12,184 @@ position:relative;
 }
 
 .hero-overlay{
-background:rgba(0,0,0,0.45);
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-color:white;
 text-align:center;
-padding:20px;
+max-width:700px;
+color:white;
+padding:40px;
 }
 
 .hero-overlay h1{
-font-size:42px;
-max-width:800px;
+font-size:48px;
+font-weight:600;
+line-height:1.2;
+margin-bottom:20px;
 }
 
 .hero-overlay span{
-color:#e5e5e5;
+display:block;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.hero-overlay p{
+font-size:18px;
+margin-bottom:30px;
+opacity:0.9;
 }
 
 .hero-btn{
-margin-top:25px;
-background:white;
-color:black;
-padding:14px 30px;
+background:black;
+color:white;
+padding:14px 32px;
 border:none;
+font-size:16px;
 cursor:pointer;
-font-weight:600;
-transition:0.3s;
+transition:all .3s;
 }
 
 .hero-btn:hover{
-background:black;
-color:white;
+transform:translateY(-3px);
 }
 
 
 
-/* OFFER SLIDERS */
+/* OFFER SECTION */
 
 .offer-wrapper{
-background:black;
-padding:20px 0;
+padding:60px 0;
 overflow:hidden;
 }
 
 .offer-row{
-overflow:hidden;
-position:relative;
-margin:10px 0;
+display:flex;
+align-items:center;
+margin:25px 0;
 }
 
-/* TRACK */
+.offer-title{
+font-weight:600;
+font-size:16px;
+white-space:nowrap;
+padding:0 25px;
+}
+
+.left-title{
+text-align:left;
+}
+
+.right-title{
+text-align:right;
+order:2;
+}
+
+.offer-track-container{
+flex:1;
+overflow:hidden;
+}
 
 .offer-track{
 display:flex;
-gap:40px;
-width:max-content;
-animation:scrollLeft 20s linear infinite;
-}
-
-.offer-track.reverse{
-animation:scrollRight 20s linear infinite;
-}
-
-
-
-/* CARD */
-
-.offer-card{
-background:white;
-color:black;
-padding:12px 28px;
-font-weight:700;
-border-radius:40px;
-font-size:15px;
+gap:20px;
 white-space:nowrap;
 }
 
+.offer-card{
+padding:10px 20px;
+border:1px solid #000;
+font-size:14px;
+flex-shrink:0;
+}
+
 .offer-card.set{
-background:#222;
-color:white;
-border:1px solid white;
+border-style:dashed;
 }
 
 
-/* ANIMATIONS */
+
+/* CONTINUOUS ANIMATION */
+
+.scroll-left{
+animation:scrollLeft 25s linear infinite;
+}
+
+.scroll-right{
+animation:scrollRight 25s linear infinite;
+}
 
 @keyframes scrollLeft{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
+0%{
+transform:translateX(0);
+}
+100%{
+transform:translateX(-50%);
+}
 }
 
 @keyframes scrollRight{
-0%{transform:translateX(-50%)}
-100%{transform:translateX(0)}
+0%{
+transform:translateX(-50%);
+}
+100%{
+transform:translateX(0);
+}
 }
 
 
 
-/* POSTER SECTION */
+/* POSTERS */
 
 .poster-section{
-padding:70px 5%;
+padding:80px 8%;
 }
 
 .poster-section h2{
-margin-bottom:25px;
+text-align:center;
+margin-bottom:50px;
 font-size:32px;
+font-weight:600;
 }
 
-
-
-/* HORIZONTAL POSTER SLIDER */
-
-.poster-slider{
-display:flex;
-gap:20px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding-bottom:20px;
+.poster-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:35px;
 }
-
-.poster-slider::-webkit-scrollbar{
-display:none;
-}
-
-
-/* CARD */
 
 .poster-card{
-min-width:220px;
-border:1px solid #eee;
-border-radius:8px;
-overflow:hidden;
-background:white;
+display:block;
 text-decoration:none;
 color:black;
-transition:0.25s;
-}
-
-.poster-card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:all .3s;
 }
 
 .poster-card img{
 width:100%;
-height:240px;
+height:300px;
 object-fit:cover;
 }
 
-.poster-card h3{
-padding:12px;
-font-size:16px;
+.poster-card:hover{
+transform:translateY(-6px);
 }
 
-.poster-card span{
-padding:0 12px 12px;
-display:block;
-font-weight:600;
+.poster-info{
+padding:12px 0;
+display:flex;
+justify-content:space-between;
+font-size:14px;
 }
 
 
 
-/* RESPONSIVE */
+/* SCROLL REVEAL */
 
-@media(max-width:900px){
-
-.hero{
-height:55vh;
+.reveal{
+opacity:0;
+transform:translateY(40px);
+transition:all .9s ease;
 }
 
-.hero-overlay h1{
-font-size:30px;
-}
-
-.offer-track{
-animation-duration:12s;
-}
-
-.poster-card{
-min-width:180px;
-}
-
-}
-
-@media(max-width:600px){
-
-.hero{
-height:50vh;
-}
-
-.hero-overlay h1{
-font-size:24px;
-}
-
-.offer-track{
-animation-duration:8s;
-}
-
-.poster-card{
-min-width:160px;
-}
-
+.reveal.show{
+opacity:1;
+transform:translateY(0);
 }
