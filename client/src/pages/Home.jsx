@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import "../styles/home.css";
+
 export default function Home() {
+
   const [posters, setPosters] = useState([]);
 
   useEffect(() => {
@@ -19,6 +23,7 @@ export default function Home() {
   const polarized = posters.filter(p => p.productType === "polarized");
 
   const getDisplayPrice = (poster) => {
+
     if (!poster?.sizes) return 0;
 
     if (poster.sizes.A6) {
@@ -30,23 +35,33 @@ export default function Home() {
     }
 
     const firstSize = Object.keys(poster.sizes)[0];
+
     return poster.sizes[firstSize]?.discountedPrice || 0;
+
   };
 
+
+
   const CategorySection = ({ title, data }) => {
+
     if (data.length === 0) return null;
 
     return (
+
       <section className="category-section">
+
         <h2 className="category-heading">{title}</h2>
 
         <div className="shop-grid">
+
           {data.map((p) => (
+
             <Link
               to={`/poster/${p._id}`}
               className="shop-card"
               key={p._id}
             >
+
               <div className="shop-image">
                 <img src={p.thumbnail} alt={p.name} />
               </div>
@@ -54,7 +69,7 @@ export default function Home() {
               <div className="shop-body">
 
                 <div className="shop-type">
-                  {p.productType === "single" && "Single"}
+                  {p.productType === "single" && "Single Poster"}
                   {p.productType === "set" && `Set of ${p.setCount}`}
                   {p.productType === "polarized" && `Polarized (${p.setCount})`}
                 </div>
@@ -62,45 +77,104 @@ export default function Home() {
                 <h3>{p.name}</h3>
 
                 <div className="price-block">
+
                   <span className="main-price">
                     ₹{getDisplayPrice(p)}
                   </span>
 
                   {p.downloadPrice > 0 && (
                     <span className="download-price">
-                      Download ₹{p.downloadPrice}
+                      Digital ₹{p.downloadPrice}
                     </span>
                   )}
+
                 </div>
 
               </div>
+
             </Link>
+
           ))}
+
         </div>
+
       </section>
+
     );
+
   };
+
+
 
   return (
     <>
+
       <Navbar />
 
-      <section className="hero-section">
-        <div className="hero-content">
-          <h1>Art That Defines Your Space</h1>
-          <p>Premium curated posters for modern interiors.</p>
+
+      {/* HERO SECTION */}
+
+      <section className="hero">
+
+        <div className="hero-overlay">
+
+          <div className="hero-card">
+
+            <h1>
+              Modernize Your Home With <br />
+              <span>Minimalistic Precision</span>
+            </h1>
+
+            <p>
+              Premium spiritual and aesthetic posters designed
+              to bring calm, clarity and inspiration into
+              modern living spaces.
+            </p>
+
+            <div className="hero-buttons">
+
+              <Link to="/" className="hero-btn primary">
+                Explore Posters
+              </Link>
+
+              <Link to="/" className="hero-btn secondary">
+                Digital Downloads
+              </Link>
+
+            </div>
+
+
+            {/* OFFERS */}
+
+            <div className="hero-offers">
+
+              <div>🚚 Free Posters Offer</div>
+
+              <div>📦 Delivery in 7-10 Days</div>
+
+              <div>🔒 Secure Checkout</div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </section>
+
 
       <div className="container">
 
         <CategorySection title="Single Posters" data={single} />
+
         <CategorySection title="Poster Sets" data={sets} />
+
         <CategorySection title="Polarized Collection" data={polarized} />
 
       </div>
 
       <Footer />
+
     </>
   );
 }
