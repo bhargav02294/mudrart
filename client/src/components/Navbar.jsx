@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+/* import logo */
+import logo from "../assets/mudrart-logo.png";
+
 export default function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,15 +15,22 @@ export default function Navbar() {
   }, [location]);
 
   return (
+
     <nav className="navbar">
 
       <div className="navbar-container">
 
         {/* LOGO */}
         <Link to="/" className="logo">
-          <span className="logo-main">Mudr</span>
-          <span className="logo-accent">Art</span>
+
+          <img
+            src={logo}
+            alt="MudrArt Logo"
+            className="logo-image"
+          />
+
         </Link>
+
 
         {/* NAV LINKS */}
         <div className="nav-links">
@@ -46,5 +56,6 @@ export default function Navbar() {
       </div>
 
     </nav>
+
   );
 }

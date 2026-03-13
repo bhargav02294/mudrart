@@ -13,36 +13,58 @@ z-index:100;
 
 /* container */
 
+
 .navbar-container{
 max-width:1200px;
 margin:auto;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:14px 20px;
+padding:12px 20px;
 }
 
 /* ===============================
 LOGO
 =============================== */
+/* ===============================
+LOGO IMAGE
+=============================== */
 
 .logo{
-text-decoration:none;
-font-size:24px;
-font-weight:700;
-letter-spacing:1px;
 display:flex;
 align-items:center;
+text-decoration:none;
 }
 
-.logo-main{
-color:#000;
+.logo-image{
+height:46px;
+width:auto;
+object-fit:contain;
+transition:0.3s ease;
+max-width:180px;
+height:auto;
 }
 
-.logo-accent{
-color:#888;
-margin-left:2px;
+/* subtle hover effect */
+
+.logo-image:hover{
+transform:scale(1.05);
 }
+
+
+/* ===============================
+RESPONSIVE
+=============================== */
+
+@media (max-width:768px){
+
+.logo-image{
+height:38px;
+}
+
+}
+
+
 
 /* ===============================
 NAV LINKS
