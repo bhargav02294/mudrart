@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.995.0",
+    "aos": "^2.3.4",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",

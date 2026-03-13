@@ -9,7 +9,7 @@ import "./styles/theme.css";
 import "./styles/shop.css";
 import "./styles/auth.css";
 import "./admin/admin.css";
-
+import "./styles/home.css";
 
 
 import "./styles/navbar.css";

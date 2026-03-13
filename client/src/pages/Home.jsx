@@ -1,180 +1,178 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import heroImage from "../assets/hero-poster-room.jpg";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 import "../styles/home.css";
 
 export default function Home() {
 
-  const [posters, setPosters] = useState([]);
+const [posters,setPosters] = useState([]);
 
-  useEffect(() => {
-    fetch("/api/posters")
-      .then(res => res.json())
-      .then(data => {
-        setPosters(Array.isArray(data) ? data : []);
-      });
-  }, []);
+const scrollRef = useRef(null);
 
-  const single = posters.filter(p => p.productType === "single");
-  const sets = posters.filter(p => p.productType === "set");
-  const polarized = posters.filter(p => p.productType === "polarized");
+useEffect(()=>{
 
-  const getDisplayPrice = (poster) => {
+fetch("/api/posters")
+.then(res=>res.json())
+.then(data=>{
+setPosters(Array.isArray(data) ? data : []);
+});
 
-    if (!poster?.sizes) return 0;
+AOS.init({
+duration:900,
+once:false
+});
 
-    if (poster.sizes.A6) {
-      return poster.sizes.A6.discountedPrice;
-    }
+},[]);
 
-    if (poster.sizes.A5) {
-      return poster.sizes.A5.discountedPrice;
-    }
 
-    const firstSize = Object.keys(poster.sizes)[0];
+/* =========================
+SCROLL TO POSTERS
+========================= */
 
-    return poster.sizes[firstSize]?.discountedPrice || 0;
+const scrollToPosters = () => {
 
-  };
+scrollRef.current.scrollIntoView({
+behavior:"smooth"
+});
 
+};
 
 
-  const CategorySection = ({ title, data }) => {
+/* =========================
+FILTER PRODUCTS
+========================= */
 
-    if (data.length === 0) return null;
+const single = posters.filter(p=>p.productType==="single");
 
-    return (
 
-      <section className="category-section">
+/* =========================
+PRICE
+========================= */
 
-        <h2 className="category-heading">{title}</h2>
+const getPrice = (p) => {
 
-        <div className="shop-grid">
+if(!p?.sizes) return 0;
 
-          {data.map((p) => (
+if(p.sizes.A6) return p.sizes.A6.discountedPrice;
 
-            <Link
-              to={`/poster/${p._id}`}
-              className="shop-card"
-              key={p._id}
-            >
+if(p.sizes.A5) return p.sizes.A5.discountedPrice;
 
-              <div className="shop-image">
-                <img src={p.thumbnail} alt={p.name} />
-              </div>
+const first = Object.keys(p.sizes)[0];
 
-              <div className="shop-body">
+return p.sizes[first]?.discountedPrice || 0;
 
-                <div className="shop-type">
-                  {p.productType === "single" && "Single Poster"}
-                  {p.productType === "set" && `Set of ${p.setCount}`}
-                  {p.productType === "polarized" && `Polarized (${p.setCount})`}
-                </div>
+};
 
-                <h3>{p.name}</h3>
 
-                <div className="price-block">
 
-                  <span className="main-price">
-                    ₹{getDisplayPrice(p)}
-                  </span>
+return(
+<>
 
-                  {p.downloadPrice > 0 && (
-                    <span className="download-price">
-                      Digital ₹{p.downloadPrice}
-                    </span>
-                  )}
+<Navbar/>
 
-                </div>
+{/* HERO */}
 
-              </div>
+<section
+className="hero"
+style={{backgroundImage:`url(${heroImage})`}}
+>
 
-            </Link>
+<div className="hero-overlay">
 
-          ))}
+<h1 data-aos="fade-up">
+Modernize Your Home With
+<span> Minimalistic Precision</span>
+</h1>
 
-        </div>
+<p data-aos="fade-up" data-aos-delay="200">
+Premium posters designed to elevate
+modern interiors with calm and meaning.
+</p>
 
-      </section>
+<button
+className="hero-btn"
+onClick={scrollToPosters}
+data-aos="fade-up"
+data-aos-delay="400"
+>
+Explore Posters
+</button>
 
-    );
+</div>
 
-  };
+</section>
 
 
 
-  return (
-    <>
+{/* OFFER SLIDER */}
 
-      <Navbar />
+<section className="offer-section">
 
+<div className="offer-track">
 
-      {/* HERO SECTION */}
+<div className="offer-item">Buy 10 Get 15 Free</div>
+<div className="offer-item">Buy 6 Get 9 Free</div>
+<div className="offer-item">Buy 5 Get 5 Free</div>
+<div className="offer-item">Buy 4 Get 3 Free</div>
+<div className="offer-item">Buy 3 Get 2 Free</div>
 
-      <section className="hero">
+<div className="offer-item">Buy 10 Get 15 Free</div>
+<div className="offer-item">Buy 6 Get 9 Free</div>
+<div className="offer-item">Buy 5 Get 5 Free</div>
+<div className="offer-item">Buy 4 Get 3 Free</div>
+<div className="offer-item">Buy 3 Get 2 Free</div>
 
-        <div className="hero-overlay">
+</div>
 
-          <div className="hero-card">
+</section>
 
-            <h1>
-              Modernize Your Home With <br />
-              <span>Minimalistic Precision</span>
-            </h1>
 
-            <p>
-              Premium spiritual and aesthetic posters designed
-              to bring calm, clarity and inspiration into
-              modern living spaces.
-            </p>
 
-            <div className="hero-buttons">
+{/* POSTERS */}
 
-              <Link to="/" className="hero-btn primary">
-                Explore Posters
-              </Link>
+<section
+className="poster-section"
+ref={scrollRef}
+data-aos="fade-up"
+>
 
-              <Link to="/" className="hero-btn secondary">
-                Digital Downloads
-              </Link>
+<h2>Explore Posters</h2>
 
-            </div>
+<div className="poster-slider">
 
+{single.map(p=>(
 
-            {/* OFFERS */}
+<Link
+to={`/poster/${p._id}`}
+className="poster-card"
+key={p._id}
+>
 
-            <div className="hero-offers">
+<img src={p.thumbnail} />
 
-              <div>🚚 Free Posters Offer</div>
+<h3>{p.name}</h3>
 
-              <div>📦 Delivery in 7-10 Days</div>
+<span>₹{getPrice(p)}</span>
 
-              <div>🔒 Secure Checkout</div>
+</Link>
 
-            </div>
+))}
 
-          </div>
+</div>
 
-        </div>
+</section>
 
-      </section>
+<Footer/>
 
+</>
+);
 
-      <div className="container">
-
-        <CategorySection title="Single Posters" data={single} />
-
-        <CategorySection title="Poster Sets" data={sets} />
-
-        <CategorySection title="Polarized Collection" data={polarized} />
-
-      </div>
-
-      <Footer />
-
-    </>
-  );
 }
