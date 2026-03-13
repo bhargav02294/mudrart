@@ -1,5 +1,5 @@
 .hero{
-height:75vh;
+height:90vh;
 background-size:cover;
 background-position:center;
 display:flex;
@@ -7,262 +7,141 @@ align-items:center;
 position:relative;
 }
 
-/* BLACK GRADIENT OVER IMAGE */
+/* dark gradient overlay */
 
 .hero::before{
 content:"";
 position:absolute;
 left:0;
 top:0;
-height:100%;
 width:100%;
+height:100%;
 
 background:linear-gradient(
 90deg,
 rgba(0,0,0,0.85) 0%,
 rgba(0,0,0,0.65) 35%,
-rgba(0,0,0,0.35) 55%,
-rgba(0,0,0,0.05) 75%,
+rgba(0,0,0,0.25) 60%,
 transparent 100%
 );
 
 z-index:1;
 }
 
-.hero-overlay{
+.hero-content{
 position:relative;
 z-index:2;
+
 max-width:1200px;
 margin:auto;
-padding:0 30px;
-color:#fff;
+padding:0 40px;
+color:white;
 }
 
-/* text */
+/* heading */
 
-.hero-overlay h1{
-font-size:52px;
+.hero-content h1{
+font-size:56px;
 font-weight:600;
-max-width:600px;
 line-height:1.2;
+max-width:650px;
 }
 
-.hero-overlay span{
+.hero-content span{
 display:block;
 font-weight:700;
 margin-top:6px;
 }
 
-.hero-overlay p{
-margin-top:16px;
-opacity:0.85;
+/* paragraph */
+
+.hero-content p{
+margin-top:18px;
 font-size:18px;
+max-width:500px;
+opacity:0.85;
 }
 
 /* buttons */
 
-.hero-btn{
-margin-top:30px;
+.hero-buttons{
+margin-top:28px;
+display:flex;
+gap:16px;
+}
+
+.primary-btn{
 background:#ff6a2f;
-color:#fff;
+color:white;
+border:none;
+padding:14px 28px;
+font-weight:600;
+border-radius:6px;
+cursor:pointer;
+}
+
+.secondary-btn{
+background:white;
+color:black;
 border:none;
 padding:14px 28px;
 border-radius:6px;
-font-weight:600;
 cursor:pointer;
-transition:0.25s;
 }
 
-.hero-btn:hover{
-background:#ff824f;
+.primary-btn:hover{
+background:#ff8253;
 }
 
-
-
-.offer-wrapper{
-background:#fff;
-padding:26px 0;
-overflow:hidden;
+.secondary-btn:hover{
+background:#eee;
 }
 
-/* row */
+/* mobile */
 
-.offer-row{
-display:flex;
-align-items:center;
-gap:20px;
-max-width:1200px;
-margin:18px auto;
-padding:0 20px;
+@media(max-width:768px){
+
+.hero{
+height:80vh;
 }
 
-/* titles */
+.hero-content h1{
+font-size:34px;
+}
 
-.offer-title{
-font-weight:700;
+.hero-content p{
 font-size:15px;
-white-space:nowrap;
-color:#000;
 }
 
-/* slider */
-
-.offer-slider{
-flex:1;
-overflow:hidden;
-position:relative;
-}
-
-/* track */
-
-.offer-track{
-display:flex;
-gap:40px;
-width:max-content;
-}
-
-/* directions */
-
-.offer-track.left{
-animation:slideLeft 22s linear infinite;
-}
-
-.offer-track.right{
-animation:slideRight 22s linear infinite;
-}
-
-/* cards */
-
-.offer-card{
-background:#000;
-color:#fff;
-padding:10px 26px;
-border-radius:40px;
-font-weight:700;
-font-size:14px;
-white-space:nowrap;
-}
-
-.offer-card.set{
-background:#111;
-}
-
-/* animation */
-
-@keyframes slideLeft{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
-}
-
-@keyframes slideRight{
-0%{transform:translateX(-50%)}
-100%{transform:translateX(0)}
-}
-
-
-@media(max-width:900px){
-
-.offer-row{
+.hero-buttons{
 flex-direction:column;
 align-items:flex-start;
 }
 
-.offer-title{
-margin-bottom:8px;
-}
-
-.offer-track{
-gap:22px;
-animation-duration:14s;
-}
-
-.offer-card{
-font-size:13px;
-padding:8px 18px;
-}
-
-}
-
-
-
-
-
-.poster-section{
-padding:80px 6%;
-background:#fafafa;
-}
-
-.poster-section h2{
-font-size:34px;
-margin-bottom:35px;
-font-weight:600;
-}
-
-.poster-slider{
-display:flex;
-gap:24px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding-bottom:16px;
-}
-
-.poster-slider::-webkit-scrollbar{
-display:none;
-}
-
-.poster-card{
-min-width:240px;
-border-radius:10px;
-overflow:hidden;
-background:#fff;
-text-decoration:none;
-color:#000;
-border:1px solid #eee;
-transition:0.25s;
-}
-
-.poster-card:hover{
-transform:translateY(-8px);
-box-shadow:0 14px 35px rgba(0,0,0,0.12);
-}
-
-.poster-card img{
-width:100%;
-height:260px;
-object-fit:cover;
-}
-
-.poster-info{
-padding:14px;
-}
-
-.poster-info h3{
-font-size:16px;
-margin-bottom:6px;
-}
-
-.poster-info span{
-font-weight:600;
 }
 
 
 
 @media(max-width:768px){
 
-.hero{
-height:65vh;
+.offer-row{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
 }
 
-.hero-overlay h1{
-font-size:30px;
+.offer-title{
+padding:0;
+margin-bottom:8px;
 }
 
-.hero-overlay p{
-font-size:15px;
+.offer-slider{
+width:100%;
 }
 
-.hero-btn{
-padding:12px 22px;
+.offer-track{
+gap:20px;
+animation-duration:14s;
 }
 
 }

@@ -9,25 +9,28 @@ export default function Home(){
 
 const [posters,setPosters] = useState([]);
 const posterSectionRef = useRef(null);
+const revealRefs = useRef([]);
+
 
 /* OFFERS */
 
-const SINGLE_OFFERS=[
-{buy:10,free:15},
-{buy:6,free:9},
-{buy:5,free:5},
-{buy:4,free:3},
-{buy:3,free:2}
+const SINGLE_OFFERS = [
+{ buy:10, free:15 },
+{ buy:6, free:9 },
+{ buy:5, free:5 },
+{ buy:4, free:3 },
+{ buy:3, free:2 }
 ];
 
-const SET_OFFERS=[
-{buy:5,free:10},
-{buy:4,free:6},
-{buy:3,free:2},
-{buy:2,free:1}
+const SET_OFFERS = [
+{ buy:5, free:10 },
+{ buy:4, free:6 },
+{ buy:3, free:2 },
+{ buy:2, free:1 }
 ];
 
-/* FETCH */
+
+/* FETCH POSTERS */
 
 useEffect(()=>{
 
@@ -38,22 +41,49 @@ fetch("/api/posters")
 },[]);
 
 
-/* SCROLL */
 
-const scrollToPosters=()=>{
-posterSectionRef.current.scrollIntoView({behavior:"smooth"});
+/* SCROLL REVEAL */
+
+useEffect(()=>{
+
+const observer = new IntersectionObserver(
+(entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},
+{threshold:0.2}
+);
+
+revealRefs.current.forEach(el=>{
+if(el) observer.observe(el);
+});
+
+},[]);
+
+
+/* SCROLL BUTTON */
+
+const scrollToPosters = ()=>{
+posterSectionRef.current.scrollIntoView({
+behavior:"smooth"
+});
 };
 
 
 /* PRICE */
 
-const getPrice=(p)=>{
+const getPrice = (p)=>{
 
 if(!p?.sizes) return 0;
 
 if(p.sizes.A6) return p.sizes.A6.discountedPrice;
 
-const first=Object.keys(p.sizes)[0];
+if(p.sizes.A5) return p.sizes.A5.discountedPrice;
+
+const first = Object.keys(p.sizes)[0];
 
 return p.sizes[first]?.discountedPrice || 0;
 
@@ -65,47 +95,47 @@ return(
 
 <Navbar/>
 
+
 {/* HERO */}
 
 <section
-className="hero"
+className="hero reveal"
+ref={el=>revealRefs.current[0]=el}
 style={{backgroundImage:`url(${heroImage})`}}
 >
 
 <div className="hero-overlay">
 
 <h1>
-Modernize Your Home With
-<span> Minimalist Precision</span>
+Transform Your Space With
+<span> Artistic Minimal Posters</span>
 </h1>
 
 <p>
-Premium artistic posters crafted for modern interiors
+Curated poster collections designed for modern interiors.
 </p>
 
-<div className="hero-buttons">
-
 <button
-className="primary-btn"
+className="hero-btn"
 onClick={scrollToPosters}
 >
 Explore Posters
 </button>
-
-<button className="secondary-btn">
-View Collection
-</button>
-
-</div>
 
 </div>
 
 </section>
 
 
+
 {/* OFFER SLIDERS */}
 
-<section className="offer-wrapper">
+<section className="offer-wrapper reveal"
+ref={el=>revealRefs.current[1]=el}
+>
+
+
+{/* SINGLE POSTER */}
 
 <div className="offer-row">
 
@@ -118,11 +148,9 @@ Single Poster Offers
 <div className="offer-track left">
 
 {[...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS].map((o,i)=>(
-
 <div className="offer-card" key={i}>
 Buy {o.buy} Get {o.free} Free
 </div>
-
 ))}
 
 </div>
@@ -132,6 +160,9 @@ Buy {o.buy} Get {o.free} Free
 </div>
 
 
+
+{/* SET POSTER */}
+
 <div className="offer-row">
 
 <div className="offer-slider">
@@ -139,11 +170,9 @@ Buy {o.buy} Get {o.free} Free
 <div className="offer-track right">
 
 {[...SET_OFFERS,...SET_OFFERS,...SET_OFFERS,...SET_OFFERS].map((o,i)=>(
-
 <div className="offer-card set" key={i}>
 Buy {o.buy} Get {o.free} Free
 </div>
-
 ))}
 
 </div>
@@ -159,45 +188,48 @@ Set Wise Offers
 </section>
 
 
+
 {/* POSTERS */}
-
 <section
-className="poster-section"
-ref={posterSectionRef}
+className="hero"
+style={{backgroundImage:`url(${heroImage})`}}
 >
 
-<h2>Explore Posters</h2>
+<div className="hero-content">
 
-<div className="poster-slider">
+<h1>
+Modernize Your Home With
+<span> Minimalist Precision</span>
+</h1>
 
-{posters.map(p=>(
+<p>
+Experience interiors where every line, texture and tone
+is crafted with purpose.
+</p>
 
-<a
-href={`/poster/${p._id}`}
-className="poster-card"
-key={p._id}
+<div className="hero-buttons">
+
+<button
+className="primary-btn"
+onClick={scrollToPosters}
 >
+Get Started
+</button>
 
-<img src={p.thumbnail} alt={p.name}/>
-
-<div className="poster-info">
-
-<h3>{p.name}</h3>
-
-<span>₹{getPrice(p)}</span>
+<button className="secondary-btn">
+Learn More
+</button>
 
 </div>
-
-</a>
-
-))}
 
 </div>
 
 </section>
 
+
 <Footer/>
 
 </>
-);
+)
+
 }
