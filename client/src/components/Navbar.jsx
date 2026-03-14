@@ -12,7 +12,10 @@ export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const [openDropdown, setOpenDropdown] = useState(null);
+
   const location = useLocation();
+
 
   /* LOGIN CHECK */
 
@@ -27,18 +30,27 @@ export default function Navbar() {
   useEffect(() => {
 
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      if (window.scrollY > 20) setScrolled(true);
+      else setScrolled(false);
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
 
   }, []);
+
+
+  /* DROPDOWN TOGGLE */
+
+  const toggleDropdown = (name) => {
+
+    if (openDropdown === name) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(name);
+    }
+
+  };
 
 
   return (
@@ -72,13 +84,21 @@ export default function Navbar() {
 
           {/* SPLIT POSTERS */}
 
-          <div className="menu-item dropdown">
+          <div
+            className="menu-item dropdown"
+            onMouseEnter={() => setOpenDropdown("split")}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
 
-            <span className="menu-label">
-              Split Posters <IoChevronDown className="arrow"/>
+            <span
+              className="menu-label"
+              onClick={() => toggleDropdown("split")}
+            >
+              Split Posters
+              <IoChevronDown className={`arrow ${openDropdown === "split" ? "rotate" : ""}`} />
             </span>
 
-            <div className="dropdown-menu">
+            <div className={`dropdown-menu ${openDropdown === "split" ? "show" : ""}`}>
 
               <Link to="/split/2">2 Set</Link>
               <Link to="/split/3">3 Set</Link>
@@ -95,13 +115,21 @@ export default function Navbar() {
 
           {/* POLARIZED */}
 
-          <div className="menu-item dropdown">
+          <div
+            className="menu-item dropdown"
+            onMouseEnter={() => setOpenDropdown("polarized")}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
 
-            <span className="menu-label">
-              Polarized <IoChevronDown className="arrow"/>
+            <span
+              className="menu-label"
+              onClick={() => toggleDropdown("polarized")}
+            >
+              Polarized
+              <IoChevronDown className={`arrow ${openDropdown === "polarized" ? "rotate" : ""}`} />
             </span>
 
-            <div className="dropdown-menu">
+            <div className={`dropdown-menu ${openDropdown === "polarized" ? "show" : ""}`}>
 
               <Link to="/polarized/12">12 Posters</Link>
               <Link to="/polarized/24">24 Posters</Link>
@@ -113,15 +141,23 @@ export default function Navbar() {
           </div>
 
 
-          {/* COLLECTIONS */}
+          {/* COLLECTION */}
 
-          <div className="menu-item dropdown">
+          <div
+            className="menu-item dropdown"
+            onMouseEnter={() => setOpenDropdown("collection")}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
 
-            <span className="menu-label">
-              Collections <IoChevronDown className="arrow"/>
+            <span
+              className="menu-label"
+              onClick={() => toggleDropdown("collection")}
+            >
+              Collections
+              <IoChevronDown className={`arrow ${openDropdown === "collection" ? "rotate" : ""}`} />
             </span>
 
-            <div className="dropdown-menu">
+            <div className={`dropdown-menu ${openDropdown === "collection" ? "show" : ""}`}>
 
               <Link to="/collection/cars">Cars</Link>
               <Link to="/collection/anime">Anime</Link>
@@ -157,8 +193,6 @@ export default function Navbar() {
             </Link>
           )}
 
-
-          {/* MOBILE MENU */}
 
           <button
             className="menu-toggle"

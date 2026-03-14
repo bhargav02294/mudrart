@@ -1,159 +1,111 @@
-/* ===============================
-NAVBAR BASE
-=============================== */
+/* NAVBAR */
 
 .navbar{
-
 width:100%;
-
 background:#0b0b0b;
-
 border-bottom:1px solid #111;
-
 position:sticky;
 top:0;
-
 z-index:1000;
-
 transition:0.3s;
-
 }
 
-
-/* SCROLL EFFECT */
+/* SCROLL GLASS */
 
 .navbar-scrolled{
-
 background:rgba(0,0,0,0.75);
-
 backdrop-filter:blur(12px);
-
 border-bottom:1px solid #2a2a2a;
-
 }
 
 
-/* ===============================
-CONTAINER
-=============================== */
+/* CONTAINER */
 
 .navbar-container{
 
 max-width:1300px;
-
 margin:auto;
 
 display:flex;
 align-items:center;
 justify-content:space-between;
 
-padding:8px 24px;
-
-height:56px;
-
-}
-
-
-/* ===============================
-LOGO
-=============================== */
-
-.logo{
-
-display:flex;
-align-items:center;
+padding:12px 24px;
+height:78px;
 
 }
+
+
+/* LOGO */
 
 .logo-image{
-
-max-width:170px;
+max-width:210px;
 height:auto;
-
 }
 
 
-/* ===============================
-CENTER MENU
-=============================== */
+/* CENTER MENU */
 
 .center-menu{
-
 display:flex;
 align-items:center;
-
-gap:28px;
-
+gap:32px;
 }
 
 
-/* ===============================
-MENU ITEMS
-=============================== */
+/* MENU ITEMS */
 
 .menu-item{
 
 position:relative;
 
-font-size:14px;
+font-size:15px;
 font-weight:500;
 
 color:#eaeaea;
 
 cursor:pointer;
 
-transition:0.25s;
+transition:color .25s ease;
 
 }
+
+/* HOVER EFFECT */
 
 .menu-item:hover{
-
-color:#ffffff;
-
+color:#cfcfcf;
 }
 
 
-/* label with arrow */
+/* LABEL */
 
 .menu-label{
-
 display:flex;
 align-items:center;
 gap:6px;
-
 }
 
 
-/* arrow */
+/* ARROW */
 
 .arrow{
-
 font-size:14px;
 opacity:0.7;
-
-transition:0.2s;
-
+transition:0.25s;
 }
 
-.dropdown:hover .arrow{
-
+.rotate{
 transform:rotate(180deg);
-
 }
 
 
-/* ===============================
-DROPDOWN
-=============================== */
+/* DROPDOWN */
 
 .dropdown-menu{
 
 position:absolute;
-
 top:100%;
 left:0;
-
-margin-top:6px;
 
 background:#0e0e0e;
 
@@ -167,12 +119,18 @@ min-width:180px;
 
 padding:8px 0;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.5);
+box-shadow:0 12px 30px rgba(0,0,0,0.5);
 
 }
 
+/* SHOW DROPDOWN */
 
-/* dropdown links */
+.dropdown-menu.show{
+display:block;
+}
+
+
+/* DROPDOWN LINKS */
 
 .dropdown-menu a{
 
@@ -193,33 +151,19 @@ transition:0.2s;
 .dropdown-menu a:hover{
 
 background:#1a1a1a;
-
 color:#fff;
 
 }
 
 
-/* show dropdown */
-
-.dropdown:hover .dropdown-menu{
-
-display:block;
-
-}
-
-
-/* ===============================
-RIGHT ICONS
-=============================== */
+/* RIGHT SIDE */
 
 .nav-right{
-
 display:flex;
 align-items:center;
-
-gap:16px;
-
+gap:18px;
 }
+
 
 .icon-btn{
 
@@ -227,49 +171,38 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-width:34px;
-height:34px;
+width:36px;
+height:36px;
 
 border-radius:6px;
 
-font-size:17px;
+font-size:18px;
 
 color:#f1f1f1;
 
-transition:0.25s;
+transition:background .25s ease,color .25s ease;
 
 }
 
 .icon-btn:hover{
-
 background:#1b1b1b;
-
+color:#ffffff;
 }
 
 
-/* ===============================
-MOBILE MENU BUTTON
-=============================== */
+/* MOBILE BUTTON */
 
 .menu-toggle{
-
 display:none;
-
 background:none;
 border:none;
-
 color:white;
-
-font-size:20px;
-
+font-size:22px;
 cursor:pointer;
-
 }
 
 
-/* ===============================
-MOBILE
-=============================== */
+/* MOBILE */
 
 @media (max-width:900px){
 
@@ -277,7 +210,7 @@ MOBILE
 
 position:absolute;
 
-top:56px;
+top:78px;
 left:0;
 
 width:100%;
@@ -288,67 +221,43 @@ flex-direction:column;
 
 align-items:flex-start;
 
-gap:0;
-
 display:none;
 
-padding:18px 24px;
+padding:20px 24px;
 
 border-top:1px solid #1b1b1b;
 
 }
 
 .center-menu.active{
-
 display:flex;
-
 }
 
 .menu-item{
-
 width:100%;
-
-padding:12px 0;
-
+padding:14px 0;
 }
 
 .dropdown-menu{
-
 position:relative;
-
-margin-top:8px;
-
 border:none;
-
 box-shadow:none;
-
-}
-
-.dropdown:hover .dropdown-menu{
-
-display:block;
-
+margin-top:8px;
 }
 
 .menu-toggle{
-
 display:block;
-
 }
 
 }
 
 
-/* ===============================
-SMALL MOBILE
-=============================== */
+/* SMALL MOBILE */
 
 @media (max-width:600px){
 
 .logo-image{
-
-max-width:140px;
-
+max-width:160px;
 }
 
 }
