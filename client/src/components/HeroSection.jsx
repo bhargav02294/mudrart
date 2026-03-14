@@ -1,30 +1,14 @@
-import "./../styles/hero.css";
+import "../styles/hero.css";
 
-import poster1 from "../assets/posters/p1.jpg";
-import poster2 from "../assets/posters/p2.jpg";
-import poster3 from "../assets/posters/p3.jpg";
-import poster4 from "../assets/posters/p4.jpg";
-import poster5 from "../assets/posters/p5.jpg";
-import poster6 from "../assets/posters/p6.jpg";
-import poster7 from "../assets/posters/p7.jpg";
-import poster8 from "../assets/posters/p8.jpg";
-import poster9 from "../assets/posters/p9.jpg";
-import poster10 from "../assets/posters/p10.jpg";
+export default function HeroSection() {
 
-/* duplicate images to create long infinite slider */
+const posters = [];
 
-const posters = [
-poster1,poster2,poster3,poster4,poster5,
-poster6,poster7,poster8,poster9,poster10,
-poster1,poster2,poster3,poster4,poster5,
-poster6,poster7,poster8,poster9,poster10,
-poster1,poster2,poster3,poster4,poster5,
-poster6,poster7,poster8,poster9,poster10,
-poster1,poster2,poster3,poster4,poster5,
-poster6,poster7,poster8,poster9,poster10
-];
+/* generate 50 posters automatically */
 
-export default function HeroSection(){
+for(let i=1;i<=50;i++){
+posters.push(`/posters/p${(i % 10) + 1}.jpg`);
+}
 
 return(
 
@@ -33,7 +17,7 @@ return(
 <div className="hero-container">
 
 
-{/* LEFT POSTER SLIDERS */}
+{/* POSTER GRID */}
 
 <div className="poster-grid">
 
@@ -80,7 +64,7 @@ return(
 </div>
 
 
-{/* RIGHT TEXT */}
+{/* HERO TEXT */}
 
 <div className="hero-text">
 
@@ -100,10 +84,11 @@ Explore Posters
 
 </div>
 
+
 </div>
 
 </section>
 
-)
+);
 
 }
