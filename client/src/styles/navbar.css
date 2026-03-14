@@ -1,180 +1,278 @@
-/* NAVBAR BASE */
+/* ===============================
+NAVBAR BASE
+=============================== */
 
-.navbar {
-  width: 100%;
-  background: linear-gradient(
-    180deg,
-    #0a0a0a,
-    #000000
-  );
-  border-bottom: 1px solid #111;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+.navbar{
+
+width:100%;
+background:linear-gradient(180deg,#0c0c0c,#000);
+border-bottom:1px solid #222;
+
+position:sticky;
+top:0;
+z-index:1000;
+
 }
 
-/* CONTAINER */
+/* ===============================
+CONTAINER
+=============================== */
 
-.navbar-container {
-  max-width: 1400px;
-  margin: auto;
-  padding: 12px 20px;
+.navbar-container{
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+max-width:1300px;
+margin:auto;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:14px 24px;
+
 }
 
-/* LOGO */
+/* ===============================
+LOGO
+=============================== */
 
-.logo img {
-  height: 46px;
-  object-fit: contain;
+.logo{
+display:flex;
+align-items:center;
 }
 
-/* CENTER MENU */
+.logo-image{
 
-.nav-center {
-  display: flex;
-  gap: 40px;
-  align-items: center;
+height:auto;
+width:auto;
+max-width:190px;
+
+object-fit:contain;
+
 }
 
-/* NAV ITEM */
+/* ===============================
+CENTER MENU
+=============================== */
 
-.nav-item {
-  position: relative;
+.center-menu{
+
+display:flex;
+align-items:center;
+gap:28px;
+
 }
 
-.nav-item a,
-.nav-item span {
-  color: white;
-  font-size: 15px;
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: 500;
-  letter-spacing: 0.4px;
+/* MENU ITEMS */
+
+.menu-item{
+
+position:relative;
+
+color:#f5f5f5;
+font-size:15px;
+font-weight:500;
+
+cursor:pointer;
+text-decoration:none;
+
 }
 
-/* DROPDOWN */
+.menu-item:hover{
 
-.dropdown-menu {
-  position: absolute;
-  top: 36px;
-  left: 0;
+color:#ffffff;
 
-  background: #0c0c0c;
-
-  border: 1px solid #1a1a1a;
-
-  border-radius: 8px;
-
-  padding: 10px 0;
-
-  display: none;
-
-  min-width: 160px;
 }
 
-.dropdown-menu a {
-  display: block;
-  padding: 8px 16px;
-  color: #ddd;
-  font-size: 14px;
+/* ===============================
+DROPDOWN
+=============================== */
+
+.dropdown-menu{
+
+position:absolute;
+top:34px;
+
+background:#0d0d0d;
+
+border:1px solid #1f1f1f;
+
+padding:10px 0;
+
+border-radius:8px;
+
+display:none;
+
+min-width:180px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+
 }
 
-.dropdown-menu a:hover {
-  background: #111;
+.dropdown-menu a{
+
+display:block;
+
+padding:10px 16px;
+
+color:#ddd;
+
+text-decoration:none;
+font-size:14px;
+
 }
 
-.dropdown:hover .dropdown-menu {
-  display: block;
+.dropdown-menu a:hover{
+
+background:#1a1a1a;
+color:#fff;
+
 }
 
-/* RIGHT SIDE */
+/* show dropdown */
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.dropdown:hover .dropdown-menu{
+
+display:block;
+
 }
 
-/* ICON BUTTONS */
+/* ===============================
+RIGHT SIDE ICONS
+=============================== */
 
-.icon-btn {
-  color: white;
-  font-size: 20px;
-  transition: 0.2s;
+.nav-right{
+
+display:flex;
+align-items:center;
+gap:18px;
+
 }
 
-.icon-btn:hover {
-  color: #aaa;
+/* ICON BUTTON */
+
+.icon-btn{
+
+font-size:18px;
+
+color:#f1f1f1;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+width:36px;
+height:36px;
+
+border-radius:6px;
+
+transition:0.25s;
+
 }
 
-/* MOBILE TOGGLE */
+.icon-btn:hover{
 
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
+background:#1c1c1c;
+
 }
 
-/* RESPONSIVE */
+/* ===============================
+MOBILE MENU BUTTON
+=============================== */
 
-@media (max-width: 900px) {
+.menu-toggle{
 
-  .nav-center {
+display:none;
 
-    position: absolute;
+background:none;
+border:none;
 
-    top: 70px;
-    left: 0;
+color:white;
 
-    width: 100%;
+font-size:20px;
 
-    background: #000;
+cursor:pointer;
 
-    flex-direction: column;
+}
 
-    gap: 0;
+/* ===============================
+MOBILE RESPONSIVE
+=============================== */
 
-    border-top: 1px solid #111;
+@media (max-width:900px){
 
-    display: none;
+.center-menu{
 
-  }
+position:absolute;
 
-  .nav-center.active {
-    display: flex;
-  }
+top:70px;
+left:0;
 
-  .nav-item {
-    width: 100%;
-    border-bottom: 1px solid #111;
-  }
+width:100%;
 
-  .nav-item a,
-  .nav-item span {
-    display: block;
-    padding: 16px 20px;
-  }
+background:#000;
 
-  .dropdown-menu {
-    position: static;
-    border: none;
-    display: block;
-    background: #050505;
-  }
+flex-direction:column;
 
-  .dropdown-menu a {
-    padding-left: 30px;
-  }
+gap:0;
 
-  .menu-toggle {
-    display: block;
-  }
+display:none;
+
+padding:20px;
+
+border-top:1px solid #1f1f1f;
+
+}
+
+.center-menu.active{
+
+display:flex;
+
+}
+
+.menu-item{
+
+padding:12px 0;
+
+width:100%;
+
+}
+
+.dropdown-menu{
+
+position:relative;
+
+top:0;
+
+border:none;
+
+box-shadow:none;
+
+}
+
+.dropdown:hover .dropdown-menu{
+
+display:block;
+
+}
+
+.menu-toggle{
+
+display:block;
+
+}
+
+}
+
+/* ===============================
+LOGO MOBILE SIZE
+=============================== */
+
+@media (max-width:600px){
+
+.logo-image{
+
+max-width:150px;
+
+}
 
 }

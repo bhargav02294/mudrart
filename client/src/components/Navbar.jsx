@@ -1,11 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import logo from "../assets/mudrart-logo.png";
-
 import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
 
-import "../styles/navbar.css";
+/* LOGO */
+import logo from "../assets/mudrart-logo.png";
 
 export default function Navbar() {
 
@@ -20,26 +18,40 @@ export default function Navbar() {
   }, [location]);
 
   return (
+
     <nav className="navbar">
 
       <div className="navbar-container">
 
-        {/* LOGO */}
+        {/* ================= LOGO ================= */}
         <Link to="/" className="logo">
-          <img src={logo} alt="MudrArt Logo" />
+
+          <img
+            src={logo}
+            alt="MudrArt Logo"
+            className="logo-image"
+          />
+
         </Link>
 
-        {/* CENTER MENU */}
-        <div className={`nav-center ${mobileMenu ? "active" : ""}`}>
 
-          <div className="nav-item">
-            <Link to="/single-posters">Single Posters</Link>
-          </div>
+        {/* ================= CENTER MENU ================= */}
 
-          <div className="nav-item dropdown">
-            <span>Split Posters</span>
+        <div className={`center-menu ${mobileMenu ? "active" : ""}`}>
+
+          {/* SINGLE POSTERS */}
+          <Link to="/single-posters" className="menu-item">
+            Single Posters
+          </Link>
+
+
+          {/* SPLIT POSTERS */}
+          <div className="menu-item dropdown">
+
+            Split Posters
 
             <div className="dropdown-menu">
+
               <Link to="/split/2">2 Set</Link>
               <Link to="/split/3">3 Set</Link>
               <Link to="/split/4">4 Set</Link>
@@ -47,22 +59,33 @@ export default function Navbar() {
               <Link to="/split/8">8 Set</Link>
               <Link to="/split/10">10 Set</Link>
               <Link to="/split/20">20 Set</Link>
+
             </div>
+
           </div>
 
-          <div className="nav-item dropdown">
-            <span>Polarized</span>
+
+          {/* POLARIZED */}
+          <div className="menu-item dropdown">
+
+            Polarized
 
             <div className="dropdown-menu">
+
               <Link to="/polarized/12">12 Posters</Link>
               <Link to="/polarized/24">24 Posters</Link>
               <Link to="/polarized/36">36 Posters</Link>
               <Link to="/polarized/48">48 Posters</Link>
+
             </div>
+
           </div>
 
-          <div className="nav-item dropdown">
-            <span>Collections</span>
+
+          {/* COLLECTION */}
+          <div className="menu-item dropdown">
+
+            Collections
 
             <div className="dropdown-menu">
 
@@ -76,11 +99,15 @@ export default function Navbar() {
               <Link to="/collection/more">More</Link>
 
             </div>
+
           </div>
 
         </div>
 
-        {/* RIGHT SIDE */}
+
+
+        {/* ================= RIGHT ICONS ================= */}
+
         <div className="nav-right">
 
           <Link to="/cart" className="icon-btn">
@@ -97,7 +124,9 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* MOBILE BUTTON */}
+
+          {/* MOBILE MENU BUTTON */}
+
           <button
             className="menu-toggle"
             onClick={() => setMobileMenu(!mobileMenu)}
@@ -110,5 +139,6 @@ export default function Navbar() {
       </div>
 
     </nav>
+
   );
 }
