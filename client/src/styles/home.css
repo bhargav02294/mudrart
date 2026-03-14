@@ -1,220 +1,306 @@
 /* HERO */
 
 .hero{
-height:60vh;
-background-size:cover;
-background-position:center;
+
 display:flex;
 align-items:center;
-justify-content:center;
-position:relative;
+justify-content:space-between;
+
+height:88vh;
+
+padding:80px 8%;
+
+background:
+linear-gradient(
+to bottom,
+#0b0b0b 0%,
+#111 40%,
+#f6f6f6 100%
+);
+
+overflow:hidden;
+
 }
 
-.hero-overlay{
-background:rgba(0,0,0,0.45);
-width:100%;
-height:100%;
+
+/* LEFT POSTER AREA */
+
+.hero-left{
+
+width:50%;
+
+display:flex;
+justify-content:center;
+
+overflow:hidden;
+
+}
+
+
+.poster-column{
+
 display:flex;
 flex-direction:column;
-align-items:center;
-justify-content:center;
+
+gap:16px;
+
+animation:posterScroll 20s linear infinite;
+
+}
+
+
+.hero-poster{
+
+width:120px;
+height:170px;
+
+object-fit:cover;
+
+border-radius:6px;
+
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+
+}
+
+
+/* POSTER ANIMATION */
+
+@keyframes posterScroll{
+
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(-50%);
+}
+
+}
+
+
+
+/* RIGHT TEXT */
+
+.hero-right{
+
+width:45%;
+
 color:white;
-text-align:center;
-padding:20px;
+
 }
 
-.hero-overlay h1{
-font-size:42px;
-max-width:800px;
+
+.hero-right h1{
+
+font-size:56px;
+
+font-weight:800;
+
+line-height:1.2;
+
+letter-spacing:-1px;
+
+margin-bottom:30px;
+
 }
 
-.hero-overlay span{
-color:#e5e5e5;
+.hero-right span{
+
+display:block;
+
+font-weight:900;
+
 }
+
+
+/* BUTTON */
 
 .hero-btn{
-margin-top:25px;
-background:white;
-color:black;
+
 padding:14px 30px;
+
+font-size:16px;
+
 border:none;
+
+background:black;
+
+color:white;
+
 cursor:pointer;
-font-weight:600;
-transition:0.3s;
+
+border-radius:6px;
+
+transition:0.25s;
+
 }
 
 .hero-btn:hover{
-background:black;
-color:white;
+
+background:#222;
+
 }
 
 
 
-/* OFFER SLIDERS */
+/* OFFER BAR */
 
-.offer-wrapper{
-background:black;
-padding:20px 0;
+.offer-bar{
+
+background:white;
+
 overflow:hidden;
+
+border-top:1px solid #eee;
+border-bottom:1px solid #eee;
+
 }
 
-.offer-row{
-overflow:hidden;
-position:relative;
-margin:10px 0;
-}
-
-/* TRACK */
 
 .offer-track{
+
 display:flex;
-gap:40px;
-width:max-content;
-animation:scrollLeft 20s linear infinite;
-}
 
-.offer-track.reverse{
-animation:scrollRight 20s linear infinite;
-}
+gap:60px;
 
-
-
-/* CARD */
-
-.offer-card{
-background:white;
-color:black;
-padding:12px 28px;
-font-weight:700;
-border-radius:40px;
-font-size:15px;
 white-space:nowrap;
-}
 
-.offer-card.set{
-background:#222;
-color:white;
-border:1px solid white;
-}
+animation:offerScroll 25s linear infinite;
 
+padding:12px 0;
 
-/* ANIMATIONS */
-
-@keyframes scrollLeft{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
-}
-
-@keyframes scrollRight{
-0%{transform:translateX(-50%)}
-100%{transform:translateX(0)}
 }
 
 
+.offer-item{
 
-/* POSTER SECTION */
+font-size:16px;
+
+font-weight:600;
+
+color:black;
+
+}
+
+
+/* CONTINUOUS SCROLL */
+
+@keyframes offerScroll{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-50%);
+}
+
+}
+
+
+
+/* POSTERS */
 
 .poster-section{
-padding:70px 5%;
+
+padding:80px 8%;
+
+background:white;
+
 }
 
 .poster-section h2{
-margin-bottom:25px;
+
 font-size:32px;
+
+margin-bottom:40px;
+
 }
 
 
+.poster-grid{
 
-/* HORIZONTAL POSTER SLIDER */
+display:grid;
 
-.poster-slider{
-display:flex;
-gap:20px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding-bottom:20px;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+
+gap:28px;
+
 }
 
-.poster-slider::-webkit-scrollbar{
-display:none;
-}
-
-
-/* CARD */
 
 .poster-card{
-min-width:220px;
-border:1px solid #eee;
-border-radius:8px;
-overflow:hidden;
-background:white;
+
 text-decoration:none;
+
 color:black;
-transition:0.25s;
+
 }
 
-.poster-card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
 
 .poster-card img{
+
 width:100%;
-height:240px;
-object-fit:cover;
+
+border-radius:6px;
+
 }
+
 
 .poster-card h3{
-padding:12px;
-font-size:16px;
+
+font-size:15px;
+
+margin:10px 0;
+
 }
+
 
 .poster-card span{
-padding:0 12px 12px;
-display:block;
+
 font-weight:600;
+
 }
 
 
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width:900px){
+@media (max-width:900px){
 
 .hero{
-height:55vh;
-}
 
-.hero-overlay h1{
-font-size:30px;
-}
+flex-direction:column;
 
-.offer-track{
-animation-duration:12s;
-}
+height:auto;
 
-.poster-card{
-min-width:180px;
-}
+padding:60px 6%;
 
 }
 
-@media(max-width:600px){
 
-.hero{
-height:50vh;
+.hero-left{
+
+width:100%;
+
+margin-bottom:40px;
+
 }
 
-.hero-overlay h1{
-font-size:24px;
+
+.hero-right{
+
+width:100%;
+
+text-align:center;
+
 }
 
-.offer-track{
-animation-duration:8s;
-}
 
-.poster-card{
-min-width:160px;
+.hero-right h1{
+
+font-size:36px;
+
 }
 
 }
