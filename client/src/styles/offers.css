@@ -2,12 +2,12 @@
 
 background:white;
 
-border-top:1px solid #eee;
-border-bottom:1px solid #eee;
+border-top:1px solid #ffffff00;
+border-bottom:1px solid #ffffff00;
 
 overflow:hidden;
 
-padding:14px 0;
+padding:4px 0;
 
 }
 
@@ -18,7 +18,7 @@ padding:14px 0;
 
 display:flex;
 
-gap:60px;
+gap:70px;
 
 white-space:nowrap;
 
