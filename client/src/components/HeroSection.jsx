@@ -56,11 +56,6 @@ Modernize Your Home
 
 </h1>
 
-<p>
-
-Transform your space with curated poster collections designed for modern interiors.
-
-</p>
 
 <a href="#posters" className="hero-btn">
 
