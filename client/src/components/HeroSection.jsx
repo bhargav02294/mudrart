@@ -4,8 +4,6 @@ export default function HeroSection() {
 
 const posters = [];
 
-/* generate 50 posters automatically */
-
 for(let i=1;i<=50;i++){
 posters.push(`/posters/p${(i % 10) + 1}.jpg`);
 }
@@ -16,20 +14,16 @@ return(
 
 <div className="hero-container">
 
+{/* LEFT POSTER AREA */}
 
-{/* POSTER GRID */}
+<div className="poster-area">
 
-<div className="poster-grid">
+{[1,2,3,4,5].map((col,index)=>(
 
-<div className="poster-column">
-
-{posters.map((img,i)=>(
-<img key={i} src={img} className="poster-img"/>
-))}
-
-</div>
-
-<div className="poster-column reverse">
+<div
+key={index}
+className={`poster-column ${index % 2 ? "reverse" : ""}`}
+>
 
 {posters.map((img,i)=>(
 <img key={i} src={img} className="poster-img"/>
@@ -37,34 +31,12 @@ return(
 
 </div>
 
-<div className="poster-column">
-
-{posters.map((img,i)=>(
-<img key={i} src={img} className="poster-img"/>
 ))}
 
 </div>
 
-<div className="poster-column reverse">
 
-{posters.map((img,i)=>(
-<img key={i} src={img} className="poster-img"/>
-))}
-
-</div>
-
-<div className="poster-column">
-
-{posters.map((img,i)=>(
-<img key={i} src={img} className="poster-img"/>
-))}
-
-</div>
-
-</div>
-
-
-{/* HERO TEXT */}
+{/* RIGHT TEXT */}
 
 <div className="hero-text">
 
@@ -83,7 +55,6 @@ Explore Posters
 </a>
 
 </div>
-
 
 </div>
 

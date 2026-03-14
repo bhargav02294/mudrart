@@ -13,7 +13,7 @@ return(
 
 <div id="posters">
 
-{/* posters grid will go here */}
+{/* posters grid later */}
 
 </div>
 
