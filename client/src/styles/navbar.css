@@ -5,14 +5,33 @@ NAVBAR BASE
 .navbar{
 
 width:100%;
-background:linear-gradient(180deg,#0c0c0c,#000);
-border-bottom:1px solid #222;
+
+background:#0b0b0b;
+
+border-bottom:1px solid #111;
 
 position:sticky;
 top:0;
+
 z-index:1000;
 
+transition:0.3s;
+
 }
+
+
+/* SCROLL EFFECT */
+
+.navbar-scrolled{
+
+background:rgba(0,0,0,0.75);
+
+backdrop-filter:blur(12px);
+
+border-bottom:1px solid #2a2a2a;
+
+}
+
 
 /* ===============================
 CONTAINER
@@ -21,34 +40,38 @@ CONTAINER
 .navbar-container{
 
 max-width:1300px;
+
 margin:auto;
 
 display:flex;
 align-items:center;
 justify-content:space-between;
 
-padding:14px 24px;
+padding:8px 24px;
+
+height:56px;
 
 }
+
 
 /* ===============================
 LOGO
 =============================== */
 
 .logo{
+
 display:flex;
 align-items:center;
+
 }
 
 .logo-image{
 
+max-width:170px;
 height:auto;
-width:auto;
-max-width:190px;
-
-object-fit:contain;
 
 }
+
 
 /* ===============================
 CENTER MENU
@@ -58,22 +81,28 @@ CENTER MENU
 
 display:flex;
 align-items:center;
+
 gap:28px;
 
 }
 
-/* MENU ITEMS */
+
+/* ===============================
+MENU ITEMS
+=============================== */
 
 .menu-item{
 
 position:relative;
 
-color:#f5f5f5;
-font-size:15px;
+font-size:14px;
 font-weight:500;
 
+color:#eaeaea;
+
 cursor:pointer;
-text-decoration:none;
+
+transition:0.25s;
 
 }
 
@@ -83,6 +112,36 @@ color:#ffffff;
 
 }
 
+
+/* label with arrow */
+
+.menu-label{
+
+display:flex;
+align-items:center;
+gap:6px;
+
+}
+
+
+/* arrow */
+
+.arrow{
+
+font-size:14px;
+opacity:0.7;
+
+transition:0.2s;
+
+}
+
+.dropdown:hover .arrow{
+
+transform:rotate(180deg);
+
+}
+
+
 /* ===============================
 DROPDOWN
 =============================== */
@@ -90,13 +149,15 @@ DROPDOWN
 .dropdown-menu{
 
 position:absolute;
-top:34px;
 
-background:#0d0d0d;
+top:100%;
+left:0;
 
-border:1px solid #1f1f1f;
+margin-top:6px;
 
-padding:10px 0;
+background:#0e0e0e;
+
+border:1px solid #1c1c1c;
 
 border-radius:8px;
 
@@ -104,9 +165,14 @@ display:none;
 
 min-width:180px;
 
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
+padding:8px 0;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
 
 }
+
+
+/* dropdown links */
 
 .dropdown-menu a{
 
@@ -114,19 +180,24 @@ display:block;
 
 padding:10px 16px;
 
-color:#ddd;
+color:#d4d4d4;
+
+font-size:14px;
 
 text-decoration:none;
-font-size:14px;
+
+transition:0.2s;
 
 }
 
 .dropdown-menu a:hover{
 
 background:#1a1a1a;
+
 color:#fff;
 
 }
+
 
 /* show dropdown */
 
@@ -136,34 +207,34 @@ display:block;
 
 }
 
+
 /* ===============================
-RIGHT SIDE ICONS
+RIGHT ICONS
 =============================== */
 
 .nav-right{
 
 display:flex;
 align-items:center;
-gap:18px;
+
+gap:16px;
 
 }
 
-/* ICON BUTTON */
-
 .icon-btn{
-
-font-size:18px;
-
-color:#f1f1f1;
 
 display:flex;
 align-items:center;
 justify-content:center;
 
-width:36px;
-height:36px;
+width:34px;
+height:34px;
 
 border-radius:6px;
+
+font-size:17px;
+
+color:#f1f1f1;
 
 transition:0.25s;
 
@@ -171,9 +242,10 @@ transition:0.25s;
 
 .icon-btn:hover{
 
-background:#1c1c1c;
+background:#1b1b1b;
 
 }
+
 
 /* ===============================
 MOBILE MENU BUTTON
@@ -194,8 +266,9 @@ cursor:pointer;
 
 }
 
+
 /* ===============================
-MOBILE RESPONSIVE
+MOBILE
 =============================== */
 
 @media (max-width:900px){
@@ -204,7 +277,7 @@ MOBILE RESPONSIVE
 
 position:absolute;
 
-top:70px;
+top:56px;
 left:0;
 
 width:100%;
@@ -213,13 +286,15 @@ background:#000;
 
 flex-direction:column;
 
+align-items:flex-start;
+
 gap:0;
 
 display:none;
 
-padding:20px;
+padding:18px 24px;
 
-border-top:1px solid #1f1f1f;
+border-top:1px solid #1b1b1b;
 
 }
 
@@ -231,9 +306,9 @@ display:flex;
 
 .menu-item{
 
-padding:12px 0;
-
 width:100%;
+
+padding:12px 0;
 
 }
 
@@ -241,7 +316,7 @@ width:100%;
 
 position:relative;
 
-top:0;
+margin-top:8px;
 
 border:none;
 
@@ -263,15 +338,16 @@ display:block;
 
 }
 
+
 /* ===============================
-LOGO MOBILE SIZE
+SMALL MOBILE
 =============================== */
 
 @media (max-width:600px){
 
 .logo-image{
 
-max-width:150px;
+max-width:140px;
 
 }
 

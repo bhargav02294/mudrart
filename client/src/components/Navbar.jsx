@@ -1,29 +1,55 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
 
-/* LOGO */
+import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import { IoChevronDown } from "react-icons/io5";
+
 import logo from "../assets/mudrart-logo.png";
 
 export default function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const location = useLocation();
+
+  /* LOGIN CHECK */
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     setIsLoggedIn(!!token);
   }, [location]);
 
+
+  /* SCROLL EFFECT */
+
+  useEffect(() => {
+
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+
+  }, []);
+
+
   return (
 
-    <nav className="navbar">
+    <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
 
       <div className="navbar-container">
 
-        {/* ================= LOGO ================= */}
+
+        {/* LOGO */}
+
         <Link to="/" className="logo">
 
           <img
@@ -35,20 +61,22 @@ export default function Navbar() {
         </Link>
 
 
-        {/* ================= CENTER MENU ================= */}
+        {/* CENTER MENU */}
 
         <div className={`center-menu ${mobileMenu ? "active" : ""}`}>
 
-          {/* SINGLE POSTERS */}
           <Link to="/single-posters" className="menu-item">
             Single Posters
           </Link>
 
 
           {/* SPLIT POSTERS */}
+
           <div className="menu-item dropdown">
 
-            Split Posters
+            <span className="menu-label">
+              Split Posters <IoChevronDown className="arrow"/>
+            </span>
 
             <div className="dropdown-menu">
 
@@ -66,9 +94,12 @@ export default function Navbar() {
 
 
           {/* POLARIZED */}
+
           <div className="menu-item dropdown">
 
-            Polarized
+            <span className="menu-label">
+              Polarized <IoChevronDown className="arrow"/>
+            </span>
 
             <div className="dropdown-menu">
 
@@ -82,10 +113,13 @@ export default function Navbar() {
           </div>
 
 
-          {/* COLLECTION */}
+          {/* COLLECTIONS */}
+
           <div className="menu-item dropdown">
 
-            Collections
+            <span className="menu-label">
+              Collections <IoChevronDown className="arrow"/>
+            </span>
 
             <div className="dropdown-menu">
 
@@ -105,8 +139,7 @@ export default function Navbar() {
         </div>
 
 
-
-        {/* ================= RIGHT ICONS ================= */}
+        {/* RIGHT SIDE */}
 
         <div className="nav-right">
 
@@ -125,7 +158,7 @@ export default function Navbar() {
           )}
 
 
-          {/* MOBILE MENU BUTTON */}
+          {/* MOBILE MENU */}
 
           <button
             className="menu-toggle"
