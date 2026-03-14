@@ -6,7 +6,7 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 
-height:78vh;
+height:80vh;
 
 padding:80px 8%;
 
@@ -14,8 +14,8 @@ background:
 linear-gradient(
 to bottom,
 #0b0b0b 0%,
-#111 70%,
-#f6f6f6 100%
+#111 65%,
+#ffffff 100%
 );
 
 overflow:hidden;
