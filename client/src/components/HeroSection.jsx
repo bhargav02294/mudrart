@@ -4,8 +4,11 @@ export default function HeroSection() {
 
 const posters = [];
 
+/* load all 50 real posters */
+
 for(let i=1;i<=50;i++){
-posters.push(`/posters/p${(i % 10) + 1}.jpg`);
+  posters.push(`/posters/p${i}.jpg`);
+  posters.push(`/posters/p${i}.png`);
 }
 
 return(
@@ -14,7 +17,7 @@ return(
 
 <div className="hero-container">
 
-{/* LEFT POSTER AREA */}
+{/* POSTER WALL */}
 
 <div className="poster-area">
 
@@ -26,7 +29,12 @@ className={`poster-column ${index % 2 ? "reverse" : ""}`}
 >
 
 {posters.map((img,i)=>(
-<img key={i} src={img} className="poster-img"/>
+<img
+key={i}
+src={img}
+className="poster-img"
+onError={(e)=>{e.target.style.display="none"}}
+/>
 ))}
 
 </div>
@@ -36,17 +44,25 @@ className={`poster-column ${index % 2 ? "reverse" : ""}`}
 </div>
 
 
-{/* RIGHT TEXT */}
+{/* HERO TEXT */}
 
 <div className="hero-text">
 
 <h1>
 
-Modernize Your Home <br/>
+Modernize Your Home
+
+<br/>
 
 <span>With Minimalistic Precision</span>
 
 </h1>
+
+<p>
+
+Transform your walls with curated poster collections designed for modern interiors.
+
+</p>
 
 <a href="#posters" className="hero-btn">
 

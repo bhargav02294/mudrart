@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import PosterDetails from "./pages/PosterDetails";
 import Cart from "./pages/Cart";
 import UserAuth from "./pages/UserAuth";
+import Footer from "./components/Footer";
 import Account from "./pages/Account";
 import EditProfile from "./pages/EditProfile";
 import UserProtectedRoute from "./components/UserProtectedRoute";
@@ -99,6 +100,7 @@ function App() {
         <Route path="/checkout/address" element={<AddressSelector />} />
 
       </Routes>
+      <Footer />
     </>
   );
 }
