@@ -1,182 +1,24 @@
-import { useEffect, useState, useRef } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import heroImage from "../assets/hero-poster-room.jpg";
-
-import "../styles/home.css";
+import HeroSection from "../components/HeroSection";
+import OfferSlider from "../components/OfferSlider";
 
 export default function Home(){
 
-const [posters,setPosters] = useState([]);
-const posterSectionRef = useRef(null);
-
-/* OFFERS */
-
-const SINGLE_OFFERS = [
-{ buy:10, free:15 },
-{ buy:6, free:9 },
-{ buy:5, free:5 },
-{ buy:4, free:3 },
-{ buy:3, free:2 }
-];
-
-const SET_OFFERS = [
-{ buy:5, free:10 },
-{ buy:4, free:6 },
-{ buy:3, free:2 },
-{ buy:2, free:1 }
-];
-
-
-/* FETCH POSTERS */
-
-useEffect(()=>{
-
-fetch("/api/posters")
-.then(res=>res.json())
-.then(data=>setPosters(Array.isArray(data)?data:[]))
-
-},[]);
-
-
-/* SCROLL BUTTON */
-
-const scrollToPosters = ()=>{
-posterSectionRef.current.scrollIntoView({
-behavior:"smooth"
-});
-};
-
-
-/* PRICE */
-
-const getPrice = (p)=>{
-
-if(!p?.sizes) return 0;
-
-if(p.sizes.A6) return p.sizes.A6.discountedPrice;
-
-if(p.sizes.A5) return p.sizes.A5.discountedPrice;
-
-const first = Object.keys(p.sizes)[0];
-
-return p.sizes[first]?.discountedPrice || 0;
-
-};
-
-
 return(
+
 <>
 
-<Navbar/>
+<HeroSection/>
 
-{/* HERO */}
+<OfferSlider/>
 
-<section
-className="hero"
-style={{backgroundImage:`url(${heroImage})`}}
->
+<div id="posters">
 
-<div className="hero-overlay">
-
-<h1>
-Modernize Your Home With
-<span> Minimalistic Precision</span>
-</h1>
-
-<p>
-Premium posters designed to elevate modern interiors.
-</p>
-
-<button
-className="hero-btn"
-onClick={scrollToPosters}
->
-Explore Posters
-</button>
+{/* posters grid will go here */}
 
 </div>
-
-</section>
-
-
-{/* OFFER SLIDERS */}
-
-<section className="offer-wrapper">
-
-{/* SINGLE POSTER OFFERS */}
-
-<div className="offer-row left">
-
-<div className="offer-track">
-
-{[...SINGLE_OFFERS,...SINGLE_OFFERS,...SINGLE_OFFERS].map((o,i)=>(
-<div className="offer-card" key={i}>
-Buy {o.buy} Get {o.free} Free
-</div>
-))}
-
-</div>
-
-</div>
-
-
-{/* SET POSTER OFFERS */}
-
-<div className="offer-row right">
-
-<div className="offer-track reverse">
-
-{[...SET_OFFERS,...SET_OFFERS,...SET_OFFERS].map((o,i)=>(
-<div className="offer-card set" key={i}>
-Buy {o.buy} Get {o.free} Free
-</div>
-))}
-
-</div>
-
-</div>
-
-</section>
-
-
-{/* POSTERS */}
-
-<section
-className="poster-section"
-ref={posterSectionRef}
->
-
-<h2>Explore Posters</h2>
-
-<div className="poster-slider">
-
-{posters.map(p=>(
-
-<a
-href={`/poster/${p._id}`}
-className="poster-card"
-key={p._id}
->
-
-<img src={p.thumbnail}/>
-
-<h3>{p.name}</h3>
-
-<span>₹{getPrice(p)}</span>
-
-</a>
-
-))}
-
-</div>
-
-</section>
-
-
-<Footer/>
 
 </>
+
 )
 
 }
