@@ -6,7 +6,9 @@ width:100%;
 background:linear-gradient(
 to bottom,
 #0b0b0b 0%,
+#0b0b0b 50%,
 #0b0b0b 75%,
+#0b0b0b 85%,
 #ffffff 100%
 );
 
