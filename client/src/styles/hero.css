@@ -194,14 +194,17 @@ padding:60px 0;
 /* reposition poster wall */
 
 .poster-wall{
+left:-120px;
 
-left:-40px;
-top: -30px;
+/* push it further upward so the edge hides under navbar */
+top:-260px;
 
+/* make wall taller so bottom also remains filled */
+height:1000px;
+
+/* slightly smaller but still visible */
 transform:rotate(-20deg) scale(0.75);
-
-width:90%;
-height:900px;
+width:95%;
 
 }
 
@@ -258,12 +261,17 @@ min-height:500px;
 
 .poster-wall{
 
-left:-80px;
-top:-100px;
+left:-120px;
+
+/* even more upward for smaller screens */
+
+top:-320px;
+
+height:1100px;
 
 transform:rotate(-18deg) scale(0.65);
 
-width:95%;
+width:110%;
 
 }
 
