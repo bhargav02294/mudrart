@@ -122,7 +122,7 @@ z-index:2;
 
 .hero-content{
 
-color:white;
+color:rgb(255, 255, 255);
 max-width:480px;
 
 }
@@ -142,7 +142,7 @@ letter-spacing:-1px;
 }
 
 .hero-content span{
-color:#cfcfcf;
+color:#ffffff;
 }
 
 
@@ -188,6 +188,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 height:auto;
 min-height:520px;
 padding:60px 0;
+background: #00000046;
 
 }
 
@@ -195,13 +196,13 @@ padding:60px 0;
 
 .poster-wall{
 
-left:-100px;
+left:-70px;
 top:-120px;
 
 transform:rotate(-20deg) scale(0.75);
 
 width:90%;
-height:800px;
+height:900px;
 
 }
 
