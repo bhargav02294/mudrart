@@ -195,13 +195,13 @@ padding:60px 0;
 
 .poster-wall{
 
-left:-120px;
-top:-140px;
+left:-100px;
+top:-120px;
 
 transform:rotate(-20deg) scale(0.75);
 
 width:90%;
-height:700px;
+height:800px;
 
 }
 
