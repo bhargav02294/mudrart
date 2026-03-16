@@ -6,9 +6,7 @@ width:100%;
 background:linear-gradient(
 to bottom,
 #0b0b0b 0%,
-#0b0b0b 50%,
 #0b0b0b 75%,
-#0b0b0b 85%,
 #ffffff 100%
 );
 
@@ -28,7 +26,7 @@ align-items:center;
 position:absolute;
 
 left:-120px;
-top:-120px;
+top:-150px;
 
 display:flex;
 gap:20px;
@@ -37,7 +35,7 @@ transform:rotate(-25deg);
 
 z-index:1;
 
-height:900px;
+height:1000px;
 
 }
 
@@ -51,16 +49,16 @@ flex-direction:column;
 
 gap:18px;
 
-animation:slideUp 28s linear infinite;
+animation:slideUp 35s linear infinite;
 
 }
 
 .poster-column.reverse{
-animation:slideDown 28s linear infinite;
+animation:slideDown 35s linear infinite;
 }
 
 
-/* POSTER CARDS */
+/* POSTER */
 
 .poster-img{
 
@@ -76,7 +74,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 
-/* ANIMATION */
+/* SMOOTH LOOP ANIMATION */
 
 @keyframes slideUp{
 0%{transform:translateY(0)}
@@ -89,14 +87,14 @@ box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 
-/* HERO CONTENT */
+/* HERO TEXT */
 
 .hero-content{
 
 max-width:520px;
 
 margin-left:auto;
-margin-right:-8%;
+margin-right:8%;
 
 z-index:3;
 
@@ -121,19 +119,6 @@ letter-spacing:-1px;
 .hero-content span{
 
 color:#cfcfcf;
-
-}
-
-
-/* PARAGRAPH */
-
-.hero-content p{
-
-margin-top:18px;
-
-font-size:18px;
-
-color:#bbbbbb;
 
 }
 
@@ -171,21 +156,98 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
 
-/* MOBILE */
+
+/* ============================= */
+/* MOBILE RESPONSIVE (FIXED) */
+/* ============================= */
 
 @media(max-width:900px){
 
-.hero-content{
-text-align:center;
-margin:auto;
+.hero{
+
+height:620px;
+
+padding-top:40px;
+
 }
 
+/* posters smaller */
+
 .poster-wall{
-left:-200px;
+
+left:-260px;
+top:-220px;
+
+transform:rotate(-20deg) scale(0.8);
+
+height:900px;
+
+}
+
+/* smaller poster */
+
+.poster-img{
+
+width:110px;
+height:150px;
+
+}
+
+
+/* text centered */
+
+.hero-content{
+
+margin:auto;
+
+text-align:center;
+
+max-width:320px;
+
+}
+
+/* smaller title */
+
+.hero-content h1{
+
+font-size:34px;
+
+line-height:1.2;
+
+}
+
+/* button spacing */
+
+.hero-btn{
+
+margin-top:24px;
+
+padding:14px 28px;
+
+font-size:14px;
+
+}
+
+}
+
+
+
+/* SMALL PHONES */
+
+@media(max-width:500px){
+
+.poster-wall{
+
+left:-320px;
+
+transform:rotate(-18deg) scale(0.7);
+
 }
 
 .hero-content h1{
-font-size:36px;
+
+font-size:28px;
+
 }
 
 }

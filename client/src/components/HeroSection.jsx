@@ -4,12 +4,16 @@ export default function HeroSection() {
 
 const posters = [];
 
-/* load real posters */
+/* load posters */
 
 for(let i=1;i<=50;i++){
   posters.push(`/posters/p${i}.jpg`);
   posters.push(`/posters/p${i}.png`);
 }
+
+/* duplicate posters to remove animation jump */
+
+const posterLoop = [...posters, ...posters];
 
 return(
 
@@ -20,13 +24,13 @@ return(
 <div className="poster-wall">
 
 {[1,2,3,4,5].map((_,index)=>(
-  
+
 <div
 key={index}
 className={`poster-column ${index%2 ? "reverse":""}`}
 >
 
-{posters.map((img,i)=>(
+{posterLoop.map((img,i)=>(
 <img
 key={i}
 src={img}
@@ -55,7 +59,6 @@ Modernize Your Home
 <span>With Minimalistic Precision</span>
 
 </h1>
-
 
 <a href="#posters" className="hero-btn">
 
