@@ -188,7 +188,6 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 height:auto;
 min-height:520px;
 padding:60px 0;
-background-color: #00000095;
 
 }
 
@@ -202,7 +201,7 @@ top: -50px;
 transform:rotate(-20deg) scale(0.75);
 
 width:90%;
-height:900px;
+height:1200px;
 
 }
 
