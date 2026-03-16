@@ -185,40 +185,64 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 
 
 /* MOBILE FIX */
+/* ================= MOBILE ================= */
 
-@media(max-width:900px){
+@media (max-width:900px){
 
 .hero{
 
-height:560px;
+height:auto;
+min-height:520px;
+padding:60px 0;
 
 }
+
+/* reposition poster wall */
 
 .poster-wall{
 
-width:80%;
-left:-220px;
-top:-200px;
+left:-120px;
+top:-140px;
 
-transform:rotate(-22deg) scale(0.8);
+transform:rotate(-20deg) scale(0.75);
+
+width:90%;
+height:700px;
 
 }
+
+/* slightly smaller posters */
+
+.poster-img{
+
+width:110px;
+height:150px;
+
+}
+
+/* right text container */
 
 .hero-right{
 
 width:55%;
-padding-left:30px;
+padding-left:20px;
 
 }
+
+/* headline */
 
 .hero-content h1{
 
 font-size:34px;
+line-height:1.15;
 
 }
 
+/* button */
+
 .hero-btn{
 
+margin-top:22px;
 padding:12px 24px;
 font-size:14px;
 
@@ -227,21 +251,31 @@ font-size:14px;
 }
 
 
-/* SMALL PHONE */
+/* SMALL PHONES */
 
-@media(max-width:500px){
+@media (max-width:500px){
+
+.hero{
+
+min-height:500px;
+
+}
 
 .poster-wall{
 
-left:-300px;
-transform:rotate(-20deg) scale(0.7);
+left:-80px;
+top:-100px;
+
+transform:rotate(-18deg) scale(0.65);
+
+width:95%;
 
 }
 
 .hero-right{
 
-width:65%;
-padding-left:20px;
+width:60%;
+padding-left:15px;
 
 }
 
