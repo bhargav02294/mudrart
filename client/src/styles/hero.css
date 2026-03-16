@@ -106,12 +106,6 @@ width:45%;
 
 /* fade posters behind text */
 
-background:linear-gradient(
-to right,
-rgba(11,11,11,0) 0%,
-rgba(11,11,11,0.85) 30%,
-rgba(11,11,11,1) 100%
-);
 
 display:flex;
 align-items:center;
