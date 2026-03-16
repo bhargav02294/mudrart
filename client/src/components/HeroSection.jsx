@@ -4,71 +4,66 @@ export default function HeroSection() {
 
 const posters = [];
 
-/* load posters */
-
-for(let i=1;i<=50;i++){
+for (let i = 1; i <= 50; i++) {
   posters.push(`/posters/p${i}.jpg`);
   posters.push(`/posters/p${i}.png`);
 }
 
-/* duplicate posters to remove animation jump */
-
 const posterLoop = [...posters, ...posters];
 
-return(
+return (
 
 <section className="hero">
 
-{/* POSTER WALL */}
+  {/* POSTER WALL (LEFT SIDE ONLY) */}
 
-<div className="poster-wall">
+  <div className="poster-wall">
 
-{[1,2,3,4,5].map((_,index)=>(
+    {[1,2,3,4,5].map((_,index)=>(
+      
+      <div
+        key={index}
+        className={`poster-column ${index%2 ? "reverse":""}`}
+      >
 
-<div
-key={index}
-className={`poster-column ${index%2 ? "reverse":""}`}
->
+        {posterLoop.map((img,i)=>(
+          <img
+            key={i}
+            src={img}
+            className="poster-img"
+            onError={(e)=>{e.target.style.display="none"}}
+          />
+        ))}
 
-{posterLoop.map((img,i)=>(
-<img
-key={i}
-src={img}
-className="poster-img"
-onError={(e)=>{e.target.style.display="none"}}
-/>
-))}
+      </div>
 
-</div>
+    ))}
 
-))}
-
-</div>
+  </div>
 
 
-{/* HERO CONTENT */}
+  {/* RIGHT SIDE CONTENT */}
 
-<div className="hero-content">
+  <div className="hero-right">
 
-<h1>
+    <div className="hero-content">
 
-Modernize Your Home
+      <h1>
+        Modernize Your Home
+        <br/>
+        <span>With Minimalistic Precision</span>
+      </h1>
 
-<br/>
+      <a href="#posters" className="hero-btn">
+        Explore Posters
+      </a>
 
-<span>With Minimalistic Precision</span>
+    </div>
 
-</h1>
-
-<a href="#posters" className="hero-btn">
-
-Explore Posters
-
-</a>
-
-</div>
+  </div>
 
 </section>
 
 );
+
 }
