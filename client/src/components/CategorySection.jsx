@@ -19,6 +19,18 @@ export default function CategorySection() {
 
     <section className="categories">
 
+        <div className="categories-header">
+
+    <h2 className="categories-title">
+      Curated Poster Collections
+    </h2>
+
+    <p className="categories-subtitle">
+      Discover posters across themes designed to match every style and mood
+    </p>
+
+  </div>
+
       <div className="categories-container">
 
         {/* FIRST ROW */}
