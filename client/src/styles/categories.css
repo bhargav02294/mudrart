@@ -1,57 +1,59 @@
-/* SECTION */
-
 .categories{
 
 width:100%;
-
 padding:80px 0;
-
 background:#ffffff;
-
-overflow-x:hidden;
 
 }
 
 
-/* CONTAINER */
+/* wrapper */
 
-.categories-container{
+.categories-wrapper{
 
 max-width:1200px;
-
 margin:auto;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:flex-start;
-
-gap:30px;
 
 padding:0 20px;
 
 }
 
 
-/* CATEGORY ITEM */
+/* rows */
+
+.categories-row{
+
+display:flex;
+justify-content:center;
+gap:40px;
+
+margin-bottom:40px;
+
+}
+
+
+/* second row slightly narrower */
+
+.row-2{
+gap:60px;
+}
+
+
+/* category item */
 
 .category-item{
 
 display:flex;
-
 flex-direction:column;
-
 align-items:center;
 
 cursor:pointer;
-
 transition:0.3s;
 
 }
 
 
-/* CIRCLE */
+/* circle */
 
 .category-circle{
 
@@ -73,7 +75,7 @@ transition:0.25s;
 }
 
 
-/* ICON */
+/* icon */
 
 .category-icon{
 
@@ -85,14 +87,13 @@ object-fit:contain;
 }
 
 
-/* NAME */
+/* name */
 
 .category-name{
 
 margin-top:14px;
 
 font-size:16px;
-
 font-weight:600;
 
 color:#222;
@@ -100,7 +101,7 @@ color:#222;
 }
 
 
-/* HOVER */
+/* hover */
 
 .category-item:hover .category-circle{
 
@@ -112,51 +113,19 @@ box-shadow:0 14px 30px rgba(0,0,0,0.18);
 
 
 /* ========================= */
-/* MOBILE LAYOUT */
+/* MOBILE */
 /* ========================= */
 
 @media (max-width:768px){
 
-.categories{
-padding:60px 0;
-overflow-x:hidden;
+.categories-row{
+gap:20px;
 }
 
-/* 7 column grid for perfect positioning */
-
-.categories-container{
-
-display:grid;
-
-grid-template-columns:repeat(7,1fr);
-
-justify-items:center;
-
-row-gap:35px;
-
-padding:0 10px;
-
-max-width:100%;
-
+.row-2{
+margin-top:20px;
+gap:40px;
 }
-
-
-/* first row */
-
-.category-item:nth-child(1){ grid-column:1; }
-.category-item:nth-child(2){ grid-column:3; }
-.category-item:nth-child(3){ grid-column:5; }
-.category-item:nth-child(4){ grid-column:7; }
-
-
-/* second row (perfect middle placement) */
-
-.category-item:nth-child(5){ grid-column:2; }
-.category-item:nth-child(6){ grid-column:4; }
-.category-item:nth-child(7){ grid-column:6; }
-
-
-/* smaller circles */
 
 .category-circle{
 width:90px;
