@@ -19,41 +19,31 @@ export default function CategorySection() {
 
     <section className="categories">
 
-      <div className="categories-wrapper">
+      <div className="categories-container">
 
         {/* FIRST ROW */}
-        <div className="categories-row row-1">
-
+        <div className="categories-row row-top">
           {firstRow.map((cat,index)=>(
             <div className="category-item" key={index}>
-
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} className="category-icon"/>
               </div>
-
               <p className="category-name">{cat.name}</p>
-
             </div>
           ))}
-
         </div>
 
 
         {/* SECOND ROW */}
-        <div className="categories-row row-2">
-
+        <div className="categories-row row-bottom">
           {secondRow.map((cat,index)=>(
             <div className="category-item" key={index}>
-
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} className="category-icon"/>
               </div>
-
               <p className="category-name">{cat.name}</p>
-
             </div>
           ))}
-
         </div>
 
       </div>
