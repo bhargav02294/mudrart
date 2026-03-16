@@ -197,12 +197,12 @@ background-color: #00000095;
 .poster-wall{
 
 left:-60px;
-top: 0px;
+top: -50px;
 
 transform:rotate(-20deg) scale(0.75);
 
 width:100%;
-height:900px;
+height:700px;
 
 }
 
