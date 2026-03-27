@@ -6,7 +6,6 @@ import CategorySection from "../components/CategorySection";
 import SinglePosterRow from "../components/SinglePosterRow";
 
 export default function Home() {
-
   const [posters, setPosters] = useState([]);
 
   useEffect(() => {
@@ -19,17 +18,11 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-
       <OfferSlider />
-
       <CategorySection />
 
-      {/* ✅ CORRECT COMPONENT */}
+      {/* ✅ CORRECT SECTION */}
       <SinglePosterRow posters={posters} />
-
-      <div id="posters">
-        {/* future sections */}
-      </div>
     </>
   );
 }

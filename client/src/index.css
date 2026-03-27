@@ -19,3 +19,145 @@ button {
   font-family: inherit;
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+/* =========================
+   SINGLE POSTER SECTION
+========================= */
+
+.single-section {
+  padding: 60px 40px;
+}
+
+.single-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.single-header h2 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.single-header button {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid black;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.single-header button:hover {
+  background: black;
+  color: white;
+}
+
+/* =========================
+   SCROLL ROW
+========================= */
+
+.single-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease;
+}
+
+.single-row.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide scrollbar */
+.single-row::-webkit-scrollbar {
+  display: none;
+}
+.single-row {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =========================
+   POSTER CARD
+========================= */
+
+.poster-card {
+  min-width: 240px;
+  cursor: pointer;
+}
+
+.poster-image {
+  width: 100%;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f3f3f3;
+}
+
+.poster-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+.poster-card:hover img {
+  transform: scale(1.06);
+}
+
+/* =========================
+   INFO
+========================= */
+
+.poster-info {
+  margin-top: 10px;
+}
+
+.poster-info h3 {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poster-price {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.old-price {
+  font-size: 13px;
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-text {
+  font-size: 14px;
+  color: gray;
+}

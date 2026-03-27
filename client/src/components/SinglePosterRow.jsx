@@ -4,13 +4,15 @@ import PosterCard from "./PosterCard";
 
 export default function SinglePosterRow({ posters = [] }) {
   const navigate = useNavigate();
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  // ✅ FILTER ONLY SINGLE POSTERS
   const singlePosters = posters.filter(
     (p) => p.productType === "single"
   );
 
+  // ✅ SCROLL ANIMATION
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -24,71 +26,32 @@ export default function SinglePosterRow({ posters = [] }) {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    const mouseDown = (e) => {
-      isDown = true;
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-    };
-
-    const mouseLeave = () => (isDown = false);
-    const mouseUp = () => (isDown = false);
-
-    const mouseMove = (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      container.scrollLeft = scrollLeft - walk;
-    };
-
-    container.addEventListener("mousedown", mouseDown);
-    container.addEventListener("mouseleave", mouseLeave);
-    container.addEventListener("mouseup", mouseUp);
-    container.addEventListener("mousemove", mouseMove);
-
-    return () => {
-      container.removeEventListener("mousedown", mouseDown);
-      container.removeEventListener("mouseleave", mouseLeave);
-      container.removeEventListener("mouseup", mouseUp);
-      container.removeEventListener("mousemove", mouseMove);
-    };
-  }, []);
-
   return (
-    <section className="px-6 md:px-12 py-16">
+    <section className="single-section">
 
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-semibold">
-          Single Posters
-        </h2>
+      {/* HEADER */}
+      <div className="single-header">
+        <h2>Single Posters</h2>
 
-        <button
-          onClick={() => navigate("/posters/single")}
-          className="text-sm border px-4 py-2 rounded-full hover:bg-black hover:text-white transition"
-        >
+        <button onClick={() => navigate("/posters/single")}>
           See More →
         </button>
       </div>
 
+      {/* SCROLL ROW */}
       <div
         ref={scrollRef}
-        className={`flex gap-6 overflow-x-auto scrollbar-hide transition-all duration-700 ${
-          isVisible
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-10"
+        className={`single-row ${
+          isVisible ? "show" : ""
         }`}
       >
-        {singlePosters.map((poster) => (
-          <PosterCard key={poster._id} poster={poster} />
-        ))}
+        {singlePosters.length > 0 ? (
+          singlePosters.map((poster) => (
+            <PosterCard key={poster._id} poster={poster} />
+          ))
+        ) : (
+          <p className="empty-text">No posters found</p>
+        )}
       </div>
     </section>
   );
