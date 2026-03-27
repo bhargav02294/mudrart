@@ -23,6 +23,8 @@ import AddressSelector from "./pages/AddressSelector";
 import DigitalCheckout from "./pages/DigitalCheckout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
+import SinglePosters from "./pages/SinglePosters";
+
 
 function App() {
   return (
@@ -60,6 +62,9 @@ function App() {
         <Route path="/digital/:id" element={<DigitalCheckout />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failed" element={<PaymentFailed />} />
+
+                <Route path="/posters/single" element={<SinglePosters />} />
+
 
         <Route
           path="/admin/dashboard"
