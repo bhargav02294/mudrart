@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PosterCard from "./PosterCard";
 
 export default function SinglePosterRow({ posters = [] }) {
   const navigate = useNavigate();
   const scrollRef = useRef();
   const [isVisible, setIsVisible] = useState(false);
 
-  // ✅ Filter ONLY single posters
   const singlePosters = posters.filter(
     (p) => p.productType === "single"
   );
 
-  // ✅ Scroll Animation (Intersection Observer)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -25,9 +24,10 @@ export default function SinglePosterRow({ posters = [] }) {
     return () => observer.disconnect();
   }, []);
 
-  // ✅ Mouse Drag Scroll
   useEffect(() => {
     const container = scrollRef.current;
+    if (!container) return;
+
     let isDown = false;
     let startX;
     let scrollLeft;
@@ -65,9 +65,8 @@ export default function SinglePosterRow({ posters = [] }) {
   return (
     <section className="px-6 md:px-12 py-16">
 
-      {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-semibold">
           Single Posters
         </h2>
 
@@ -79,7 +78,6 @@ export default function SinglePosterRow({ posters = [] }) {
         </button>
       </div>
 
-      {/* SCROLL ROW */}
       <div
         ref={scrollRef}
         className={`flex gap-6 overflow-x-auto scrollbar-hide transition-all duration-700 ${

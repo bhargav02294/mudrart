@@ -1,28 +1,35 @@
+import { useEffect, useState } from "react";
+
 import HeroSection from "../components/HeroSection";
 import OfferSlider from "../components/OfferSlider";
 import CategorySection from "../components/CategorySection";
+import SinglePosterRow from "../components/SinglePosterRow";
 
-export default function Home(){
+export default function Home() {
 
-return(
+  const [posters, setPosters] = useState([]);
 
-<>
+  useEffect(() => {
+    fetch("/api/posters")
+      .then((res) => res.json())
+      .then((data) => setPosters(data))
+      .catch((err) => console.error(err));
+  }, []);
 
-<HeroSection/>
+  return (
+    <>
+      <HeroSection />
 
-<OfferSlider/>
+      <OfferSlider />
 
-<CategorySection/>
-<SinglePosters />
+      <CategorySection />
 
-<div id="posters">
+      {/* ✅ CORRECT COMPONENT */}
+      <SinglePosterRow posters={posters} />
 
-{/* posters grid later */}
-
-</div>
-
-</>
-
-)
-
+      <div id="posters">
+        {/* future sections */}
+      </div>
+    </>
+  );
 }
