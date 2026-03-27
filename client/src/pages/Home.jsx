@@ -13,6 +13,7 @@ return(
 <OfferSlider/>
 
 <CategorySection/>
+<SinglePosters />
 
 <div id="posters">
 
