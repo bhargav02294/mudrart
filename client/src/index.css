@@ -1,105 +1,90 @@
 /* =========================
-   SINGLE POSTER SECTION
+   ULTRA PREMIUM SYSTEM
 ========================= */
 
-body {
-  font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
-}
-
-html, body {
-  overflow-x: hidden; /* 🔥 FIXES FULL PAGE SCROLL BUG */
+body, html {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  background: #fafafa;
+  overflow-x: hidden;
 }
 
 /* =========================
-   PREMIUM SINGLE SECTION
+   SECTION
 ========================= */
 
 .single-section {
-  padding: 70px 20px;
+  padding: 80px 20px;
   overflow: hidden;
 }
 
-/* HEADER */
+.single-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
 
 .single-header h2 {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 600;
   letter-spacing: -0.5px;
 }
 
+/* BUTTON */
+
 .single-header button {
-  padding: 8px 18px;
+  padding: 10px 20px;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid #e5e5e5;
   background: white;
   font-size: 13px;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .single-header button:hover {
   background: black;
   color: white;
+  transform: translateY(-2px);
 }
 
 /* =========================
-   SCROLL ROW
+   ROW
 ========================= */
 
 .single-row {
   display: flex;
-  gap: 18px;
-
+  gap: 20px;
   overflow-x: auto;
-  overflow-y: hidden;
-
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-
-  padding-bottom: 10px;
-
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.6s ease;
-}
-
-.single-row.show {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* =========================
-   POSTER CARD (PREMIUM UI)
+   CARD
 ========================= */
 
 .poster-card {
   flex: 0 0 auto;
-  width: 190px;
+  width: 200px;
+  cursor: pointer;
 
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
 
-  background: linear-gradient(180deg, #ffffff, #fafafa);
-
-  border: 1px solid rgba(0,0,0,0.05);
-
-  transition: all 0.35s ease;
+  background: white;
+  transition: all 0.4s ease;
 
   scroll-snap-align: start;
 }
 
 @media (min-width: 768px) {
   .poster-card {
-    width: 250px;
+    width: 260px;
   }
 }
 
-/* HOVER */
-
 .poster-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.08),
-    0 2px 10px rgba(0,0,0,0.05);
+  transform: translateY(-10px);
 }
 
 /* =========================
@@ -109,62 +94,56 @@ html, body {
 .poster-image {
   position: relative;
   width: 100%;
-  height: 270px;
+  height: 300px;
   overflow: hidden;
 }
 
-@media (min-width: 768px) {
-  .poster-image {
-    height: 340px;
-  }
-}
-
-.poster-image img {
+.poster-image .img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.6s ease;
+
+  transition: opacity 0.6s ease, transform 1s ease;
 }
 
-.poster-card:hover img {
-  transform: scale(1.08);
-}
-
-/* OVERLAY */
-
-.poster-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.3),
-    transparent 50%
-  );
-  opacity: 0;
-  transition: 0.3s ease;
-}
-
-.poster-card:hover .poster-overlay {
+/* PRIMARY */
+.poster-image .primary {
   opacity: 1;
 }
 
+/* SECONDARY */
+.poster-image .secondary {
+  opacity: 0;
+}
+
+/* HOVER EFFECT */
+.poster-card:hover .primary {
+  opacity: 0;
+}
+
+.poster-card:hover .secondary {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
 /* =========================
-   WISHLIST BUTTON
+   HEART BUTTON
 ========================= */
 
 .wishlist-btn {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 12px;
+  right: 12px;
 
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
 
   border-radius: 50%;
   border: none;
 
   background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
 
   font-size: 16px;
   color: #444;
@@ -173,11 +152,7 @@ html, body {
   align-items: center;
   justify-content: center;
 
-  transition: all 0.3s ease;
-}
-
-.wishlist-btn:hover {
-  transform: scale(1.1);
+  transition: 0.3s ease;
 }
 
 .wishlist-btn.active {
@@ -190,17 +165,13 @@ html, body {
 ========================= */
 
 .poster-info {
-  padding: 12px 14px 16px;
+  padding: 14px;
 }
 
 .poster-info h3 {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  letter-spacing: -0.2px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 
 /* PRICE */
@@ -208,27 +179,16 @@ html, body {
 .poster-price {
   display: flex;
   gap: 8px;
-  margin-top: 6px;
   align-items: center;
 }
 
 .price {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
-  color: #111;
 }
 
 .old-price {
   font-size: 12px;
   color: #999;
   text-decoration: line-through;
-}
-
-
-.single-row {
-  scroll-snap-type: x mandatory;
-}
-
-.poster-card {
-  scroll-snap-align: start;
 }
