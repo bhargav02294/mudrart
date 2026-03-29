@@ -1,49 +1,42 @@
 /* =========================
-   ULTRA PREMIUM SYSTEM
+   PREMIUM DESIGN SYSTEM
 ========================= */
 
-body, html {
-  font-family: 'Poppins', 'Inter', sans-serif;
-  background: #fafafa;
+body {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  background: #f4f5f7;
   overflow-x: hidden;
 }
-/* =========================
-   CLEAN PROFESSIONAL UI
-========================= */
 
-
-@media (max-width: 768px) {
-  .poster-card.flat {
-    width: 180px;
-  }
-
-  .poster-image {
-    height: 240px;
-  }
-}
-
-
-/* =========================
-   PREMIUM PRODUCT UI
-========================= */
+/* SECTION */
 
 .poster-section {
-  padding: 80px 40px;
+  padding: 90px 60px;
 }
 
 /* HEADER */
 
-.poster-header h2 {
-  font-size: 28px;
-  font-weight: 600;
+.poster-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
 }
 
+.poster-header h2 {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+/* BUTTON */
+
 .poster-header button {
-  border: 1px solid #ddd;
-  padding: 10px 18px;
+  padding: 10px 20px;
+  border: 1px solid #e5e5e5;
   background: white;
   font-size: 13px;
-  transition: 0.25s;
+  transition: all 0.25s ease;
 }
 
 .poster-header button:hover {
@@ -51,40 +44,36 @@ body, html {
   color: white;
 }
 
-/* =========================
-   ROW
-========================= */
+/* ROW */
 
 .poster-row {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
-/* =========================
-   CARD (BIGGER + CLEAN)
-========================= */
+/* CARD */
 
 .poster-card.flat {
   flex: 0 0 auto;
-  width: 260px; /* 🔥 BIGGER */
+  width: 280px;
+
   background: white;
-  border: 1px solid #e5e5e5;
-  transition: all 0.25s ease;
+  border: 1px solid #eee;
+
+  transition: all 0.3s ease;
 }
 
 .poster-card.flat:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   IMAGE
-========================= */
+/* IMAGE */
 
 .poster-image {
-  height: 320px;
+  height: 360px;
   position: relative;
   overflow: hidden;
 }
@@ -94,41 +83,48 @@ body, html {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.5s ease, transform 0.8s ease;
+
+  transition: opacity 0.6s ease, transform 1s ease;
 }
+
+/* HOVER SWITCH */
+
+.primary { opacity: 1; }
+.secondary { opacity: 0; }
+
+.poster-card:hover .primary { opacity: 0; }
 
 .poster-card:hover .secondary {
-  transform: scale(1.05);
+  opacity: 1;
+  transform: scale(1.08);
 }
 
-/* =========================
-   BADGE
-========================= */
+/* BADGE */
 
 .poster-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
+
   background: black;
   color: white;
+
   font-size: 11px;
-  padding: 4px 8px;
+  padding: 5px 10px;
 }
 
-/* =========================
-   HEART (CART BUTTON)
-========================= */
+/* HEART */
 
 .wishlist-btn {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 12px;
+  right: 12px;
 
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
 
-  background: white;
-  border: 1px solid #ddd;
+  border: none;
+  background: rgba(255,255,255,0.95);
 }
 
 .wishlist-btn.active {
@@ -136,32 +132,49 @@ body, html {
   color: white;
 }
 
-/* =========================
-   INFO
-========================= */
+/* INFO */
 
 .poster-info {
-  padding: 12px;
+  padding: 14px 16px 18px;
 }
 
 .poster-info h3 {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
+  margin-bottom: 6px;
 }
 
+/* PRICE */
+
 .poster-price {
-  margin-top: 6px;
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
 }
 
 .price {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
 }
 
 .old-price {
-  font-size: 12px;
-  color: gray;
+  font-size: 13px;
+  color: #888;
   text-decoration: line-through;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .poster-card.flat {
+    width: 200px;
+  }
+
+  .poster-image {
+    height: 260px;
+  }
+
+  .poster-section {
+    padding: 60px 20px;
+  }
 }

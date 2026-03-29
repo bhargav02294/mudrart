@@ -9,15 +9,32 @@ export default function PosterCard({ poster }) {
   const getImg = (url) =>
     url?.replace("/upload/", "/upload/f_auto,q_auto,w_500/");
 
-  const price =
-  poster?.sizes?.A5?.discountedPrice ||
-  poster?.sizes?.A4?.discountedPrice ||
-  poster?.sizes?.A3?.discountedPrice;
+  const getPrice = () => {
+  if (poster.productType === "polarized") {
+    return poster?.sizes?.A6?.discountedPrice;
+  }
 
-const displayPrice =
-  poster?.sizes?.A5?.displayPrice ||
-  poster?.sizes?.A4?.displayPrice ||
-  poster?.sizes?.A3?.displayPrice;
+  return (
+    poster?.sizes?.A5?.discountedPrice ||
+    poster?.sizes?.A4?.discountedPrice ||
+    poster?.sizes?.A3?.discountedPrice
+  );
+};
+
+const getDisplayPrice = () => {
+  if (poster.productType === "polarized") {
+    return poster?.sizes?.A6?.displayPrice;
+  }
+
+  return (
+    poster?.sizes?.A5?.displayPrice ||
+    poster?.sizes?.A4?.displayPrice ||
+    poster?.sizes?.A3?.displayPrice
+  );
+};
+
+const price = getPrice();
+const displayPrice = getDisplayPrice();
 
   useEffect(() => {
     const wishlist =
@@ -33,7 +50,8 @@ const displayPrice =
 
   localStorage.setItem("sessionId", sessionId);
 
-  const size = "A5"; // default size for quick add
+  const size =
+    poster.productType === "polarized" ? "A6" : "A5";
 
   await fetch("/api/cart/add", {
     method: "POST",
@@ -47,11 +65,18 @@ const displayPrice =
       posterId: poster._id,
       size,
       quantity: 1,
-      sessionId
+      sessionId,
+
+      // 🔥 REQUIRED
+      type: poster.productType,
+      setCount: poster.setCount || 1
     })
   });
 
   setLiked(true);
+  
+  
+
   
 
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
