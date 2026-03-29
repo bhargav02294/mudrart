@@ -5,6 +5,8 @@ import OfferSlider from "../components/OfferSlider";
 import CategorySection from "../components/CategorySection";
 import SinglePosterRow from "../components/SinglePosterRow";
 
+import PosterRow from "../components/PosterRow";
+
 export default function Home() {
   const [posters, setPosters] = useState([]);
 
@@ -23,6 +25,23 @@ export default function Home() {
 
       {/* ✅ CORRECT SECTION */}
       <SinglePosterRow posters={posters} />
+
+
+      <PosterRow
+  posters={posters}
+  title="Single Posters"
+  filterFn={(p) => p.productType === "single"}
+  redirect="/posters/single"
+/>
+
+<PosterRow
+  posters={posters}
+  title="3 Set Posters"
+  filterFn={(p) => p.productType === "set" && p.setCount === 3}
+  redirect="/posters/set/3"
+/>
     </>
   );
 }
+
+
