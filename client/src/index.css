@@ -1,38 +1,45 @@
 /* =========================
-   GLOBAL UI SYSTEM
+   ULTRA PREMIUM SYSTEM
 ========================= */
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f8f8f8;
+body, html {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  background: #fafafa;
+  overflow-x: hidden;
 }
-
 /* =========================
-   SECTION
+   CLEAN PROFESSIONAL UI
 ========================= */
+
+
+
+/* SECTION */
 
 .poster-section {
-  padding: 80px 24px;
+  padding: 70px 24px;
 }
+
+/* HEADER */
 
 .poster-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 
 .poster-header h2 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 600;
 }
 
+/* BUTTON */
+
 .poster-header button {
+  border: 1px solid #ddd;
+  padding: 8px 16px;
   background: white;
-  border: 1px solid #eee;
-  padding: 10px 20px;
-  border-radius: 999px;
-  transition: 0.3s;
+  font-size: 13px;
 }
 
 .poster-header button:hover {
@@ -40,42 +47,34 @@ body {
   color: white;
 }
 
-/* =========================
-   ROW
-========================= */
+/* ROW */
 
 .poster-row {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
 }
 
-/* =========================
-   CARD
-========================= */
+/* CARD */
 
-.poster-card {
+.poster-card.flat {
   flex: 0 0 auto;
-  width: 200px;
-  border-radius: 20px;
-  overflow: hidden;
+  width: 190px;
   background: white;
+  border: 1px solid #e5e5e5;
   cursor: pointer;
-  transition: 0.4s ease;
+  transition: 0.3s ease;
 }
 
-.poster-card:hover {
-  transform: translateY(-10px);
+.poster-card.flat:hover {
+  border-color: #aaa;
 }
 
-/* =========================
-   IMAGE SYSTEM
-========================= */
+/* IMAGE */
 
 .poster-image {
   position: relative;
-  height: 300px;
+  height: 260px;
   overflow: hidden;
 }
 
@@ -85,10 +84,8 @@ body {
   height: 100%;
   object-fit: cover;
 
-  transition: opacity 0.6s ease, transform 1s ease;
+  transition: opacity 0.5s ease, transform 0.8s ease;
 }
-
-/* HOVER FADE */
 
 .primary { opacity: 1; }
 .secondary { opacity: 0; }
@@ -96,42 +93,57 @@ body {
 .poster-card:hover .primary { opacity: 0; }
 .poster-card:hover .secondary {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
-/* =========================
-   BUTTON
-========================= */
+/* BADGE */
+
+.poster-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  background: black;
+  color: white;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+/* HEART */
 
 .wishlist-btn {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  bottom: 10px;
+  right: 10px;
 
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
 
-  border-radius: 50%;
   border: none;
-
-  background: rgba(255,255,255,0.9);
+  background: white;
 }
 
-/* =========================
-   INFO
-========================= */
+.wishlist-btn.active {
+  background: red;
+  color: white;
+}
+
+/* INFO */
 
 .poster-info {
-  padding: 14px;
+  padding: 10px;
 }
 
 .poster-info h3 {
-  font-size: 15px;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
+
+/* PRICE */
 
 .poster-price {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .price {
@@ -140,6 +152,6 @@ body {
 
 .old-price {
   font-size: 12px;
-  text-decoration: line-through;
   color: gray;
+  text-decoration: line-through;
 }

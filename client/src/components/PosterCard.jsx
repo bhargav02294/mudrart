@@ -3,22 +3,29 @@ import { useNavigate } from "react-router-dom";
 
 export default function PosterCard({ poster }) {
   const navigate = useNavigate();
-
   const [liked, setLiked] = useState(false);
 
-  const price = poster?.sizes?.A5?.discountedPrice;
-  const displayPrice = poster?.sizes?.A5?.displayPrice;
+  // ✅ FAST IMAGE (Cloudinary optimization)
+  const getImg = (url) =>
+    url?.replace("/upload/", "/upload/f_auto,q_auto,w_500/");
 
-  // ✅ LOAD FROM LOCAL STORAGE
+  const price =
+    poster.productType === "polarized"
+      ? poster?.sizes?.A3?.discountedPrice
+      : poster?.sizes?.A5?.discountedPrice;
+
+  const displayPrice =
+    poster.productType === "polarized"
+      ? poster?.sizes?.A3?.displayPrice
+      : poster?.sizes?.A5?.displayPrice;
+
   useEffect(() => {
     const wishlist =
       JSON.parse(localStorage.getItem("wishlist")) || [];
-
     setLiked(wishlist.includes(poster._id));
   }, [poster._id]);
 
-  // ✅ TOGGLE WISHLIST
-  const handleWishlist = (e) => {
+  const toggleLike = (e) => {
     e.stopPropagation();
 
     let wishlist =
@@ -35,49 +42,50 @@ export default function PosterCard({ poster }) {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
 
-  // ✅ CLICK → DETAILS PAGE
-  const handleClick = () => {
-    navigate(`/poster/${poster._id}`);
-  };
-
   return (
-    <div className="poster-card" onClick={handleClick}>
-
-      {/* IMAGE WRAPPER */}
+    <div
+      className="poster-card flat"
+      onClick={() => navigate(`/poster/${poster._id}`)}
+    >
       <div className="poster-image">
 
-        {/* IMAGE 1 */}
         <img
-          src={poster.thumbnail}
+          src={getImg(poster.thumbnail)}
           className="img primary"
-          alt={poster.name}
+          loading="lazy"
+          decoding="async"
         />
 
-        {/* IMAGE 2 (HOVER) */}
         {poster.image1 && (
           <img
-            src={poster.image1}
+            src={getImg(poster.image1)}
             className="img secondary"
-            alt=""
+            loading="lazy"
+            decoding="async"
           />
         )}
 
-        {/* ❤️ BUTTON */}
+        {/* ❤️ */}
         <button
           className={`wishlist-btn ${liked ? "active" : ""}`}
-          onClick={handleWishlist}
+          onClick={toggleLike}
         >
           ♥
         </button>
+
+        {/* 🔥 POLARIZED LABEL */}
+        {poster.productType === "polarized" && (
+          <div className="poster-badge">
+            {poster.setCount} Posters Set
+          </div>
+        )}
       </div>
 
-      {/* INFO */}
       <div className="poster-info">
         <h3>{poster.name}</h3>
 
         <div className="poster-price">
           <span className="price">₹{price}</span>
-
           {displayPrice && (
             <span className="old-price">₹{displayPrice}</span>
           )}

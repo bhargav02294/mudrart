@@ -24,7 +24,6 @@ export default function Home() {
       <CategorySection />
 
       {/* ✅ CORRECT SECTION */}
-      <SinglePosterRow posters={posters} />
 
 
       <PosterRow
@@ -39,6 +38,44 @@ export default function Home() {
   title="3 Set Posters"
   filterFn={(p) => p.productType === "set" && p.setCount === 3}
   redirect="/posters/set/3"
+/>
+
+
+import PosterRow from "../components/PosterRow";
+
+{/* SINGLE */}
+<PosterRow
+  posters={posters}
+  title="Single Posters"
+  filterFn={(p) => p.productType === "single"}
+/>
+
+{/* 3 SET */}
+<PosterRow
+  posters={posters}
+  title="3 Poster Sets"
+  filterFn={(p) => p.productType === "set" && p.setCount === 3}
+/>
+
+{/* POLARIZED */}
+<PosterRow
+  posters={posters}
+  title="Polarized Sets"
+  filterFn={(p) => p.productType === "polarized"}
+/>
+
+{/* CARS */}
+<PosterRow
+  posters={posters}
+  title="Car Posters"
+  filterFn={(p) => p.category === "cars"}
+/>
+
+{/* CRICKET */}
+<PosterRow
+  posters={posters}
+  title="Cricket Posters"
+  filterFn={(p) => p.category === "cricket"}
 />
     </>
   );
