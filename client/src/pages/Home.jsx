@@ -26,22 +26,8 @@ export default function Home() {
       {/* ✅ CORRECT SECTION */}
 
 
-      <PosterRow
-  posters={posters}
-  title="Single Posters"
-  filterFn={(p) => p.productType === "single"}
-  redirect="/posters/single"
-/>
+   
 
-<PosterRow
-  posters={posters}
-  title="3 Set Posters"
-  filterFn={(p) => p.productType === "set" && p.setCount === 3}
-  redirect="/posters/set/3"
-/>
-
-
-import PosterRow from "../components/PosterRow";
 
 {/* SINGLE */}
 <PosterRow

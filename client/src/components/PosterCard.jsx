@@ -10,14 +10,14 @@ export default function PosterCard({ poster }) {
     url?.replace("/upload/", "/upload/f_auto,q_auto,w_500/");
 
   const price =
-    poster.productType === "polarized"
-      ? poster?.sizes?.A3?.discountedPrice
-      : poster?.sizes?.A5?.discountedPrice;
+  poster?.sizes?.A5?.discountedPrice ||
+  poster?.sizes?.A4?.discountedPrice ||
+  poster?.sizes?.A3?.discountedPrice;
 
-  const displayPrice =
-    poster.productType === "polarized"
-      ? poster?.sizes?.A3?.displayPrice
-      : poster?.sizes?.A5?.displayPrice;
+const displayPrice =
+  poster?.sizes?.A5?.displayPrice ||
+  poster?.sizes?.A4?.displayPrice ||
+  poster?.sizes?.A3?.displayPrice;
 
   useEffect(() => {
     const wishlist =
@@ -25,19 +25,34 @@ export default function PosterCard({ poster }) {
     setLiked(wishlist.includes(poster._id));
   }, [poster._id]);
 
-  const toggleLike = (e) => {
-    e.stopPropagation();
+  const toggleLike = async (e) => {
+  e.stopPropagation();
 
-    let wishlist =
-      JSON.parse(localStorage.getItem("wishlist")) || [];
+  const sessionId =
+    localStorage.getItem("sessionId") || Date.now().toString();
 
-    if (wishlist.includes(poster._id)) {
-      wishlist = wishlist.filter((id) => id !== poster._id);
-      setLiked(false);
-    } else {
-      wishlist.push(poster._id);
-      setLiked(true);
-    }
+  localStorage.setItem("sessionId", sessionId);
+
+  const size = "A5"; // default size for quick add
+
+  await fetch("/api/cart/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("userToken")
+        ? "Bearer " + localStorage.getItem("userToken")
+        : ""
+    },
+    body: JSON.stringify({
+      posterId: poster._id,
+      size,
+      quantity: 1,
+      sessionId
+    })
+  });
+
+  setLiked(true);
+  
 
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   };
