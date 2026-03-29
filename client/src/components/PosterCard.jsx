@@ -2,9 +2,18 @@ import { useState } from "react";
 
 export default function PosterCard({ poster }) {
   const [hovered, setHovered] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const price = poster?.sizes?.A5?.discountedPrice;
   const displayPrice = poster?.sizes?.A5?.displayPrice;
+
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+    setLiked(!liked);
+
+    // 👉 later connect to cart / wishlist API
+    console.log("Added to wishlist:", poster._id);
+  };
 
   return (
     <div
@@ -14,10 +23,23 @@ export default function PosterCard({ poster }) {
     >
       {/* IMAGE */}
       <div className="poster-image">
+
+        {/* HOVER OVERLAY GRADIENT */}
+        <div className="poster-overlay" />
+
+        {/* IMAGE */}
         <img
           src={hovered && poster.image1 ? poster.image1 : poster.thumbnail}
           alt={poster.name}
         />
+
+        {/* ❤️ WISHLIST BUTTON */}
+        <button
+          className={`wishlist-btn ${liked ? "active" : ""}`}
+          onClick={handleWishlist}
+        >
+          ♥
+        </button>
       </div>
 
       {/* INFO */}
