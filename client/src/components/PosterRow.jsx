@@ -12,7 +12,7 @@ export default function PosterRow({
   const scrollRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  const filtered = posters.filter(filterFn);
+  const filtered = posters.filter(filterFn).slice(0, 12); // 🔥 limit like real sites
 
   useEffect(() => {
     const observer = new IntersectionObserver(
