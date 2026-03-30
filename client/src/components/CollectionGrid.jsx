@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import "../styles/category.css"; // ✅ IMPORTANT LINK
+import "../styles/collection.css";
 
-const categories = [
+const collections = [
   { name: "Cars", key: "cars", image: "/categories/cars.jpg" },
   { name: "Anime", key: "anime", image: "/categories/anime.jpg" },
   { name: "Cricket", key: "cricket", image: "/categories/cricket.jpg" },
@@ -10,25 +10,26 @@ const categories = [
   { name: "Actors", key: "actors", image: "/categories/actors.jpg" },
 ];
 
-export default function CategoryGrid() {
+export default function CollectionGrid() {
   const navigate = useNavigate();
 
   return (
-    <section className="category-section">
+    <section className="collection-section">
 
-      <h2 className="category-title">Collections</h2>
+      <h2 className="collection-title">Collections</h2>
 
-      <div className="category-grid">
-        {categories.map((cat, i) => (
+      <div className="collection-grid">
+        {collections.map((cat, i) => (
           <div
             key={i}
-            className="category-card"
+            className="collection-card"
             onClick={() => navigate(`/category/${cat.key}`)}
           >
             <img src={cat.image} alt={cat.name} />
-            <div className="overlay"></div>
 
-            <div className="category-name">
+            <div className="collection-overlay" />
+
+            <div className="collection-name">
               {cat.name}
             </div>
           </div>
