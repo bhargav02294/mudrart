@@ -25,7 +25,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import SinglePosters from "./pages/SinglePosters";
 
-import CategoryPage from "./pages/CategoryPage";
+import CollectionGrid from "./components/CollectionGrid";
 
 
 
@@ -68,7 +68,7 @@ function App() {
 
                 <Route path="/posters/single" element={<SinglePosters />} />
 
-                <Route path="/category/:category" element={<CategoryPage />} />
+                <Route path="/collections" element={<CollectionGrid />} />
 
 
 
