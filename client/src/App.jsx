@@ -25,6 +25,9 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import SinglePosters from "./pages/SinglePosters";
 
+import CategoryPage from "./pages/CategoryPage";
+
+
 
 function App() {
   return (
@@ -64,6 +67,9 @@ function App() {
         <Route path="/payment-failed" element={<PaymentFailed />} />
 
                 <Route path="/posters/single" element={<SinglePosters />} />
+
+                <Route path="/category/:category" element={<CategoryPage />} />
+
 
 
         <Route

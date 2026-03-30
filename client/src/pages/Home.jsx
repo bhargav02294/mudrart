@@ -7,6 +7,8 @@ import SinglePosterRow from "../components/SinglePosterRow";
 
 import PosterRow from "../components/PosterRow";
 
+import CategoryGrid from "../components/CategoryGrid";
+
 export default function Home() {
   const [posters, setPosters] = useState([]);
 
@@ -42,6 +44,9 @@ export default function Home() {
   title="3 Poster Sets"
   filterFn={(p) => p.productType === "set" && p.setCount === 3}
 />
+
+<CategoryGrid />
+
 
 {/* POLARIZED */}
 <PosterRow
