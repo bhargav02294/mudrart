@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../styles/category.css"; // ✅ IMPORTANT LINK
 
 const categories = [
   { name: "Cars", key: "cars", image: "/categories/cars.jpg" },
@@ -25,8 +26,7 @@ export default function CategoryGrid() {
             onClick={() => navigate(`/category/${cat.key}`)}
           >
             <img src={cat.image} alt={cat.name} />
-
-            <div className="overlay" />
+            <div className="overlay"></div>
 
             <div className="category-name">
               {cat.name}
@@ -34,6 +34,7 @@ export default function CategoryGrid() {
           </div>
         ))}
       </div>
+
     </section>
   );
 }

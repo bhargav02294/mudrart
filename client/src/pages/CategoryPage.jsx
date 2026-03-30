@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PosterCard from "../components/PosterCard";
+import "../styles/category.css"; // ✅ reuse styling
 
 export default function CategoryPage() {
   const { category } = useParams();
