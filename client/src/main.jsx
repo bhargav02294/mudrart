@@ -12,6 +12,10 @@ import "./admin/admin.css";
 import "./styles/home.css";
 
 
+import "./styles/account.css";
+import "./styles/address.css";
+import "./styles/editProfile.css";
+import "./styles/global.css";
 
 import "./styles/navbar.css";
 import "./styles/footer.css";
