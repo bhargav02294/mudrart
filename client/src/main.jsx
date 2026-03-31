@@ -17,6 +17,8 @@ import "./styles/address.css";
 import "./styles/editProfile.css";
 import "./styles/global.css";
 
+import "./styles/cart.css";
+
 import "./styles/navbar.css";
 import "./styles/footer.css";
 
