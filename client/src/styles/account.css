@@ -1,0 +1,88 @@
+.account-container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.account-container h2 {
+  margin-bottom: 10px;
+}
+
+.account-container p {
+  margin: 6px 0;
+  color: var(--muted);
+}
+
+.account-container h3 {
+  margin-top: 20px;
+}
+
+.account-container button {
+  margin-top: 12px;
+  margin-right: 10px;
+}
+
+.logout-account-btn {
+  background: #ff3b3b;
+}
+
+.logout-account-btn:hover {
+  background: #e03131;
+}
+
+/* ORDERS */
+.orders-section {
+  margin-top: 40px;
+}
+
+.order-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.order-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.order-item {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.order-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-name {
+  font-weight: 600;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 8px;
+  color: #fff;
+  background: #111;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-decoration: none;
+}

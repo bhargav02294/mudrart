@@ -1,0 +1,96 @@
+.address-page h1 {
+  margin-bottom: 20px;
+}
+
+.address-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+}
+
+/* LEFT FORM */
+.address-form {
+  background: white;
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* RIGHT SUMMARY */
+.checkout-summary {
+  background: white;
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  height: fit-content;
+}
+
+.checkout-summary h3 {
+  margin-bottom: 15px;
+}
+
+/* ITEM */
+.checkout-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.checkout-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.checkout-item p {
+  margin: 2px 0;
+  font-size: 13px;
+}
+
+/* SUMMARY */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.summary-total {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* OFFER */
+.offer-box {
+  margin-top: 10px;
+  background: #fff4e6;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* BUTTONS */
+.save-address-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.payment-btn {
+  width: 100%;
+  margin-top: 15px;
+  background: #111;
+}
+
+.payment-btn:hover {
+  background: #000;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .address-layout {
+    grid-template-columns: 1fr;
+  }
+}
