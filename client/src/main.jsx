@@ -6,11 +6,11 @@ import App from "./App";
 import "./index.css";
 import "./App.css";
 import "./styles/theme.css";
-import "./styles/shop.css";
 import "./styles/auth.css";
 import "./admin/admin.css";
 import "./styles/home.css";
 
+import "./styles/posterDetails.css";
 
 import "./styles/account.css";
 import "./styles/address.css";
