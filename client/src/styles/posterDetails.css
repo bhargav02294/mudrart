@@ -1,52 +1,40 @@
 /* ===============================
-POSTER DETAILS PAGE
+POSTER DETAILS (LIGHT PREMIUM)
 =============================== */
 
 .pd-container {
   margin-top: 30px;
 }
 
-/* ===============================
-LAYOUT
-=============================== */
-
+/* LAYOUT */
 .pd-layout {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 50px;
-  align-items: flex-start;
 }
 
-/* ===============================
-GALLERY
-=============================== */
-
+/* GALLERY */
 .pd-gallery {
   position: sticky;
   top: 100px;
 }
 
 .pd-main-image {
-  width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  background: #111;
-  box-shadow: var(--shadow-md);
+  background: #f5f5f5;
 }
 
 .pd-main-image img {
   width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.4s ease;
+  transition: 0.4s;
 }
 
 .pd-main-image:hover img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 /* THUMBNAILS */
-
 .pd-thumbnails {
   display: flex;
   gap: 10px;
@@ -56,27 +44,18 @@ GALLERY
 .pd-thumbnails img {
   width: 70px;
   height: 70px;
-  object-fit: cover;
   border-radius: 8px;
   cursor: pointer;
   opacity: 0.6;
   border: 2px solid transparent;
-  transition: var(--transition);
-}
-
-.pd-thumbnails img:hover {
-  opacity: 1;
 }
 
 .active-thumb {
-  opacity: 1 !important;
-  border-color: #fff;
+  opacity: 1;
+  border-color: #111;
 }
 
-/* ===============================
-INFO
-=============================== */
-
+/* INFO */
 .pd-info {
   display: flex;
   flex-direction: column;
@@ -84,11 +63,9 @@ INFO
 }
 
 /* BADGE */
-
 .pd-badge {
-  display: inline-block;
-  background: #1c1c1c;
-  color: #aaa;
+  background: #f1f1f1;
+  color: #555;
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -96,218 +73,136 @@ INFO
 }
 
 /* TITLE */
-
 .pd-title {
   font-size: 28px;
   font-weight: 600;
-  line-height: 1.3;
 }
 
-/* ===============================
-PRICE BLOCK
-=============================== */
-
-.pd-price-block {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+/* PRICE */
 .pd-price-group {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 
 .pd-discount-price {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
-  color: #fff;
+  color: #111;
 }
 
 .pd-display-price {
-  font-size: 16px;
-  color: #888;
+  color: #999;
   text-decoration: line-through;
 }
 
-/* DIGITAL BOX */
+/* ADD TO CART */
+.add-cart-btn {
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+}
 
+.add-cart-btn:hover {
+  background: #000;
+}
+
+/* DIGITAL */
 .pd-digital-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #111;
+  background: #fafafa;
   padding: 14px;
   border-radius: 10px;
-  border: 1px solid #222;
-}
-
-.pd-digital-info {
-  display: flex;
-  flex-direction: column;
+  border: 1px solid #eee;
 }
 
 .pd-digital-label {
   font-size: 13px;
-  color: #aaa;
+  color: #666;
 }
 
 .pd-digital-price {
-  font-size: 16px;
   font-weight: 600;
 }
 
 .pd-digital-note {
   font-size: 12px;
-  color: #666;
+  color: #999;
 }
 
 .pd-digital-btn {
-  background: #fff;
-  color: #000;
+  background: #111;
+  color: #fff;
   padding: 8px 14px;
   border-radius: 6px;
-  font-size: 13px;
 }
 
 .pd-digital-btn:hover {
-  background: #eaeaea;
+  background: #000;
 }
 
-/* ===============================
-SECTION BLOCK
-=============================== */
-
-.pd-section h4 {
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #aaa;
-}
-
-/* SIZE BUTTONS */
-
+/* SIZE */
 .size-buttons {
   display: flex;
   gap: 10px;
 }
 
 .size-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: transparent;
-  color: #ddd;
-}
-
-.size-btn:hover {
-  border-color: #fff;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #333;
 }
 
 .size-btn.active {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+  background: #111;
+  color: #fff;
+  border-color: #111;
 }
 
-/* ===============================
-QTY
-=============================== */
-
+/* QTY */
 .qty-control {
   display: flex;
-  align-items: center;
   gap: 12px;
+  align-items: center;
 }
 
 .qty-control button {
   width: 36px;
   height: 36px;
+  background: #eee;
+  color: #111;
   border-radius: 6px;
-  background: #1a1a1a;
-  color: #fff;
 }
 
-.qty-control button:hover {
-  background: #2a2a2a;
-}
-
-/* ===============================
-DESCRIPTION
-=============================== */
-
+/* DESCRIPTION */
 .pd-description p {
-  font-size: 14px;
-  color: #aaa;
+  color: #666;
+}
+
+/* DISCLAIMER */
+.pd-disclaimer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #999;
   line-height: 1.6;
 }
 
-/* ===============================
-ACTIONS
-=============================== */
-
-.pd-actions {
-  margin-top: 10px;
+.pd-disclaimer span {
+  color: #555;
 }
 
-.add-cart-btn {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #fff;
-  color: #000;
-  border-radius: 8px;
-}
-
-.add-cart-btn:hover {
-  background: #eaeaea;
-}
-
-/* ===============================
-RESPONSIVE
-=============================== */
-
-@media (max-width: 900px) {
-
+/* MOBILE */
+@media (max-width:900px) {
   .pd-layout {
     grid-template-columns: 1fr;
-    gap: 30px;
   }
 
   .pd-gallery {
     position: static;
   }
-
-  .pd-title {
-    font-size: 22px;
-  }
-
-  .pd-thumbnails {
-    overflow-x: auto;
-  }
-
-  .pd-thumbnails img {
-    min-width: 60px;
-    height: 60px;
-  }
-
-}
-
-/* EXTRA SMALL */
-
-@media (max-width: 500px) {
-
-  .pd-container {
-    padding: 0 10px;
-  }
-
-  .pd-title {
-    font-size: 20px;
-  }
-
-  .add-cart-btn {
-    font-size: 14px;
-  }
-
 }

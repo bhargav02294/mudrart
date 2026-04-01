@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-
 export default function PosterDetails() {
+
   const { id } = useParams();
 
   const [poster, setPoster] = useState(null);
@@ -12,10 +12,13 @@ export default function PosterDetails() {
   const [size, setSize] = useState(null);
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
 
-  /* ---------------- FETCH POSTER ---------------- */
+  const navigate = useNavigate();
+
+  /* ================= FETCH ================= */
+
   useEffect(() => {
+
     const fetchPoster = async () => {
       try {
         const res = await fetch("/api/posters");
@@ -31,13 +34,10 @@ export default function PosterDetails() {
         setPoster(found);
         setSelectedImage(found.thumbnail);
 
-        // Priority size: A6 → A5 → A4 → A3
         const priority = ["A6", "A5", "A4", "A3"];
         const available = priority.find(s => found.sizes?.[s]);
 
-        if (available) {
-          setSize(available);
-        }
+        if (available) setSize(available);
 
         setLoading(false);
 
@@ -48,16 +48,13 @@ export default function PosterDetails() {
     };
 
     fetchPoster();
+
   }, [id]);
 
-  /* ---------------- PRICE LOGIC ---------------- */
-  const getCurrentPrice = () => {
-    if (!poster || !size) return 0;
-    return poster.sizes?.[size]?.discountedPrice || 0;
-  };
+  /* ================= CART ================= */
 
-  /* ---------------- CART ---------------- */
   const addToCart = async () => {
+
     if (!size) return alert("Please select a size");
 
     const sessionId =
@@ -82,9 +79,11 @@ export default function PosterDetails() {
     });
 
     alert("Added to cart");
+
   };
 
-  /* ---------------- LOADING ---------------- */
+  /* ================= LOADING ================= */
+
   if (loading) return <div className="container">Loading...</div>;
   if (!poster) return <div className="container">Poster not found</div>;
 
@@ -97,6 +96,7 @@ export default function PosterDetails() {
   ].filter(Boolean);
 
   return (
+
     <>
       <Navbar />
 
@@ -104,7 +104,7 @@ export default function PosterDetails() {
 
         <div className="pd-layout">
 
-          {/* -------- LEFT SIDE GALLERY -------- */}
+          {/* LEFT */}
           <div className="pd-gallery">
 
             <div className="pd-main-image">
@@ -125,7 +125,8 @@ export default function PosterDetails() {
 
           </div>
 
-          {/* -------- RIGHT SIDE INFO -------- */}
+
+          {/* RIGHT */}
           <div className="pd-info">
 
             <div className="pd-badge">
@@ -136,40 +137,50 @@ export default function PosterDetails() {
 
             <h1 className="pd-title">{poster.name}</h1>
 
-            <div className="pd-price-block">
-              <div className="pd-price-group">
-  <span className="pd-discount-price">
-    ₹{poster.sizes?.[size]?.discountedPrice}
-  </span>
+            {/* PRICE */}
+            <div className="pd-price-group">
+              <span className="pd-discount-price">
+                ₹{poster.sizes?.[size]?.discountedPrice}
+              </span>
 
-  <span className="pd-display-price">
-    ₹{poster.sizes?.[size]?.displayPrice}
-  </span>
-</div>
-
-              {poster.downloadPrice > 0 && (
-  <div className="pd-digital-box">
-    <div className="pd-digital-info">
-      <span className="pd-digital-label">Digital Version</span>
-      <span className="pd-digital-price">
-        ₹{poster.downloadPrice}
-      </span>
-      <span className="pd-digital-note">
-        Instant access after payment
-      </span>
-    </div>
-
-   <button
-className="pd-digital-btn"
-onClick={()=>navigate(`/digital/${poster._id}`)}
->
-Buy Digital
-</button>
-  </div>
-)}
+              <span className="pd-display-price">
+                ₹{poster.sizes?.[size]?.displayPrice}
+              </span>
             </div>
 
-            {/* -------- SIZE SELECTION -------- */}
+            {/* ADD TO CART (TOP POSITION) */}
+            <div className="pd-actions">
+              <button className="add-cart-btn" onClick={addToCart}>
+                Add To Cart
+              </button>
+            </div>
+
+            {/* DIGITAL ONLY FOR SINGLE */}
+            {poster.productType === "single" && poster.downloadPrice > 0 && (
+
+              <div className="pd-digital-box">
+
+                <div className="pd-digital-info">
+                  <span className="pd-digital-label">Digital Version</span>
+                  <span className="pd-digital-price">
+                    ₹{poster.downloadPrice}
+                  </span>
+                  <span className="pd-digital-note">
+                    Instant access after payment
+                  </span>
+                </div>
+
+                <button
+                  className="pd-digital-btn"
+                  onClick={() => navigate(`/digital/${poster._id}`)}
+                >
+                  Buy Digital
+                </button>
+
+              </div>
+            )}
+
+            {/* SIZE */}
             <div className="pd-section">
               <h4>Select Size</h4>
               <div className="size-buttons">
@@ -187,33 +198,28 @@ Buy Digital
               </div>
             </div>
 
-            {/* -------- QUANTITY -------- */}
+            {/* QTY */}
             <div className="pd-section">
               <h4>Quantity</h4>
               <div className="qty-control">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))}>
-                  −
-                </button>
+                <button onClick={() => setQty(q => Math.max(1, q - 1))}>−</button>
                 <span>{qty}</span>
-                <button onClick={() => setQty(q => q + 1)}>
-                  +
-                </button>
+                <button onClick={() => setQty(q => q + 1)}>+</button>
               </div>
             </div>
 
-            {/* -------- DESCRIPTION -------- */}
+            {/* DESCRIPTION */}
             <div className="pd-description">
               <h4>Description</h4>
               <p>{poster.description || "Premium quality art print."}</p>
             </div>
 
-            {/* -------- ACTION BUTTONS -------- */}
-            <div className="pd-actions">
-              <button className="add-cart-btn" onClick={addToCart}>
-                Add To Cart
-              </button>
-
-              
+            {/* DISCLAIMER */}
+            <div className="pd-disclaimer">
+              This digital poster is offered for personal use. We do not own the copyright
+              to the original artwork, which remains with the respective rights holders.
+              Copyright owners or artists who wish to request removal may contact us at
+              <span> your-email@mudrart.in</span>. We respect intellectual property and will respond promptly.
             </div>
 
           </div>
