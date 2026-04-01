@@ -17,6 +17,10 @@
   --transition: all 0.25s ease;
 }
 
+/* FIX HORIZONTAL SCROLL */
+html, body {
+  overflow-x: hidden;
+}
 body {
   margin: 0;
   font-family: "Inter", sans-serif;

@@ -92,7 +92,10 @@ export default function Navbar() {
 
   <span
     className="menu-label"
-    onClick={() => toggleDropdown("categories")}
+    onClick={(e) => {
+  e.stopPropagation();
+  toggleDropdown("categories");
+}}
   >
     Categories
     <IoChevronDown className={`arrow ${openDropdown === "categories" ? "rotate" : ""}`} />

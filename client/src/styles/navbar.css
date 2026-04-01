@@ -207,18 +207,14 @@ cursor:pointer;
 @media (max-width:900px){
 
 .center-menu{
-
 position:absolute;
-
 top:78px;
 left:0;
 
 width:100%;
-
 background:#000;
 
 flex-direction:column;
-
 align-items:flex-start;
 
 display:none;
@@ -227,6 +223,9 @@ padding:20px 24px;
 
 border-top:1px solid #1b1b1b;
 
+/* ✅ FIX: prevent overflow */
+max-height: calc(100vh - 78px);
+overflow-y: auto;
 }
 
 .center-menu.active{
@@ -238,11 +237,39 @@ width:100%;
 padding:14px 0;
 }
 
+/* ✅ IMPORTANT FIX */
 .dropdown-menu{
-position:relative;
+position:relative;   /* was absolute → now stacked */
+width:100%;
+display:none;
 border:none;
 box-shadow:none;
 margin-top:8px;
+padding-left:10px;
+}
+
+/* SHOW */
+.dropdown-menu.show{
+display:block;
+}
+
+/* ✅ MEGA MENU FIX FOR MOBILE */
+.mega-menu{
+position:relative !important;
+width:100% !important;
+display:none;
+grid-template-columns: 1fr 1fr;
+gap:12px;
+padding:10px;
+}
+
+.dropdown-menu.mega-menu.show{
+display:grid;
+}
+
+/* better spacing */
+.mega-col{
+margin-bottom:10px;
 }
 
 .menu-toggle{
@@ -250,7 +277,6 @@ display:block;
 }
 
 }
-
 
 /* SMALL MOBILE */
 
