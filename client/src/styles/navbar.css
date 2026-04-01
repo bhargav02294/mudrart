@@ -266,11 +266,10 @@ max-width:160px;
 
 
 /* ===============================
-MEGA MENU (CATEGORIES)
+MEGA MENU (CATEGORIES) - FIXED
 =============================== */
 
 .mega-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -285,14 +284,14 @@ MEGA MENU (CATEGORIES)
 
   box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  display: none; /* ✅ default hidden */
 }
 
 /* SHOW */
 .dropdown-menu.mega-menu.show {
-  display: grid;
+  display: grid; /* ✅ only visible when active */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 /* COLUMN */
@@ -316,15 +315,26 @@ MEGA MENU (CATEGORIES)
   transform: translateX(3px);
 }
 
+
+.mega-menu {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+}
+
+.dropdown-menu.mega-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* ===============================
 RESPONSIVE
 =============================== */
 
 @media (max-width:900px){
 
-  .mega-menu {
-    width: 100%;
+  .dropdown-menu.mega-menu.show {
     grid-template-columns: 1fr 1fr;
+    width: 100%;
     padding: 10px;
   }
 
