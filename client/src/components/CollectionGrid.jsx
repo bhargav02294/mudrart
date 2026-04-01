@@ -2,12 +2,36 @@ import { useNavigate } from "react-router-dom";
 import "../styles/collection.css";
 
 const collections = [
-  { name: "Cars", key: "cars", image: "/categories/cars.jpg" },
-  { name: "Anime", key: "anime", image: "/categories/anime.jpg" },
-  { name: "Cricket", key: "cricket", image: "/categories/cricket.jpg" },
-  { name: "Movies", key: "bollywood", image: "/categories/movies.jpg" },
-  { name: "Motivational", key: "motivational", image: "/categories/motivational.jpg" },
-  { name: "Actors", key: "actors", image: "/categories/actors.jpg" },
+  {
+    name: "Trending Now",
+    key: "trending",
+    image: "/categories/trending.jpg"
+  },
+  {
+    name: "Best for Your Room",
+    key: "aesthetic",
+    image: "/categories/room.jpg"
+  },
+  {
+    name: "Hustle & Motivation",
+    key: "motivational",
+    image: "/categories/motivation.jpg"
+  },
+  {
+    name: "Peace & Spirituality",
+    key: "spiritual",
+    image: "/categories/spiritual.jpg"
+  },
+  {
+    name: "Cinema & Pop World",
+    key: "bollywood",
+    image: "/categories/cinema.jpg"
+  },
+  {
+    name: "Fan Zone",
+    key: "anime",
+    image: "/categories/fanzone.jpg"
+  }
 ];
 
 export default function CollectionGrid() {

@@ -1,13 +1,13 @@
 import "../styles/categories.css";
 
 const categories = [
-  { name: "Cricket", icon: "/categories/cricket.png" },
-  { name: "Cars", icon: "/categories/cars.png" },
-  { name: "Movies", icon: "/categories/movie.png" },
-  { name: "Motivational", icon: "/categories/motivational.png" },
-  { name: "Anime", icon: "/categories/anime.png" },
-  { name: "Aesthetic", icon: "/categories/aesthetic.png" },
-  { name: "Devotional", icon: "/categories/devotional.png" },
+  { name: "Entertainment", icon: "/categories/entertainment.png", key: "entertainment" },
+  { name: "Superheroes", icon: "/categories/superheroes.png", key: "marvel_dc" },
+  { name: "Sports", icon: "/categories/sports.png", key: "sports" },
+  { name: "Anime", icon: "/categories/anime.png", key: "anime" },
+  { name: "Aesthetic", icon: "/categories/aesthetic.png", key: "aesthetic" },
+  { name: "Spiritual", icon: "/categories/spiritual.png", key: "spiritual" },
+  { name: "Lifestyle", icon: "/categories/lifestyle.png", key: "lifestyle" },
 ];
 
 export default function CategorySection() {
@@ -19,17 +19,17 @@ export default function CategorySection() {
 
     <section className="categories">
 
-        <div className="categories-header">
+      <div className="categories-header">
 
-    <h2 className="categories-title">
-      Curated Poster Collections
-    </h2>
+        <h2 className="categories-title">
+          Browse by Category
+        </h2>
 
-    <p className="categories-subtitle">
-      Discover posters across themes designed to match every style and mood
-    </p>
+        <p className="categories-subtitle">
+          Explore posters across top themes and styles
+        </p>
 
-  </div>
+      </div>
 
       <div className="categories-container">
 
@@ -44,7 +44,6 @@ export default function CategorySection() {
             </div>
           ))}
         </div>
-
 
         {/* SECOND ROW */}
         <div className="categories-row row-bottom">
