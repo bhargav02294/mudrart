@@ -82,6 +82,84 @@ export default function Navbar() {
           </Link>
 
 
+          {/* CATEGORIES (NEW MEGA MENU) */}
+
+<div
+  className="menu-item dropdown"
+  onMouseEnter={() => setOpenDropdown("categories")}
+  onMouseLeave={() => setOpenDropdown(null)}
+>
+
+  <span
+    className="menu-label"
+    onClick={() => toggleDropdown("categories")}
+  >
+    Categories
+    <IoChevronDown className={`arrow ${openDropdown === "categories" ? "rotate" : ""}`} />
+  </span>
+
+  <div className={`dropdown-menu mega-menu ${openDropdown === "categories" ? "show" : ""}`}>
+
+    {/* 🎬 Entertainment */}
+    <div className="mega-col">
+      <h4>Entertainment</h4>
+      <Link to="/category/bollywood">Bollywood</Link>
+      <Link to="/category/actors">Actors</Link>
+      <Link to="/category/movie_posters">Movie Posters</Link>
+      <Link to="/category/pop_culture">Pop Culture</Link>
+    </div>
+
+    {/* 🦸 Superheroes */}
+    <div className="mega-col">
+      <h4>Superheroes</h4>
+      <Link to="/category/marvel_dc">Marvel & DC</Link>
+    </div>
+
+    {/* 🏏 Sports */}
+    <div className="mega-col">
+      <h4>Sports</h4>
+      <Link to="/category/sports">Sports</Link>
+      <Link to="/category/football">Football</Link>
+      <Link to="/category/cricket">Cricket</Link>
+    </div>
+
+    {/* 🚗 Lifestyle */}
+    <div className="mega-col">
+      <h4>Lifestyle</h4>
+      <Link to="/category/cars">Cars</Link>
+      <Link to="/category/gym">Gym</Link>
+    </div>
+
+    {/* 🎨 Aesthetic */}
+    <div className="mega-col">
+      <h4>Aesthetic</h4>
+      <Link to="/category/aesthetic">Aesthetic</Link>
+      <Link to="/category/aesthetic_texts">Aesthetic Texts</Link>
+      <Link to="/category/motivational">Motivational</Link>
+    </div>
+
+    {/* 🧘 Spiritual */}
+    <div className="mega-col">
+      <h4>Spiritual</h4>
+      <Link to="/category/spiritual">Spiritual</Link>
+      <Link to="/category/divine">Divine</Link>
+      <Link to="/category/devotional">Devotional</Link>
+    </div>
+
+    {/* 🌿 Nature & Icons */}
+    <div className="mega-col">
+      <h4>Nature & Icons</h4>
+      <Link to="/category/nature">Nature</Link>
+      <Link to="/category/anime">Anime</Link>
+      <Link to="/category/legends">Legends</Link>
+      <Link to="/category/icons">Icons</Link>
+    </div>
+
+  </div>
+
+</div>
+
+
           {/* SPLIT POSTERS */}
 
           <div

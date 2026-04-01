@@ -261,3 +261,71 @@ max-width:160px;
 }
 
 }
+
+
+
+
+/* ===============================
+MEGA MENU (CATEGORIES)
+=============================== */
+
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  width: 700px;
+
+  background: #0e0e0e;
+  border: 1px solid #1c1c1c;
+  border-radius: 10px;
+
+  padding: 20px;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* SHOW */
+.dropdown-menu.mega-menu.show {
+  display: grid;
+}
+
+/* COLUMN */
+.mega-col h4 {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.mega-col a {
+  display: block;
+  font-size: 14px;
+  color: #d4d4d4;
+  padding: 6px 0;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.mega-col a:hover {
+  color: #fff;
+  transform: translateX(3px);
+}
+
+/* ===============================
+RESPONSIVE
+=============================== */
+
+@media (max-width:900px){
+
+  .mega-menu {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+  }
+
+}
