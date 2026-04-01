@@ -3,19 +3,18 @@ import { useSearchParams } from "react-router-dom";
 
 export default function AddPoster() {
 
-  // ✅ FIRST initialize searchParams
   const [searchParams] = useSearchParams();
 
-  // ✅ THEN use it
   const type = searchParams.get("type") || "single";
   const setCount = searchParams.get("count") || 1;
 
   const [form, setForm] = useState({
-  name: "",
-  category: "",
-  quantity: "",
-  description: ""
-});
+    name: "",
+    category: "",
+    quantity: "",
+    description: "",
+    downloadPrice: ""
+  });
 
   const [files, setFiles] = useState({});
 
@@ -52,6 +51,7 @@ export default function AddPoster() {
         {type !== "single" && ` (Set of ${setCount})`}
       </h2>
 
+      {/* NAME */}
       <input
         placeholder="Product Name"
         onChange={(e) =>
@@ -59,28 +59,57 @@ export default function AddPoster() {
         }
       />
 
-
+      {/* CATEGORY */}
       <h3>Category</h3>
 
-<select
-  onChange={(e) =>
-    setForm({ ...form, category: e.target.value })
-  }
->
-  <option value="">Select Category</option>
+      <select
+        onChange={(e) =>
+          setForm({ ...form, category: e.target.value })
+        }
+      >
+        <option value="">Select Category</option>
 
-  <option value="cars">Cars</option>
-  <option value="anime">Anime</option>
-  <option value="devotional">Devotional</option>
-  <option value="motivational">Motivational</option>
-  <option value="bollywood">Bollywood</option>
-  <option value="actors">Actors</option>
-  <option value="cricket">Cricket</option>
-  <option value="nature">Nature</option>
-  <option value="sports">Sports</option>
+        {/* 🎬 Entertainment */}
+        <option value="bollywood">Bollywood</option>
+        <option value="actors">Actors</option>
+        <option value="movie_posters">Movie Posters</option>
+        <option value="pop_culture">Pop Culture</option>
 
-</select>
+        {/* 🦸 Superheroes */}
+        <option value="marvel_dc">Marvel & DC</option>
 
+        {/* 🏏 Sports */}
+        <option value="sports">Sports</option>
+        <option value="football">Football</option>
+        <option value="cricket">Cricket</option>
+
+        {/* 🚗 Lifestyle */}
+        <option value="cars">Cars</option>
+        <option value="gym">Gym</option>
+
+        {/* 🎨 Aesthetic */}
+        <option value="aesthetic">Aesthetic</option>
+        <option value="aesthetic_texts">Aesthetic Texts</option>
+        <option value="motivational">Motivational</option>
+
+        {/* 🧘 Spiritual */}
+        <option value="spiritual">Spiritual</option>
+        <option value="divine">Divine</option>
+        <option value="devotional">Devotional</option>
+
+        {/* 🌿 Nature */}
+        <option value="nature">Nature</option>
+
+        {/* 🎌 Anime */}
+        <option value="anime">Anime</option>
+
+        {/* 🌟 Icons */}
+        <option value="legends">Legends</option>
+        <option value="icons">Icons</option>
+
+      </select>
+
+      {/* IMAGES */}
       <h3>Images</h3>
 
       <input
@@ -111,6 +140,7 @@ export default function AddPoster() {
         }
       />
 
+      {/* DOWNLOAD FILE */}
       <h3>Downloadable File</h3>
 
       <input
@@ -120,6 +150,7 @@ export default function AddPoster() {
         }
       />
 
+      {/* DIGITAL PRICE */}
       <h3>Digital Download Price (₹)</h3>
 
       <input
@@ -130,6 +161,7 @@ export default function AddPoster() {
         }
       />
 
+      {/* STOCK */}
       <h3>Stock Quantity</h3>
 
       <input
@@ -139,6 +171,7 @@ export default function AddPoster() {
         }
       />
 
+      {/* DESCRIPTION */}
       <textarea
         placeholder="Description"
         onChange={(e) =>
@@ -146,6 +179,7 @@ export default function AddPoster() {
         }
       />
 
+      {/* SUBMIT */}
       <button onClick={handleSubmit}>
         Submit Product
       </button>
