@@ -77,7 +77,7 @@ export default function Navbar() {
 
         <div className={`center-menu ${mobileMenu ? "active" : ""}`}>
 
-          <Link to="/single-posters" className="menu-item">
+          <Link to="/posters/single" className="menu-item">
             Single Posters
           </Link>
 

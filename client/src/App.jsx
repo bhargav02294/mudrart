@@ -26,6 +26,7 @@ import PaymentFailed from "./pages/PaymentFailed";
 import SinglePosters from "./pages/SinglePosters";
 
 import CollectionGrid from "./components/CollectionGrid";
+import PosterListingPage from "./pages/PosterListingPage";
 
 
 
@@ -109,6 +110,13 @@ function App() {
         />
 
         <Route path="/checkout/address" element={<AddressSelector />} />
+
+
+        <Route path="/category/:category" element={<PosterListingPage type="category" />} />
+        <Route path="/collection/:collection" element={<PosterListingPage type="collection" />} />
+        <Route path="/posters/single" element={<PosterListingPage type="single" />} />
+        <Route path="/split/:count" element={<PosterListingPage type="set" />} />
+        <Route path="/polarized/:count" element={<PosterListingPage type="polarized" />} />
 
       </Routes>
       <Footer />

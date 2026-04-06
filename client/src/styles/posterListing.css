@@ -1,0 +1,140 @@
+.pl-container {
+  padding: 20px;
+}
+
+/* HERO */
+
+.pl-hero {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #111, #333);
+  color: white;
+  text-align: center;
+  animation: fadeIn 1s ease;
+}
+
+.pl-hero h1 {
+  font-size: 42px;
+}
+
+.pl-hero button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #ff4d4d;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* OFFERS */
+
+.pl-offers {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.offer-card {
+  background: #222;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+
+/* GRID */
+
+.pl-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+
+/* CARD */
+
+.pl-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.pl-card:hover {
+  transform: translateY(-5px);
+}
+
+.pl-img {
+  position: relative;
+}
+
+.img-main {
+  width: 100%;
+}
+
+.img-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.pl-card:hover .img-hover {
+  opacity: 1;
+}
+
+.price {
+  display: flex;
+  gap: 10px;
+}
+
+.old {
+  text-decoration: line-through;
+}
+
+.new {
+  color: red;
+}
+
+
+/* PAGINATION */
+
+.pl-pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pl-pagination button {
+  margin: 5px;
+  padding: 8px 12px;
+}
+
+.pl-pagination .active {
+  background: black;
+  color: white;
+}
+
+
+/* SKELETON */
+
+.pl-skeleton {
+  height: 250px;
+  background: #eee;
+  border-radius: 10px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
