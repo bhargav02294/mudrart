@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import PosterCard from "../components/PosterCard";
 import "../styles/posterListing.css";
 
 export default function PosterListingPage({ type }) {
@@ -8,14 +9,15 @@ export default function PosterListingPage({ type }) {
 
   const [posters, setPosters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
-  /* =========================
-     FETCH DATA
-  ========================= */
+  const ITEMS_PER_PAGE = 20;
+
+  /* ================= FETCH ================= */
 
   useEffect(() => {
 
-    const fetchPosters = async () => {
+    const fetchData = async () => {
 
       const res = await fetch("/api/posters");
       const data = await res.json();
@@ -51,48 +53,45 @@ export default function PosterListingPage({ type }) {
 
     };
 
-    fetchPosters();
+    fetchData();
 
   }, [type, category, collection, count]);
 
 
-
-  /* =========================
-     PAGINATION (4x5 GRID)
-  ========================= */
-
-  const ITEMS_PER_PAGE = 20;
-
-  const [page, setPage] = useState(1);
+  /* ================= PAGINATION ================= */
 
   const start = (page - 1) * ITEMS_PER_PAGE;
-  const currentItems = posters.slice(start, start + ITEMS_PER_PAGE);
-
+  const current = posters.slice(start, start + ITEMS_PER_PAGE);
   const totalPages = Math.ceil(posters.length / ITEMS_PER_PAGE);
 
 
+  /* ================= HERO IMAGE ================= */
+
+  const heroImage = getHeroImage(type, category);
 
   return (
-    <div className="pl-container">
+    <div className="pl-page">
 
       {/* ================= HERO ================= */}
 
-      <section className="pl-hero">
+      <section
+        className="pl-hero"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="pl-overlay" />
 
-        <h1>
-          {category || collection || type.toUpperCase()}
-        </h1>
+        <div className="pl-hero-content">
+          <h1>{category || collection || type.toUpperCase()}</h1>
+          <p>Premium Posters Collection for Your Space</p>
 
-        <p>Explore premium posters curated for your space</p>
-
-        <button
-          onClick={() =>
-            window.scrollTo({ top: 500, behavior: "smooth" })
-          }
-        >
-          Explore Now
-        </button>
-
+          <button
+            onClick={() =>
+              window.scrollTo({ top: 600, behavior: "smooth" })
+            }
+          >
+            Explore Now
+          </button>
+        </div>
       </section>
 
 
@@ -100,9 +99,17 @@ export default function PosterListingPage({ type }) {
 
       <section className="pl-offers">
 
-        {type === "single" && <OfferCard text="Buy 5 Get 5 Free" />}
-        {type === "set" && <OfferCard text="Buy 3 Sets Get 2 Free" />}
-        {type === "polarized" && <OfferCard text="Premium Polarized Offers" />}
+        {type === "single" && (
+          <OfferCard text="Buy 5 Get 5 Free" />
+        )}
+
+        {type === "set" && (
+          <OfferCard text="Buy 6 Get 4 Free" />
+        )}
+
+        {type === "polarized" && (
+          <OfferCard text="Special Polarized Deals" />
+        )}
 
       </section>
 
@@ -115,7 +122,7 @@ export default function PosterListingPage({ type }) {
           ? [...Array(20)].map((_, i) => (
               <div key={i} className="pl-skeleton" />
             ))
-          : currentItems.map(p => (
+          : current.map(p => (
               <PosterCard key={p._id} poster={p} />
             ))
         }
@@ -144,41 +151,24 @@ export default function PosterListingPage({ type }) {
 }
 
 
+/* ================= HERO IMAGES ================= */
 
-/* ================= CARD ================= */
+function getHeroImage(type, category) {
 
-function PosterCard({ poster }) {
+  if (type === "single") {
+    return "https://images.unsplash.com/photo-1547891654-e66ed7ebb968";
+  }
 
-  const size = poster.sizes?.A4 || Object.values(poster.sizes)[0];
+  if (type === "set") {
+    return "https://images.unsplash.com/photo-1519681393784-d120267933ba";
+  }
 
-  return (
-    <div className="pl-card">
+  if (type === "polarized") {
+    return "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee";
+  }
 
-      <div className="pl-img">
-
-        <img src={poster.thumbnail} className="img-main" />
-
-        {poster.image1 && (
-          <img src={poster.image1} className="img-hover" />
-        )}
-
-      </div>
-
-      <h3>{poster.name}</h3>
-
-      <div className="price">
-
-        <span className="old">₹{size.displayPrice}</span>
-        <span className="new">₹{size.discountedPrice}</span>
-
-      </div>
-
-      <button>Add to Cart</button>
-
-    </div>
-  );
+  return "https://images.unsplash.com/photo-1492724441997-5dc865305da7";
 }
-
 
 
 /* ================= OFFER ================= */
