@@ -63,6 +63,12 @@ animation:slideDown 35s linear infinite;
 }
 
 
+.poster-column:nth-child(1){ animation-duration: 32s; }
+.poster-column:nth-child(2){ animation-duration: 36s; }
+.poster-column:nth-child(3){ animation-duration: 34s; }
+.poster-column:nth-child(4){ animation-duration: 38s; }
+.poster-column:nth-child(5){ animation-duration: 33s; }
+
 /* POSTERS */
 
 .poster-img{
@@ -210,6 +216,20 @@ width:90%;
 
 /* slightly smaller posters */
 
+
+
+.poster-wall::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to right,
+    #0b0b0b 10%,
+    transparent 40%,
+    transparent 70%,
+    #0b0b0b 100%
+  );
+}
 .poster-img{
 
 width:120px;
