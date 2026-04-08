@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PosterCard from "../components/PosterCard";
 import "../styles/posterListing.css";
+import OfferSlider from "../components/OfferSlider";
 
 export default function PosterListingPage({ type }) {
 
@@ -105,12 +106,9 @@ export default function PosterListingPage({ type }) {
 
 
       {/* OFFERS */}
-      <section className="pl-offers">
-        {type === "single" && <OfferCard text="Buy 5 Get 5 Free" />}
-        {type === "set" && <OfferCard text="Buy 6 Get 4 Free" />}
-        {type === "polarized" && <OfferCard text="Premium Deals" />}
-      </section>
+  {/* ================= OFFER SLIDER ================= */}
 
+      <OfferSlider type={type} />
 
       {/* GRID */}
       <section className="pl-grid">

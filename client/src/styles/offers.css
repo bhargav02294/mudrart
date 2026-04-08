@@ -1,55 +1,95 @@
-.offer-slider{
+/* ===============================
+   OFFER SLIDER (PREMIUM)
+=============================== */
 
-background:white;
+.offer-slider {
 
-border-top:1px solid #ffffff00;
-border-bottom:1px solid #ffffff00;
+  width: 100%;
+  overflow: hidden;
 
-overflow:hidden;
+  background: linear-gradient(
+    to right,
+    #ffffff,
+    #f8f8f8,
+    #ffffff
+  );
 
-padding:4px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 
+  padding: 10px 0;
 }
 
 
 /* TRACK */
 
-.offer-track{
+.offer-track {
 
-display:flex;
+  display: flex;
+  gap: 80px;
 
-gap:70px;
+  white-space: nowrap;
 
-white-space:nowrap;
-
-animation:scrollOffers 18s linear infinite;
-
+  animation: scrollOffers 18s linear infinite;
 }
 
 
 /* TEXT */
 
-.offer-item{
+.offer-item {
 
-font-weight:600;
+  font-weight: 600;
+  color: #111;
 
-color:#111;
+  font-size: 15px;
+  letter-spacing: 0.3px;
 
-font-size:15px;
+  position: relative;
+}
 
+
+/* SMALL DOT SEPARATOR */
+
+.offer-item::after {
+  content: "•";
+  margin-left: 40px;
+  color: #bbb;
 }
 
 
 /* ANIMATION */
 
-@keyframes scrollOffers{
+@keyframes scrollOffers {
 
-0%{
-transform:translateX(0);
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+
 }
 
-100%{
-transform:translateX(-50%);
+
+/* HOVER PAUSE (premium touch) */
+
+.offer-slider:hover .offer-track {
+  animation-play-state: paused;
 }
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .offer-track {
+    gap: 40px;
+    animation-duration: 14s;
+  }
+
+  .offer-item {
+    font-size: 13px;
+  }
 
 }
