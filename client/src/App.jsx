@@ -23,7 +23,6 @@ import AddressSelector from "./pages/AddressSelector";
 import DigitalCheckout from "./pages/DigitalCheckout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
-import SinglePosters from "./pages/SinglePosters";
 
 import CollectionGrid from "./components/CollectionGrid";
 import PosterListingPage from "./pages/PosterListingPage";
@@ -67,7 +66,6 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failed" element={<PaymentFailed />} />
 
-                <Route path="/posters/single" element={<SinglePosters />} />
 
                 <Route path="/collections" element={<CollectionGrid />} />
 

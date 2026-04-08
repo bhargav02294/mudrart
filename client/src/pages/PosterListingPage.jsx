@@ -19,36 +19,44 @@ export default function PosterListingPage({ type }) {
 
     const fetchData = async () => {
 
-      const res = await fetch("/api/posters");
-      const data = await res.json();
+      setLoading(true);
 
-      let filtered = data;
+      try {
+        const res = await fetch("/api/posters");
+        const data = await res.json();
 
-      if (type === "category") {
-        filtered = data.filter(p => p.category === category);
+        let filtered = data;
+
+        if (type === "category") {
+          filtered = data.filter(p => p.category === category);
+        }
+
+        if (type === "collection") {
+          filtered = data.filter(p => p.category === collection);
+        }
+
+        if (type === "single") {
+          filtered = data.filter(p => p.productType === "single");
+        }
+
+        if (type === "set") {
+          filtered = data.filter(
+            p => p.productType === "set" && p.setCount == count
+          );
+        }
+
+        if (type === "polarized") {
+          filtered = data.filter(
+            p => p.productType === "polarized" && p.setCount == count
+          );
+        }
+
+        setPosters(filtered);
+        setPage(1); // 🔥 FIXED
+      } catch (err) {
+        console.error("FETCH ERROR:", err);
       }
 
-      if (type === "collection") {
-        filtered = data.filter(p => p.category === collection);
-      }
-
-      if (type === "single") {
-        filtered = data.filter(p => p.productType === "single");
-      }
-
-      if (type === "set") {
-        filtered = data.filter(
-          p => p.productType === "set" && p.setCount == count
-        );
-      }
-
-      if (type === "polarized") {
-        filtered = data.filter(
-          p => p.productType === "polarized" && p.setCount == count
-        );
-      }
-
-      setPosters(filtered);
       setLoading(false);
 
     };
@@ -58,6 +66,7 @@ export default function PosterListingPage({ type }) {
   }, [type, category, collection, count]);
 
 
+
   /* ================= PAGINATION ================= */
 
   const start = (page - 1) * ITEMS_PER_PAGE;
@@ -65,15 +74,15 @@ export default function PosterListingPage({ type }) {
   const totalPages = Math.ceil(posters.length / ITEMS_PER_PAGE);
 
 
-  /* ================= HERO IMAGE ================= */
 
-  const heroImage = getHeroImage(type, category);
+  /* ================= HERO ================= */
+
+  const heroImage = getHeroImage(type);
 
   return (
     <div className="pl-page">
 
-      {/* ================= HERO ================= */}
-
+      {/* HERO */}
       <section
         className="pl-hero"
         style={{ backgroundImage: `url(${heroImage})` }}
@@ -82,7 +91,7 @@ export default function PosterListingPage({ type }) {
 
         <div className="pl-hero-content">
           <h1>{category || collection || type.toUpperCase()}</h1>
-          <p>Premium Posters Collection for Your Space</p>
+          <p>Premium Posters Collection</p>
 
           <button
             onClick={() =>
@@ -95,27 +104,15 @@ export default function PosterListingPage({ type }) {
       </section>
 
 
-      {/* ================= OFFERS ================= */}
-
+      {/* OFFERS */}
       <section className="pl-offers">
-
-        {type === "single" && (
-          <OfferCard text="Buy 5 Get 5 Free" />
-        )}
-
-        {type === "set" && (
-          <OfferCard text="Buy 6 Get 4 Free" />
-        )}
-
-        {type === "polarized" && (
-          <OfferCard text="Special Polarized Deals" />
-        )}
-
+        {type === "single" && <OfferCard text="Buy 5 Get 5 Free" />}
+        {type === "set" && <OfferCard text="Buy 6 Get 4 Free" />}
+        {type === "polarized" && <OfferCard text="Premium Deals" />}
       </section>
 
 
-      {/* ================= GRID ================= */}
-
+      {/* GRID */}
       <section className="pl-grid">
 
         {loading
@@ -130,8 +127,7 @@ export default function PosterListingPage({ type }) {
       </section>
 
 
-      {/* ================= PAGINATION ================= */}
-
+      {/* PAGINATION */}
       <div className="pl-pagination">
 
         {[...Array(totalPages)].map((_, i) => (
@@ -151,9 +147,9 @@ export default function PosterListingPage({ type }) {
 }
 
 
-/* ================= HERO IMAGES ================= */
+/* HERO IMAGE */
 
-function getHeroImage(type, category) {
+function getHeroImage(type) {
 
   if (type === "single") {
     return "https://images.unsplash.com/photo-1547891654-e66ed7ebb968";
@@ -169,9 +165,6 @@ function getHeroImage(type, category) {
 
   return "https://images.unsplash.com/photo-1492724441997-5dc865305da7";
 }
-
-
-/* ================= OFFER ================= */
 
 function OfferCard({ text }) {
   return <div className="offer-card">{text}</div>;
