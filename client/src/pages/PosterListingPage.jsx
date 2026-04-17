@@ -15,107 +15,47 @@ export default function PosterListingPage({ type }) {
   const ITEMS_PER_PAGE = 20;
 
   useEffect(() => {
-
     const fetchData = async () => {
-
       setLoading(true);
 
-      try {
-        const res = await fetch("/api/posters");
-        const data = await res.json();
+      const res = await fetch("/api/posters");
+      const data = await res.json();
 
-        let filtered = data;
+      let filtered = data;
 
-        if (type === "category") {
-          filtered = data.filter(p => p.category === category);
-        }
+      if (type === "category") filtered = data.filter(p => p.category === category);
+      if (type === "collection") filtered = data.filter(p => p.category === collection);
+      if (type === "single") filtered = data.filter(p => p.productType === "single");
+      if (type === "set") filtered = data.filter(p => p.productType === "set" && p.setCount == count);
+      if (type === "polarized") filtered = data.filter(p => p.productType === "polarized" && p.setCount == count);
 
-        if (type === "collection") {
-          filtered = data.filter(p => p.category === collection);
-        }
-
-        if (type === "single") {
-          filtered = data.filter(p => p.productType === "single");
-        }
-
-        if (type === "set") {
-          filtered = data.filter(
-            p => p.productType === "set" && p.setCount == count
-          );
-        }
-
-        if (type === "polarized") {
-          filtered = data.filter(
-            p => p.productType === "polarized" && p.setCount == count
-          );
-        }
-
-        setPosters(filtered);
-        setPage(1);
-
-      } catch (err) {
-        console.error(err);
-      }
-
+      setPosters(filtered);
+      setPage(1);
       setLoading(false);
     };
 
     fetchData();
-
   }, [type, category, collection, count]);
-
 
   const start = (page - 1) * ITEMS_PER_PAGE;
   const current = posters.slice(start, start + ITEMS_PER_PAGE);
   const totalPages = Math.ceil(posters.length / ITEMS_PER_PAGE);
 
-  const showHero = type === "set" || type === "polarized";
-  const heroImage = getHeroImage(type, count);
-
   return (
     <div className="pl-page">
 
-      {/* HERO ONLY FOR SET + POLARIZED */}
-      {showHero && (
-        <section
-          className="pl-hero"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
-          <div className="pl-overlay" />
-
-          <div className="pl-hero-content">
-            <h1>{type === "set" ? `Split Posters (${count})` : `Polaroids (${count})`}</h1>
-            <p>Curated Premium Wall Art</p>
-
-            <button
-              onClick={() =>
-                window.scrollTo({ top: 600, behavior: "smooth" })
-              }
-            >
-              Explore Now
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* TITLE FOR OTHER PAGES */}
-      {!showHero && (
-        <div className="pl-title">
-          <h1>{category || collection || type}</h1>
-          <p>Premium Posters Collection</p>
-        </div>
-      )}
+      {/* CLEAN TITLE */}
+      <div className="pl-title">
+        <h1>{category || collection || `${type} Posters`}</h1>
+        <p>Premium curated wall art</p>
+      </div>
 
       <OfferSlider type={type} />
 
       <section className="pl-grid">
         {loading
-          ? [...Array(20)].map((_, i) => (
-              <div key={i} className="pl-skeleton" />
-            ))
-          : current.map(p => (
-              <PosterCard key={p._id} poster={p} />
-            ))
+          ? [...Array(20)].map((_, i) => <div key={i} className="pl-skeleton" />)
+          : current.map(p => <PosterCard key={p._id} poster={p} />)
         }
       </section>
 
@@ -134,8 +74,6 @@ export default function PosterListingPage({ type }) {
     </div>
   );
 }
-
-
 /* HERO IMAGES */
 
 function getHeroImage(type, count) {

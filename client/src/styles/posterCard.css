@@ -4,29 +4,52 @@
 
 /* IMAGE */
 .poster-image {
-  width: 100%;
+  position: relative;
   aspect-ratio: 1/1;
   overflow: hidden;
-  border-radius: 12px;
-  background: #f5f5f5;
+  border-radius: 14px;
 }
 
 .poster-image img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: 0.4s;
+}
+
+.img.secondary {
+  opacity: 0;
+}
+
+.poster-card:hover .img.secondary {
+  opacity: 1;
+}
+
+.poster-card:hover .img.primary {
+  opacity: 0;
+}
+
+/* SALE */
+.sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: black;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 /* INFO */
 .poster-info {
-  padding: 10px;
   text-align: center;
+  padding: 12px;
 }
 
 .poster-title {
   font-size: 16px;
   font-weight: 500;
-  margin: 10px 0;
 }
 
 /* PRICE */
@@ -36,34 +59,42 @@
   gap: 8px;
 }
 
-.price {
-  font-weight: 600;
-}
-
 .old-price {
   text-decoration: line-through;
-  color: #999;
+  color: #888;
 }
 
-/* ACTION ROW */
+/* ACTIONS */
 .poster-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-top: 10px;
 }
 
 .poster-actions select {
   flex: 1;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 12px;
 }
 
-/* CART BUTTON */
+/* ICON BUTTON */
 .cart-btn {
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: black;
   color: white;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* POLAROID FULL BUTTON */
+.cart-full-btn {
+  width: 100%;
+  padding: 14px;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  margin-top: 10px;
 }
