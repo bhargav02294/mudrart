@@ -60,13 +60,47 @@
 
 /* GRID */
 
+/* HEADER (NO HERO) */
+
+.pl-header {
+  text-align: center;
+  padding: 60px 20px 20px;
+}
+
+.pl-header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.pl-header p {
+  margin-top: 10px;
+  color: #666;
+}
+
+
+/* HERO IMPROVEMENT */
+
+.pl-hero h1 {
+  font-size: 52px;
+  font-weight: 800;
+}
+
+.pl-hero p {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+
+/* GRID IMPROVEMENT */
+
 .pl-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 25px;
   padding: 40px;
 }
-
 
 /* PAGINATION */
 

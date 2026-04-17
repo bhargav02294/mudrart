@@ -14,10 +14,7 @@ export default function PosterListingPage({ type }) {
 
   const ITEMS_PER_PAGE = 20;
 
-  /* ================= FETCH ================= */
-
   useEffect(() => {
-
     const fetchData = async () => {
 
       setLoading(true);
@@ -53,66 +50,59 @@ export default function PosterListingPage({ type }) {
         }
 
         setPosters(filtered);
-        setPage(1); // 🔥 FIXED
+        setPage(1);
+
       } catch (err) {
-        console.error("FETCH ERROR:", err);
+        console.error(err);
       }
 
       setLoading(false);
-
     };
 
     fetchData();
 
   }, [type, category, collection, count]);
 
-
-
-  /* ================= PAGINATION ================= */
-
   const start = (page - 1) * ITEMS_PER_PAGE;
   const current = posters.slice(start, start + ITEMS_PER_PAGE);
   const totalPages = Math.ceil(posters.length / ITEMS_PER_PAGE);
 
-
-
-  /* ================= HERO ================= */
-
-  const heroImage = getHeroImage(type);
+  const showHero = type === "set" || type === "polarized";
+  const heroImage = getHeroImage(type, count);
 
   return (
     <div className="pl-page">
 
-      {/* HERO */}
-      <section
-        className="pl-hero"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="pl-overlay" />
+      {/* HERO ONLY FOR SET & POLARIZED */}
+      {showHero ? (
+        <section
+          className="pl-hero"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        >
+          <div className="pl-overlay" />
 
-        <div className="pl-hero-content">
-          <h1>{category || collection || type.toUpperCase()}</h1>
-          <p>Premium Posters Collection</p>
+          <div className="pl-hero-content">
+            <h1>{getTitle(type, count)}</h1>
+            <p>{getSubtitle(type)}</p>
 
-          <button
-            onClick={() =>
+            <button onClick={() =>
               window.scrollTo({ top: 600, behavior: "smooth" })
-            }
-          >
-            Explore Now
-          </button>
+            }>
+              Explore
+            </button>
+          </div>
+        </section>
+      ) : (
+        <div className="pl-header">
+          <h1>{getTitle(type, category, collection)}</h1>
+          <p>Premium Poster Collection</p>
         </div>
-      </section>
-
-
-      {/* OFFERS */}
-  {/* ================= OFFER SLIDER ================= */}
+      )}
 
       <OfferSlider type={type} />
 
       {/* GRID */}
       <section className="pl-grid">
-
         {loading
           ? [...Array(20)].map((_, i) => (
               <div key={i} className="pl-skeleton" />
@@ -121,13 +111,10 @@ export default function PosterListingPage({ type }) {
               <PosterCard key={p._id} poster={p} />
             ))
         }
-
       </section>
-
 
       {/* PAGINATION */}
       <div className="pl-pagination">
-
         {[...Array(totalPages)].map((_, i) => (
           <button
             key={i}
@@ -137,7 +124,6 @@ export default function PosterListingPage({ type }) {
             {i + 1}
           </button>
         ))}
-
       </div>
 
     </div>
@@ -145,25 +131,49 @@ export default function PosterListingPage({ type }) {
 }
 
 
-/* HERO IMAGE */
+/* ================= HERO IMAGES ================= */
 
-function getHeroImage(type) {
-
-  if (type === "single") {
-    return "https://images.unsplash.com/photo-1547891654-e66ed7ebb968";
-  }
+function getHeroImage(type, count) {
 
   if (type === "set") {
-    return "https://images.unsplash.com/photo-1519681393784-d120267933ba";
+    const map = {
+      2: "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+      3: "https://images.unsplash.com/photo-1493666438817-866a91353ca9",
+      4: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4",
+      6: "https://images.unsplash.com/photo-1484101403633-562f891dc89a",
+      8: "https://images.unsplash.com/photo-1505692794403-34d4982f88aa",
+      10: "https://images.unsplash.com/photo-1505691723518-36a5ac3be353",
+      20: "https://images.unsplash.com/photo-1493666438817-866a91353ca9"
+    };
+    return map[count] || map[3];
   }
 
   if (type === "polarized") {
-    return "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee";
+    const map = {
+      12: "https://images.unsplash.com/photo-1526178613552-2b45c6c302f0",
+      24: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      36: "https://images.unsplash.com/photo-1492724441997-5dc865305da7",
+      48: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+    };
+    return map[count] || map[12];
   }
 
-  return "https://images.unsplash.com/photo-1492724441997-5dc865305da7";
+  return "";
 }
 
-function OfferCard({ text }) {
-  return <div className="offer-card">{text}</div>;
+
+/* ================= TEXT ================= */
+
+function getTitle(type, category, collection, count) {
+
+  if (type === "set") return `${count} Panel Wall Set`;
+  if (type === "polarized") return `${count} Polaroid Pack`;
+
+  return category || collection || "Posters";
+}
+
+function getSubtitle(type) {
+  if (type === "set") return "Curated wall compositions for modern spaces";
+  if (type === "polarized") return "Compact aesthetic prints for daily inspiration";
+  return "";
 }
