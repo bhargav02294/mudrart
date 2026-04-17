@@ -3,9 +3,8 @@
 }
 
 /* HERO */
-
 .pl-hero {
-  height: 90vh;
+  height: 80vh;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -31,79 +30,29 @@
   font-weight: 700;
 }
 
-.pl-hero button {
-  margin-top: 20px;
-  padding: 12px 28px;
-  background: white;
-  color: black;
-  border: none;
-  cursor: pointer;
-}
-
-
-/* OFFERS */
-
-.pl-offers {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px;
-}
-
-.offer-card {
-  padding: 15px 25px;
-  background: black;
-  color: white;
-  border-radius: 8px;
-}
-
-
-/* GRID */
-
-/* HEADER (NO HERO) */
-
-.pl-header {
+.pl-title {
   text-align: center;
   padding: 60px 20px 20px;
 }
 
-.pl-header h1 {
-  font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 1px;
+.pl-title h1 {
+  font-size: 36px;
+  font-weight: 600;
 }
 
-.pl-header p {
-  margin-top: 10px;
-  color: #666;
+.pl-title p {
+  color: #777;
 }
 
-
-/* HERO IMPROVEMENT */
-
-.pl-hero h1 {
-  font-size: 52px;
-  font-weight: 800;
-}
-
-.pl-hero p {
-  margin-top: 10px;
-  font-size: 18px;
-  opacity: 0.9;
-}
-
-
-/* GRID IMPROVEMENT */
-
+/* GRID */
 .pl-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
+  gap: 30px;
   padding: 40px;
 }
 
 /* PAGINATION */
-
 .pl-pagination {
   text-align: center;
   padding: 20px;
@@ -119,17 +68,8 @@
   color: white;
 }
 
-
 /* SKELETON */
-
 .pl-skeleton {
   height: 350px;
   background: #eee;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
 }

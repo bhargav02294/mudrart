@@ -20,6 +20,7 @@ import "./styles/cart.css";
 
 import "./styles/navbar.css";
 import "./styles/footer.css";
+import "./styles/posterCard.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
