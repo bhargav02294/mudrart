@@ -5,7 +5,7 @@ const collections = [
   {
     name: "Trending Now",
     key: "trending",
-    image: "/categories/trending.jpg"
+    image: "/categories/trending.png"
   },
   {
     name: "Best for Your Room",
@@ -15,12 +15,12 @@ const collections = [
   {
     name: "Hustle & Motivation",
     key: "motivational",
-    image: "/categories/motivation.jpg"
+    image: "/categories/motivation.png"
   },
   {
     name: "Peace & Spirituality",
     key: "spiritual",
-    image: "/categories/spiritual.jpg"
+    image: "/categories/spiritual.png"
   },
   {
     name: "Cinema & Pop World",
@@ -30,7 +30,7 @@ const collections = [
   {
     name: "Fan Zone",
     key: "fan",
-    image: "/categories/fanzone.jpg"
+    image: "/categories/fanzone.png"
   }
 ];
 
