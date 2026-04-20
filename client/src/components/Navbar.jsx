@@ -206,7 +206,7 @@ export default function Navbar() {
               className="menu-label"
               onClick={() => toggleDropdown("polarized")}
             >
-              Polarized
+              Polaroids
               <IoChevronDown className={`arrow ${openDropdown === "polarized" ? "rotate" : ""}`} />
             </span>
 

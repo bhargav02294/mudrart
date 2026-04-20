@@ -9,7 +9,7 @@ const collections = [
   },
   {
     name: "Best for Your Room",
-    key: "aesthetic",
+    key: "room",
     image: "/categories/room.jpg"
   },
   {
@@ -24,17 +24,18 @@ const collections = [
   },
   {
     name: "Cinema & Pop World",
-    key: "bollywood",
+    key: "cinema",
     image: "/categories/cinema.jpg"
   },
   {
     name: "Fan Zone",
-    key: "anime",
+    key: "fan",
     image: "/categories/fanzone.jpg"
   }
 ];
 
 export default function CollectionGrid() {
+
   const navigate = useNavigate();
 
   return (
@@ -43,21 +44,28 @@ export default function CollectionGrid() {
       <h2 className="collection-title">Collections</h2>
 
       <div className="collection-grid">
-        {collections.map((cat, i) => (
+
+        {collections.map((item, i) => (
+
           <div
             key={i}
             className="collection-card"
-            onClick={() => navigate(`/category/${cat.key}`)}
+            onClick={() => navigate(`/collection/${item.key}`)}
           >
-            <img src={cat.image} alt={cat.name} />
+
+            <img src={item.image} alt={item.name} />
 
             <div className="collection-overlay" />
 
-            <div className="collection-name">
-              {cat.name}
+            <div className="collection-content">
+              <h3>{item.name}</h3>
+              <span>Explore →</span>
             </div>
+
           </div>
+
         ))}
+
       </div>
 
     </section>

@@ -47,10 +47,10 @@ export default function Home() {
 
 <CollectionGrid />
 
-{/* POLARIZED */}
+{/* POLAROIDS*/}
 <PosterRow
   posters={posters}
-  title="Polarized Sets"
+  title="Polaroids Sets"
   filterFn={(p) => p.productType === "polarized"}
 />
 

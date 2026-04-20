@@ -68,7 +68,7 @@ function App() {
 
 
                 <Route path="/collections" element={<CollectionGrid />} />
-
+<Route path="/collection/:collection" element={<PosterListingPage type="collection" />} />
 
 
         <Route
