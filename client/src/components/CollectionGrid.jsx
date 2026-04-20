@@ -3,32 +3,27 @@ import "../styles/collection.css";
 
 const collections = [
   {
-    name: "Trending Now",
-    key: "trending",
-    image: "/categories/trending.png"
-  },
-  {
-    name: "Best for Your Room",
     key: "room",
     image: "/categories/room.jpg"
   },
   {
-    name: "Hustle & Motivation",
+    key: "trending",
+    image: "/categories/trending.png"
+  },
+  
+  {
     key: "motivational",
     image: "/categories/motivation.png"
   },
   {
-    name: "Peace & Spirituality",
     key: "spiritual",
     image: "/categories/spiritual.png"
   },
   {
-    name: "Cinema & Pop World",
     key: "cinema",
     image: "/categories/cinema.jpg"
   },
   {
-    name: "Fan Zone",
     key: "fan",
     image: "/categories/fanzone.png"
   }
@@ -53,14 +48,11 @@ export default function CollectionGrid() {
             onClick={() => navigate(`/collection/${item.key}`)}
           >
 
-            <img src={item.image} alt={item.name} />
-
-            <div className="collection-overlay" />
-
-            <div className="collection-content">
-              <h3>{item.name}</h3>
-              <span>Explore →</span>
-            </div>
+            <img
+              src={item.image}
+              alt="collection"
+              loading="lazy"
+            />
 
           </div>
 
