@@ -12,47 +12,33 @@ const categories = [
 
 export default function CategorySection() {
 
-  const firstRow = categories.slice(0,4);
-  const secondRow = categories.slice(4);
-
   return (
 
     <section className="categories">
 
       <div className="categories-header">
-
-        <h2 className="categories-title">
-          Browse by Category
-        </h2>
-
+        <h2 className="categories-title">Browse by Category</h2>
         <p className="categories-subtitle">
           Explore posters across top themes and styles
         </p>
-
       </div>
 
       <div className="categories-container">
 
-        {/* FIRST ROW */}
-        <div className="categories-row row-top">
-          {firstRow.map((cat,index)=>(
+        <div className="categories-row">
+          {categories.map((cat,index)=>(
             <div className="category-item" key={index}>
+              
               <div className="category-circle">
-                <img src={cat.icon} alt={cat.name} className="category-icon"/>
+                <img 
+                  src={cat.icon} 
+                  alt={cat.name} 
+                  className="category-icon"
+                />
               </div>
-              <p className="category-name">{cat.name}</p>
-            </div>
-          ))}
-        </div>
 
-        {/* SECOND ROW */}
-        <div className="categories-row row-bottom">
-          {secondRow.map((cat,index)=>(
-            <div className="category-item" key={index}>
-              <div className="category-circle">
-                <img src={cat.icon} alt={cat.name} className="category-icon"/>
-              </div>
               <p className="category-name">{cat.name}</p>
+
             </div>
           ))}
         </div>
@@ -62,5 +48,4 @@ export default function CategorySection() {
     </section>
 
   );
-
 }
