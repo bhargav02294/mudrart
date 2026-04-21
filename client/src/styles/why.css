@@ -3,7 +3,7 @@
 ========================= */
 
 .why-section {
-  padding: 100px 40px;
+  padding: 120px 40px;
   background: #ffffff;
   text-align: center;
 }
@@ -11,10 +11,11 @@
 /* TITLE */
 
 .why-title {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 700;
-  margin-bottom: 60px;
+  margin-bottom: 70px;
   letter-spacing: 0.5px;
+  font-family: 'Playfair Display', serif;
 }
 
 /* GRID */
@@ -22,7 +23,7 @@
 .why-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  gap: 50px;
   max-width: 1200px;
   margin: auto;
 }
@@ -33,45 +34,65 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 20px;
+  padding: 20px;
 }
 
-/* ICON CIRCLE */
+/* =========================
+   ICON (MAIN FOCUS)
+========================= */
 
 .why-icon {
-  width: 90px;
-  height: 90px;
+  width: 130px;              /* BIGGER */
+  height: 130px;             /* BIGGER */
   border-radius: 50%;
-  background: #f5f5f5;
+
+  background: #f8f8f8;
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,0.08),
+    inset 0 2px 6px rgba(255,255,255,0.6);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 18px;
+  margin-bottom: 25px;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* IMAGE INSIDE ICON */
+
 .why-icon img {
-  width: 40px;
-  height: 40px;
+  width: 80px;               /* IMPORTANT */
+  height: 80px;
   object-fit: contain;
 }
 
-/* TITLE */
+/* HOVER (SUBTLE PREMIUM) */
 
-.why-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
+.why-card:hover .why-icon {
+  transform: scale(1.05);
+  box-shadow: 
+    0 18px 40px rgba(0,0,0,0.12),
+    inset 0 2px 6px rgba(255,255,255,0.7);
 }
 
-/* DESCRIPTION */
+/* =========================
+   TEXT
+========================= */
+
+.why-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
 
 .why-card p {
-  font-size: 14px;
+  font-size: 15px;
   color: #666;
-  max-width: 220px;
-  line-height: 1.5;
+  max-width: 260px;
+  line-height: 1.6;
 }
 
 /* =========================
@@ -81,30 +102,33 @@
 @media (max-width: 1024px) {
   .why-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 40px;
   }
 }
 
 @media (max-width: 600px) {
+
   .why-section {
-    padding: 70px 20px;
+    padding: 80px 20px;
   }
 
   .why-title {
-    font-size: 26px;
+    font-size: 28px;
+    margin-bottom: 50px;
   }
 
   .why-grid {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
   .why-icon {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
   }
 
   .why-icon img {
-    width: 32px;
-    height: 32px;
+    width: 60px;
+    height: 60px;
   }
 }
