@@ -3,47 +3,35 @@
 /* ========================= */
 
 .categories{
-  width:100%;
   padding:90px 0;
-  background:#ffffff;
+  background:#fff;
 }
-
-
-/* ========================= */
-/* HEADER */
-/* ========================= */
 
 .categories-header{
   text-align:center;
-  max-width:700px;
-  margin:0 auto 60px auto;
-  padding:0 20px;
+  margin-bottom:60px;
 }
 
 .categories-title{
-  font-size:40px;
+  font-size:38px;
   font-weight:800;
-  letter-spacing:-0.5px;
-  color:#111;
-  margin-bottom:10px;
 }
 
 .categories-subtitle{
-  font-size:16px;
   color:#666;
 }
 
 
 /* ========================= */
-/* ROW */
+/* DESKTOP GRID */
 /* ========================= */
 
-.categories-row{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap:40px;
-  flex-wrap:nowrap; /* DESKTOP = SINGLE ROW */
+.categories-grid{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:30px;
+  max-width:1200px;
+  margin:auto;
 }
 
 
@@ -52,10 +40,7 @@
 /* ========================= */
 
 .category-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  cursor:pointer;
+  text-align:center;
 }
 
 
@@ -64,23 +49,54 @@
 /* ========================= */
 
 .category-circle{
-  position:relative;
   width:140px;
   height:140px;
+  margin:auto;
+
   border-radius:50%;
+  position:relative;
+
+  background:#f5f5f5;
 
   display:flex;
-  justify-content:center;
   align-items:flex-end;
+  justify-content:center;
 
-  overflow:visible; /* 🔥 KEY CHANGE (ALLOW TOP OUTSIDE) */
-
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  overflow:hidden; /* bottom clipped */
 }
 
 
 /* ========================= */
-/* COLOR PER CATEGORY */
+/* IMAGE CONTROL (FIXED SIZE) */
+/* ========================= */
+
+.category-circle img{
+  position:absolute;
+
+  bottom:-10px; /* push inside */
+
+  height:180px; /* FIXED SIZE (KEY FIX) */
+  width:auto;
+
+  object-fit:contain;
+
+  left:50%;
+  transform:translateX(-50%);
+}
+
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+
+.category-name{
+  margin-top:14px;
+  font-weight:600;
+}
+
+
+/* ========================= */
+/* COLORS */
 /* ========================= */
 
 .category-item:nth-child(1) .category-circle { background:#e8f0ff; }
@@ -93,83 +109,32 @@
 
 
 /* ========================= */
-/* IMAGE */
-/* ========================= */
-
-.category-icon{
-  position:absolute;
-
-  bottom:0; /* bottom stays inside */
-  left:50%;
-  transform:translateX(-50%);
-
-  height:160%; /* BIG → goes OUTSIDE TOP */
-  width:auto;
-
-  object-fit:contain;
-
-  pointer-events:none;
-  transition:0.4s;
-}
-
-
-/* ========================= */
-/* TEXT */
-/* ========================= */
-
-.category-name{
-  margin-top:18px;
-  font-size:16px;
-  font-weight:600;
-  color:#222;
-}
-
-
-/* ========================= */
-/* HOVER */
-/* ========================= */
-
-.category-item:hover .category-icon{
-  transform:translateX(-50%) scale(1.08);
-}
-
-.category-item:hover .category-circle{
-  box-shadow:0 18px 40px rgba(0,0,0,0.18);
-}
-
-
-/* ========================= */
-/* MOBILE */
+/* MOBILE FIX */
 /* ========================= */
 
 @media (max-width:768px){
 
-  .categories{
-    padding:60px 0;
-  }
-
-  .categories-title{
-    font-size:28px;
-  }
-
-  .categories-subtitle{
-    font-size:14px;
-  }
-
-  .categories-row{
-    flex-wrap:wrap;
-    justify-content:center;
+  .categories-grid{
+    grid-template-columns: repeat(4, 1fr);
     gap:20px;
+    justify-items:center;
   }
 
-  /* 4 ITEMS FIRST ROW */
-  .category-item{
-    width:22%;
-  }
-
-  /* FORCE LAST 3 CENTER */
+  /* LAST 3 CENTERED */
   .category-item:nth-child(n+5){
-    width:30%;
+    grid-column: span 1;
+  }
+
+  .category-item:nth-child(5){
+    grid-column: 2;
+  }
+
+  .category-item:nth-child(6){
+    grid-column: 3;
+  }
+
+  .category-item:nth-child(7){
+    grid-column: 4;
   }
 
   .category-circle{
@@ -177,38 +142,11 @@
     height:90px;
   }
 
-  .category-icon{
-    height:150%;
+  .category-circle img{
+    height:120px;
   }
 
   .category-name{
-    font-size:14px;
+    font-size:13px;
   }
-
-}
-
-
-/* ========================= */
-/* SMALL PHONES */
-/* ========================= */
-
-@media (max-width:420px){
-
-  .category-item{
-    width:23%;
-  }
-
-  .category-item:nth-child(n+5){
-    width:32%;
-  }
-
-  .category-circle{
-    width:80px;
-    height:80px;
-  }
-
-  .category-icon{
-    height:150%;
-  }
-
 }
