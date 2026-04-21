@@ -4,22 +4,22 @@ const features = [
   {
     title: "Premium Quality Posters",
     desc: "Printed on high-quality 300 GSM premium paper for long-lasting durability.",
-    icon: "/icons/quality.png",
+    icon: "/categories/premium.png",
   },
   {
     title: "Fast & Free Shipping",
     desc: "Enjoy quick delivery with free shipping on eligible orders.",
-    icon: "/icons/shipping.png",
+    icon: "/categories/free-shipping.png",
   },
   {
     title: "Exclusive Offers",
     desc: "Unlock special deals and discounts available only on our platform.",
-    icon: "/icons/offers.png",
+    icon: "/categories/offers.png",
   },
   {
     title: "Digital Download",
     desc: "Instant access to high-resolution digital posters anytime, anywhere.",
-    icon: "/icons/download.png",
+    icon: "/categories/downloadable.png",
   },
 ];
 
