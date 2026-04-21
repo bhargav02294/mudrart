@@ -13,14 +13,18 @@ const categories = [
 export default function CategorySection() {
 
   return (
-
     <section className="categories">
 
       <div className="categories-header">
-        <h2 className="categories-title">Browse by Category</h2>
+
+        <h2 className="categories-title">
+          Browse by Category
+        </h2>
+
         <p className="categories-subtitle">
           Explore posters across top themes and styles
         </p>
+
       </div>
 
       <div className="categories-container">
@@ -28,17 +32,10 @@ export default function CategorySection() {
         <div className="categories-row">
           {categories.map((cat,index)=>(
             <div className="category-item" key={index}>
-              
               <div className="category-circle">
-                <img 
-                  src={cat.icon} 
-                  alt={cat.name} 
-                  className="category-icon"
-                />
+                <img src={cat.icon} alt={cat.name} className="category-icon"/>
               </div>
-
               <p className="category-name">{cat.name}</p>
-
             </div>
           ))}
         </div>
@@ -46,6 +43,5 @@ export default function CategorySection() {
       </div>
 
     </section>
-
   );
 }
