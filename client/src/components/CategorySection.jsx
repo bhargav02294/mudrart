@@ -4,9 +4,9 @@ const categories = [
   { name: "Entertainment", icon: "/categories/entertainment.png", key: "entertainment" },
   { name: "Superheroes", icon: "/categories/superheroes.png", key: "marvel_dc" },
   { name: "Sports", icon: "/categories/sports.png", key: "sports" },
-  { name: "Anime", icon: "/categories/anime.pnng", key: "anime" },
-  { name: "Aesthetic", icon: "/categories/aesthetic.pnng", key: "aesthetic" },
-  { name: "Spiritual", icon: "/categories/spiritual.pnng", key: "spiritual" },
+  { name: "Anime", icon: "/categories/anime.png", key: "anime" },
+  { name: "Aesthetic", icon: "/categories/aesthetic.png", key: "aesthetic" },
+  { name: "Spiritual", icon: "/categories/spiritual2.png", key: "spiritual" },
   { name: "Lifestyle", icon: "/categories/lifestyle.png", key: "lifestyle" },
 ];
 
