@@ -21,19 +21,15 @@ export default function CategorySection() {
         </p>
       </div>
 
-      <div className="categories-container">
-
-        <div className="categories-grid">
-          {categories.map((cat, i) => (
-            <div className="category-item" key={i}>
-              <div className="category-circle">
-                <img src={cat.icon} alt={cat.name} />
-              </div>
-              <p className="category-name">{cat.name}</p>
+      <div className="categories-grid">
+        {categories.map((cat, i) => (
+          <div className={`category-item item-${i+1}`} key={i}>
+            <div className="category-circle">
+              <img src={cat.icon} alt={cat.name} />
             </div>
-          ))}
-        </div>
-
+            <p className="category-name">{cat.name}</p>
+          </div>
+        ))}
       </div>
 
     </section>

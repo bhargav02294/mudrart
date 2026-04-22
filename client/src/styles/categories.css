@@ -3,7 +3,7 @@
 /* ========================= */
 
 .categories{
-  padding:90px 16px; /* FIX: side margin */
+  padding:90px 20px;
   background:#fff;
 }
 
@@ -62,23 +62,21 @@
   align-items:flex-end;
   justify-content:center;
 
-  overflow:hidden; /* ONLY bottom clipped */
+  overflow:hidden;
 }
 
 
 /* ========================= */
-/* IMAGE (PERFECT CONTROL) */
+/* IMAGE CONTROL */
 /* ========================= */
 
 .category-circle img{
   position:absolute;
-
-  bottom:-8px; /* inside bottom */
   left:50%;
   transform:translateX(-50%);
 
-  height:170px; /* balanced size */
-  width:auto;
+  bottom:-10px;   /* bottom inside */
+  height:170px;   /* SAME SIZE FOR ALL */
 
   object-fit:contain;
 }
@@ -98,13 +96,13 @@
 /* COLORS */
 /* ========================= */
 
-.category-item:nth-child(1) .category-circle { background:#e8f0ff; }
-.category-item:nth-child(2) .category-circle { background:#ffe8ec; }
-.category-item:nth-child(3) .category-circle { background:#e8fff3; }
-.category-item:nth-child(4) .category-circle { background:#fff4e8; }
-.category-item:nth-child(5) .category-circle { background:#f3e8ff; }
-.category-item:nth-child(6) .category-circle { background:#e8fbff; }
-.category-item:nth-child(7) .category-circle { background:#fff9e8; }
+.item-1 .category-circle { background:#e8f0ff; }
+.item-2 .category-circle { background:#ffe8ec; }
+.item-3 .category-circle { background:#e8fff3; }
+.item-4 .category-circle { background:#fff4e8; }
+.item-5 .category-circle { background:#f3e8ff; }
+.item-6 .category-circle { background:#e8fbff; }
+.item-7 .category-circle { background:#fff9e8; }
 
 
 /* ========================= */
@@ -114,27 +112,27 @@
 @media (max-width:768px){
 
   .categories-grid{
-    display:grid;
     grid-template-columns: repeat(4, 1fr);
-    gap:22px;
-    max-width:420px;
-    margin:auto;
+    gap:20px;
+
+    max-width:360px;   /* CRITICAL FIX */
+    margin:0 auto;     /* center whole block */
   }
 
-  /* FIRST ROW (AUTO = 1,2,3,4) */
+  /* FIRST ROW AUTO (1-4) */
 
-  /* SECOND ROW PYRAMID ALIGNMENT */
+  /* SECOND ROW PERFECT PYRAMID */
 
-  .category-item:nth-child(5){
-    grid-column: 2; /* center under 1-2 */
+  .item-5{
+    grid-column:2;
   }
 
-  .category-item:nth-child(6){
-    grid-column: 3; /* center under 2-3 */
+  .item-6{
+    grid-column:3;
   }
 
-  .category-item:nth-child(7){
-    grid-column: 4; /* center under 3-4 */
+  .item-7{
+    grid-column:4;
   }
 
   /* SIZE */
