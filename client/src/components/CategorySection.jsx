@@ -12,7 +12,7 @@ const categories = [
 ];
 
 export default function CategorySection() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   return (
     <section className="categories">
@@ -28,7 +28,7 @@ export default function CategorySection() {
           <button
             key={i}
             className="category-item"
-            onClick={() => router.push(`/category/${cat.slug}`)}
+            onClick={() => navigate(`/category/${cat.slug}`)}
           >
             <div className="category-circle">
               <img src={cat.icon} alt={cat.name} />
