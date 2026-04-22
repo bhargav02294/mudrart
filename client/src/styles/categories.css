@@ -184,40 +184,47 @@ body{
 /* ========================== */
 @media (max-width:768px){
 
-  /* SECTION SIDE SPACE */
+  /* SECTION */
   .categories{
-    padding:60px 16px; /* ✅ proper device margin */
+    padding:60px 16px;
   }
 
   .categories-container{
-    width:100%;
-    max-width:100%;
-    padding:0 16px; /* ✅ real left-right margin */
-    box-sizing:border-box;
+    padding:0 12px;
   }
 
-  /* ROW CONTROL */
+  /* ✅ FIX: allow wrapping */
   .categories-row{
-    gap:16px;
+    flex-wrap:wrap; /* 🔥 CRITICAL FIX */
     justify-content:center;
-    overflow:hidden; /* ✅ stop visual overflow */
+    gap:18px;
   }
 
+  /* FIRST ROW = 4 ITEMS */
+  .row-top .category-item{
+    width:22%; /* 4 items fit properly */
+  }
+
+  /* SECOND ROW = 3 ITEMS CENTERED */
   .row-bottom{
     margin-top:30px;
-    justify-content:center;
+  }
+
+  .row-bottom .category-item{
+    width:28%; /* 3 items */
   }
 
   /* CIRCLE */
   .category-circle{
     width:90px;
     height:90px;
+    margin:auto;
   }
 
-  /* 🔥 IMPORTANT FIX — CONTROL PNG SIZE */
+  /* IMAGE */
   .category-icon{
-    height:100px;   /* ⬅️ reduced from 110 */
-    bottom:-8px;    /* ⬅️ less overflow */
+    height:95px;
+    bottom:-8px;
   }
 
   /* TEXT */
@@ -226,21 +233,19 @@ body{
     margin-top:16px;
   }
 }
+
+
 /* ========================== */
 /* VERY SMALL PHONES */
 /* ========================== */
 @media (max-width:420px){
 
-  .categories{
-    padding:50px 14px;
+  .row-top .category-item{
+    width:23%;
   }
 
-  .categories-container{
-    padding:0 12px;
-  }
-
-  .categories-row{
-    gap:12px;
+  .row-bottom .category-item{
+    width:30%;
   }
 
   .category-circle{
@@ -249,7 +254,6 @@ body{
   }
 
   .category-icon{
-    height:90px; /* ✅ tighter fit */
-    bottom:-6px;
+    height:85px;
   }
 }
