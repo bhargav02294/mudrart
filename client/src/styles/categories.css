@@ -113,7 +113,7 @@ transition:0.3s;
   position:relative;
   overflow:visible; /* allow image outside */
 
-  background:#f5f5f5;
+  background:#ffffff;
 
   display:flex;
   align-items:center;
@@ -146,11 +146,6 @@ transition:0.3s;
 .category-item:nth-child(7) .category-circle { background:#fff9e8; }   /* yellow */
 
 
-.category-item:hover .category-circle{
-  transform:translateY(-8px) scale(1.05);
-  box-shadow:0 18px 40px rgba(0,0,0,0.18);
-}
-
 /* NAME */
 
 .category-name{
@@ -162,12 +157,6 @@ color:#222;
 
 
 /* HOVER */
-
-.category-item:hover .category-circle{
-transform:translateY(-6px);
-box-shadow:0 14px 30px rgba(0,0,0,0.18);
-}
-
 
 /* ========================== */
 /* DESKTOP LAYOUT */
