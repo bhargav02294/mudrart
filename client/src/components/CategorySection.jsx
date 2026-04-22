@@ -1,5 +1,5 @@
-
 import "../styles/categories.css";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { name: "Entertainment", icon: "/categories/entertainment.png", key: "entertainment" },
@@ -13,6 +13,8 @@ const categories = [
 
 export default function CategorySection() {
 
+  const navigate = useNavigate();
+
   const firstRow = categories.slice(0,4);
   const secondRow = categories.slice(4);
 
@@ -21,15 +23,10 @@ export default function CategorySection() {
     <section className="categories">
 
       <div className="categories-header">
-
-        <h2 className="categories-title">
-          Browse by Category
-        </h2>
-
+        <h2 className="categories-title">Browse by Category</h2>
         <p className="categories-subtitle">
           Explore posters across top themes and styles
         </p>
-
       </div>
 
       <div className="categories-container">
@@ -37,36 +34,37 @@ export default function CategorySection() {
         {/* FIRST ROW */}
         <div className="categories-row row-top">
           {firstRow.map((cat,index)=>(
-            <div className="category-item" key={index}>
+            <button 
+              className="category-item" 
+              key={index}
+              onClick={() => navigate(`/category/${cat.key}`)}
+            >
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} className="category-icon"/>
               </div>
               <p className="category-name">{cat.name}</p>
-            </div>
+            </button>
           ))}
         </div>
 
         {/* SECOND ROW */}
         <div className="categories-row row-bottom">
           {secondRow.map((cat,index)=>(
-            <div className="category-item" key={index}>
+            <button 
+              className="category-item" 
+              key={index}
+              onClick={() => navigate(`/category/${cat.key}`)}
+            >
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} className="category-icon"/>
               </div>
               <p className="category-name">{cat.name}</p>
-            </div>
+            </button>
           ))}
         </div>
 
       </div>
 
     </section>
-
   );
-
 }
-
-
-
-
-
