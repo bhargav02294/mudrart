@@ -1,117 +1,100 @@
 /* ========================= */
+/* RESET (IMPORTANT FIX) */
+/* ========================= */
+
+body{
+  background:#ffffff; /* 🔥 FIX BLACK BACKGROUND */
+}
+
+
+/* ========================= */
 /* SECTION HEADER */
 /* ========================= */
 
 .categories-header{
-
-text-align:center;
-
-max-width:700px;
-
-margin:0 auto 60px auto;
-
-padding:0 20px;
-
+  text-align:center;
+  max-width:700px;
+  margin:0 auto 60px auto;
+  padding:0 20px;
 }
-
-
-/* title */
 
 .categories-title{
-
-font-size:38px;
-
-font-weight:800;
-
-letter-spacing:-0.5px;
-
-color:#111;
-
-margin-bottom:10px;
-
+  font-size:38px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  color:#111;
+  margin-bottom:10px;
 }
-
-
-/* subtitle */
 
 .categories-subtitle{
-
-font-size:16px;
-
-color:#666;
-
-line-height:1.6;
-
+  font-size:16px;
+  color:#666;
+  line-height:1.6;
 }
-
-
-/* mobile */
 
 @media(max-width:768px){
-
-.categories-title{
-font-size:28px;
-}
-
-.categories-subtitle{
-font-size:14px;
-}
-
+  .categories-title{ font-size:28px; }
+  .categories-subtitle{ font-size:14px; }
 }
 
 
-
-
-
-
+/* ========================= */
 /* SECTION */
+/* ========================= */
 
 .categories{
-width:100%;
-padding:80px 0;
-background:#ffffff;
-overflow-x:hidden;
+  width:100%;
+  padding:80px 0;
+  background:#ffffff; /* 🔥 FORCE WHITE */
+  overflow:hidden;    /* 🔥 STOP SIDE OVERFLOW */
 }
 
 
+/* ========================= */
 /* CONTAINER */
+/* ========================= */
 
 .categories-container{
-max-width:1200px;
-margin:auto;
-padding:0 20px;
+  max-width:1200px;
+  margin:auto;
+  padding:0 24px; /* 🔥 BETTER SIDE SPACE */
 }
 
 
+/* ========================= */
 /* ROW */
+/* ========================= */
 
 .categories-row{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:40px;
-flex-wrap:nowrap;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+  flex-wrap:nowrap;
 }
 
 
+/* ========================= */
 /* CATEGORY ITEM */
+/* ========================= */
 
 .category-item{
-display:flex;
-flex-direction:column;
-align-items:center;
-cursor:pointer;
-transition:0.3s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
 }
 
 
+/* ========================= */
 /* CIRCLE */
+/* ========================= */
+
 .category-circle{
   width:140px;
   height:140px;
   border-radius:50%;
   position:relative;
-  overflow:visible; /* allow image outside */
 
   background:#ffffff;
 
@@ -120,84 +103,81 @@ transition:0.3s;
   justify-content:center;
 
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
-  transition:0.25s;
 }
 
-/* BIG PNG (KEY CHANGE) */
+
+/* ========================= */
+/* IMAGE */
+/* ========================= */
+
 .category-icon{
   position:absolute;
-  bottom:-20px;          /* bottom inside feel */
   left:50%;
   transform:translateX(-50%);
 
-  height:170px;          /* 🔥 BIG SIZE */
-  width:auto;
+  bottom:-10px;   /* keep inside bottom */
+  height:150px;   /* 🔥 REDUCED (fix overflow) */
 
+  width:auto;
   object-fit:contain;
 }
 
 
-.category-item:nth-child(1) .category-circle { background:#e8f0ff; }   /* blue */
-.category-item:nth-child(2) .category-circle { background:#ffe8ec; }   /* pink */
-.category-item:nth-child(3) .category-circle { background:#e8fff3; }   /* green */
-.category-item:nth-child(4) .category-circle { background:#fff4e8; }   /* orange */
-.category-item:nth-child(5) .category-circle { background:#f3e8ff; }   /* purple */
-.category-item:nth-child(6) .category-circle { background:#e8fbff; }   /* cyan */
-.category-item:nth-child(7) .category-circle { background:#fff9e8; }   /* yellow */
+/* ========================= */
+/* COLORS */
+/* ========================= */
+
+.category-item:nth-child(1) .category-circle { background:#e8f0ff; }
+.category-item:nth-child(2) .category-circle { background:#ffe8ec; }
+.category-item:nth-child(3) .category-circle { background:#e8fff3; }
+.category-item:nth-child(4) .category-circle { background:#fff4e8; }
+.category-item:nth-child(5) .category-circle { background:#f3e8ff; }
+.category-item:nth-child(6) .category-circle { background:#e8fbff; }
+.category-item:nth-child(7) .category-circle { background:#fff9e8; }
 
 
-/* NAME */
+/* ========================= */
+/* TEXT */
+/* ========================= */
 
 .category-name{
-margin-top:14px;
-font-size:16px;
-font-weight:600;
-color:#222;
+  margin-top:14px;
+  font-size:16px;
+  font-weight:600;
+  color:#222;
 }
 
 
-/* HOVER */
-
-/* ========================== */
-/* DESKTOP LAYOUT */
-/* ========================== */
+/* ========================= */
+/* DESKTOP */
+/* ========================= */
 
 @media (min-width:769px){
 
-.categories-container{
-display:flex;
-justify-content:center;
-}
+  .categories-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
 
-.categories-row{
-display:flex;
-gap:40px;
-}
-
-.row-top{
-display:flex;
-}
-
-.row-bottom{
-display:flex;
-margin-left:40px;
-}
-
+  .row-bottom{
+    margin-left:40px;
+  }
 }
 
 
+/* ========================= */
+/* MOBILE */
+/* ========================= */
 
-/* ========================== */
-/* MOBILE LAYOUT */
-/* ========================== */
 @media (max-width:768px){
 
   .categories{
-    padding:60px 20px; /* 🔥 LEFT-RIGHT SPACE FIX */
+    padding:60px 0;
   }
 
   .categories-container{
-    padding:0 10px; /* extra breathing */
+    padding:0 20px; /* 🔥 FIX LEFT/RIGHT SPACE */
   }
 
   .categories-row{
@@ -210,16 +190,14 @@ margin-left:40px;
     justify-content:center;
   }
 
-  /* SMALLER CIRCLES */
   .category-circle{
-    width:95px;
-    height:95px;
+    width:90px;
+    height:90px;
   }
 
-  /* BIG PNG EVEN ON MOBILE */
   .category-icon{
-    height:120px;
-    bottom:-12px;
+    height:110px;   /* 🔥 SMALLER FOR MOBILE */
+    bottom:-6px;
   }
 
   .category-name{
@@ -228,13 +206,14 @@ margin-left:40px;
 }
 
 
-/* ========================== */
-/* VERY SMALL PHONES */
-/* ========================== */
+/* ========================= */
+/* VERY SMALL */
+/* ========================= */
+
 @media (max-width:420px){
 
-  .categories{
-    padding:50px 16px;
+  .categories-container{
+    padding:0 16px; /* 🔥 EXTRA SAFE SPACE */
   }
 
   .categories-row{
@@ -247,7 +226,6 @@ margin-left:40px;
   }
 
   .category-icon{
-    height:100px;
-    bottom:-10px;
+    height:95px;
   }
 }
