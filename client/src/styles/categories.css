@@ -1,9 +1,16 @@
 /* ========================= */
-/* RESET (IMPORTANT FIX) */
+/* GLOBAL SAFETY FIX (BLACK BG REMOVE) */
 /* ========================= */
 
 body{
-  background:#ffffff; /* 🔥 FIX BLACK BACKGROUND */
+  background:#ffffff;
+}
+
+.categories{
+  width:100%;
+  padding:80px 0;
+  background:#ffffff;
+  overflow-x:hidden;
 }
 
 
@@ -32,23 +39,6 @@ body{
   line-height:1.6;
 }
 
-@media(max-width:768px){
-  .categories-title{ font-size:28px; }
-  .categories-subtitle{ font-size:14px; }
-}
-
-
-/* ========================= */
-/* SECTION */
-/* ========================= */
-
-.categories{
-  width:100%;
-  padding:80px 0;
-  background:#ffffff; /* 🔥 FORCE WHITE */
-  overflow:hidden;    /* 🔥 STOP SIDE OVERFLOW */
-}
-
 
 /* ========================= */
 /* CONTAINER */
@@ -57,7 +47,8 @@ body{
 .categories-container{
   max-width:1200px;
   margin:auto;
-  padding:0 24px; /* 🔥 BETTER SIDE SPACE */
+  padding:0 20px;
+  background:#ffffff; /* 🔥 ensure white */
 }
 
 
@@ -83,6 +74,8 @@ body{
   flex-direction:column;
   align-items:center;
   cursor:pointer;
+  transition:0.3s;
+  background:transparent; /* 🔥 prevent black */
 }
 
 
@@ -96,6 +89,8 @@ body{
   border-radius:50%;
   position:relative;
 
+  overflow:visible;
+
   background:#ffffff;
 
   display:flex;
@@ -103,23 +98,36 @@ body{
   justify-content:center;
 
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  transition:0.25s;
 }
 
 
 /* ========================= */
-/* IMAGE */
+/* BIG PNG */
 /* ========================= */
 
 .category-icon{
   position:absolute;
+  bottom:-20px;
   left:50%;
   transform:translateX(-50%);
 
-  bottom:-10px;   /* keep inside bottom */
-  height:150px;   /* 🔥 REDUCED (fix overflow) */
-
+  height:170px;
   width:auto;
+
   object-fit:contain;
+}
+
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+
+.category-name{
+  margin-top:14px;
+  font-size:16px;
+  font-weight:600;
+  color:#222;
 }
 
 
@@ -137,52 +145,55 @@ body{
 
 
 /* ========================= */
-/* TEXT */
+/* HOVER */
 /* ========================= */
 
-.category-name{
-  margin-top:14px;
-  font-size:16px;
-  font-weight:600;
-  color:#222;
+.category-item:hover .category-circle{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.15);
 }
 
 
-/* ========================= */
-/* DESKTOP */
-/* ========================= */
+/* ========================== */
+/* DESKTOP (UNCHANGED) */
+/* ========================== */
 
 @media (min-width:769px){
 
   .categories-container{
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    justify-content:center;
+  }
+
+  .categories-row{
+    gap:40px;
   }
 
   .row-bottom{
     margin-left:40px;
   }
+
 }
 
 
-/* ========================= */
-/* MOBILE */
-/* ========================= */
+/* ========================== */
+/* MOBILE FIX */
+/* ========================== */
 
 @media (max-width:768px){
 
   .categories{
-    padding:60px 0;
+    padding:60px 24px; /* 🔥 MORE SIDE SPACE */
   }
 
   .categories-container{
-    padding:0 20px; /* 🔥 FIX LEFT/RIGHT SPACE */
+    padding:0 16px; /* 🔥 IMPORTANT */
   }
 
   .categories-row{
     gap:18px;
     justify-content:center;
+    width:100%; /* 🔥 prevent overflow */
   }
 
   .row-bottom{
@@ -190,14 +201,16 @@ body{
     justify-content:center;
   }
 
+  /* smaller circle */
   .category-circle{
     width:90px;
     height:90px;
   }
 
+  /* adjust image */
   .category-icon{
-    height:110px;   /* 🔥 SMALLER FOR MOBILE */
-    bottom:-6px;
+    height:115px;
+    bottom:-12px;
   }
 
   .category-name{
@@ -206,14 +219,14 @@ body{
 }
 
 
-/* ========================= */
-/* VERY SMALL */
-/* ========================= */
+/* ========================== */
+/* VERY SMALL PHONES */
+/* ========================== */
 
 @media (max-width:420px){
 
-  .categories-container{
-    padding:0 16px; /* 🔥 EXTRA SAFE SPACE */
+  .categories{
+    padding:50px 18px;
   }
 
   .categories-row{
@@ -226,6 +239,7 @@ body{
   }
 
   .category-icon{
-    height:95px;
+    height:100px;
+    bottom:-10px;
   }
 }
