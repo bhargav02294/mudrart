@@ -184,19 +184,23 @@ body{
 /* ========================== */
 @media (max-width:768px){
 
+  /* SECTION SIDE SPACE */
   .categories{
-    padding:60px 0; /* remove side padding here */
+    padding:60px 16px; /* ✅ proper device margin */
   }
 
   .categories-container{
-    max-width:360px;   /* 🔥 FIXED WIDTH CENTER BLOCK */
-    margin:0 auto;     /* 🔥 CENTER IT */
-    padding:0;         /* remove extra */
+    width:100%;
+    max-width:100%;
+    padding:0 16px; /* ✅ real left-right margin */
+    box-sizing:border-box;
   }
 
+  /* ROW CONTROL */
   .categories-row{
     gap:16px;
     justify-content:center;
+    overflow:hidden; /* ✅ stop visual overflow */
   }
 
   .row-bottom{
@@ -204,31 +208,35 @@ body{
     justify-content:center;
   }
 
-  /* circles */
+  /* CIRCLE */
   .category-circle{
     width:90px;
     height:90px;
   }
 
-  /* image */
+  /* 🔥 IMPORTANT FIX — CONTROL PNG SIZE */
   .category-icon{
-    height:110px;
-    bottom:-10px;
+    height:100px;   /* ⬅️ reduced from 110 */
+    bottom:-8px;    /* ⬅️ less overflow */
   }
 
+  /* TEXT */
   .category-name{
     font-size:13px;
-    margin-top:18px;
+    margin-top:16px;
   }
 }
-
 /* ========================== */
 /* VERY SMALL PHONES */
 /* ========================== */
 @media (max-width:420px){
 
+  .categories{
+    padding:50px 14px;
+  }
+
   .categories-container{
-    max-width:320px; /* tighter center */
+    padding:0 12px;
   }
 
   .categories-row{
@@ -241,6 +249,7 @@ body{
   }
 
   .category-icon{
-    height:95px;
+    height:90px; /* ✅ tighter fit */
+    bottom:-6px;
   }
 }
