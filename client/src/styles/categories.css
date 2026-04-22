@@ -172,6 +172,9 @@ body{
   .row-bottom{
     margin-left:40px;
   }
+  .category-name{
+    margin-top:30px; /* 🔥 increased from 14px */
+  }
 
 }
 
@@ -179,21 +182,21 @@ body{
 /* ========================== */
 /* MOBILE FIX */
 /* ========================== */
-
 @media (max-width:768px){
 
   .categories{
-    padding:60px 24px; /* 🔥 MORE SIDE SPACE */
+    padding:60px 0; /* remove side padding here */
   }
 
   .categories-container{
-    padding:0 16px; /* 🔥 IMPORTANT */
+    max-width:360px;   /* 🔥 FIXED WIDTH CENTER BLOCK */
+    margin:0 auto;     /* 🔥 CENTER IT */
+    padding:0;         /* remove extra */
   }
 
   .categories-row{
-    gap:18px;
+    gap:16px;
     justify-content:center;
-    width:100%; /* 🔥 prevent overflow */
   }
 
   .row-bottom{
@@ -201,32 +204,31 @@ body{
     justify-content:center;
   }
 
-  /* smaller circle */
+  /* circles */
   .category-circle{
     width:90px;
     height:90px;
   }
 
-  /* adjust image */
+  /* image */
   .category-icon{
-    height:115px;
-    bottom:-12px;
+    height:110px;
+    bottom:-10px;
   }
 
   .category-name{
     font-size:13px;
+    margin-top:18px;
   }
 }
-
 
 /* ========================== */
 /* VERY SMALL PHONES */
 /* ========================== */
-
 @media (max-width:420px){
 
-  .categories{
-    padding:50px 18px;
+  .categories-container{
+    max-width:320px; /* tighter center */
   }
 
   .categories-row{
@@ -239,7 +241,6 @@ body{
   }
 
   .category-icon{
-    height:100px;
-    bottom:-10px;
+    height:95px;
   }
 }
