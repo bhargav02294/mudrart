@@ -114,16 +114,19 @@
 @media (max-width:768px){
 
   .categories-grid{
-    grid-template-columns: repeat(4, 1fr);
+    display:grid;
+    grid-template-columns: repeat(4, 70px); /* FIXED width columns */
+    justify-content:center; /* CENTER WHOLE GRID */
     gap:20px;
 
-    max-width:420px; /* KEY FIX */
-    margin:auto;
+    margin:0 auto;
   }
 
-  /* FIRST ROW = auto (1,2,3,4) */
+  .category-item{
+    justify-self:center; /* center each item */
+  }
 
-  /* SECOND ROW (CENTERED PYRAMID) */
+  /* ===== PERFECT PYRAMID ALIGNMENT ===== */
 
   .category-item:nth-child(5){
     grid-column: 2;
@@ -137,7 +140,7 @@
     grid-column: 4;
   }
 
-  /* SIZE FIX */
+  /* SIZE */
 
   .category-circle{
     width:85px;
