@@ -3,7 +3,7 @@
 /* ========================= */
 
 .categories{
-  padding:80px 16px; /* FIX: left-right spacing */
+  padding:80px 16px;
   background:#fff;
 }
 
@@ -23,7 +23,7 @@
 
 
 /* ========================= */
-/* GRID (DESKTOP) */
+/* GRID DESKTOP */
 /* ========================= */
 
 .categories-grid{
@@ -37,10 +37,13 @@
 
 
 /* ========================= */
-/* ITEM */
+/* BUTTON RESET */
 /* ========================= */
 
 .category-item{
+  background:none;
+  border:none;
+  cursor:pointer;
   text-align:center;
 }
 
@@ -63,12 +66,12 @@
   align-items:flex-end;
   justify-content:center;
 
-  overflow:hidden; /* bottom locked */
+  overflow:visible; /* 🔥 IMPORTANT: allow full image outside */
 }
 
 
 /* ========================= */
-/* IMAGE (MAIN FIX) */
+/* IMAGE */
 /* ========================= */
 
 .category-circle img{
@@ -76,8 +79,8 @@
   left:50%;
   transform:translateX(-50%);
 
-  bottom:-10px; /* inside bottom */
-  height:170px; /* SAME SIZE FOR ALL */
+  bottom:-20px; /* push slightly below */
+  height:180px; /* uniform size */
 
   width:auto;
   object-fit:contain;
@@ -95,7 +98,7 @@
 
 
 /* ========================= */
-/* BACKGROUND COLORS */
+/* COLORS */
 /* ========================= */
 
 .category-item:nth-child(1) .category-circle { background:#e8f0ff; }
@@ -108,25 +111,22 @@
 
 
 /* ========================= */
-/* MOBILE (REAL FIX) */
+/* MOBILE (PERFECT PYRAMID) */
 /* ========================= */
 
 @media (max-width:768px){
 
   .categories-grid{
-    display:grid;
-    grid-template-columns: repeat(4, 70px); /* FIXED width columns */
-    justify-content:center; /* CENTER WHOLE GRID */
-    gap:20px;
-
-    margin:0 auto;
+    grid-template-columns: repeat(4, 80px);
+    justify-content:center;
+    gap:22px;
   }
 
   .category-item{
-    justify-self:center; /* center each item */
+    justify-self:center;
   }
 
-  /* ===== PERFECT PYRAMID ALIGNMENT ===== */
+  /* ===== EXACT PYRAMID ===== */
 
   .category-item:nth-child(5){
     grid-column: 2;
@@ -148,8 +148,8 @@
   }
 
   .category-circle img{
-    height:115px;
-    bottom:-6px;
+    height:120px;
+    bottom:-15px;
   }
 
   .category-name{

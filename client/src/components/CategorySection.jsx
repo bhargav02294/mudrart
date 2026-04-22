@@ -1,16 +1,19 @@
 import "../styles/categories.css";
+import { useRouter } from "next/navigation"; // if Next.js
 
 const categories = [
-  { name: "Entertainment", icon: "/categories/entertainment.png" },
-  { name: "Superheroes", icon: "/categories/superheroes.png" },
-  { name: "Sports", icon: "/categories/sports.png" },
-  { name: "Anime", icon: "/categories/anime.png" },
-  { name: "Aesthetic", icon: "/categories/aesthetic.png" },
-  { name: "Spiritual", icon: "/categories/spiritual2.png" },
-  { name: "Lifestyle", icon: "/categories/lifestyle.png" },
+  { name: "Entertainment", icon: "/categories/entertainment.png", slug: "entertainment" },
+  { name: "Superheroes", icon: "/categories/superheroes.png", slug: "superheroes" },
+  { name: "Sports", icon: "/categories/sports.png", slug: "sports" },
+  { name: "Anime", icon: "/categories/anime.png", slug: "anime" },
+  { name: "Aesthetic", icon: "/categories/aesthetic.png", slug: "aesthetic" },
+  { name: "Spiritual", icon: "/categories/spiritual2.png", slug: "spiritual" },
+  { name: "Lifestyle", icon: "/categories/lifestyle.png", slug: "lifestyle" },
 ];
 
 export default function CategorySection() {
+  const router = useRouter();
+
   return (
     <section className="categories">
 
@@ -24,12 +27,16 @@ export default function CategorySection() {
       <div className="categories-container">
         <div className="categories-grid">
           {categories.map((cat, i) => (
-            <div className="category-item" key={i}>
+            <button
+              key={i}
+              className="category-item"
+              onClick={() => router.push(`/category/${cat.slug}`)}
+            >
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} />
               </div>
               <p className="category-name">{cat.name}</p>
-            </div>
+            </button>
           ))}
         </div>
       </div>
