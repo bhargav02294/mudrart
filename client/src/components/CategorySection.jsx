@@ -1,5 +1,5 @@
 import "../styles/categories.css";
-import { useRouter } from "next/navigation"; // if Next.js
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { name: "Entertainment", icon: "/categories/entertainment.png", slug: "entertainment" },
@@ -12,7 +12,7 @@ const categories = [
 ];
 
 export default function CategorySection() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   return (
     <section className="categories">
@@ -30,7 +30,7 @@ export default function CategorySection() {
             <button
               key={i}
               className="category-item"
-              onClick={() => router.push(`/category/${cat.slug}`)}
+              onClick={() => navigate(`/category/${cat.slug}`)}
             >
               <div className="category-circle">
                 <img src={cat.icon} alt={cat.name} />
