@@ -12,11 +12,10 @@ const categories = [
 ];
 
 export default function CategorySection() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <section className="categories">
-
       <div className="categories-header">
         <h2 className="categories-title">Browse by Category</h2>
         <p className="categories-subtitle">
@@ -24,23 +23,20 @@ export default function CategorySection() {
         </p>
       </div>
 
-      <div className="categories-container">
-        <div className="categories-grid">
-          {categories.map((cat, i) => (
-            <button
-              key={i}
-              className="category-item"
-              onClick={() => navigate(`/category/${cat.slug}`)}
-            >
-              <div className="category-circle">
-                <img src={cat.icon} alt={cat.name} />
-              </div>
-              <p className="category-name">{cat.name}</p>
-            </button>
-          ))}
-        </div>
+      <div className="categories-grid">
+        {categories.map((cat, i) => (
+          <button
+            key={i}
+            className="category-item"
+            onClick={() => router.push(`/category/${cat.slug}`)}
+          >
+            <div className="category-circle">
+              <img src={cat.icon} alt={cat.name} />
+            </div>
+            <p className="category-name">{cat.name}</p>
+          </button>
+        ))}
       </div>
-
     </section>
   );
 }
