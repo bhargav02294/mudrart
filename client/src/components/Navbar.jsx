@@ -40,6 +40,14 @@ export default function Navbar() {
   }, []);
 
 
+  useEffect(() => {
+  if (mobileMenu) {
+    document.body.classList.add("menu-open");
+  } else {
+    document.body.classList.remove("menu-open");
+  }
+}, [mobileMenu]);
+
   /* DROPDOWN TOGGLE */
 
   const toggleDropdown = (name) => {

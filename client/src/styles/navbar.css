@@ -1,21 +1,31 @@
 /* NAVBAR */
 
 .navbar{
-width:100%;
-background:#0b0b0b;
-border-bottom:1px solid #111;
-position:sticky;
-top:0;
-z-index:1000;
-transition:0.3s;
+  width:100%;
+  position:sticky;
+  top:0;
+  z-index:9999; /* stronger */
+
+  background:#0b0b0b;
+  border-bottom:1px solid #111;
+
+  transition:all 0.3s ease;
 }
 
 /* SCROLL GLASS */
 
 .navbar-scrolled{
-background:rgba(0,0,0,0.75);
-backdrop-filter:blur(12px);
-border-bottom:1px solid #2a2a2a;
+  background:rgba(10,10,10,0.75);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+
+body{
+  padding-top:78px; /* SAME AS NAV HEIGHT */
+}
+body.menu-open{
+  overflow:hidden;
 }
 
 
@@ -202,35 +212,45 @@ cursor:pointer;
 }
 
 
+
+
+
+
+
+
+
+
+
 /* MOBILE */
 
 @media (max-width:900px){
 
 .center-menu{
-position:absolute;
-top:78px;
-left:0;
+  position:fixed;  /* 🔥 IMPORTANT */
+  top:78px;
+  left:0;
 
-width:100%;
-background:#000;
+  width:100%;
+  height:calc(100vh - 78px);
 
-flex-direction:column;
-align-items:flex-start;
+  background:#000;
 
-display:none;
+  flex-direction:column;
+  align-items:flex-start;
 
-padding:20px 24px;
+  display:none;
 
-border-top:1px solid #1b1b1b;
+  padding:20px 24px;
 
-/* ✅ FIX: prevent overflow */
-max-height: calc(100vh - 78px);
-overflow-y: auto;
+  overflow-y:auto;
+  z-index:9998;
 }
 
 .center-menu.active{
-display:flex;
+  display:flex;
 }
+
+
 
 .menu-item{
 width:100%;

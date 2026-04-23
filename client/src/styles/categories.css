@@ -185,7 +185,7 @@ body{
 @media (max-width:768px){
 
   .categories{
-    padding:45px 16px;
+    padding:60px 16px;
   }
 
   .categories-container{
@@ -197,7 +197,7 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:10px;
+    gap:14px;
     flex-wrap:nowrap; /* ✅ important */
   }
 
