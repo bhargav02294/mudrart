@@ -29,13 +29,9 @@ export default function PosterRow({
       <div className="poster-header">
         <h2>{title}</h2>
 
-        <PosterRow
-  posters={posters}
-  title="Single Posters"
-  filterFn={(p) => p.productType === "single"}
-  redirect="/posters/single"
-/>
-      </div>
+        <button onClick={() => navigate(redirect)}> Explore → </button>
+        
+     </div>
 
       <div
         ref={scrollRef}
