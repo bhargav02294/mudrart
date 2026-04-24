@@ -19,37 +19,80 @@ export default function PosterDetails() {
 
   useEffect(() => {
 
-    const fetchPoster = async () => {
-      try {
-        const res = await fetch("/api/posters");
-        const data = await res.json();
+  const fetchData = async () => {
 
-        const found = data.find(p => p._id.toString() === id);
+    try {
+      setLoading(true);
 
-        if (!found) {
-          setLoading(false);
-          return;
+      const res = await fetch("/api/posters");
+
+      if (!res.ok) {
+        throw new Error("API failed");
+      }
+
+      const data = await res.json();
+
+      // 🔥 SAFETY CHECK
+      if (!Array.isArray(data)) {
+        console.error("Invalid API response:", data);
+        setPosters([]);
+        setLoading(false);
+        return;
+      }
+
+      let filtered = data;
+
+      if (type === "category") {
+        filtered = data.filter(
+          p => p.category?.toLowerCase() === category?.toLowerCase()
+        );
+      }
+
+      if (type === "collection") {
+
+        const allowedCategories = collectionMap[collection];
+
+        if (!allowedCategories) {
+          filtered = data;
+        } else {
+          filtered = data.filter(p =>
+            allowedCategories.includes(p.category?.toLowerCase())
+          );
         }
 
-        setPoster(found);
-        setSelectedImage(found.thumbnail);
-
-        const priority = ["A6", "A5", "A4", "A3"];
-        const available = priority.find(s => found.sizes?.[s]);
-
-        if (available) setSize(available);
-
-        setLoading(false);
-
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
       }
-    };
 
-    fetchPoster();
+      if (type === "single") {
+        filtered = data.filter(p => p.productType === "single");
+      }
 
-  }, [id]);
+      if (type === "set") {
+        filtered = data.filter(
+          p => p.productType === "set" && String(p.setCount) === String(count)
+        );
+      }
+
+      if (type === "polarized") {
+        filtered = data.filter(
+          p => p.productType === "polarized" && String(p.setCount) === String(count)
+        );
+      }
+
+      setPosters(filtered);
+      setPage(1);
+
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+      setPosters([]);
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
+  fetchData();
+
+}, [type, category, collection, count]);
 
   /* ================= CART ================= */
 
