@@ -25,19 +25,31 @@ html, body {
   box-sizing: border-box;
 }
 
+
+/* 🔥 FIX STICKY BREAK ISSUES */
+body.menu-open{
+  overflow:hidden;
+}
+
+/* ❗ ensure no parent breaks sticky */
+html, body, #root {
+  height: 100%;
+}
+
+
 body {
   font-family: 'Inter', sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+
 }
 
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
   letter-spacing: 0.5px;
 }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-}
+
 
 /* container */
 .container {

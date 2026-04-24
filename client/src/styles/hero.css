@@ -186,93 +186,88 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 
 /* MOBILE FIX */
 /* ================= MOBILE ================= */
-/* ================= MOBILE (FINAL FIX) ================= */
 
 @media (max-width:900px){
 
 .hero{
-  height:auto;
-  min-height:100vh;
 
-  /* ✅ clean background (top dark → bottom white) */
-  background:linear-gradient(
-    to bottom,
-    #0b0b0b 0%,
-    #0b0b0b 70%,
-    #ffffff 100%
-  );
+height:auto;
+min-height:520px;
+padding:60px 0;
 
-  display:flex;
-  flex-direction:column;   /* 🔥 STACK FIX */
-  align-items:center;
-  justify-content:flex-start;
-
-  overflow:hidden;
 }
 
-
-/* ================= POSTER WALL ================= */
+/* reposition poster wall */
 
 .poster-wall{
-  position:relative;       /* 🔥 remove absolute */
-  left:0;
-  top:0;
+left:-120px;
 
-  width:100%;
-  height:420px;
+/* push it further upward so the edge hides under navbar */
+top:-260px;
 
-  display:flex;
-  justify-content:center;
+/* make wall taller so bottom also remains filled */
+height:1000px;
 
-  transform:rotate(-18deg) scale(0.7);
+/* slightly smaller but still visible */
+transform:rotate(-20deg) scale(0.75);
+width:90%;
+
 }
 
+/* slightly smaller posters */
 
-/* posters */
+
+
+.poster-wall::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to right,
+    #0b0b0b 10%,
+    transparent 40%,
+    transparent 70%,
+    #0b0b0b 100%
+  );
+}
 .poster-img{
-  width:110px;
-  height:150px;
+
+width:120px;
+height:160px;
+
 }
 
-
-/* ================= TEXT SECTION ================= */
+/* right text container */
 
 .hero-right{
-  position:relative;       /* 🔥 critical fix */
-  width:100%;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    background-color: #0b0b0b91;
+width:55%;
+padding-left:20px;
 
-  margin-top:20px;
-  padding:0 20px;
-
-  background:none;         /* ❌ remove black box */
 }
 
+/* headline */
 
-/* content */
-.hero-content{
-  text-align:center;
-  max-width:320px;
-}
-
-
-/* heading */
 .hero-content h1{
-  font-size:28px;
-  line-height:1.2;
-}
 
+font-size:34px;
+line-height:1.15;
+
+}
 
 /* button */
+
 .hero-btn{
-  margin-top:18px;
-  padding:12px 22px;
+
+margin-top:22px;
+padding:12px 24px;
+font-size:14px;
+
 }
 
 }
+
 
 /* SMALL PHONES */
 
