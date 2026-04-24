@@ -187,37 +187,63 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 /* MOBILE FIX */
 /* ================= MOBILE ================= */
 
+/* ================= MOBILE BACKGROUND FIX ================= */
+
 @media (max-width:900px){
 
 .hero{
+  height:auto;
+  min-height:520px;
+  padding:60px 0;
 
-height:auto;
-min-height:520px;
-padding:60px 0;
+  /* ❌ REMOVE old gradient */
+  background:#ffffff;
 
+  position:relative;
+  overflow:hidden;
 }
+
+/* ✅ CREATE PROPER BACKGROUND LAYER */
+.hero::before{
+  content:"";
+  position:absolute;
+
+  top:0;
+  left:0;
+  width:100%;
+  height:75%; /* 🔥 EXACT REQUIREMENT */
+
+  background:#0b0b0b;
+
+  z-index:0; /* 🔥 BACKSIDE */
+}
+
+/* poster stays above bg */
+.poster-wall{
+  z-index:1;
+}
+
+/* text stays above everything */
+.hero-right{
+  z-index:2;
+
+  background:none; /* ❌ REMOVE RIGHT BOX */
+  width:55%;
+  padding-left:20px;
+}
+
+/* rest SAME as your code */
 
 /* reposition poster wall */
-
 .poster-wall{
-left:-120px;
-
-/* push it further upward so the edge hides under navbar */
-top:-260px;
-
-/* make wall taller so bottom also remains filled */
-height:1000px;
-
-/* slightly smaller but still visible */
-transform:rotate(-20deg) scale(0.75);
-width:90%;
-
+  left:-120px;
+  top:-260px;
+  height:1000px;
+  transform:rotate(-20deg) scale(0.75);
+  width:90%;
 }
 
-/* slightly smaller posters */
-
-
-
+/* overlay fade */
 .poster-wall::after{
   content:"";
   position:absolute;
@@ -230,43 +256,27 @@ width:90%;
     #0b0b0b 100%
   );
 }
+
 .poster-img{
-
-width:120px;
-height:160px;
-
+  width:120px;
+  height:160px;
 }
-
-/* right text container */
-
-.hero-right{
-
-    background-color: #0b0b0b91;
-width:55%;
-padding-left:20px;
-
-}
-
-/* headline */
 
 .hero-content h1{
-
-font-size:34px;
-line-height:1.15;
-
+  font-size:34px;
+  line-height:1.15;
 }
-
-/* button */
 
 .hero-btn{
-
-margin-top:22px;
-padding:12px 24px;
-font-size:14px;
-
+  margin-top:22px;
+  padding:12px 24px;
+  font-size:14px;
 }
 
 }
+
+
+
 
 
 /* SMALL PHONES */
