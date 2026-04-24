@@ -19,41 +19,47 @@ export default function PosterCard({ poster }) {
   const price = poster?.sizes?.[size]?.discountedPrice;
   const displayPrice = poster?.sizes?.[size]?.displayPrice;
 
+  // ✅ FIXED FUNCTION (INSIDE COMPONENT)
   const addToCart = async (e) => {
-  e.stopPropagation();
+    e.stopPropagation();
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const sessionId =
-      localStorage.getItem("sessionId") || Date.now().toString();
+      const sessionId =
+        localStorage.getItem("sessionId") || Date.now().toString();
 
-    localStorage.setItem("sessionId", sessionId);
+      localStorage.setItem("sessionId", sessionId);
 
-    await fetch("/api/cart/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        posterId: poster._id,
-        size,
-        quantity: 1,
-        sessionId,
-        type: poster.productType,
-      }),
-    });
+      await fetch("/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          posterId: poster._id,
+          size,
+          quantity: 1,
+          sessionId,
+          type: poster.productType,
+          setCount: poster.setCount || 1,
+        }),
+      });
 
-    setShowToast(true);
+      // 🔥 TRIGGER TOAST
+      setShowToast(true);
 
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-window.dispatchEvent(new Event("cartAdded"));  };
+      // optional global event
+      window.dispatchEvent(new Event("cartUpdated"));
 
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ RETURN MUST BE INSIDE FUNCTION
   return (
     <>
       {showToast && (
@@ -70,19 +76,19 @@ window.dispatchEvent(new Event("cartAdded"));  };
 
         {/* IMAGE */}
         <div className="poster-image">
-
           <img
             src={getImg(poster.thumbnail)}
             className="img primary"
+            alt=""
           />
 
           {poster.image1 && (
             <img
               src={getImg(poster.image1)}
               className="img secondary"
+              alt=""
             />
           )}
-
         </div>
 
         {/* INFO */}
@@ -112,8 +118,12 @@ window.dispatchEvent(new Event("cartAdded"));  };
                 ))}
               </select>
 
-              <button className="cart-btn" onClick={addToCart}>
-                🛒
+              <button
+                className="cart-btn"
+                onClick={addToCart}
+                disabled={loading}
+              >
+                {loading ? "..." : "🛒"}
               </button>
 
             </div>
@@ -121,8 +131,9 @@ window.dispatchEvent(new Event("cartAdded"));  };
             <button
               className="cart-full-btn"
               onClick={addToCart}
+              disabled={loading}
             >
-              Add to Cart
+              {loading ? "Adding..." : "Add to Cart"}
             </button>
           )}
 
@@ -131,11 +142,14 @@ window.dispatchEvent(new Event("cartAdded"));  };
       </div>
     </>
   );
+}
 
 
+/* =========================
+   SIZE LOGIC
+========================= */
 function getDefaultSize(poster) {
   if (poster.sizes?.A6) return "A6";
   if (poster.sizes?.A5) return "A5";
   return Object.keys(poster.sizes || {})[0];
 }
-

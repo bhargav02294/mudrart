@@ -1,19 +1,12 @@
 import { useEffect } from "react";
 import "../styles/toast.css";
 
-export default function Toast({ message = "", onClose }) {
+export default function Toast({ message, onClose }) {
 
   useEffect(() => {
-    if (!message) return;
-
-    const timer = setTimeout(() => {
-      onClose && onClose();
-    }, 3000);
-
+    const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
-  }, [message, onClose]);
-
-  if (!message) return null;
+  }, [onClose]);
 
   return <div className="toast">{message}</div>;
 }
