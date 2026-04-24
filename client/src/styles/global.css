@@ -17,6 +17,7 @@
   --transition: all 0.25s ease;
 }
 
+
 /* FIX HORIZONTAL SCROLL */
 html, body {
   overflow-x: hidden;
@@ -42,8 +43,11 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
+    padding-top:78px; /* 🔥 SAME AS NAVBAR HEIGHT */
+
 
 }
+
 
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
