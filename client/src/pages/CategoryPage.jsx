@@ -4,6 +4,7 @@ import PosterCard from "../components/PosterCard";
 import "../styles/category.css";
 
 export default function CategoryPage() {
+
   const { category } = useParams();
   const [posters, setPosters] = useState([]);
 
@@ -15,15 +16,14 @@ export default function CategoryPage() {
           p => p.category?.toLowerCase() === category?.toLowerCase()
         );
         setPosters(filtered);
-      })
-      .catch(err => console.error(err));
+      });
   }, [category]);
 
   return (
     <div className="category-page">
 
       <h1 className="category-heading">
-        {category?.toUpperCase()} Posters
+        {category.toUpperCase()} Posters
       </h1>
 
       <div className="poster-grid">

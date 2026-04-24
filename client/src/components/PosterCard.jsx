@@ -3,13 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function PosterCard({ poster }) {
 
-  if (!poster) return null;
   const navigate = useNavigate();
 
   const defaultSize = getDefaultSize(poster);
   const [size, setSize] = useState(defaultSize);
   const [loading, setLoading] = useState(false);
-  const [showMsg, setShowMsg] = useState(false);
 
   const isPolaroid = poster.productType === "polarized";
 
@@ -48,92 +46,87 @@ export default function PosterCard({ poster }) {
     });
 
     window.dispatchEvent(new Event("cartUpdated"));
-
     setLoading(false);
-
-    // ✅ SHOW MESSAGE
-    setShowMsg(true);
-    setTimeout(() => setShowMsg(false), 3000);
   };
 
   return (
-    <>
-      {/* ✅ SIMPLE MESSAGE */}
-      {showMsg && (
-        <div className="top-msg">Added to cart</div>
-      )}
+    <div
+      className="poster-card"
+      onClick={() => navigate(`/poster/${poster._id}`)}
+    >
 
-      <div
-        className="poster-card"
-        onClick={() => navigate(`/poster/${poster._id}`)}
-      >
+      {/* IMAGE */}
+      <div className="poster-image">
 
-        {/* IMAGE */}
-        <div className="poster-image">
+        <img
+          src={getImg(poster.thumbnail)}
+          className="img primary"
+          alt=""
+        />
 
+        {poster.image1 && (
           <img
-            src={getImg(poster.thumbnail)}
-            className="img primary"
+            src={getImg(poster.image1)}
+            className="img secondary"
+            alt=""
           />
+        )}
 
-          {poster.image1 && (
-            <img
-              src={getImg(poster.image1)}
-              className="img secondary"
-            />
-          )}
-
-        </div>
-
-        {/* INFO */}
-        <div className="poster-info">
-
-          <h3 className="poster-title">{poster.name}</h3>
-
-          <div className="poster-price">
-            <span className="price">₹{price}</span>
-            {displayPrice && <span className="old-price">₹{displayPrice}</span>}
-          </div>
-
-          {!isPolaroid ? (
-            <div className="poster-actions">
-
-              <select
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {Object.keys(poster.sizes || {}).map((s) => (
-                  <option key={s} value={s}>
-                    {s} - ₹{poster.sizes[s].discountedPrice}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                className="cart-btn"
-                onClick={addToCart}
-              >
-                🛒
-              </button>
-
-            </div>
-          ) : (
-            <button
-              className="cart-full-btn"
-              onClick={addToCart}
-            >
-              Add to Cart
-            </button>
-          )}
-
-        </div>
+        <span className="sale-badge">Sale</span>
 
       </div>
-    </>
+
+      {/* INFO */}
+      <div className="poster-info">
+
+        <h3 className="poster-title">{poster.name}</h3>
+
+        <div className="poster-price">
+          <span className="price">₹{price}</span>
+          {displayPrice && (
+            <span className="old-price">₹{displayPrice}</span>
+          )}
+        </div>
+
+        {!isPolaroid ? (
+          <div className="poster-actions">
+
+            <select
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {Object.keys(poster.sizes || {}).map((s) => (
+                <option key={s} value={s}>
+                  {s} - ₹{poster.sizes[s].discountedPrice}
+                </option>
+              ))}
+            </select>
+
+            <button
+              className="cart-btn"
+              onClick={addToCart}
+            >
+              🛒
+            </button>
+
+          </div>
+        ) : (
+          <button
+            className="cart-full-btn"
+            onClick={addToCart}
+          >
+            Add to Cart
+          </button>
+        )}
+
+      </div>
+
+    </div>
   );
 }
 
+/* SIZE LOGIC */
 function getDefaultSize(poster) {
   if (poster.sizes?.A6) return "A6";
   if (poster.sizes?.A5) return "A5";
