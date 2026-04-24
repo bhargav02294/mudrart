@@ -210,19 +210,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
   width:90%;
 }
 
-/* overlay fade (optional but good) */
-.poster-wall::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to right,
-    #000 10%,
-    transparent 40%,
-    transparent 70%,
-    #000 100%
-  );
-}
+
 
 /* posters */
 .poster-img{
@@ -235,7 +223,7 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
   width:55%;
   padding-left:20px;
 
-  background:none; /* ❌ REMOVE grey/black box */
+  background:transparent; /* ❌ REMOVE grey/black box */
 }
 
 /* text */
