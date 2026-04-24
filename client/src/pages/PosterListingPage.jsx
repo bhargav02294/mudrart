@@ -14,68 +14,89 @@ export default function PosterListingPage({ type }) {
 
   const ITEMS_PER_PAGE = 20;
 
-  /* 🔥 COLLECTION CATEGORY MAPPING */
-
   const collectionMap = {
-
-    trending: null, // show all
-
+    trending: null,
     room: ["aesthetic", "cars", "anime"],
-
     motivational: ["motivational"],
-
     spiritual: ["spiritual", "divine", "devotional"],
-
     cinema: ["bollywood", "movie posters", "actors"],
-
     fan: ["anime", "cricket", "football", "superheroes"]
-
   };
 
   useEffect(() => {
 
     const fetchData = async () => {
 
-      setLoading(true);
+      try {
+        setLoading(true);
 
-      const res = await fetch("/api/posters");
-      const data = await res.json();
+        const res = await fetch("/api/posters");
 
-      let filtered = data;
+        // 🔥 SAFETY CHECK
+        if (!res.ok) {
+          throw new Error("API FAILED");
+        }
 
-      if (type === "category") {
-        filtered = data.filter(p => p.category === category);
-      }
+        const data = await res.json();
 
-      if (type === "collection") {
+        // 🔥 SAFETY: ensure array
+        if (!Array.isArray(data)) {
+          setPosters([]);
+          setLoading(false);
+          return;
+        }
 
-        const allowedCategories = collectionMap[collection];
+        let filtered = [...data];
 
-        if (!allowedCategories) {
-          filtered = data;
-        } else {
-          filtered = data.filter(p =>
-            allowedCategories.includes(p.category?.toLowerCase())
+        /* =========================
+           FILTER LOGIC (SAFE)
+        ========================= */
+
+        if (type === "category") {
+          filtered = data.filter(
+            p => p.category?.toLowerCase() === category?.toLowerCase()
           );
         }
 
-      }
+        if (type === "collection") {
+          const allowedCategories = collectionMap[collection];
 
-      if (type === "single") {
-        filtered = data.filter(p => p.productType === "single");
-      }
+          if (allowedCategories) {
+            filtered = data.filter(p =>
+              allowedCategories.includes(p.category?.toLowerCase())
+            );
+          }
+        }
 
-      if (type === "set") {
-        filtered = data.filter(p => p.productType === "set" && p.setCount == count);
-      }
+        if (type === "single") {
+          filtered = data.filter(p => p.productType === "single");
+        }
 
-      if (type === "polarized") {
-        filtered = data.filter(p => p.productType === "polarized" && p.setCount == count);
-      }
+        if (type === "set") {
+          filtered = data.filter(
+            p =>
+              p.productType === "set" &&
+              String(p.setCount) === String(count)
+          );
+        }
 
-      setPosters(filtered);
-      setPage(1);
-      setLoading(false);
+        if (type === "polarized") {
+          filtered = data.filter(
+            p =>
+              p.productType === "polarized" &&
+              String(p.setCount) === String(count)
+          );
+        }
+
+        setPosters(filtered || []);
+        setPage(1);
+
+      } catch (error) {
+        console.error("POSTER LIST ERROR:", error);
+        setPosters([]);
+      } finally {
+        setLoading(false);
+      }
 
     };
 
@@ -83,9 +104,19 @@ export default function PosterListingPage({ type }) {
 
   }, [type, category, collection, count]);
 
+  /* =========================
+     PAGINATION SAFE
+  ========================= */
+
+  const safePosters = Array.isArray(posters) ? posters : [];
+
   const start = (page - 1) * ITEMS_PER_PAGE;
-  const current = posters.slice(start, start + ITEMS_PER_PAGE);
-  const totalPages = Math.ceil(posters.length / ITEMS_PER_PAGE);
+  const current = safePosters.slice(start, start + ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(safePosters.length / ITEMS_PER_PAGE);
+
+  /* =========================
+     RENDER
+  ========================= */
 
   return (
     <div className="pl-page">
@@ -99,28 +130,41 @@ export default function PosterListingPage({ type }) {
 
       <section className="pl-grid">
 
-        {loading
-          ? [...Array(20)].map((_, i) => (
-              <div key={i} className="pl-skeleton" />
-            ))
-          : current.map(p => (
-              <PosterCard key={p._id} poster={p} />
-            ))
-        }
+        {loading ? (
+
+          [...Array(12)].map((_, i) => (
+            <div key={i} className="pl-skeleton" />
+          ))
+
+        ) : current.length > 0 ? (
+
+          current.map(p => (
+            <PosterCard key={p._id} poster={p} />
+          ))
+
+        ) : (
+
+          <div style={{ padding: "40px", textAlign: "center" }}>
+            No posters found
+          </div>
+
+        )}
 
       </section>
 
-      <div className="pl-pagination">
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            className={page === i + 1 ? "active" : ""}
-            onClick={() => setPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {totalPages > 1 && (
+        <div className="pl-pagination">
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              className={page === i + 1 ? "active" : ""}
+              onClick={() => setPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
 
     </div>
   );
