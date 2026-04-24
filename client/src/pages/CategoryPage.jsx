@@ -4,7 +4,6 @@ import PosterCard from "../components/PosterCard";
 import "../styles/category.css";
 
 export default function CategoryPage() {
-
   const { category } = useParams();
   const [posters, setPosters] = useState([]);
 
@@ -12,17 +11,12 @@ export default function CategoryPage() {
     fetch("/api/posters")
       .then(res => res.json())
       .then(data => {
-
         const filtered = data.filter(
-          (p) =>
-            p.category?.toLowerCase() ===
-            category?.toLowerCase()
+          p => p.category?.toLowerCase() === category?.toLowerCase()
         );
-
         setPosters(filtered);
       })
       .catch(err => console.error(err));
-
   }, [category]);
 
   return (
@@ -33,13 +27,9 @@ export default function CategoryPage() {
       </h1>
 
       <div className="poster-grid">
-        {posters.length > 0 ? (
-          posters.map(p => (
-            <PosterCard key={p._id} poster={p} />
-          ))
-        ) : (
-          <p>No posters found</p>
-        )}
+        {posters.map(p => (
+          <PosterCard key={p._id} poster={p} />
+        ))}
       </div>
 
     </div>

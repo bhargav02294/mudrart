@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PosterCard({ poster }) {
 
+  if (!poster) return null;
   const navigate = useNavigate();
 
   const defaultSize = getDefaultSize(poster);
