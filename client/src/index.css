@@ -32,13 +32,17 @@ body { font-family: 'Inter' 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS'
 }
 
 /* ROW */
-
-.poster-row{
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  padding-bottom:10px;
+.poster-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
 }
+
+.poster-card {
+  flex: 0 0 auto;
+}
+
 
 .poster-row::-webkit-scrollbar{
   display:none;
@@ -164,4 +168,17 @@ body { font-family: 'Inter' 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS'
   .poster-section {
     padding: 50px 20px;
   }
+}
+
+
+.top-msg{
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  z-index: 9999;
 }

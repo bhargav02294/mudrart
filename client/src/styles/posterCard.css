@@ -1,77 +1,84 @@
-.poster-card{
-  flex: 0 0 auto;
-  width: 240px;
-  background:white;
-  cursor:pointer;
+.poster-card {
+  cursor: pointer;
+  width: 260px;
 }
 
 /* IMAGE */
-.poster-image{
-  height:340px; /* 🔥 VERTICAL RECTANGLE */
-  position:relative;
-  overflow:hidden;
-  border-radius:0; /* ❌ remove round */
+.poster-image {
+  position: relative;
+  width: 100%;
+  height: 360px; /* 🔥 vertical rectangle */
+  overflow: hidden;
+  border-radius: 0; /* 🔥 sharp */
 }
 
-.poster-image img{
-  position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition: opacity 0.8s ease; /* 🔥 smoother */
+.poster-image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: opacity 0.6s ease; /* 🔥 smooth */
 }
 
-.img.secondary{
-  opacity:0;
+.img.secondary {
+  opacity: 0;
 }
 
-.poster-card:hover .img.secondary{
-  opacity:1;
+.poster-card:hover .img.secondary {
+  opacity: 1;
 }
 
-.poster-card:hover .img.primary{
-  opacity:0;
+.poster-card:hover .img.primary {
+  opacity: 0;
 }
 
 /* INFO */
-.poster-info{
-  text-align:center; /* 🔥 CENTER */
-  padding:14px;
+.poster-info {
+  text-align: center;
+  padding: 12px;
 }
 
-.poster-title{
-  font-size:15px;
-  margin-bottom:6px;
+.poster-title {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* PRICE */
-.poster-price{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-bottom:10px;
+.poster-price {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* ACTIONS */
-.poster-actions{
-  display:flex;
-  gap:10px;
-  align-items:center;
+.poster-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.poster-actions select{
-  flex:1;
-  height:42px; /* 🔥 FIX HEIGHT */
+.poster-actions select {
+  flex: 1;
+  padding: 10px;
 }
 
-.cart-btn{
-  height:42px;
-  width:42px;
+/* CART BUTTON SAME HEIGHT */
+.cart-btn {
+  height: 42px;
+  width: 42px;
+  font-size: 18px;
+  background: black;
+  color: white;
+  border-radius: 6px;
 }
 
-/* POLAROID */
-.cart-full-btn{
-  width:100%;
-  height:44px;
-  margin-top:10px;
+/* POLAROID FULL */
+.cart-full-btn {
+  width: 100%;
+  padding: 12px;
+  background: black;
+  color: white;
+  border-radius: 6px;
+  margin-top: 10px;
 }

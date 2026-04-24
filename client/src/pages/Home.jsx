@@ -30,43 +30,41 @@ export default function Home() {
 
    
 
-
-{/* SINGLE */}
 <PosterRow
   posters={posters}
   title="Single Posters"
+  redirect="/posters/single"
   filterFn={(p) => p.productType === "single"}
 />
 
-{/* 3 SET */}
 <PosterRow
   posters={posters}
   title="3 Poster Sets"
+  redirect="/split/3"
   filterFn={(p) => p.productType === "set" && p.setCount === 3}
 />
 
-<CollectionGrid />
-
-{/* POLAROIDS*/}
 <PosterRow
   posters={posters}
   title="Polaroids Sets"
+  redirect="/polarized/12"
   filterFn={(p) => p.productType === "polarized"}
 />
 
-{/* CARS */}
 <PosterRow
   posters={posters}
   title="Car Posters"
+  redirect="/category/cars"
   filterFn={(p) => p.category === "cars"}
 />
 
-{/* CRICKET */}
 <PosterRow
   posters={posters}
   title="Cricket Posters"
+  redirect="/category/cricket"
   filterFn={(p) => p.category === "cricket"}
 />
+
 
 <WhyChooseUs />
     </>

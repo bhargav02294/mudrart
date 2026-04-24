@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Toast from "./Toast";
 
 export default function PosterCard({ poster }) {
 
@@ -9,7 +8,7 @@ export default function PosterCard({ poster }) {
   const defaultSize = getDefaultSize(poster);
   const [size, setSize] = useState(defaultSize);
   const [loading, setLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
 
   const isPolaroid = poster.productType === "polarized";
 
@@ -19,54 +18,48 @@ export default function PosterCard({ poster }) {
   const price = poster?.sizes?.[size]?.discountedPrice;
   const displayPrice = poster?.sizes?.[size]?.displayPrice;
 
-  // ✅ FIXED FUNCTION (INSIDE COMPONENT)
   const addToCart = async (e) => {
     e.stopPropagation();
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const sessionId =
-        localStorage.getItem("sessionId") || Date.now().toString();
+    const sessionId =
+      localStorage.getItem("sessionId") || Date.now().toString();
 
-      localStorage.setItem("sessionId", sessionId);
+    localStorage.setItem("sessionId", sessionId);
 
-      await fetch("/api/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          posterId: poster._id,
-          size,
-          quantity: 1,
-          sessionId,
-          type: poster.productType,
-          setCount: poster.setCount || 1,
-        }),
-      });
+    await fetch("/api/cart/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("userToken")
+          ? "Bearer " + localStorage.getItem("userToken")
+          : "",
+      },
+      body: JSON.stringify({
+        posterId: poster._id,
+        size,
+        quantity: 1,
+        sessionId,
+        type: poster.productType,
+        setCount: poster.setCount || 1,
+      }),
+    });
 
-      // 🔥 TRIGGER TOAST
-      setShowToast(true);
+    window.dispatchEvent(new Event("cartUpdated"));
 
-      // optional global event
-      window.dispatchEvent(new Event("cartUpdated"));
+    setLoading(false);
 
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    // ✅ SHOW MESSAGE
+    setShowMsg(true);
+    setTimeout(() => setShowMsg(false), 3000);
   };
 
-  // ✅ RETURN MUST BE INSIDE FUNCTION
   return (
     <>
-      {showToast && (
-        <Toast
-          message="Added to cart"
-          onClose={() => setShowToast(false)}
-        />
+      {/* ✅ SIMPLE MESSAGE */}
+      {showMsg && (
+        <div className="top-msg">Added to cart</div>
       )}
 
       <div
@@ -76,19 +69,19 @@ export default function PosterCard({ poster }) {
 
         {/* IMAGE */}
         <div className="poster-image">
+
           <img
             src={getImg(poster.thumbnail)}
             className="img primary"
-            alt=""
           />
 
           {poster.image1 && (
             <img
               src={getImg(poster.image1)}
               className="img secondary"
-              alt=""
             />
           )}
+
         </div>
 
         {/* INFO */}
@@ -98,9 +91,7 @@ export default function PosterCard({ poster }) {
 
           <div className="poster-price">
             <span className="price">₹{price}</span>
-            {displayPrice && (
-              <span className="old-price">₹{displayPrice}</span>
-            )}
+            {displayPrice && <span className="old-price">₹{displayPrice}</span>}
           </div>
 
           {!isPolaroid ? (
@@ -121,9 +112,8 @@ export default function PosterCard({ poster }) {
               <button
                 className="cart-btn"
                 onClick={addToCart}
-                disabled={loading}
               >
-                {loading ? "..." : "🛒"}
+                🛒
               </button>
 
             </div>
@@ -131,9 +121,8 @@ export default function PosterCard({ poster }) {
             <button
               className="cart-full-btn"
               onClick={addToCart}
-              disabled={loading}
             >
-              {loading ? "Adding..." : "Add to Cart"}
+              Add to Cart
             </button>
           )}
 
@@ -144,10 +133,6 @@ export default function PosterCard({ poster }) {
   );
 }
 
-
-/* =========================
-   SIZE LOGIC
-========================= */
 function getDefaultSize(poster) {
   if (poster.sizes?.A6) return "A6";
   if (poster.sizes?.A5) return "A5";
