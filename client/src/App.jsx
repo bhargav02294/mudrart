@@ -68,7 +68,6 @@ function App() {
 
 
                 <Route path="/collections" element={<CollectionGrid />} />
-<Route path="/collection/:collection" element={<PosterListingPage type="collection" />} />
 
 
         <Route
@@ -112,6 +111,7 @@ function App() {
 
         <Route path="/category/:category" element={<PosterListingPage type="category" />} />
         <Route path="/collection/:collection" element={<PosterListingPage type="collection" />} />
+        
         <Route path="/posters/single" element={<PosterListingPage type="single" />} />
         <Route path="/split/:count" element={<PosterListingPage type="set" />} />
         <Route path="/polarized/:count" element={<PosterListingPage type="polarized" />} />

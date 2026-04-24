@@ -20,7 +20,9 @@ export default function PosterCard({ poster }) {
   const displayPrice = poster?.sizes?.[size]?.displayPrice;
 
   const addToCart = async (e) => {
-    e.stopPropagation();
+  e.stopPropagation();
+
+  try {
     setLoading(true);
 
     const sessionId =
@@ -42,9 +44,15 @@ export default function PosterCard({ poster }) {
       }),
     });
 
+    setShowToast(true);
+
+  } catch (err) {
+    console.error(err);
+  } finally {
     setLoading(false);
-    setShowToast(true); // 🔥 SHOW MESSAGE
-  };
+  }
+};
+window.dispatchEvent(new Event("cartAdded"));  };
 
   return (
     <>
@@ -123,10 +131,11 @@ export default function PosterCard({ poster }) {
       </div>
     </>
   );
-}
+
 
 function getDefaultSize(poster) {
   if (poster.sizes?.A6) return "A6";
   if (poster.sizes?.A5) return "A5";
   return Object.keys(poster.sizes || {})[0];
 }
+
