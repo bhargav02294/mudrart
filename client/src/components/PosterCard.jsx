@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Toast from "./Toast";
 
 export default function PosterCard({ poster }) {
 
@@ -8,6 +9,7 @@ export default function PosterCard({ poster }) {
   const defaultSize = getDefaultSize(poster);
   const [size, setSize] = useState(defaultSize);
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const isPolaroid = poster.productType === "polarized";
 
@@ -19,7 +21,6 @@ export default function PosterCard({ poster }) {
 
   const addToCart = async (e) => {
     e.stopPropagation();
-
     setLoading(true);
 
     const sessionId =
@@ -31,9 +32,6 @@ export default function PosterCard({ poster }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("userToken")
-          ? "Bearer " + localStorage.getItem("userToken")
-          : "",
       },
       body: JSON.stringify({
         posterId: poster._id,
@@ -41,90 +39,92 @@ export default function PosterCard({ poster }) {
         quantity: 1,
         sessionId,
         type: poster.productType,
-        setCount: poster.setCount || 1,
       }),
     });
 
-    window.dispatchEvent(new Event("cartUpdated"));
     setLoading(false);
+    setShowToast(true); // 🔥 SHOW MESSAGE
   };
 
   return (
-    <div
-      className="poster-card"
-      onClick={() => navigate(`/poster/${poster._id}`)}
-    >
-
-      {/* IMAGE */}
-      <div className="poster-image">
-
-        <img
-          src={getImg(poster.thumbnail)}
-          className="img primary"
+    <>
+      {showToast && (
+        <Toast
+          message="Added to cart"
+          onClose={() => setShowToast(false)}
         />
+      )}
 
-        {poster.image1 && (
+      <div
+        className="poster-card"
+        onClick={() => navigate(`/poster/${poster._id}`)}
+      >
+
+        {/* IMAGE */}
+        <div className="poster-image">
+
           <img
-            src={getImg(poster.image1)}
-            className="img secondary"
+            src={getImg(poster.thumbnail)}
+            className="img primary"
           />
-        )}
 
-        <span className="sale-badge">Sale</span>
+          {poster.image1 && (
+            <img
+              src={getImg(poster.image1)}
+              className="img secondary"
+            />
+          )}
 
-      </div>
-
-      {/* INFO */}
-      <div className="poster-info">
-
-        <h3 className="poster-title">{poster.name}</h3>
-
-        <div className="poster-price">
-          <span className="price">₹{price}</span>
-          {displayPrice && <span className="old-price">₹{displayPrice}</span>}
         </div>
 
-        {/* ACTIONS */}
-        {!isPolaroid ? (
-          <div className="poster-actions">
+        {/* INFO */}
+        <div className="poster-info">
 
-            <select
-              value={size}
-              onChange={(e) => setSize(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {Object.keys(poster.sizes || {}).map((s) => (
-                <option key={s} value={s}>
-                  {s} - ₹{poster.sizes[s].discountedPrice}
-                </option>
-              ))}
-            </select>
+          <h3 className="poster-title">{poster.name}</h3>
 
+          <div className="poster-price">
+            <span className="price">₹{price}</span>
+            {displayPrice && (
+              <span className="old-price">₹{displayPrice}</span>
+            )}
+          </div>
+
+          {!isPolaroid ? (
+            <div className="poster-actions">
+
+              <select
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {Object.keys(poster.sizes || {}).map((s) => (
+                  <option key={s} value={s}>
+                    {s} - ₹{poster.sizes[s].discountedPrice}
+                  </option>
+                ))}
+              </select>
+
+              <button className="cart-btn" onClick={addToCart}>
+                🛒
+              </button>
+
+            </div>
+          ) : (
             <button
-              className="cart-btn"
+              className="cart-full-btn"
               onClick={addToCart}
             >
-              🛒
+              Add to Cart
             </button>
+          )}
 
-          </div>
-        ) : (
-          <button
-            className="cart-full-btn"
-            onClick={addToCart}
-          >
-            Add to Cart
-          </button>
-        )}
+        </div>
 
       </div>
-
-    </div>
+    </>
   );
 }
 
-
-/* SIZE LOGIC */
 function getDefaultSize(poster) {
   if (poster.sizes?.A6) return "A6";
   if (poster.sizes?.A5) return "A5";

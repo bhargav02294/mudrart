@@ -33,11 +33,15 @@ body { font-family: 'Inter' 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS'
 
 /* ROW */
 
-.poster-row {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding-bottom: 12px;
+.poster-row{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+.poster-row::-webkit-scrollbar{
+  display:none;
 }
 
 /* =========================

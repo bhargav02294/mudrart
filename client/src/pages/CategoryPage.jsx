@@ -6,7 +6,9 @@ import "../styles/category.css"; // ✅ reuse styling
 export default function CategoryPage() {
   const { category } = useParams();
   const [posters, setPosters] = useState([]);
-
+const filtered = data.filter(
+  p => p.category?.toLowerCase() === category?.toLowerCase()
+);
   useEffect(() => {
     fetch("/api/posters")
       .then(res => res.json())
