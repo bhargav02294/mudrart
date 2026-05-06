@@ -167,44 +167,134 @@ navigate("/payment-failed")
 if(!poster) return <div className="container">Loading...</div>
 
 
-
-return(
+return (
 
 <>
+  <Navbar />
 
-<Navbar/>
+  <div className="digital-page">
 
-<div className="container">
+    <div className="container">
 
-<h2>Digital Download</h2>
+      <div className="digital-wrapper">
 
-<div className="digital-checkout">
+        {/* LEFT */}
 
-<img src={poster.thumbnail} className="digital-thumb"/>
+        <div className="digital-left">
 
-<h3>{poster.name}</h3>
+          <div className="digital-image-box">
 
-<p>Price ₹{poster.downloadPrice}</p>
+            <img
+              src={poster.thumbnail}
+              className="digital-thumb"
+              alt={poster.name}
+            />
 
-<input
-placeholder="Email"
-value={email}
-onChange={e=>setEmail(e.target.value)}
-/>
+          </div>
 
-<input
-placeholder="Mobile"
-value={mobile}
-onChange={e=>setMobile(e.target.value)}
-/>
+        </div>
 
-<button onClick={startPayment}>
-Buy Digital Download
-</button>
+        {/* RIGHT */}
 
-</div>
+        <div className="digital-right">
 
-</div>
+          <span className="digital-badge">
+            Instant Download
+          </span>
+
+          <h1 className="digital-title">
+            {poster.name}
+          </h1>
+
+          <p className="digital-description">
+            Premium high quality digital poster.
+            Instant access after successful payment.
+          </p>
+
+          <div className="digital-price-box">
+
+            <span className="price-label">
+              Price
+            </span>
+
+            <div className="digital-price">
+              ₹{poster.downloadPrice}
+            </div>
+
+          </div>
+
+          {/* FORM */}
+
+          <div className="digital-form">
+
+            <div className="input-group">
+
+              <label>Email Address</label>
+
+              <input
+                type="email"
+                placeholder="Enter your email"
+
+                value={email}
+
+                onChange={(e)=>
+                  setEmail(e.target.value)
+                }
+              />
+
+            </div>
+
+            <div className="input-group">
+
+              <label>Mobile Number</label>
+
+              <input
+                type="tel"
+                placeholder="Enter mobile number"
+
+                value={mobile}
+
+                onChange={(e)=>
+                  setMobile(e.target.value)
+                }
+              />
+
+            </div>
+
+            <button
+              className="digital-btn"
+              onClick={startPayment}
+            >
+              Buy Digital Download
+            </button>
+
+          </div>
+
+          {/* FEATURES */}
+
+          <div className="digital-features">
+
+            <div className="feature-item">
+              ⚡ Instant Download Access
+            </div>
+
+            <div className="feature-item">
+              🔒 Secure Razorpay Payment
+            </div>
+
+            <div className="feature-item">
+              📩 Download Link via Email
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </>
 
