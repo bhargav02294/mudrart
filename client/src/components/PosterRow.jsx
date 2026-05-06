@@ -29,7 +29,7 @@ export default function PosterRow({
       <div className="poster-header">
         <h2>{title}</h2>
 
-        <button onClick={() => navigate(redirect)}> Explore → </button>
+        <button onClick={() => navigate(redirect)}> Explore</button>
         
      </div>
 
