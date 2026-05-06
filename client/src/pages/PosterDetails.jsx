@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 
-import "../styles/poster-details.css";
+import "../styles/posterDetails.css";
 
 export default function PosterDetails() {
 
