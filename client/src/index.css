@@ -26,10 +26,7 @@ body { font-family: 'Inter' 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS'
   font-weight: 600;
 }
 
-.poster-header button {
-  font-size: 14px;
-  color: #444;
-}
+
 
 /* ROW */
 .poster-row {
@@ -182,3 +179,174 @@ body { font-family: 'Inter' 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS'
   font-size: 14px;
   z-index: 9999;
 } 
+
+
+/* =====================================================
+   PREMIUM EXPLORE BUTTON
+===================================================== */
+
+.poster-header button {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  height: 48px;
+
+  padding:
+    0
+    24px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.25s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.14);
+}
+
+/* =====================================================
+   SHINE EFFECT
+===================================================== */
+
+.poster-header button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,0.25),
+      transparent
+    );
+
+  transition: left 0.7s ease;
+}
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.poster-header button:hover {
+
+  background: #000000;
+
+  transform:
+    translateY(-2px)
+    scale(1.02);
+
+  box-shadow:
+    0 14px 32px rgba(0,0,0,0.22);
+}
+
+.poster-header button:hover::before {
+  left: 120%;
+}
+
+/* =====================================================
+   ACTIVE
+===================================================== */
+
+.poster-header button:active {
+  transform: scale(0.96);
+}
+
+/* =====================================================
+   ARROW ANIMATION
+===================================================== */
+
+.poster-header button::after {
+  content: "→";
+
+  font-size: 15px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+.poster-header button:hover::after {
+  transform: translateX(4px);
+}
+
+/* =====================================================
+   FOCUS
+===================================================== */
+
+.poster-header button:focus {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(0,0,0,0.08),
+    0 10px 28px rgba(0,0,0,0.18);
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .poster-header button {
+
+    height: 42px;
+
+    padding:
+      0
+      18px;
+
+    font-size: 13px;
+
+    gap: 8px;
+  }
+
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .poster-header button {
+
+    height: 40px;
+
+    padding:
+      0
+      16px;
+
+    font-size: 12px;
+  }
+
+}
