@@ -184,55 +184,161 @@ return;
 /* ===============================
 RAZORPAY
 =============================== */
-
 const options = {
 
-key:data.key,
+key: data.key,
 
-amount:data.amount * 100,
+amount: data.amount * 100,
 
-currency:"INR",
+currency: "INR",
 
-name:"Mudrart",
+name: "Mudrart",
 
-description:"Poster Purchase",
+description: "Poster Purchase",
 
-order_id:data.razorpayOrderId,
+image: "/logo.png",
 
-handler:async function(response){
+order_id: data.razorpayOrderId,
 
-await fetch("/api/payment/verify",{
+/* ======================================
+PREFILL
+====================================== */
 
-method:"POST",
+prefill: {
 
-headers:{
-"Content-Type":"application/json"
+name: address.name || "",
+
+email: address.email || "",
+
+contact: address.mobile || ""
+
 },
 
-body:JSON.stringify({
+/* ======================================
+UPI SUPPORT
+====================================== */
+
+method: {
+
+upi: true,
+card: true,
+wallet: true,
+netbanking: true
+
+},
+
+/* ======================================
+THEME
+====================================== */
+
+theme: {
+
+color: "#111111"
+
+},
+
+/* ======================================
+MOBILE UPI FLOW
+====================================== */
+
+config: {
+
+display: {
+
+blocks: {
+
+upi: {
+
+name: "Pay Using UPI",
+
+instruments: [
+
+{ method: "upi" }
+
+]
+
+}
+
+},
+
+sequence: ["block.upi"],
+
+preferences: {
+
+show_default_blocks: true
+
+}
+
+}
+
+},
+
+/* ======================================
+PAYMENT SUCCESS
+====================================== */
+
+handler: async function(response) {
+
+try {
+
+const verifyRes = await fetch("/api/payment/verify", {
+
+method: "POST",
+
+headers: {
+"Content-Type": "application/json"
+},
+
+body: JSON.stringify({
 
 ...response,
-orderId:data.orderId
+
+orderId: data.orderId
 
 })
 
 });
 
+const verifyData = await verifyRes.json();
+
+if (verifyData.success) {
+
 navigate("/account");
+
+} else {
+
+navigate("/payment-failed");
+
+}
+
+} catch (err) {
+
+console.error(err);
+
+navigate("/payment-failed");
+
+}
 
 },
 
-modal:{
+/* ======================================
+PAYMENT CANCEL
+====================================== */
 
-ondismiss:function(){
+modal: {
 
-alert("Payment cancelled");
+ondismiss: function() {
+
+navigate("/payment-failed");
 
 }
 
 }
 
 };
+
+
+
 
 const rzp = new window.Razorpay(options);
 

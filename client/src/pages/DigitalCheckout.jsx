@@ -88,61 +88,156 @@ const data = await res.json()
 /* ===============================
 RAZORPAY OPTIONS
 =============================== */
-
 const options = {
 
-key:data.key,
+key: data.key,
 
-amount:data.amount*100,
+amount: data.amount * 100,
 
-currency:"INR",
+currency: "INR",
 
-name:"Mudrart",
+name: "Mudrart",
 
-description:"Digital Poster",
+description: "Digital Poster Purchase",
 
-order_id:data.razorpayOrderId,
+image: "/logo.png",
 
+order_id: data.razorpayOrderId,
 
-handler:async function(response){
+/* ======================================
+PREFILL USER INFO
+====================================== */
 
-/* SUCCESS PAYMENT */
+prefill: {
 
-await fetch("/api/digital/verify",{
+email: email,
 
-method:"POST",
+contact: mobile
 
-headers:{
-"Content-Type":"application/json"
 },
 
-body:JSON.stringify({
+/* ======================================
+UPI / PHONEPE / GPAY SUPPORT
+====================================== */
+
+method: {
+
+upi: true,
+card: true,
+netbanking: true,
+wallet: true
+
+},
+
+/* ======================================
+THEME
+====================================== */
+
+theme: {
+
+color: "#111111"
+
+},
+
+/* ======================================
+MOBILE HANDLING
+====================================== */
+
+config: {
+
+display: {
+
+blocks: {
+
+upi: {
+
+name: "Pay Using UPI",
+
+instruments: [
+
+{ method: "upi" }
+
+]
+
+}
+
+},
+
+sequence: ["block.upi"],
+
+preferences: {
+
+show_default_blocks: true
+
+}
+
+}
+
+},
+
+/* ======================================
+SUCCESS HANDLER
+====================================== */
+
+handler: async function(response) {
+
+try {
+
+const verifyRes = await fetch("/api/digital/verify", {
+
+method: "POST",
+
+headers: {
+"Content-Type": "application/json"
+},
+
+body: JSON.stringify({
 
 ...response,
-orderId:data.orderId
+
+orderId: data.orderId
 
 })
 
-})
+});
 
-navigate("/payment-success")
+const verifyData = await verifyRes.json();
+
+if (verifyData.success) {
+
+navigate("/payment-success");
+
+} else {
+
+navigate("/payment-failed");
+
+}
+
+} catch (err) {
+
+console.error(err);
+
+navigate("/payment-failed");
+
+}
 
 },
 
+/* ======================================
+MODAL CLOSE
+====================================== */
 
-modal:{
+modal: {
 
-ondismiss:function(){
+ondismiss: function() {
 
-navigate("/payment-failed")
-
-}
-
-}
-
+navigate("/payment-failed");
 
 }
 
+}
+
+};
 
 /* ===============================
 OPEN RAZORPAY
