@@ -1,0 +1,461 @@
+/* ======================================================
+   DIGITAL CHECKOUT PAGE
+   PREMIUM MINIMAL UI
+====================================================== */
+
+.digital-checkout-page {
+  min-height: 100vh;
+  background: #ffffff;
+  padding: 40px 20px 80px;
+}
+
+/* ======================================================
+   PAGE TITLE
+====================================================== */
+
+.digital-page-title {
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #111111;
+  letter-spacing: -1px;
+}
+
+/* ======================================================
+   MAIN CARD
+====================================================== */
+
+.digital-checkout {
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 60px;
+
+  background: #ffffff;
+
+  border: 1px solid #ededed;
+
+  border-radius: 28px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.04);
+}
+
+/* ======================================================
+   LEFT SECTION
+====================================================== */
+
+.digital-left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* IMAGE */
+
+.digital-thumb-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #f6f6f6;
+}
+
+.digital-thumb {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.digital-thumb:hover {
+  transform: scale(1.03);
+}
+
+/* ======================================================
+   RIGHT SECTION
+====================================================== */
+
+.digital-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* BADGE */
+
+.digital-badge {
+  width: fit-content;
+
+  padding: 8px 14px;
+
+  background: #f4f4f4;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  color: #666666;
+
+  margin-bottom: 18px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+/* TITLE */
+
+.digital-title {
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #111111;
+
+  margin-bottom: 20px;
+}
+
+/* DESCRIPTION */
+
+.digital-description {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #666666;
+
+  margin-bottom: 30px;
+}
+
+/* ======================================================
+   PRICE SECTION
+====================================================== */
+
+.digital-price-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 30px;
+}
+
+.digital-price-label {
+  font-size: 14px;
+  color: #777777;
+}
+
+.digital-price {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111111;
+}
+
+/* ======================================================
+   INPUTS
+====================================================== */
+
+.digital-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* INPUT */
+
+.digital-form input {
+  width: 100%;
+
+  height: 58px;
+
+  border: 1px solid #dddddd;
+
+  border-radius: 14px;
+
+  padding: 0 18px;
+
+  font-size: 15px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* INPUT FOCUS */
+
+.digital-form input:focus {
+  outline: none;
+
+  border-color: #111111;
+
+  box-shadow:
+    0 0 0 4px rgba(0,0,0,0.06);
+}
+
+/* PLACEHOLDER */
+
+.digital-form input::placeholder {
+  color: #999999;
+}
+
+/* ======================================================
+   BUTTON
+====================================================== */
+
+.digital-buy-btn {
+  width: 100%;
+
+  height: 58px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease,
+    opacity 0.3s ease;
+
+  margin-top: 10px;
+}
+
+.digital-buy-btn:hover {
+  background: #000000;
+  transform: translateY(-2px);
+}
+
+.digital-buy-btn:active {
+  transform: scale(0.98);
+}
+
+/* ======================================================
+   FEATURES
+====================================================== */
+
+.digital-features {
+  margin-top: 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.digital-feature-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 14px;
+
+  color: #666666;
+}
+
+/* ICON CIRCLE */
+
+.digital-feature-icon {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  background: #f5f5f5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+
+  color: #111111;
+
+  flex-shrink: 0;
+}
+
+/* ======================================================
+   SECURITY NOTE
+====================================================== */
+
+.digital-security-note {
+  margin-top: 30px;
+
+  font-size: 12px;
+
+  color: #999999;
+
+  line-height: 1.7;
+}
+
+/* ======================================================
+   LOADING
+====================================================== */
+
+.digital-loading {
+  min-height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+
+  color: #666666;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 1024px) {
+
+  .digital-checkout {
+
+    gap: 40px;
+
+    padding: 32px;
+  }
+
+  .digital-title {
+    font-size: 30px;
+  }
+
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 768px) {
+
+  .digital-checkout-page {
+    padding:
+      20px
+      14px
+      60px;
+  }
+
+  .digital-page-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .digital-checkout {
+
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+
+    padding: 18px;
+
+    border-radius: 20px;
+  }
+
+  .digital-thumb-wrapper {
+    border-radius: 16px;
+  }
+
+  .digital-title {
+    font-size: 24px;
+  }
+
+  .digital-description {
+    font-size: 14px;
+  }
+
+  .digital-price {
+    font-size: 30px;
+  }
+
+  .digital-form input {
+    height: 54px;
+    font-size: 14px;
+  }
+
+  .digital-buy-btn {
+    height: 54px;
+    font-size: 15px;
+  }
+
+}
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+
+@media (max-width: 480px) {
+
+  .digital-checkout-page {
+    padding:
+      14px
+      10px
+      50px;
+  }
+
+  .digital-checkout {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .digital-title {
+    font-size: 22px;
+  }
+
+  .digital-price {
+    font-size: 26px;
+  }
+
+  .digital-form input {
+    height: 50px;
+    padding: 0 14px;
+  }
+
+  .digital-buy-btn {
+    height: 50px;
+  }
+
+  .digital-feature-item {
+    font-size: 13px;
+  }
+
+}
+
+/* ======================================================
+   EXTRA SMALL DEVICES
+====================================================== */
+
+@media (max-width: 360px) {
+
+  .digital-title {
+    font-size: 20px;
+  }
+
+  .digital-price {
+    font-size: 24px;
+  }
+
+  .digital-form input {
+    font-size: 13px;
+  }
+
+  .digital-buy-btn {
+    font-size: 14px;
+  }
+
+}
