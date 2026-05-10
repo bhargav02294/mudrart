@@ -44,12 +44,20 @@ export default function Home() {
   filterFn={(p) => p.productType === "set" && p.setCount === 3}
 />
 
+
+      <CollectionGrid />
+
+
+
 <PosterRow
   posters={posters}
   title="Polaroids Sets"
   redirect="/polarized/12"
   filterFn={(p) => p.productType === "polarized"}
 />
+
+
+        
 
 <PosterRow
   posters={posters}
