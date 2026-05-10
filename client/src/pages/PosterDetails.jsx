@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 
-import API_BASE_URL from "../config/api";
-
-import "../styles/posterDetails.css";
+import SEO from "../components/SEO";
 
 export default function PosterDetails() {
 
   const { id } = useParams();
 
   const navigate = useNavigate();
-
-  /* ================= STATES ================= */
 
   const [poster, setPoster] = useState(null);
 
@@ -26,9 +24,9 @@ export default function PosterDetails() {
 
   const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState("");
-
-  /* ================= FETCH POSTER ================= */
+  /* ===============================
+     FETCH POSTER
+  =============================== */
 
   useEffect(() => {
 
@@ -38,84 +36,65 @@ export default function PosterDetails() {
 
         setLoading(true);
 
-        setError("");
+        const res = await fetch("/api/posters");
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/posters/${id}`
+        if (!res.ok) {
+
+          throw new Error("Failed to fetch posters");
+
+        }
+
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+
+          throw new Error("Invalid API response");
+
+        }
+
+        const foundPoster =
+          data.find((p) => p._id === id);
+
+        if (!foundPoster) {
+
+          setLoading(false);
+
+          return;
+
+        }
+
+        setPoster(foundPoster);
+
+        /* ===============================
+           DEFAULT IMAGE
+        =============================== */
+
+        setSelectedImage(
+
+          foundPoster.thumbnail ||
+
+          foundPoster.image1 ||
+
+          ""
+
         );
 
-        /* RESPONSE CHECK */
+        /* ===============================
+           DEFAULT SIZE
+        =============================== */
 
-        if (!response.ok) {
+        const availableSizes =
+          Object.keys(foundPoster.sizes || {});
 
-          throw new Error(
-            `Server Error: ${response.status}`
-          );
+        if (availableSizes.length > 0) {
 
-        }
-
-        /* CONTENT TYPE CHECK */
-
-        const contentType =
-          response.headers.get("content-type");
-
-        if (
-          !contentType ||
-          !contentType.includes("application/json")
-        ) {
-
-          const text = await response.text();
-
-          console.error("INVALID RESPONSE:", text);
-
-          throw new Error(
-            "API did not return JSON"
-          );
-
-        }
-
-        const data = await response.json();
-
-        console.log("POSTER DATA:", data);
-
-        if (!data || !data._id) {
-          throw new Error("Poster not found");
-        }
-
-        setPoster(data);
-
-        /* DEFAULT IMAGE */
-
-        const firstImage =
-          data.thumbnail ||
-          data.image1 ||
-          data.image2 ||
-          data.image3 ||
-          data.image4 ||
-          "";
-
-        setSelectedImage(firstImage);
-
-        /* DEFAULT SIZE */
-
-        if (data.sizes) {
-
-          const availableSizes =
-            Object.keys(data.sizes);
-
-          if (availableSizes.length > 0) {
-
-            setSize(availableSizes[0]);
-
-          }
+          setSize(availableSizes[0]);
 
         }
 
       } catch (err) {
 
-        console.error("FETCH ERROR:", err);
-
-        setError(err.message);
+        console.error("POSTER FETCH ERROR:", err);
 
       } finally {
 
@@ -125,28 +104,32 @@ export default function PosterDetails() {
 
     };
 
-    if (id) {
-      fetchPoster();
-    }
+    fetchPoster();
 
   }, [id]);
 
-  /* ================= ADD TO CART ================= */
+  /* ===============================
+     ADD TO CART
+  =============================== */
 
   const addToCart = async () => {
 
+    if (!size) {
+
+      alert("Please select size");
+
+      return;
+
+    }
+
     try {
 
-      if (!size) {
-
-        alert("Please select a size");
-
-        return;
-
-      }
-
       const sessionId =
-        localStorage.getItem("sessionId") ||
+
+        localStorage.getItem("sessionId")
+
+        ||
+
         Date.now().toString();
 
       localStorage.setItem(
@@ -154,46 +137,37 @@ export default function PosterDetails() {
         sessionId
       );
 
-      const response = await fetch(
-        `${API_BASE_URL}/api/cart/add`,
-        {
+      await fetch("/api/cart/add", {
 
-          method: "POST",
+        method: "POST",
 
-          headers: {
-            "Content-Type": "application/json",
+        headers: {
 
-            Authorization:
-              localStorage.getItem("userToken")
-                ? `Bearer ${localStorage.getItem("userToken")}`
-                : ""
-          },
+          "Content-Type": "application/json",
 
-          body: JSON.stringify({
+          Authorization:
+            localStorage.getItem("userToken")
 
-            posterId: poster._id,
+              ? "Bearer " +
+                localStorage.getItem("userToken")
 
-            size,
+              : ""
 
-            quantity: qty,
+        },
 
-            sessionId
+        body: JSON.stringify({
 
-          })
+          posterId: id,
 
-        }
-      );
+          size,
 
-      const data = await response.json();
+          quantity: qty,
 
-      if (!response.ok) {
+          sessionId
 
-        throw new Error(
-          data.message ||
-          "Failed to add to cart"
-        );
+        })
 
-      }
+      });
 
       alert("Added to cart");
 
@@ -201,73 +175,51 @@ export default function PosterDetails() {
 
       console.error(err);
 
-      alert(err.message);
+      alert("Failed to add cart");
 
     }
 
   };
 
-  /* ================= LOADING ================= */
+  /* ===============================
+     LOADING
+  =============================== */
 
   if (loading) {
 
     return (
 
-      <>
-        <Navbar />
+      <div className="container">
 
-        <div className="container">
+        Loading...
 
-          <h2>Loading...</h2>
-
-        </div>
-      </>
+      </div>
 
     );
 
   }
 
-  /* ================= ERROR ================= */
-
-  if (error) {
-
-    return (
-
-      <>
-        <Navbar />
-
-        <div className="container">
-
-          <h2>{error}</h2>
-
-        </div>
-      </>
-
-    );
-
-  }
-
-  /* ================= NO POSTER ================= */
+  /* ===============================
+     NOT FOUND
+  =============================== */
 
   if (!poster) {
 
     return (
 
-      <>
-        <Navbar />
+      <div className="container">
 
-        <div className="container">
+        Poster not found
 
-          <h2>Poster not found</h2>
-
-        </div>
-      </>
+      </div>
 
     );
 
   }
 
-  /* ================= GALLERY ================= */
+  /* ===============================
+     GALLERY
+  =============================== */
 
   const galleryImages = [
 
@@ -283,61 +235,106 @@ export default function PosterDetails() {
 
   ].filter(Boolean);
 
+  /* ===============================
+     SEO VALUES
+  =============================== */
+
+  const seoTitle =
+    `Buy ${poster.name} Poster Online | Mudrart`;
+
+  const seoDescription =
+
+    poster.description ||
+
+    `Buy ${poster.name} premium wall poster online from Mudrart. High quality aesthetic artwork for your room decor.`;
+
+  const seoImage =
+    poster.thumbnail;
+
+  const seoUrl =
+    `https://www.mudrart.in/poster/${id}`;
+
   return (
 
     <>
+
+      {/* ===============================
+      SEO
+      =============================== */}
+
+      <SEO
+
+        title={seoTitle}
+
+        description={seoDescription}
+
+        image={seoImage}
+
+        url={seoUrl}
+
+      />
+
       <Navbar />
 
       <div className="container pd-container">
 
         <div className="pd-layout">
 
-          {/* LEFT */}
+          {/* ===============================
+             LEFT
+          =============================== */}
 
           <div className="pd-gallery">
 
             <div className="pd-main-image">
 
               <img
+
                 src={selectedImage}
-                alt={poster.name}
+
+                alt={`${poster.name} premium wall poster`}
+
               />
 
             </div>
 
-            {galleryImages.length > 1 && (
+            <div className="pd-thumbnails">
 
-              <div className="pd-thumbnails">
+              {galleryImages.map((img, index) => (
 
-                {galleryImages.map((img, index) => (
+                <img
 
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`thumb-${index}`}
+                  key={index}
 
-                    className={
-                      selectedImage === img
-                        ? "active-thumb"
-                        : ""
-                    }
+                  src={img}
 
-                    onClick={() =>
-                      setSelectedImage(img)
-                    }
-                  />
+                  alt={`${poster.name} thumbnail ${index + 1}`}
 
-                ))}
+                  className={
+                    selectedImage === img
+                      ? "active-thumb"
+                      : ""
+                  }
 
-              </div>
+                  onClick={() =>
+                    setSelectedImage(img)
+                  }
 
-            )}
+                />
+
+              ))}
+
+            </div>
 
           </div>
 
-          {/* RIGHT */}
+          {/* ===============================
+             RIGHT
+          =============================== */}
 
           <div className="pd-info">
+
+            {/* BADGE */}
 
             <div className="pd-badge">
 
@@ -352,8 +349,12 @@ export default function PosterDetails() {
 
             </div>
 
+            {/* TITLE */}
+
             <h1 className="pd-title">
+
               {poster.name}
+
             </h1>
 
             {/* PRICE */}
@@ -362,23 +363,97 @@ export default function PosterDetails() {
 
               <span className="pd-discount-price">
 
-                ₹{
+                ₹
+                {
                   poster.sizes?.[size]
-                    ?.discountedPrice || 0
+                    ?.discountedPrice
                 }
 
               </span>
 
               <span className="pd-display-price">
 
-                ₹{
+                ₹
+                {
                   poster.sizes?.[size]
-                    ?.displayPrice || 0
+                    ?.displayPrice
                 }
 
               </span>
 
             </div>
+
+            {/* CART */}
+
+            <div className="pd-actions">
+
+              <button
+                className="add-cart-btn"
+                onClick={addToCart}
+              >
+                Add To Cart
+              </button>
+
+            </div>
+
+            {/* DIGITAL */}
+
+            {
+
+              poster.productType === "single"
+
+              &&
+
+              poster.downloadPrice > 0
+
+              &&
+
+              (
+
+                <div className="pd-digital-box">
+
+                  <div className="pd-digital-info">
+
+                    <span className="pd-digital-label">
+
+                      Digital Version
+
+                    </span>
+
+                    <span className="pd-digital-price">
+
+                      ₹{poster.downloadPrice}
+
+                    </span>
+
+                    <span className="pd-digital-note">
+
+                      Instant access after payment
+
+                    </span>
+
+                  </div>
+
+                  <button
+
+                    className="pd-digital-btn"
+
+                    onClick={() =>
+                      navigate(
+                        `/digital/${poster._id}`
+                      )
+                    }
+
+                  >
+                    Buy Digital
+
+                  </button>
+
+                </div>
+
+              )
+
+            }
 
             {/* SIZE */}
 
@@ -388,29 +463,47 @@ export default function PosterDetails() {
 
               <div className="size-buttons">
 
-                {["A6", "A5", "A4", "A3"].map((s) => (
+                {
 
-                  poster.sizes?.[s] ? (
+                  ["A6", "A5", "A4", "A3"]
 
-                    <button
-                      key={s}
+                  .map((s) =>
 
-                      className={`size-btn ${
-                        size === s
-                          ? "active"
-                          : ""
-                      }`}
+                    poster.sizes?.[s]
 
-                      onClick={() =>
-                        setSize(s)
-                      }
-                    >
-                      {s}
-                    </button>
+                    ?
 
-                  ) : null
+                    (
 
-                ))}
+                      <button
+
+                        key={s}
+
+                        className={
+                          `size-btn ${
+                            size === s
+                              ? "active"
+                              : ""
+                          }`
+                        }
+
+                        onClick={() =>
+                          setSize(s)
+                        }
+
+                      >
+                        {s}
+                      </button>
+
+                    )
+
+                    :
+
+                    null
+
+                  )
+
+                }
 
               </div>
 
@@ -448,59 +541,6 @@ export default function PosterDetails() {
 
             </div>
 
-            {/* ADD TO CART */}
-
-            <div className="pd-actions">
-
-              <button
-                className="add-cart-btn"
-
-                onClick={addToCart}
-              >
-                Add To Cart
-              </button>
-
-            </div>
-
-            {/* DIGITAL */}
-
-            {poster.productType === "single" &&
-              poster.downloadPrice > 0 && (
-
-              <div className="pd-digital-box">
-
-                <div className="pd-digital-info">
-
-                  <span className="pd-digital-label">
-                    Digital Version
-                  </span>
-
-                  <span className="pd-digital-price">
-                    ₹{poster.downloadPrice}
-                  </span>
-
-                  <span className="pd-digital-note">
-                    Instant access after payment
-                  </span>
-
-                </div>
-
-                <button
-                  className="pd-digital-btn"
-
-                  onClick={() =>
-                    navigate(
-                      `/digital/${poster._id}`
-                    )
-                  }
-                >
-                  Buy Digital
-                </button>
-
-              </div>
-
-            )}
-
             {/* DESCRIPTION */}
 
             <div className="pd-description">
@@ -508,8 +548,17 @@ export default function PosterDetails() {
               <h4>Description</h4>
 
               <p>
-                {poster.description ||
-                  "Premium quality art print."}
+
+                {
+
+                  poster.description
+
+                  ||
+
+                  "Premium quality art print."
+
+                }
+
               </p>
 
             </div>
