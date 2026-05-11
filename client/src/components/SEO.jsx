@@ -8,7 +8,9 @@ export default function SEO({
 
   image = "https://www.mudrart.in/logo.png",
 
-  url = "https://www.mudrart.in"
+  url = "https://www.mudrart.in",
+
+  schema = null
 
 }) {
 
@@ -28,14 +30,42 @@ export default function SEO({
 
     logo: "https://www.mudrart.in/logo.png",
 
+    image: "https://www.mudrart.in/logo.png",
+
     description:
       "Mudrart is India's premium wall poster and aesthetic room decor platform offering anime posters, motivational posters, spiritual artwork, split posters, gaming room posters and modern wall art.",
 
     sameAs: [
-
       "https://www.instagram.com/mudrart.in"
-
     ]
+
+  };
+
+  /* ======================================
+     WEBSITE SCHEMA
+  ====================================== */
+
+  const websiteSchema = {
+
+    "@context": "https://schema.org",
+
+    "@type": "WebSite",
+
+    name: "Mudrart",
+
+    url: "https://www.mudrart.in",
+
+    potentialAction: {
+
+      "@type": "SearchAction",
+
+      target:
+        "https://www.mudrart.in/posters/single?search={search_term_string}",
+
+      "query-input":
+        "required name=search_term_string"
+
+    }
 
   };
 
@@ -47,9 +77,7 @@ export default function SEO({
          PRIMARY META
       ====================================== */}
 
-      <title>
-        {title}
-      </title>
+      <title>{title}</title>
 
       <meta
         name="description"
@@ -57,27 +85,27 @@ export default function SEO({
       />
 
       {/* ======================================
-         SEO KEYWORDS
+         KEYWORDS
       ====================================== */}
 
       <meta
         name="keywords"
         content="
         mudrart,
-        mudrart posters,
         anime posters india,
-        aesthetic wall posters,
-        room decor india,
-        wall art india,
-        car posters,
+        wall posters india,
+        aesthetic room decor,
+        modern wall art,
+        gaming room posters,
+        premium posters,
         spiritual posters,
         motivational posters,
+        bedroom wall decor,
         split posters,
-        gaming room decor,
-        premium posters india,
-        modern wall art,
-        bedroom posters,
-        wall posters online
+        polaroid posters,
+        anime wall art,
+        car posters india,
+        movie posters india
         "
       />
 
@@ -124,10 +152,7 @@ export default function SEO({
          OPEN GRAPH
       ====================================== */}
 
-      <meta
-        property="og:type"
-        content="website"
-      />
+      <meta property="og:type" content="website" />
 
       <meta
         property="og:site_name"
@@ -179,7 +204,7 @@ export default function SEO({
       />
 
       {/* ======================================
-         THEME
+         MOBILE THEME
       ====================================== */}
 
       <meta
@@ -192,10 +217,34 @@ export default function SEO({
       ====================================== */}
 
       <script type="application/ld+json">
-
         {JSON.stringify(organizationSchema)}
-
       </script>
+
+      {/* ======================================
+         WEBSITE SCHEMA
+      ====================================== */}
+
+      <script type="application/ld+json">
+        {JSON.stringify(websiteSchema)}
+      </script>
+
+      {/* ======================================
+         DYNAMIC PAGE SCHEMA
+      ====================================== */}
+
+      {
+
+        schema && (
+
+          <script type="application/ld+json">
+
+            {JSON.stringify(schema)}
+
+          </script>
+
+        )
+
+      }
 
     </Helmet>
 

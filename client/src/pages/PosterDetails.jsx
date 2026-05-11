@@ -235,24 +235,150 @@ export default function PosterDetails() {
 
   ].filter(Boolean);
 
+  
+
+
+
   /* ===============================
-     SEO VALUES
-  =============================== */
+   SEO VALUES
+=============================== */
 
-  const seoTitle =
-    `Buy ${poster.name} Poster Online | Mudrart`;
+const currentPrice =
+  poster.sizes?.[size]?.discountedPrice || 0;
 
-  const seoDescription =
+const seoTitle =
+  `${poster.name} Poster Online in India | Mudrart`;
 
-    poster.description ||
+const seoDescription =
+  poster.description ||
+  `Buy ${poster.name} premium wall poster online from Mudrart. High quality aesthetic wall art for bedrooms, gaming rooms and modern interiors.`;
 
-    `Buy ${poster.name} premium wall poster online from Mudrart. High quality aesthetic artwork for your room decor.`;
+const seoImage =
+  poster.thumbnail ||
+  "https://www.mudrart.in/logo.png";
 
-  const seoImage =
-    poster.thumbnail;
+const seoUrl =
+  `https://www.mudrart.in/poster/${poster._id}`;
 
-  const seoUrl =
-    `https://www.mudrart.in/poster/${id}`;
+/* ===============================
+   PRODUCT SCHEMA
+=============================== */
+
+const productSchema = {
+
+  "@context": "https://schema.org",
+
+  "@type": "Product",
+
+  name: poster.name,
+
+  image: galleryImages,
+
+  description: seoDescription,
+
+  sku: poster._id,
+
+  mpn: poster._id,
+
+  brand: {
+
+    "@type": "Brand",
+
+    name: "Mudrart"
+
+  },
+
+  category:
+    poster.category || "Wall Posters",
+
+  url: seoUrl,
+
+  offers: {
+
+    "@type": "Offer",
+
+    url: seoUrl,
+
+    priceCurrency: "INR",
+
+    price: currentPrice,
+
+    availability:
+      "https://schema.org/InStock",
+
+    itemCondition:
+      "https://schema.org/NewCondition"
+
+  }
+
+};
+
+/* ===============================
+   BREADCRUMB SCHEMA
+=============================== */
+
+const breadcrumbSchema = {
+
+  "@context": "https://schema.org",
+
+  "@type": "BreadcrumbList",
+
+  itemListElement: [
+
+    {
+
+      "@type": "ListItem",
+
+      position: 1,
+
+      name: "Home",
+
+      item: "https://www.mudrart.in"
+
+    },
+
+    {
+
+      "@type": "ListItem",
+
+      position: 2,
+
+      name:
+        poster.category || "Posters",
+
+      item:
+        `https://www.mudrart.in/category/${poster.category}`
+
+    },
+
+    {
+
+      "@type": "ListItem",
+
+      position: 3,
+
+      name: poster.name,
+
+      item: seoUrl
+
+    }
+
+  ]
+
+};
+
+/* ===============================
+   COMBINED SCHEMA
+=============================== */
+
+const combinedSchema = [
+  productSchema,
+  breadcrumbSchema
+];
+
+
+
+
 
   return (
 
@@ -264,15 +390,18 @@ export default function PosterDetails() {
 
       <SEO
 
-        title={seoTitle}
+  title={seoTitle}
 
-        description={seoDescription}
+  description={seoDescription}
 
-        image={seoImage}
+  image={seoImage}
 
-        url={seoUrl}
+  url={seoUrl}
 
-      />
+  schema={combinedSchema}
+
+/>
+    
 
       <Navbar />
 
