@@ -1,96 +1,164 @@
-import "../styles/hero.css";
+import { Link } from "react-router-dom";
 
-export default function HeroSection() {
+import "../styles/categories.css";
 
-  /* =========================
-     GENERATE POSTERS (1–50)
-  ========================= */
+/* ======================================
+CATEGORIES
+====================================== */
 
-  const posters = [];
+const categories = [
 
-  for (let i = 1; i <= 50; i++) {
+  {
+    name: "Entertainment",
+    icon: "/categories/entertainment.png",
+    key: "entertainment"
+  },
 
-    // auto detect extension
-    if ([44, 45, 50].includes(i)) {
-      posters.push(`/posters/p${i}.png`);
-    } else {
-      posters.push(`/posters/p${i}.jpg`);
-    }
+  {
+    name: "Superheroes",
+    icon: "/categories/superheroes.png",
+    key: "marvel_dc"
+  },
 
+  {
+    name: "Sports",
+    icon: "/categories/sports.png",
+    key: "sports"
+  },
+
+  {
+    name: "Anime",
+    icon: "/categories/anime.png",
+    key: "anime"
+  },
+
+  {
+    name: "Aesthetic",
+    icon: "/categories/aesthetic.png",
+    key: "aesthetic"
+  },
+
+  {
+    name: "Spiritual",
+    icon: "/categories/spiritual2.png",
+    key: "spiritual"
+  },
+
+  {
+    name: "Lifestyle",
+    icon: "/categories/lifestyle.png",
+    key: "lifestyle"
   }
 
+];
 
-  /* =========================
-     SPLIT INTO 5 GROUPS
-     (10 posters each)
-  ========================= */
+/* ======================================
+COMPONENT
+====================================== */
 
-  const columns = [];
+export default function CategorySection() {
 
-  for (let i = 0; i < 5; i++) {
-    const start = i * 10;
-    const group = posters.slice(start, start + 10);
+  const firstRow = categories.slice(0, 4);
 
-    // duplicate for infinite loop
-    columns.push([...group, ...group]);
-  }
-
-
-  /* =========================
-     RENDER
-  ========================= */
+  const secondRow = categories.slice(4);
 
   return (
 
-    <section className="hero">
+    <section className="categories">
 
-      {/* POSTER WALL */}
+      {/* HEADER */}
 
-      <div className="poster-wall">
+      <div className="categories-header">
 
-        {columns.map((col, index) => (
+        <h2 className="categories-title">
+          Browse by Category
+        </h2>
 
-          <div
-            key={index}
-            className={`poster-column ${index % 2 ? "reverse" : ""}`}
-          >
-
-            {col.map((img, i) => (
-
-              <img
-                key={i}
-                src={img}
-                className="poster-img"
-                loading="lazy"
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
-              />
-
-            ))}
-
-          </div>
-
-        ))}
+        <p className="categories-subtitle">
+          Explore premium wall posters across top themes and aesthetics
+        </p>
 
       </div>
 
+      {/* GRID */}
 
-      {/* RIGHT CONTENT */}
+      <div className="categories-container">
 
-      <div className="hero-right">
+        {/* FIRST ROW */}
 
-        <div className="hero-content">
+        <div className="categories-row row-top">
 
-          <h1>
-            Modernize Your Home
-            <br />
-            <span>With Minimalistic Precision</span>
-          </h1>
+          {firstRow.map((cat, index) => (
 
-          <a href="#posters" className="hero-btn">
-            Explore Posters
-          </a>
+            <Link
+              key={index}
+
+              to={`/category/${cat.key}`}
+
+              className="category-item"
+
+              aria-label={cat.name}
+
+              title={cat.name}
+            >
+
+              <div className="category-circle">
+
+                <img
+                  src={cat.icon}
+                  alt={cat.name}
+                  className="category-icon"
+                  loading="lazy"
+                />
+
+              </div>
+
+              <p className="category-name">
+                {cat.name}
+              </p>
+
+            </Link>
+
+          ))}
+
+        </div>
+
+        {/* SECOND ROW */}
+
+        <div className="categories-row row-bottom">
+
+          {secondRow.map((cat, index) => (
+
+            <Link
+              key={index}
+
+              to={`/category/${cat.key}`}
+
+              className="category-item"
+
+              aria-label={cat.name}
+
+              title={cat.name}
+            >
+
+              <div className="category-circle">
+
+                <img
+                  src={cat.icon}
+                  alt={cat.name}
+                  className="category-icon"
+                  loading="lazy"
+                />
+
+              </div>
+
+              <p className="category-name">
+                {cat.name}
+              </p>
+
+            </Link>
+
+          ))}
 
         </div>
 
