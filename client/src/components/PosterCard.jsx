@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 export default function PosterCard({ poster }) {
 
   const navigate = useNavigate();
@@ -50,10 +49,14 @@ export default function PosterCard({ poster }) {
   };
 
   return (
-    <div
-      className="poster-card"
-      onClick={() => navigate(`/poster/${poster._id}`)}
-    >
+    <Link
+  to={`/poster/${poster._id}`}
+  className="poster-card"
+
+  aria-label={`${poster.name} Poster`}
+
+  title={`${poster.name} Poster`}
+>
 
       {/* IMAGE */}
       <div className="poster-image">
@@ -61,14 +64,14 @@ export default function PosterCard({ poster }) {
         <img
           src={getImg(poster.thumbnail)}
           className="img primary"
-          alt=""
+          alt={poster.name}
         />
 
         {poster.image1 && (
           <img
             src={getImg(poster.image1)}
             className="img secondary"
-            alt=""
+            alt={poster.name}
           />
         )}
 
@@ -94,7 +97,7 @@ export default function PosterCard({ poster }) {
             <select
               value={size}
               onChange={(e) => setSize(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => e.preventDefault()}
             >
               {Object.keys(poster.sizes || {}).map((s) => (
                 <option key={s} value={s}>
@@ -105,7 +108,10 @@ export default function PosterCard({ poster }) {
 
             <button
               className="cart-btn"
-              onClick={addToCart}
+              onClick={(e) => {
+  e.preventDefault();
+  addToCart(e);
+}}
             >
               🛒
             </button>
@@ -114,7 +120,10 @@ export default function PosterCard({ poster }) {
         ) : (
           <button
             className="cart-full-btn"
-            onClick={addToCart}
+            onClick={(e) => {
+  e.preventDefault();
+  addToCart(e);
+}}
           >
             Add to Cart
           </button>
@@ -122,7 +131,7 @@ export default function PosterCard({ poster }) {
 
       </div>
 
-    </div>
+    </Link>
   );
 }
 
