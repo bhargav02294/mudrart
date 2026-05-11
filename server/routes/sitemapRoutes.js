@@ -103,9 +103,7 @@ router.get("/sitemap.xml", async (req, res) => {
 
       <url>
 
-        <loc>
-          ${baseUrl}/poster/${poster._id}
-        </loc>
+       <loc>${baseUrl}/poster/${poster._id}</loc>
 
         <changefreq>weekly</changefreq>
 
