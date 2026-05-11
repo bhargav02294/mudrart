@@ -26,8 +26,9 @@ const paymentRoutes = require("./routes/paymentRoutes");
 const digitalRoutes = require("./routes/digitalRoutes");
 
 const downloadRoutes = require("./routes/downloadRoutes");
+const sitemapRoutes = require("./routes/sitemapRoutes");
 
-
+app.use("/", sitemapRoutes);
 app.use("/api/download",downloadRoutes);
 app.use("/api/digital",digitalRoutes);
 
