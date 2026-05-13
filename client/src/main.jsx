@@ -35,6 +35,8 @@ import "./styles/digital.css";
 
 import "./admin/admin.css";
 
+import "./styles/legalPages.css";
+
 /* ===============================
 RENDER
 =============================== */

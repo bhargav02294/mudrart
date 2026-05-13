@@ -8,8 +8,6 @@ export default function Footer() {
 
       <div className="footer-container">
 
-        {/* BRAND */}
-
         <div className="footer-brand">
 
           <h2 className="footer-logo">
@@ -25,20 +23,20 @@ export default function Footer() {
           </h2>
 
           <p className="footer-tagline">
-            Mudrart is India’s premium destination for aesthetic wall posters, anime posters, spiritual wall art, motivational posters, car posters, room decor artwork and digital poster downloads.
+
+            Mudrart is India’s premium wall poster and aesthetic room decor platform offering anime posters, spiritual artwork, gaming room posters, split posters, motivational artwork and modern wall decor.
+
           </p>
 
         </div>
 
-        {/* LINKS */}
-
         <div className="footer-links">
-
-          {/* SHOP */}
 
           <div className="footer-column">
 
-            <h4>Shop Posters</h4>
+            <h4>
+              Shop
+            </h4>
 
             <Link to="/posters/single">
               Single Posters
@@ -56,56 +54,52 @@ export default function Footer() {
               Anime Posters
             </Link>
 
-            <Link to="/category/cars">
-              Car Posters
+          </div>
+
+          <div className="footer-column">
+
+            <h4>
+              Company
+            </h4>
+
+            <Link to="/about">
+              About Us
             </Link>
 
-            <Link to="/category/cricket">
-              Cricket Posters
+            <Link to="/contact">
+              Contact Us
+            </Link>
+
+            <Link to="/privacy-policy">
+              Privacy Policy
+            </Link>
+
+            <Link to="/terms-and-conditions">
+              Terms & Conditions
             </Link>
 
           </div>
 
-          {/* COLLECTIONS */}
-
           <div className="footer-column">
 
-            <h4>Collections</h4>
+            <h4>
+              Policies
+            </h4>
 
-            <Link to="/collection/trending">
-              Trending Collection
+            <Link to="/shipping-policy">
+              Shipping Policy
             </Link>
 
-            <Link to="/collection/spiritual">
-              Spiritual Collection
+            <Link to="/refund-policy">
+              Refund Policy
             </Link>
 
-            <Link to="/collection/cinema">
-              Cinema Collection
-            </Link>
-
-            <Link to="/collection/fan">
-              Fan Zone
-            </Link>
-
-          </div>
-
-          {/* ACCOUNT */}
-
-          <div className="footer-column">
-
-            <h4>Account</h4>
-
-            <Link to="/auth">
-              Login
+            <Link to="/cart">
+              Cart
             </Link>
 
             <Link to="/account">
               My Account
-            </Link>
-
-            <Link to="/cart">
-              Shopping Cart
             </Link>
 
           </div>
@@ -116,7 +110,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
 
-        © {new Date().getFullYear()} Mudrart.in — Premium Wall Poster Store India
+        © {new Date().getFullYear()} Mudrart.in — Premium Wall Posters India
 
       </div>
 

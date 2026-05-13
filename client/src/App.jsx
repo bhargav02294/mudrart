@@ -27,7 +27,12 @@ import PaymentFailed from "./pages/PaymentFailed";
 import CollectionGrid from "./components/CollectionGrid";
 import PosterListingPage from "./pages/PosterListingPage";
 
-
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import RefundPolicy from "./pages/RefundPolicy";
 
 function App() {
   return (
@@ -115,6 +120,19 @@ function App() {
         <Route path="/posters/single" element={<PosterListingPage type="single" />} />
         <Route path="/split/:count" element={<PosterListingPage type="set" />} />
         <Route path="/polarized/:count" element={<PosterListingPage type="polarized" />} />
+
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/contact" element={<Contact />} />
+
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+        <Route path="/terms-and-conditions" element={<TermsConditions />} />
+
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+
+        <Route path="/refund-policy" element={<RefundPolicy />} />
 
       </Routes>
       <Footer />
