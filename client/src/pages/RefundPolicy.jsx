@@ -8,13 +8,9 @@ export default function RefundPolicy() {
     <>
 
       <SEO
-
         title="Return & Refund Policy | Mudrart"
-
-        description="Read Mudrart refund and replacement policy regarding damaged products, cancellations and digital products."
-
+        description="Read Mudrart refund and replacement policy regarding damaged products and returns."
         url="https://www.mudrart.in/refund-policy"
-
       />
 
       <div className="legal-page">
@@ -33,17 +29,31 @@ export default function RefundPolicy() {
 
             <div className="legal-section">
 
+              <p>
+                Thank you for shopping at Mudrart. Customer satisfaction and premium quality are important to us.
+              </p>
+
+            </div>
+
+            <div className="legal-section">
+
               <h2>
-                Eligible Refund Cases
+                Non-Returnable Cases
               </h2>
 
               <ul>
 
-                <li>Damaged products</li>
+                <li>
+                  Change of mind
+                </li>
 
-                <li>Incorrect item delivered</li>
+                <li>
+                  Wrong size selection
+                </li>
 
-                <li>Manufacturing defects</li>
+                <li>
+                  Preference changes
+                </li>
 
               </ul>
 
@@ -52,11 +62,35 @@ export default function RefundPolicy() {
             <div className="legal-section">
 
               <h2>
-                Unboxing Video Required
+                Refund Eligibility
+              </h2>
+
+              <ul>
+
+                <li>
+                  Damaged products
+                </li>
+
+                <li>
+                  Manufacturing defects
+                </li>
+
+                <li>
+                  Wrong item shipped
+                </li>
+
+              </ul>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Mandatory Unboxing Video
               </h2>
 
               <p>
-                Customers must provide proper unboxing video proof for damage claims.
+                Customers must provide a continuous unboxing video within 24 hours of delivery.
               </p>
 
             </div>
@@ -64,11 +98,27 @@ export default function RefundPolicy() {
             <div className="legal-section">
 
               <h2>
-                Digital Products
+                Important Return Charges
+              </h2>
+
+              <div className="legal-highlight">
+
+                <p>
+                  ₹100 shipping and handling charges will be deducted during return/refund processing.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Contact Support
               </h2>
 
               <p>
-                Digital downloads are non-refundable after delivery.
+                mudrart1@gmail.com
               </p>
 
             </div>

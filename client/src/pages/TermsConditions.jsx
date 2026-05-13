@@ -8,13 +8,9 @@ export default function TermsConditions() {
     <>
 
       <SEO
-
         title="Terms & Conditions | Mudrart"
-
-        description="Read Mudrart terms and conditions regarding orders, payments, digital downloads, copyright and platform usage."
-
+        description="Read Mudrart terms and conditions regarding orders, payments, digital downloads and website usage."
         url="https://www.mudrart.in/terms-and-conditions"
-
       />
 
       <div className="legal-page">
@@ -33,12 +29,8 @@ export default function TermsConditions() {
 
             <div className="legal-section">
 
-              <h2>
-                Platform Usage
-              </h2>
-
               <p>
-                By accessing Mudrart, users agree to use the platform lawfully and responsibly.
+                By accessing or using Mudrart, you agree to comply with these Terms & Conditions.
               </p>
 
             </div>
@@ -50,7 +42,7 @@ export default function TermsConditions() {
               </h2>
 
               <p>
-                Orders are subject to acceptance and verification.
+                All orders are subject to acceptance and verification.
               </p>
 
             </div>
@@ -62,7 +54,19 @@ export default function TermsConditions() {
               </h2>
 
               <p>
-                All branding, logos, platform assets and designs belong to Mudrart unless otherwise stated.
+                All logos, branding, content and platform assets belong to Mudrart unless otherwise stated.
+              </p>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Governing Law
+              </h2>
+
+              <p>
+                These terms are governed by the laws of India.
               </p>
 
             </div>

@@ -8,13 +8,9 @@ export default function About() {
     <>
 
       <SEO
-
         title="About Mudrart | Premium Wall Posters & Room Decor India"
-
-        description="Learn about Mudrart — India’s premium destination for aesthetic wall posters, anime posters, spiritual artwork, motivational wall decor, split poster sets, gaming room posters and modern room aesthetics."
-
+        description="Learn about Mudrart — India’s premium destination for aesthetic wall posters, anime posters, motivational wall art, spiritual artwork, split posters and modern room decor."
         url="https://www.mudrart.in/about"
-
       />
 
       <div className="legal-page">
@@ -24,13 +20,11 @@ export default function About() {
           <div className="legal-header">
 
             <h1>
-              About Mudrart
+              About Us
             </h1>
 
             <p>
-              Mudrart is India’s premium destination for aesthetic wall posters,
-              anime artwork, spiritual posters, motivational wall decor,
-              gaming setup posters, split poster sets and modern room decoration.
+              Welcome to Mudrart – India’s Premier Destination for Premium Custom Posters, Designer Wall Art, and High-Quality Prints.
             </p>
 
           </div>
@@ -39,19 +33,12 @@ export default function About() {
 
             <div className="legal-section">
 
-              <h2>
-                Welcome To Mudrart
-              </h2>
-
               <p>
-                At Mudrart, we believe that walls are more than just physical
-                spaces. They reflect identity, creativity, personality,
-                inspiration and emotion.
+                At Mudrart, we believe that every wall tells a story. Our mission is to help you transform ordinary spaces into extraordinary ones with stunning, high-definition posters and custom wall art that reflect your personality, passion, and style.
               </p>
 
               <p>
-                Our mission is to help people transform ordinary rooms into
-                visually expressive environments through premium quality wall art.
+                Whether you are decorating your home, office, gaming room, dorm, café, studio, or any creative space, we bring you an unmatched collection of designs combined with premium printing quality and modern aesthetics.
               </p>
 
             </div>
@@ -59,26 +46,58 @@ export default function About() {
             <div className="legal-section">
 
               <h2>
-                What We Offer
+                Our Story & Journey
+              </h2>
+
+              <p>
+                Mudrart was born out of a deep love for art, design, and the power of visuals to inspire people. We noticed that many people struggled to find affordable yet premium-quality posters that truly matched their taste and room aesthetics.
+              </p>
+
+              <p>
+                So we created a platform where creativity meets quality. Today, Mudrart continues to grow as a modern wall art platform trusted by customers across India.
+              </p>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Our Collections
               </h2>
 
               <ul>
 
-                <li>Anime Posters</li>
+                <li>
+                  Aesthetic & Minimalist Posters
+                </li>
 
-                <li>Car Posters</li>
+                <li>
+                  Motivational & Inspirational Posters
+                </li>
 
-                <li>Spiritual Artwork</li>
+                <li>
+                  Anime, Gaming & Movie Fan Art
+                </li>
 
-                <li>Motivational Posters</li>
+                <li>
+                  Nature, Travel & Landscape Posters
+                </li>
 
-                <li>Gaming Room Decor</li>
+                <li>
+                  Sports & Entertainment Posters
+                </li>
 
-                <li>Split Poster Sets</li>
+                <li>
+                  Spiritual & Divine Wall Art
+                </li>
 
-                <li>Polaroid Collections</li>
+                <li>
+                  Split Poster Sets & Polaroids
+                </li>
 
-                <li>Digital Download Posters</li>
+                <li>
+                  Digital Download Posters
+                </li>
 
               </ul>
 
@@ -87,16 +106,38 @@ export default function About() {
             <div className="legal-section">
 
               <h2>
-                Why Customers Choose Mudrart
+                What Makes Mudrart Different
               </h2>
 
               <div className="legal-highlight">
 
-                <p>
-                  Premium print quality, modern aesthetics, curated collections,
-                  secure checkout, fast delivery and continuously evolving
-                  artwork collections designed specifically for modern Indian interiors.
-                </p>
+                <ul>
+
+                  <li>
+                    Premium quality printing with sharp details and vibrant colors
+                  </li>
+
+                  <li>
+                    Modern aesthetic collections curated for Indian interiors
+                  </li>
+
+                  <li>
+                    Secure payments and reliable shipping across India
+                  </li>
+
+                  <li>
+                    Affordable pricing without compromising quality
+                  </li>
+
+                  <li>
+                    Customer-first support and fast assistance
+                  </li>
+
+                  <li>
+                    Continuously updated trending poster collections
+                  </li>
+
+                </ul>
 
               </div>
 
@@ -105,13 +146,15 @@ export default function About() {
             <div className="legal-section">
 
               <h2>
-                Our Mission
+                Important Note
               </h2>
 
               <p>
-                We aim to become one of India’s leading modern wall art and
-                poster platforms by delivering visually expressive,
-                premium-quality and accessible artwork for everyone.
+                Some artwork displayed on Mudrart may be inspired by movies, anime, celebrities, sports, gaming culture, entertainment franchises, and fan communities.
+              </p>
+
+              <p>
+                Such content is intended for artistic and decorative purposes only. Mudrart does not claim ownership of third-party copyrights or trademarks unless specifically stated.
               </p>
 
             </div>
@@ -119,15 +162,23 @@ export default function About() {
             <div className="contact-box">
 
               <h3>
-                Contact Mudrart
+                Contact Information
               </h3>
 
               <p>
-                Email: support@mudrart.in
+                Website: https://www.mudrart.in
+              </p>
+
+              <p>
+                Email: mudrart1@gmail.com
               </p>
 
               <p>
                 Instagram: @mudrart.in
+              </p>
+
+              <p>
+                Phone: +91 XXXXX XXXXX
               </p>
 
             </div>

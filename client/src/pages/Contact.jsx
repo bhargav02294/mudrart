@@ -8,13 +8,9 @@ export default function Contact() {
     <>
 
       <SEO
-
         title="Contact Mudrart | Customer Support & Help"
-
-        description="Contact Mudrart for order support, shipping queries, refund assistance, digital download help, collaborations and customer support."
-
+        description="Contact Mudrart for order support, shipping assistance, refund queries, digital downloads and customer help."
         url="https://www.mudrart.in/contact"
-
       />
 
       <div className="legal-page">
@@ -28,28 +24,37 @@ export default function Contact() {
             </h1>
 
             <p>
-              We are always here to help you with orders, support,
-              shipping, digital downloads, refunds and collaborations.
+              We’re Always Here to Help.
             </p>
 
           </div>
 
           <div className="legal-content">
 
-            <div className="contact-box">
-
-              <h3>Email Support</h3>
+            <div className="legal-section">
 
               <p>
-                support@mudrart.in
+                Thank you for visiting Mudrart. Whether you have questions about products, custom orders, shipping, returns, refunds, or any other concern, our support team is always ready to assist you.
               </p>
 
-              <h3 style={{ marginTop: "20px" }}>
-                Instagram
+            </div>
+
+            <div className="contact-box">
+
+              <h3>
+                Preferred Contact Method
               </h3>
 
               <p>
-                @mudrart.in
+                Email: mudrart1@gmail.com
+              </p>
+
+              <p>
+                Instagram: @mudrart.in
+              </p>
+
+              <p>
+                Phone: +91 XXXXX XXXXX
               </p>
 
             </div>
@@ -57,42 +62,76 @@ export default function Contact() {
             <div className="legal-section">
 
               <h2>
-                Support Timings
+                Faster Support
               </h2>
 
               <p>
-                Monday to Saturday — 10 AM to 7 PM IST
+                Please include the following details while contacting us:
               </p>
-
-              <p>
-                Average response time is 24–48 business hours.
-              </p>
-
-            </div>
-
-            <div className="legal-section">
-
-              <h2>
-                We Help With
-              </h2>
 
               <ul>
 
-                <li>Order tracking</li>
+                <li>
+                  Order ID
+                </li>
 
-                <li>Shipping issues</li>
+                <li>
+                  Full Name
+                </li>
 
-                <li>Refund support</li>
+                <li>
+                  Contact Number
+                </li>
 
-                <li>Damaged products</li>
+                <li>
+                  Clear issue description
+                </li>
 
-                <li>Digital download access</li>
-
-                <li>Business collaborations</li>
-
-                <li>Copyright concerns</li>
+                <li>
+                  Photos or screenshots if applicable
+                </li>
 
               </ul>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Response Time
+              </h2>
+
+              <p>
+                We usually reply within 24–48 business hours.
+              </p>
+
+              <p>
+                Support Hours:
+              </p>
+
+              <ul>
+
+                <li>
+                  Monday – Saturday: 10 AM – 6 PM IST
+                </li>
+
+                <li>
+                  Sunday & Public Holidays: Limited support
+                </li>
+
+              </ul>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Important Note
+              </h2>
+
+              <p>
+                All artwork displayed on Mudrart is intended as fan art or original designs unless officially stated otherwise.
+              </p>
 
             </div>
 

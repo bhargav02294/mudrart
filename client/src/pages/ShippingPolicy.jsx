@@ -8,13 +8,9 @@ export default function ShippingPolicy() {
     <>
 
       <SEO
-
         title="Shipping Policy | Mudrart"
-
-        description="Read Mudrart shipping policy regarding dispatch timelines, delivery estimates, tracking and shipping support."
-
+        description="Read Mudrart shipping and delivery policy regarding processing times, tracking and delivery timelines."
         url="https://www.mudrart.in/shipping-policy"
-
       />
 
       <div className="legal-page">
@@ -24,7 +20,7 @@ export default function ShippingPolicy() {
           <div className="legal-header">
 
             <h1>
-              Shipping Policy
+              Shipping & Cancellation Policy
             </h1>
 
           </div>
@@ -34,7 +30,7 @@ export default function ShippingPolicy() {
             <div className="legal-section">
 
               <h2>
-                Processing Time
+                Order Processing
               </h2>
 
               <p>
@@ -46,14 +42,18 @@ export default function ShippingPolicy() {
             <div className="legal-section">
 
               <h2>
-                Delivery Timelines
+                Delivery Time
               </h2>
 
               <ul>
 
-                <li>Metro Cities: 3–6 business days</li>
+                <li>
+                  Standard Shipping: 7–10 business days
+                </li>
 
-                <li>Other Areas: 5–9 business days</li>
+                <li>
+                  Express Shipping: 3–5 business days
+                </li>
 
               </ul>
 
@@ -62,11 +62,39 @@ export default function ShippingPolicy() {
             <div className="legal-section">
 
               <h2>
-                Tracking
+                Cancellation Policy
+              </h2>
+
+              <div className="legal-highlight">
+
+                <p>
+                  Orders cannot be cancelled once successfully placed on Mudrart.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                RTO & Failed Deliveries
               </h2>
 
               <p>
-                Tracking details are shared after dispatch.
+                Additional shipping charges may apply for re-delivery attempts.
+              </p>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Support
+              </h2>
+
+              <p>
+                mudrart1@gmail.com
               </p>
 
             </div>

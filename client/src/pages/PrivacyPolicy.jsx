@@ -8,13 +8,9 @@ export default function PrivacyPolicy() {
     <>
 
       <SEO
-
         title="Privacy Policy | Mudrart"
-
-        description="Read Mudrart privacy policy regarding customer information, order data, payment security, cookies and data protection."
-
+        description="Read Mudrart privacy policy regarding customer data, payments, cookies and information protection."
         url="https://www.mudrart.in/privacy-policy"
-
       />
 
       <div className="legal-page">
@@ -28,12 +24,20 @@ export default function PrivacyPolicy() {
             </h1>
 
             <p>
-              Mudrart values your privacy and protects customer information responsibly.
+              Last Updated: May 2026
             </p>
 
           </div>
 
           <div className="legal-content">
+
+            <div className="legal-section">
+
+              <p>
+                Mudrart is committed to protecting your privacy and safeguarding your personal information responsibly.
+              </p>
+
+            </div>
 
             <div className="legal-section">
 
@@ -43,15 +47,29 @@ export default function PrivacyPolicy() {
 
               <ul>
 
-                <li>Name, email and mobile number</li>
+                <li>
+                  Contact and Shipping Details
+                </li>
 
-                <li>Shipping and billing address</li>
+                <li>
+                  Payment & Transaction Information
+                </li>
 
-                <li>Order and payment details</li>
+                <li>
+                  Account Information
+                </li>
 
-                <li>Device and browser information</li>
+                <li>
+                  Device & Browser Information
+                </li>
 
-                <li>Analytics and cookies data</li>
+                <li>
+                  Uploaded Images & Design Files
+                </li>
+
+                <li>
+                  Communications with Support Team
+                </li>
 
               </ul>
 
@@ -63,9 +81,40 @@ export default function PrivacyPolicy() {
                 How We Use Information
               </h2>
 
+              <ul>
+
+                <li>
+                  Process orders and shipping
+                </li>
+
+                <li>
+                  Provide customer support
+                </li>
+
+                <li>
+                  Improve website experience
+                </li>
+
+                <li>
+                  Send order updates and offers
+                </li>
+
+                <li>
+                  Prevent fraud and abuse
+                </li>
+
+              </ul>
+
+            </div>
+
+            <div className="legal-section">
+
+              <h2>
+                Cookies & Analytics
+              </h2>
+
               <p>
-                We use customer data for order processing, support,
-                fraud prevention, analytics, shipping and customer experience improvements.
+                We use cookies and analytics technologies to improve user experience, analyze traffic and optimize platform performance.
               </p>
 
             </div>
@@ -73,12 +122,15 @@ export default function PrivacyPolicy() {
             <div className="legal-section">
 
               <h2>
-                Payment Security
+                Contact
               </h2>
 
               <p>
-                Payments are securely processed through trusted payment gateways.
-                Mudrart does not store sensitive banking credentials.
+                For privacy concerns:
+              </p>
+
+              <p>
+                mudrart1@gmail.com
               </p>
 
             </div>
