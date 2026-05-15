@@ -2,10 +2,6 @@ import { Link } from "react-router-dom";
 
 import "../styles/categories.css";
 
-/* ======================================
-CATEGORIES
-====================================== */
-
 const categories = [
 
   {
@@ -17,7 +13,7 @@ const categories = [
   {
     name: "Superheroes",
     icon: "/categories/superheroes.png",
-    key: "marvel_dc"
+    key: "superheroes"
   },
 
   {
@@ -29,19 +25,19 @@ const categories = [
   {
     name: "Anime",
     icon: "/categories/anime.png",
-    key: "anime"
+    key: "animeworld"
   },
 
   {
     name: "Aesthetic",
     icon: "/categories/aesthetic.png",
-    key: "aesthetic"
+    key: "aestheticworld"
   },
 
   {
     name: "Spiritual",
     icon: "/categories/spiritual2.png",
-    key: "spiritual"
+    key: "spiritualworld"
   },
 
   {
@@ -52,10 +48,6 @@ const categories = [
 
 ];
 
-/* ======================================
-COMPONENT
-====================================== */
-
 export default function CategorySection() {
 
   const firstRow = categories.slice(0, 4);
@@ -65,8 +57,6 @@ export default function CategorySection() {
   return (
 
     <section className="categories">
-
-      {/* HEADER */}
 
       <div className="categories-header">
 
@@ -80,11 +70,7 @@ export default function CategorySection() {
 
       </div>
 
-      {/* GRID */}
-
       <div className="categories-container">
-
-        {/* FIRST ROW */}
 
         <div className="categories-row row-top">
 
@@ -92,14 +78,8 @@ export default function CategorySection() {
 
             <Link
               key={index}
-
-              to={`/category/${cat.key}`}
-
+              to={`/collection/${cat.key}`}
               className="category-item"
-
-              aria-label={cat.name}
-
-              title={cat.name}
             >
 
               <div className="category-circle">
@@ -108,7 +88,6 @@ export default function CategorySection() {
                   src={cat.icon}
                   alt={cat.name}
                   className="category-icon"
-                  loading="lazy"
                 />
 
               </div>
@@ -123,22 +102,14 @@ export default function CategorySection() {
 
         </div>
 
-        {/* SECOND ROW */}
-
         <div className="categories-row row-bottom">
 
           {secondRow.map((cat, index) => (
 
             <Link
               key={index}
-
-              to={`/category/${cat.key}`}
-
+              to={`/collection/${cat.key}`}
               className="category-item"
-
-              aria-label={cat.name}
-
-              title={cat.name}
             >
 
               <div className="category-circle">
@@ -147,7 +118,6 @@ export default function CategorySection() {
                   src={cat.icon}
                   alt={cat.name}
                   className="category-icon"
-                  loading="lazy"
                 />
 
               </div>

@@ -28,38 +28,119 @@ export default function PosterListingPage({ type }) {
 
   const collectionMap = {
 
-    trending: null,
+  /* HOME PAGE COLLECTIONS */
 
-    room: [
-      "aesthetic",
-      "cars",
-      "anime"
-    ],
+  trending: null,
 
-    motivational: [
-      "motivational"
-    ],
+  room: [
+    "aesthetic",
+    "cars",
+    "anime",
+    "motivational"
+  ],
 
-    spiritual: [
-      "spiritual",
-      "divine",
-      "devotional"
-    ],
+  motivational: [
+    "motivational"
+  ],
 
-    cinema: [
-      "bollywood",
-      "movie posters",
-      "actors"
-    ],
+  spiritual: [
+    "spiritual",
+    "divine",
+    "devotional"
+  ],
 
-    fan: [
-      "anime",
-      "cricket",
-      "football",
-      "superheroes"
-    ]
+  cinema: [
+    "bollywood",
+    "movie_posters",
+    "actors",
+    "pop_culture"
+  ],
 
-  };
+  fan: [
+    "anime",
+    "cricket",
+    "football",
+    "marvel_dc"
+  ],
+
+  /* CATEGORY SECTION */
+
+  entertainment: [
+    "bollywood",
+    "actors",
+    "movie_posters",
+    "pop_culture"
+  ],
+
+  superheroes: [
+    "marvel_dc"
+  ],
+
+  sports: [
+    "sports",
+    "football",
+    "cricket"
+  ],
+
+  lifestyle: [
+    "cars",
+    "gym"
+  ],
+
+  aestheticworld: [
+    "aesthetic",
+    "aesthetic_texts",
+    "motivational"
+  ],
+
+  spiritualworld: [
+    "spiritual",
+    "divine",
+    "devotional"
+  ],
+
+  animeworld: [
+    "anime",
+    "nature",
+    "legends",
+    "icons"
+  ],
+
+  /* NAVBAR COLLECTIONS */
+
+  cars: [
+    "cars"
+  ],
+
+  anime: [
+    "anime"
+  ],
+
+  cricket: [
+    "cricket"
+  ],
+
+  bollywood: [
+    "bollywood",
+    "actors",
+    "movie_posters",
+    "pop_culture"
+  ],
+
+  movies: [
+    "movie_posters",
+    "actors",
+    "bollywood"
+  ],
+
+  more: [
+    "nature",
+    "icons",
+    "legends",
+    "gym"
+  ]
+
+};
 
   /* ======================================
      FETCH POSTERS
