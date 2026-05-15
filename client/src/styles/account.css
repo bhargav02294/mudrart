@@ -32,7 +32,7 @@ ACCOUNT CONTAINER
   font-size: 34px;
   font-weight: 700;
   margin-bottom: 26px;
-  color: #000000;
+  color: #ffffff;
 }
 
 .account-container h3 {
@@ -114,7 +114,7 @@ ORDERS SECTION
 .orders-section h2 {
   font-size: 30px;
   margin-bottom: 24px;
-  color: #ffffff;
+  color: #000000;
   font-weight: 700;
 }
 
