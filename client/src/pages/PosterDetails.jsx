@@ -24,6 +24,31 @@ export default function PosterDetails() {
 
   const [loading, setLoading] = useState(true);
 
+
+
+
+
+  /* ===============================
+OFFERS
+=============================== */
+
+const SINGLE_OFFERS = [
+  { buy: 10, free: 15 },
+  { buy: 6, free: 9 },
+  { buy: 5, free: 5 },
+  { buy: 4, free: 3 },
+  { buy: 3, free: 2 }
+];
+
+const SET_OFFERS = [
+  { buy: 5, free: 10 },
+  { buy: 4, free: 6 },
+  { buy: 3, free: 2 },
+  { buy: 2, free: 1 }
+];
+
+
+
   /* ===============================
      FETCH POSTER
   =============================== */
@@ -538,6 +563,9 @@ const combinedSchema = [
 
             <div className="pd-price-group">
 
+
+              
+
               <span className="pd-discount-price">
 
                 ₹
@@ -717,6 +745,101 @@ const combinedSchema = [
               </div>
 
             </div>
+
+
+            {/* ===============================
+OFFERS
+=============================== */}
+
+<div className="pd-offers-wrapper">
+
+  <div className="pd-offers-header">
+
+    🔥 Special Combo Offers
+
+  </div>
+
+  <div className="pd-offers-grid">
+
+    {
+
+      (
+        poster.productType === "single"
+
+        ? SINGLE_OFFERS
+
+        : SET_OFFERS
+
+      ).map((offer, index) => (
+
+        <div
+          key={index}
+          className={`pd-offer-card ${
+            index === 0
+              ? "best-offer"
+              : ""
+          }`}
+        >
+
+          {
+
+            index === 0 && (
+
+              <div className="pd-best-badge">
+
+                BEST VALUE
+
+              </div>
+
+            )
+
+          }
+
+          <h3>
+
+            Buy {offer.buy}
+
+            <span>
+              {" "}→{" "}
+            </span>
+
+            Get {offer.free} Free
+
+          </h3>
+
+          <p className="offer-free">
+
+            +{offer.free} FREE posters
+
+          </p>
+
+          <p className="offer-total">
+
+            Total{" "}
+
+            <strong>
+              {offer.buy + offer.free}
+            </strong>
+
+            {" "}posters
+
+          </p>
+
+        </div>
+
+      ))
+
+    }
+
+  </div>
+
+  <div className="pd-offer-note">
+
+    ✅ Offers apply automatically at checkout
+
+  </div>
+
+</div>
 
             {/* DESCRIPTION */}
 
