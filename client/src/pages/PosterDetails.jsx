@@ -417,13 +417,55 @@ const combinedSchema = [
 
             <div className="pd-main-image">
 
-              <img
+              <div
+  className="pd-image-wrapper"
 
-                src={selectedImage}
+  onContextMenu={(e) => e.preventDefault()}
 
-                alt={`${poster.name} premium wall poster`}
+  onDragStart={(e) => e.preventDefault()}
+>
 
-              />
+  {/* WATERMARK ONLY ON SECOND IMAGE OF SINGLE POSTERS */}
+
+  {
+
+    poster.productType === "single"
+
+    &&
+
+    selectedImage === poster.image1
+
+    &&
+
+    (
+
+      <div className="pd-watermark">
+
+        <span>
+          MudrArt
+        </span>
+
+      </div>
+
+    )
+
+  }
+
+  <img
+
+    src={selectedImage}
+
+    alt={`${poster.name} premium wall poster`}
+
+    draggable="false"
+
+    loading="eager"
+
+    className="protected-image"
+
+  />
+
+</div>
 
             </div>
 
@@ -433,23 +475,29 @@ const combinedSchema = [
 
                 <img
 
-                  key={index}
+  key={index}
 
-                  src={img}
+  src={img}
 
-                  alt={`${poster.name} thumbnail ${index + 1}`}
+  alt={`${poster.name} thumbnail ${index + 1}`}
 
-                  className={
-                    selectedImage === img
-                      ? "active-thumb"
-                      : ""
-                  }
+  className={
+    selectedImage === img
+      ? "active-thumb"
+      : ""
+  }
 
-                  onClick={() =>
-                    setSelectedImage(img)
-                  }
+  onClick={() =>
+    setSelectedImage(img)
+  }
 
-                />
+  draggable="false"
+
+  onContextMenu={(e) =>
+    e.preventDefault()
+  }
+
+/>
 
               ))}
 
