@@ -641,6 +641,10 @@ const combinedSchema = [
 
 
 
+            </div>
+
+
+
   {/* =================================
 RECOMMENDED
 ================================= */}
@@ -710,11 +714,6 @@ RECOMMENDED
   )
 
 }
-
-
-
-            </div>
-
 
             <div className="pd-thumbnails">
 
