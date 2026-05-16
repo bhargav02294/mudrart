@@ -527,6 +527,8 @@ RECOMMENDED PRODUCTS
   width:100%;
 }
 
+
+
 /* HOVER */
 
 .pd-recommended .poster-card{
@@ -606,10 +608,10 @@ MOBILE
   }
 
   .pd-recommended .poster-card{
-    min-width:220px;
-    scroll-snap-align:start;
-  }
-
+  min-width:160px;
+  max-width:160px;
+  scroll-snap-align:start;
+}
 }
 
 /* =========================================
@@ -622,8 +624,29 @@ SMALL MOBILE
     font-size:24px;
   }
 
-  .pd-recommended .poster-card{
-    min-width:190px;
+ .pd-recommended .poster-card{
+  min-width:145px;
+  max-width:145px;
+}
+
+.pd-recommended .poster-image{
+  height:240px;
+}
+
+}
+
+@media(max-width:768px){
+
+  .pd-recommended .poster-image{
+    height:220px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .pd-recommended .poster-image{
+    height:200px;
   }
 
 }

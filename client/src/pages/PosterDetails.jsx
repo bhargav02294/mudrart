@@ -645,75 +645,6 @@ const combinedSchema = [
 
 
 
-  {/* =================================
-RECOMMENDED
-================================= */}
-
-{
-
-  recommended.length > 0 && (
-
-    <section className="pd-recommended">
-
-      <div className="pd-recommended-header">
-
-        <h2>
-          Recommended For You
-        </h2>
-
-        <p>
-          Similar premium posters curated for your aesthetic
-        </p>
-
-      </div>
-
-      {/* ROW 1 */}
-
-      <div className="pd-recommended-row">
-
-        {
-
-          recommended
-            .slice(0, 5)
-            .map((item) => (
-
-              <PosterCard
-                key={item._id}
-                poster={item}
-              />
-
-            ))
-
-        }
-
-      </div>
-
-      {/* ROW 2 */}
-
-      <div className="pd-recommended-row">
-
-        {
-
-          recommended
-            .slice(5, 10)
-            .map((item) => (
-
-              <PosterCard
-                key={item._id}
-                poster={item}
-              />
-
-            ))
-
-        }
-
-      </div>
-
-    </section>
-
-  )
-
-}
 
             <div className="pd-thumbnails">
 
@@ -1088,9 +1019,82 @@ OFFERS
 
         </div>
 
+
+
+  {/* =================================
+RECOMMENDED
+================================= */}
+
+{
+
+  recommended.length > 0 && (
+
+    <section className="pd-recommended">
+
+      <div className="pd-recommended-header">
+
+        <h2>
+          Recommended For You
+        </h2>
+
+        <p>
+          Similar premium posters curated for your aesthetic
+        </p>
+
+      </div>
+
+      {/* ROW 1 */}
+
+      <div className="pd-recommended-row">
+
+        {
+
+          recommended
+            .slice(0, 5)
+            .map((item) => (
+
+              <PosterCard
+                key={item._id}
+                poster={item}
+              />
+
+            ))
+
+        }
+
+      </div>
+
+      {/* ROW 2 */}
+
+      <div className="pd-recommended-row">
+
+        {
+
+          recommended
+            .slice(5, 10)
+            .map((item) => (
+
+              <PosterCard
+                key={item._id}
+                poster={item}
+              />
+
+            ))
+
+        }
+
+      </div>
+
+    </section>
+
+  )
+
+}
       </div>
 
     </>
+
+
 
   );
 
