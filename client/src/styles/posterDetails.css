@@ -476,3 +476,154 @@ MOBILE
     position: static;
   }
 }
+
+
+
+
+
+/* =========================================
+RECOMMENDED PRODUCTS
+========================================= */
+
+.pd-recommended{
+  margin-top:80px;
+  padding-top:50px;
+  border-top:1px solid #ededed;
+}
+
+/* HEADER */
+
+.pd-recommended-header{
+  text-align:center;
+  margin-bottom:42px;
+}
+
+.pd-recommended-header h2{
+  font-size:42px;
+  font-weight:700;
+  color:#111;
+  margin-bottom:12px;
+  letter-spacing:-1px;
+}
+
+.pd-recommended-header p{
+  color:#777;
+  font-size:16px;
+  line-height:1.7;
+}
+
+/* ROW */
+
+.pd-recommended-row{
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:26px;
+  margin-bottom:34px;
+}
+
+/* CARD OVERRIDE */
+
+.pd-recommended .poster-card{
+  width:100%;
+}
+
+/* HOVER */
+
+.pd-recommended .poster-card{
+  transition:0.35s ease;
+}
+
+.pd-recommended .poster-card:hover{
+  transform:translateY(-6px);
+}
+
+/* =========================================
+LAPTOP
+========================================= */
+
+@media(max-width:1400px){
+
+  .pd-recommended-row{
+    grid-template-columns:repeat(4, 1fr);
+  }
+
+}
+
+/* =========================================
+TABLET
+========================================= */
+
+@media(max-width:1100px){
+
+  .pd-recommended{
+    margin-top:60px;
+  }
+
+  .pd-recommended-header h2{
+    font-size:34px;
+  }
+
+  .pd-recommended-row{
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+
+}
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+  .pd-recommended{
+    margin-top:50px;
+    padding-top:40px;
+  }
+
+  .pd-recommended-header{
+    margin-bottom:28px;
+  }
+
+  .pd-recommended-header h2{
+    font-size:28px;
+  }
+
+  .pd-recommended-header p{
+    font-size:14px;
+  }
+
+  .pd-recommended-row{
+    display:flex;
+    overflow-x:auto;
+    gap:16px;
+    padding-bottom:10px;
+    scroll-snap-type:x mandatory;
+  }
+
+  .pd-recommended-row::-webkit-scrollbar{
+    display:none;
+  }
+
+  .pd-recommended .poster-card{
+    min-width:220px;
+    scroll-snap-align:start;
+  }
+
+}
+
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+  .pd-recommended-header h2{
+    font-size:24px;
+  }
+
+  .pd-recommended .poster-card{
+    min-width:190px;
+  }
+
+}

@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 
+
+import PosterCard from "../components/PosterCard";
+
 import SEO from "../components/SEO";
 
 export default function PosterDetails() {
@@ -23,6 +26,10 @@ export default function PosterDetails() {
   const [qty, setQty] = useState(1);
 
   const [loading, setLoading] = useState(true);
+
+  const [allPosters, setAllPosters] = useState([]);
+
+  const [recommended, setRecommended] = useState([]);
 
 
 
@@ -70,6 +77,8 @@ const SET_OFFERS = [
         }
 
         const data = await res.json();
+        
+        setAllPosters(data);
 
         if (!Array.isArray(data)) {
 
@@ -260,7 +269,130 @@ const SET_OFFERS = [
 
   ].filter(Boolean);
 
+
+
+
+
+
+  /* ===============================
+RECOMMENDED PRODUCTS
+=============================== */
+
+useEffect(() => {
+
+  if (!poster || allPosters.length === 0) return;
+
+  const currentCategory =
+    poster.category?.toLowerCase();
+
+  let similar = [];
+
+  let crossSell = [];
+
+  /* =================================
+  SINGLE POSTERS
+  ================================= */
+
+  if (poster.productType === "single") {
+
+    similar = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      p.productType === "single" &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+    crossSell = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      (
+        p.productType === "set" ||
+        p.productType === "polarized"
+      ) &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+  }
+
+  /* =================================
+  SET POSTERS
+  ================================= */
+
+  else if (poster.productType === "set") {
+
+    similar = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      p.productType === "set" &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+    crossSell = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      p.productType === "single" &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+  }
+
+  /* =================================
+  POLAROID
+  ================================= */
+
+  else if (poster.productType === "polarized") {
+
+    similar = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      p.productType === "polarized" &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+    crossSell = allPosters.filter((p) =>
+
+      p._id !== poster._id &&
+
+      p.productType === "single" &&
+
+      p.category?.toLowerCase() === currentCategory
+
+    );
+
+  }
+
+  /* =================================
+  FINAL COMBINED
+  ================================= */
+
+  const finalProducts = [
+
+    ...similar.slice(0, 5),
+
+    ...crossSell.slice(0, 5)
+
+  ];
+
+  setRecommended(finalProducts);
+
+}, [poster, allPosters]);
   
+
 
 
 
@@ -489,10 +621,85 @@ const combinedSchema = [
     className="protected-image"
 
   />
+  
+
+
+  {/* =================================
+RECOMMENDED
+================================= */}
+
+{
+
+  recommended.length > 0 && (
+
+    <section className="pd-recommended">
+
+      <div className="pd-recommended-header">
+
+        <h2>
+          Recommended For You
+        </h2>
+
+        <p>
+          Similar premium posters curated for your aesthetic
+        </p>
+
+      </div>
+
+      {/* ROW 1 */}
+
+      <div className="pd-recommended-row">
+
+        {
+
+          recommended
+            .slice(0, 5)
+            .map((item) => (
+
+              <PosterCard
+                key={item._id}
+                poster={item}
+              />
+
+            ))
+
+        }
+
+      </div>
+
+      {/* ROW 2 */}
+
+      <div className="pd-recommended-row">
+
+        {
+
+          recommended
+            .slice(5, 10)
+            .map((item) => (
+
+              <PosterCard
+                key={item._id}
+                poster={item}
+              />
+
+            ))
+
+        }
+
+      </div>
+
+    </section>
+
+  )
+
+}
+
+
 
 </div>
 
             </div>
+
 
             <div className="pd-thumbnails">
 
