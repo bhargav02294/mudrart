@@ -215,65 +215,11 @@ const SET_OFFERS = [
 
   };
 
-  /* ===============================
-     LOADING
-  =============================== */
-
-  if (loading) {
-
-    return (
-
-      <div className="container">
-
-        Loading...
-
-      </div>
-
-    );
-
-  }
-
-  /* ===============================
-     NOT FOUND
-  =============================== */
-
-  if (!poster) {
-
-    return (
-
-      <div className="container">
-
-        Poster not found
-
-      </div>
-
-    );
-
-  }
-
-  /* ===============================
-     GALLERY
-  =============================== */
-
-  const galleryImages = [
-
-    poster.thumbnail,
-
-    poster.image1,
-
-    poster.image2,
-
-    poster.image3,
-
-    poster.image4
-
-  ].filter(Boolean);
 
 
 
 
-
-
+  
   /* ===============================
 RECOMMENDED PRODUCTS
 =============================== */
@@ -392,6 +338,69 @@ useEffect(() => {
 
 }, [poster, allPosters]);
   
+
+
+
+
+  /* ===============================
+     LOADING
+  =============================== */
+
+  if (loading) {
+
+    return (
+
+      <div className="container">
+
+        Loading...
+
+      </div>
+
+    );
+
+  }
+
+  /* ===============================
+     NOT FOUND
+  =============================== */
+
+  if (!poster) {
+
+    return (
+
+      <div className="container">
+
+        Poster not found
+
+      </div>
+
+    );
+
+  }
+
+  /* ===============================
+     GALLERY
+  =============================== */
+
+  const galleryImages = [
+
+    poster.thumbnail,
+
+    poster.image1,
+
+    poster.image2,
+
+    poster.image3,
+
+    poster.image4
+
+  ].filter(Boolean);
+
+
+
+
+
+
 
 
 
@@ -624,6 +633,14 @@ const combinedSchema = [
   
 
 
+
+
+
+</div>
+
+
+
+
   {/* =================================
 RECOMMENDED
 ================================= */}
@@ -695,8 +712,6 @@ RECOMMENDED
 }
 
 
-
-</div>
 
             </div>
 
