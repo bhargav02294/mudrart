@@ -184,30 +184,13 @@ export default function Footer() {
 
       <div className="footer-disclaimer">
 
-        <p>
+  Artwork and poster visuals displayed on Mudrart are fan-inspired or decorative creations and remain the property of their respective owners. For copyright or content concerns, contact us at
 
-          Some artwork and visual content displayed on Mudrart may be inspired by movies, anime, sports personalities, gaming culture, entertainment franchises, brands, or public figures. All such intellectual property rights, trademarks, and copyrights belong to their respective owners.
+  <a href="mailto:mudrart1@gmail.com">
+    {" "}mudrart1@gmail.com
+  </a>
 
-        </p>
-
-        <p>
-
-          The content available on our platform is presented as fan-inspired artwork, decorative wall art, or creative reinterpretation for aesthetic and collectible purposes only. Mudrart does not claim official ownership unless explicitly stated.
-
-        </p>
-
-        <p>
-
-          We deeply respect all artists, creators, studios, and intellectual property holders. If you believe any content on our platform violates your rights or creates concerns, please contact us immediately at
-
-          <a href="mailto:mudrart1@gmail.com">
-            {" "}mudrart1@gmail.com
-          </a>
-
-        </p>
-
-      </div>
-
+</div>
     </footer>
 
   );
