@@ -1,102 +1,351 @@
-/* ===============================
+/* =========================================
 FOOTER
-=============================== */
+========================================= */
 
 .footer{
-background:#000;
-color:#fff;
-margin-top:60px;
+  background:#000;
+  color:#fff;
+  margin-top:80px;
+  overflow:hidden;
+  border-top:1px solid #1f1f1f;
 }
 
-/* container */
+/* =========================================
+CONTAINER
+========================================= */
 
 .footer-container{
-max-width:1200px;
-margin:auto;
-padding:50px 20px;
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-gap:40px;
+  max-width:1400px;
+  margin:auto;
+  padding:70px 40px 50px;
+  display:flex;
+  justify-content:space-between;
+  gap:80px;
+  flex-wrap:wrap;
 }
 
-/* ===============================
+/* =========================================
 BRAND
-=============================== */
+========================================= */
+
+.footer-brand{
+  flex:1;
+  min-width:320px;
+  max-width:520px;
+}
 
 .footer-logo{
-font-size:24px;
-font-weight:700;
-margin-bottom:10px;
+  font-size:58px;
+  line-height:1;
+  margin-bottom:28px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:4px;
+}
+
+.logo-main{
+  color:#ffffff;
+  font-family:"Playfair Display", serif;
+}
+
+.logo-accent{
+  color:#ffffff;
+  font-family:"Playfair Display", serif;
 }
 
 .footer-tagline{
-font-size:14px;
-color:#bbb;
-max-width:250px;
+  font-size:18px;
+  line-height:1.8;
+  color:#c9c9c9;
+  max-width:500px;
+  margin-bottom:34px;
 }
 
-/* ===============================
+/* =========================================
+CONTACT
+========================================= */
+
+.footer-contact{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.footer-contact-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  color:#d4d4d4;
+  font-size:15px;
+}
+
+.footer-contact-item svg{
+  font-size:16px;
+  color:#ffffff;
+}
+
+.footer-contact-item a{
+  color:#d4d4d4;
+  text-decoration:none;
+  transition:0.25s ease;
+}
+
+.footer-contact-item a:hover{
+  color:#ffffff;
+}
+
+/* =========================================
 LINKS
-=============================== */
+========================================= */
 
 .footer-links{
-display:flex;
-gap:60px;
-flex-wrap:wrap;
+  display:flex;
+  gap:90px;
+  flex-wrap:wrap;
 }
 
 .footer-column{
-display:flex;
-flex-direction:column;
-gap:8px;
+  display:flex;
+  flex-direction:column;
+  min-width:180px;
 }
 
 .footer-column h4{
-margin-bottom:8px;
-font-size:16px;
+  font-size:22px;
+  margin-bottom:24px;
+  color:#ffffff;
+  font-weight:700;
 }
 
 .footer-column a{
-text-decoration:none;
-color:#bbb;
-font-size:14px;
-transition:0.2s;
+  color:#bdbdbd;
+  text-decoration:none;
+  font-size:16px;
+  margin-bottom:16px;
+  transition:0.25s ease;
+  width:fit-content;
 }
 
 .footer-column a:hover{
-color:#fff;
+  color:#ffffff;
+  transform:translateX(4px);
 }
 
-/* ===============================
+/* =========================================
 BOTTOM
-=============================== */
+========================================= */
 
 .footer-bottom{
-text-align:center;
-padding:18px;
-border-top:1px solid #222;
-font-size:13px;
-color:#aaa;
+  border-top:1px solid #1e1e1e;
+  padding:26px 20px;
+  text-align:center;
+  color:#bdbdbd;
+  font-size:15px;
+  line-height:1.7;
 }
 
-/* ===============================
-RESPONSIVE
-=============================== */
+/* =========================================
+DISCLAIMER
+========================================= */
+
+.footer-disclaimer{
+  background:#151515;
+  border-top:1px solid #232323;
+  padding:28px 24px;
+  text-align:center;
+}
+
+.footer-disclaimer p{
+  max-width:1400px;
+  margin:0 auto 14px;
+  color:#d3d3d3;
+  font-size:14px;
+  line-height:1.9;
+}
+
+.footer-disclaimer p:last-child{
+  margin-bottom:0;
+}
+
+.footer-disclaimer a{
+  color:#ffffff;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.footer-disclaimer a:hover{
+  text-decoration:underline;
+}
+
+/* =========================================
+LAPTOP
+========================================= */
+
+@media (max-width:1200px){
+
+  .footer-container{
+    gap:60px;
+  }
+
+  .footer-links{
+    gap:60px;
+  }
+
+}
+
+/* =========================================
+TABLET
+========================================= */
+
+@media (max-width:992px){
+
+  .footer-container{
+    flex-direction:column;
+    gap:50px;
+    padding:60px 30px 40px;
+  }
+
+  .footer-brand{
+    max-width:100%;
+  }
+
+  .footer-logo{
+    font-size:48px;
+  }
+
+  .footer-tagline{
+    max-width:100%;
+  }
+
+  .footer-links{
+    width:100%;
+    justify-content:space-between;
+    gap:40px;
+  }
+
+}
+
+/* =========================================
+MOBILE
+========================================= */
 
 @media (max-width:768px){
 
-.footer-container{
-flex-direction:column;
-gap:30px;
+  .footer{
+    margin-top:60px;
+  }
+
+  .footer-container{
+    padding:50px 22px 34px;
+    gap:44px;
+  }
+
+  .footer-logo{
+    font-size:42px;
+    margin-bottom:22px;
+  }
+
+  .footer-tagline{
+    font-size:16px;
+    line-height:1.8;
+    margin-bottom:28px;
+  }
+
+  .footer-links{
+    flex-direction:column;
+    gap:34px;
+  }
+
+  .footer-column{
+    width:100%;
+  }
+
+  .footer-column h4{
+    font-size:20px;
+    margin-bottom:18px;
+  }
+
+  .footer-column a{
+    font-size:15px;
+    margin-bottom:14px;
+  }
+
+  .footer-bottom{
+    font-size:14px;
+    padding:22px 16px;
+  }
+
+  .footer-disclaimer{
+    padding:24px 18px;
+  }
+
+  .footer-disclaimer p{
+    font-size:13px;
+    line-height:1.8;
+  }
+
 }
 
-.footer-links{
-gap:30px;
+/* =========================================
+SMALL MOBILE
+========================================= */
+
+@media (max-width:480px){
+
+  .footer-container{
+    padding:44px 18px 30px;
+  }
+
+  .footer-logo{
+    font-size:36px;
+  }
+
+  .footer-tagline{
+    font-size:15px;
+  }
+
+  .footer-contact-item{
+    font-size:14px;
+    align-items:flex-start;
+  }
+
+  .footer-column h4{
+    font-size:18px;
+  }
+
+  .footer-column a{
+    font-size:14px;
+  }
+
+  .footer-bottom{
+    font-size:13px;
+    line-height:1.8;
+  }
+
+  .footer-disclaimer p{
+    font-size:12px;
+  }
+
 }
 
-.footer-column h4{
-font-size:15px;
-}
+/* =========================================
+ULTRA SMALL DEVICES
+========================================= */
+
+@media (max-width:340px){
+
+  .footer-logo{
+    font-size:30px;
+  }
+
+  .footer-tagline{
+    font-size:14px;
+  }
+
+  .footer-column h4{
+    font-size:17px;
+  }
 
 }
