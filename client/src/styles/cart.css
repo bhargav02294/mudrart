@@ -672,3 +672,91 @@
   }
 
 }
+
+
+
+
+
+/* ======================================================
+   CART LOADING
+====================================================== */
+
+.cart-loading {
+  padding: 80px 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #666666;
+}
+
+
+/* ======================================================
+   CART ERROR
+====================================================== */
+
+.cart-error {
+  margin-bottom: 24px;
+
+  padding: 16px 18px;
+
+  background: #fff1f1;
+
+  border: 1px solid #ffd0d0;
+
+  border-radius: 14px;
+
+  color: #c62828;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.cart-error button {
+  border: none;
+
+  background: #111111;
+
+  color: #ffffff;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.cart-error button:hover {
+  background: #000000;
+}
+
+
+/* ======================================================
+   RESPONSIVE ERROR
+====================================================== */
+
+@media (max-width: 600px) {
+
+  .cart-error {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-error button {
+    width: 100%;
+  }
+
+}
