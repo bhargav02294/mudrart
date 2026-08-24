@@ -570,13 +570,13 @@ export default function PosterListingPage({ type }) {
 
               {Array.from(
                 {
-                  length: Math.ceil(current.length / 5)
+                  length: Math.ceil(current.length / 4)
                 },
                 (_, rowIndex) => {
 
                   const rowPosters = current.slice(
-                    rowIndex * 5,
-                    rowIndex * 5 + 5
+                    rowIndex * 4,
+                    rowIndex * 4 + 4
                   );
 
                   return (
