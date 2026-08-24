@@ -2,12 +2,27 @@
 FOOTER
 ========================================= */
 
+
+
+/* =========================================
+   FOOTER BASE
+========================================= */
+
+.footer,
+.footer * {
+  box-sizing: border-box;
+}
+
+
+
 .footer{
   background:#000;
   color:#fff;
   margin-top:70px;
   border-top:1px solid #181818;
 }
+
+
 
 /* =========================================
 MAIN CONTAINER

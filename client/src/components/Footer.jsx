@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   FaInstagram,
@@ -6,19 +6,59 @@ import {
   FaPhoneAlt
 } from "react-icons/fa";
 
+
 export default function Footer() {
+
+  const location = useLocation();
+
+
+  /* =====================================================
+     PAGES WHERE FOOTER SHOULD NOT APPEAR
+  ===================================================== */
+
+  const hideFooterRoutes = [
+    "/cart",
+    "/auth",
+    "/login",
+    "/signup",
+    "/register"
+  ];
+
+
+  /*
+    Hide footer on authentication/cart pages.
+
+    Using startsWith also protects nested routes such as:
+      /auth/...
+      /login/...
+  */
+
+  const shouldHideFooter = hideFooterRoutes.some(
+    (route) =>
+      location.pathname === route ||
+      location.pathname.startsWith(`${route}/`)
+  );
+
+
+  if (shouldHideFooter) {
+    return null;
+  }
+
 
   return (
 
     <footer className="footer">
 
-      {/* =========================
-      TOP AREA
-      ========================= */}
+      {/* =================================================
+          TOP AREA
+      ================================================= */}
 
       <div className="footer-container">
 
-        {/* BRAND */}
+
+        {/* =================================================
+            BRAND
+        ================================================= */}
 
         <div className="footer-brand">
 
@@ -34,15 +74,24 @@ export default function Footer() {
 
           </h2>
 
+
           <p className="footer-tagline">
 
-            Mudrart is India’s premium wall poster and aesthetic room decor platform offering anime posters, spiritual artwork, gaming room posters, split posters, motivational artwork and modern wall decor.
+            Mudrart is India’s premium wall poster and
+            aesthetic room decor platform offering anime
+            posters, spiritual artwork, gaming room posters,
+            split posters, motivational artwork and modern
+            wall decor.
 
           </p>
 
-          {/* CONTACT */}
+
+          {/* =================================================
+              CONTACT
+          ================================================= */}
 
           <div className="footer-contact">
+
 
             <div className="footer-contact-item">
 
@@ -53,6 +102,7 @@ export default function Footer() {
               </a>
 
             </div>
+
 
             <div className="footer-contact-item">
 
@@ -68,6 +118,7 @@ export default function Footer() {
 
             </div>
 
+
             <div className="footer-contact-item">
 
               <FaPhoneAlt />
@@ -78,13 +129,18 @@ export default function Footer() {
 
             </div>
 
+
           </div>
 
         </div>
 
-        {/* LINKS */}
+
+        {/* =================================================
+            LINKS
+        ================================================= */}
 
         <div className="footer-links">
+
 
           {/* SHOP */}
 
@@ -116,6 +172,7 @@ export default function Footer() {
 
           </div>
 
+
           {/* COMPANY */}
 
           <div className="footer-column">
@@ -142,6 +199,7 @@ export default function Footer() {
 
           </div>
 
+
           {/* POLICIES */}
 
           <div className="footer-column">
@@ -164,33 +222,42 @@ export default function Footer() {
 
           </div>
 
+
         </div>
 
       </div>
 
-      {/* =========================
-      COPYRIGHT
-      ========================= */}
+
+      {/* =================================================
+          COPYRIGHT
+      ================================================= */}
 
       <div className="footer-bottom">
 
-        © {new Date().getFullYear()} Mudrart.in — Premium Wall Posters & Aesthetic Room Decor India
+        © {new Date().getFullYear()} Mudrart.in —
+        Premium Wall Posters & Aesthetic Room Decor India
 
       </div>
 
-      {/* =========================
-      DISCLAIMER
-      ========================= */}
+
+      {/* =================================================
+          DISCLAIMER
+      ================================================= */}
 
       <div className="footer-disclaimer">
 
-  Artwork and poster visuals displayed on Mudrart are fan-inspired or decorative creations and remain the property of their respective owners. For copyright or content concerns, contact us at
+        Artwork and poster visuals displayed on Mudrart are
+        fan-inspired or decorative creations and remain the
+        property of their respective owners. For copyright
+        or content concerns, contact us at{" "}
 
-  <a href="mailto:mudrart1@gmail.com">
-    {" "}mudrart1@gmail.com
-  </a>
+        <a href="mailto:mudrart1@gmail.com">
+          mudrart1@gmail.com
+        </a>
 
-</div>
+      </div>
+
+
     </footer>
 
   );
