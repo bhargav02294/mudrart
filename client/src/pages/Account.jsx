@@ -3,285 +3,731 @@ import { useNavigate } from "react-router-dom";
 
 export default function Account() {
 
-const [user,setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [digitalOrders, setDigitalOrders] = useState([]);
 
-const [orders,setOrders] = useState([])
+  const navigate = useNavigate();
 
-const [digitalOrders,setDigitalOrders] = useState([])
 
-const navigate = useNavigate()
+  /* =====================================================
+     FETCH PROFILE
+  ===================================================== */
 
+  useEffect(() => {
 
+    const fetchProfile = async () => {
 
-/* ===============================
-FETCH PROFILE
-=============================== */
+      try {
 
-useEffect(()=>{
+        const res = await fetch("/api/profile", {
+          headers: {
+            Authorization:
+              "Bearer " + localStorage.getItem("userToken")
+          }
+        });
 
-const fetchProfile = async()=>{
 
-try{
+        if (!res.ok) {
 
-const res = await fetch("/api/profile",{
+          localStorage.removeItem("userToken");
 
-headers:{
-Authorization:"Bearer "+localStorage.getItem("userToken")
-}
+          navigate("/auth");
 
-})
+          return;
 
-if(!res.ok){
+        }
 
-localStorage.removeItem("userToken")
-navigate("/auth")
-return
 
-}
+        const data = await res.json();
 
-const data = await res.json()
+        setUser(data);
 
-setUser(data)
 
-/* fetch orders after user loaded */
+        fetchOrders();
 
-fetchOrders()
+        fetchDigitalOrders(data.email);
 
-fetchDigitalOrders(data.email)
 
-}catch(err){
+      } catch (err) {
 
-localStorage.removeItem("userToken")
-navigate("/auth")
+        console.error("PROFILE ERROR:", err);
 
-}
+        localStorage.removeItem("userToken");
 
-}
+        navigate("/auth");
 
+      }
 
+    };
 
-const fetchOrders = async()=>{
 
-try{
+    fetchProfile();
 
-const res = await fetch("/api/orders/my",{
+  }, [navigate]);
 
-headers:{
-Authorization:"Bearer "+localStorage.getItem("userToken")
-}
 
-})
+  /* =====================================================
+     PHYSICAL ORDERS
+  ===================================================== */
 
-const data = await res.json()
+  const fetchOrders = async () => {
 
-setOrders(data)
+    try {
 
-}catch(err){
-console.error(err)
-}
+      const res = await fetch("/api/orders/my", {
+        headers: {
+          Authorization:
+            "Bearer " + localStorage.getItem("userToken")
+        }
+      });
 
-}
 
+      const data = await res.json();
 
+      setOrders(data);
 
-const fetchDigitalOrders = async(email)=>{
+    } catch (err) {
 
-try{
+      console.error("ORDERS ERROR:", err);
 
-const res = await fetch(`/api/digital/my?email=${email}`)
+    }
 
-const data = await res.json()
+  };
 
-setDigitalOrders(data)
 
-}catch(err){
-console.error(err)
-}
+  /* =====================================================
+     DIGITAL ORDERS
+  ===================================================== */
 
-}
+  const fetchDigitalOrders = async (email) => {
 
+    try {
 
+      const res = await fetch(
+        `/api/digital/my?email=${encodeURIComponent(email)}`
+      );
 
-fetchProfile()
 
-},[navigate])
+      const data = await res.json();
 
+      setDigitalOrders(data);
 
+    } catch (err) {
 
-if(user===null) return <div className="container">Loading...</div>
+      console.error("DIGITAL ORDERS ERROR:", err);
 
+    }
 
+  };
 
-/* ===============================
-UI
-=============================== */
 
-return(
+  /* =====================================================
+     LOADING
+  ===================================================== */
 
-<div className="container">
+  if (user === null) {
 
+    return (
+      <div className="account-page account-loading-page">
 
-{/* PROFILE */}
+        <div className="account-loading-card">
 
-<div className="card account-container">
+          <div className="account-loading-spinner" />
 
-<h2>My Account</h2>
+          <p>
+            Loading your account...
+          </p>
 
-<p><strong>Name:</strong> {user.name}</p>
+        </div>
 
-<p><strong>Email:</strong> {user.email}</p>
+      </div>
+    );
 
-<p><strong>Mobile:</strong> {user.address?.mobile}</p>
+  }
 
-<p><strong>Gender:</strong> {user.gender}</p>
 
-<p><strong>DOB:</strong> {user.dob?.slice(0,10)}</p>
+  /* =====================================================
+     LOGOUT
+  ===================================================== */
 
-<h3>Shipping Address</h3>
+  const handleLogout = () => {
 
-<p>{user.address?.addressLine1}</p>
+    localStorage.removeItem("userToken");
 
-<p>{user.address?.area}, {user.address?.district}</p>
+    window.location.href = "/";
 
-<p>{user.address?.state} - {user.address?.pincode}</p>
+  };
 
-<button onClick={()=>navigate("/account/edit")}>
-Edit Profile
-</button>
 
-<button
-onClick={()=>{
-localStorage.removeItem("userToken")
-window.location.href="/"
-}}
-className="logout-account-btn"
->
-Logout
-</button>
+  /* =====================================================
+     UI
+  ===================================================== */
 
-</div>
+  return (
 
+    <main className="account-page">
 
 
-{/* PHYSICAL ORDERS */}
+      {/* =================================================
+          PROFILE HERO
+      ================================================= */}
 
-<div className="orders-section">
+      <section className="account-profile-card">
 
-<h2>Physical Orders</h2>
+        <div className="account-profile-top">
 
-{orders.length===0 && (
-<p>No physical orders yet</p>
-)}
+          <div className="account-avatar">
 
-{orders.map(order=>(
+            {user.name
+              ? user.name.charAt(0).toUpperCase()
+              : "M"
+            }
 
-<div key={order._id} className="order-card">
+          </div>
 
-<div className="order-header">
 
-<p><strong>Order ID:</strong> {order._id}</p>
+          <div className="account-profile-heading">
 
-<p><strong>Status:</strong> {order.orderStatus || "Processing"}</p>
+            <span className="account-eyebrow">
+              MY ACCOUNT
+            </span>
 
-<p><strong>Delivery:</strong> {
-order.deliveryEstimate
-? new Date(order.deliveryEstimate).toDateString()
-: "7-10 days"
-}</p>
+            <h1>
+              Welcome, {user.name || "there"}
+            </h1>
 
-</div>
+            <p>
+              Manage your profile, addresses and orders.
+            </p>
 
-{order.items?.map((item,i)=>(
+          </div>
 
-<div key={i} className="order-item">
+        </div>
 
-<img
-src={item.thumbnail}
-className="order-thumb"
-/>
 
-<div className="order-info">
+        <div className="account-profile-actions">
 
-<p className="order-name">{item.name}</p>
+          <button
+            className="account-edit-btn"
+            onClick={() => navigate("/account/edit")}
+          >
+            Edit Profile
+          </button>
 
-<p>Size: {item.size}</p>
 
-<p>Quantity: {item.quantity}</p>
+          <button
+            className="account-logout-btn"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
 
-<p>Price: ₹{item.price}</p>
+        </div>
 
-</div>
+      </section>
 
-</div>
 
-))}
+      {/* =================================================
+          PROFILE INFORMATION
+      ================================================= */}
 
-</div>
+      <section className="account-section">
 
-))}
+        <div className="account-section-heading">
 
-</div>
+          <div>
 
+            <span className="account-section-label">
+              PROFILE
+            </span>
 
+            <h2>
+              Personal Information
+            </h2>
 
-{/* DIGITAL ORDERS */}
+          </div>
 
-<div className="orders-section">
+        </div>
 
-<h2>Digital Downloads</h2>
 
-{digitalOrders.length===0 && (
-<p>No digital purchases yet</p>
-)}
+        <div className="profile-info-grid">
 
-{digitalOrders.map(order=>(
 
-<div key={order._id} className="order-card">
+          <div className="profile-info-card">
 
-<div className="order-header">
+            <span className="profile-info-label">
+              Full Name
+            </span>
 
-<p><strong>Order ID:</strong> {order._id}</p>
+            <strong>
+              {user.name || "Not provided"}
+            </strong>
 
-<p><strong>Status:</strong> {order.paymentStatus}</p>
+          </div>
 
-</div>
 
-<div className="order-item">
+          <div className="profile-info-card">
 
-<img
-src={order.thumbnail}
-className="order-thumb"
-/>
+            <span className="profile-info-label">
+              Email Address
+            </span>
 
-<div className="order-info">
+            <strong>
+              {user.email || "Not provided"}
+            </strong>
 
-<p className="order-name">
-{order.posterName}
-</p>
+          </div>
 
-<p>Price: ₹{order.price}</p>
 
-<a
-href={`/api/download/${order.downloadToken}`}
-target="_blank"
-rel="noreferrer"
-className="download-btn"
->
-Download File
-</a>
+          <div className="profile-info-card">
 
-</div>
+            <span className="profile-info-label">
+              Mobile Number
+            </span>
 
-</div>
+            <strong>
+              {user.address?.mobile || "Not provided"}
+            </strong>
 
-</div>
+          </div>
 
-))}
 
-</div>
+          <div className="profile-info-card">
 
-</div>
+            <span className="profile-info-label">
+              Gender
+            </span>
 
-)
+            <strong>
+              {user.gender || "Not provided"}
+            </strong>
+
+          </div>
+
+
+          <div className="profile-info-card">
+
+            <span className="profile-info-label">
+              Date of Birth
+            </span>
+
+            <strong>
+              {user.dob
+                ? user.dob.slice(0, 10)
+                : "Not provided"
+              }
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      {/* =================================================
+          SHIPPING ADDRESS
+      ================================================= */}
+
+      <section className="account-section">
+
+        <div className="account-section-heading">
+
+          <div>
+
+            <span className="account-section-label">
+              DELIVERY
+            </span>
+
+            <h2>
+              Shipping Address
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div className="address-card">
+
+          <div className="address-card-mark">
+            ADDRESS
+          </div>
+
+
+          <div className="address-content">
+
+            <p className="address-line-primary">
+              {user.address?.addressLine1 ||
+                "Address not provided"
+              }
+            </p>
+
+
+            <p>
+              {user.address?.area || ""}
+              {user.address?.area &&
+              user.address?.district
+                ? ", "
+                : ""}
+              {user.address?.district || ""}
+            </p>
+
+
+            <p>
+              {user.address?.state || ""}
+              {user.address?.state &&
+              user.address?.pincode
+                ? " - "
+                : ""}
+              {user.address?.pincode || ""}
+            </p>
+
+          </div>
+
+
+          {user.address?.mobile && (
+
+            <div className="address-mobile">
+
+              Mobile: {user.address.mobile}
+
+            </div>
+
+          )}
+
+        </div>
+
+      </section>
+
+
+      {/* =================================================
+          PHYSICAL ORDERS
+      ================================================= */}
+
+      <section className="account-section orders-section">
+
+        <div className="account-section-heading">
+
+          <div>
+
+            <span className="account-section-label">
+              ORDER HISTORY
+            </span>
+
+            <h2>
+              Physical Orders
+            </h2>
+
+          </div>
+
+
+          <span className="order-count">
+            {orders.length}
+            {orders.length === 1
+              ? " order"
+              : " orders"
+            }
+          </span>
+
+        </div>
+
+
+        {orders.length === 0 ? (
+
+          <div className="account-empty-state">
+
+            <div className="empty-icon">
+              —
+            </div>
+
+            <h3>
+              No physical orders yet
+            </h3>
+
+            <p>
+              Your poster orders will appear here after
+              you complete a purchase.
+            </p>
+
+            <button
+              onClick={() => navigate("/posters/single")}
+            >
+              Start Shopping
+            </button>
+
+          </div>
+
+        ) : (
+
+          <div className="orders-list">
+
+            {orders.map((order) => (
+
+              <article
+                key={order._id}
+                className="account-order-card"
+              >
+
+
+                {/* ORDER HEADER */}
+
+                <div className="account-order-header">
+
+                  <div>
+
+                    <span className="account-order-label">
+                      ORDER ID
+                    </span>
+
+                    <strong className="account-order-id">
+                      {order._id}
+                    </strong>
+
+                  </div>
+
+
+                  <div className="order-status-wrap">
+
+                    <span className="account-order-label">
+                      STATUS
+                    </span>
+
+                    <span className="order-status">
+                      {order.orderStatus || "Processing"}
+                    </span>
+
+                  </div>
+
+
+                  <div className="order-delivery">
+
+                    <span className="account-order-label">
+                      EXPECTED DELIVERY
+                    </span>
+
+                    <strong>
+                      {order.deliveryEstimate
+                        ? new Date(
+                            order.deliveryEstimate
+                          ).toDateString()
+                        : "7–10 days"
+                      }
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                {/* ORDER PRODUCTS */}
+
+                <div className="account-order-products">
+
+                  {order.items?.map((item, i) => (
+
+                    <div
+                      key={i}
+                      className="account-order-product"
+                    >
+
+                      <img
+                        src={item.thumbnail}
+                        className="account-order-thumb"
+                        alt={item.name}
+                      />
+
+
+                      <div className="account-order-product-info">
+
+                        <h3>
+                          {item.name}
+                        </h3>
+
+                        <div className="order-product-meta">
+
+                          <span>
+                            Size: {item.size}
+                          </span>
+
+                          <span>
+                            Qty: {item.quantity}
+                          </span>
+
+                          <span>
+                            ₹{item.price}
+                          </span>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+              </article>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+
+      {/* =================================================
+          DIGITAL ORDERS
+      ================================================= */}
+
+      <section className="account-section orders-section">
+
+        <div className="account-section-heading">
+
+          <div>
+
+            <span className="account-section-label">
+              DIGITAL PURCHASES
+            </span>
+
+            <h2>
+              Digital Downloads
+            </h2>
+
+          </div>
+
+
+          <span className="order-count">
+            {digitalOrders.length}
+            {digitalOrders.length === 1
+              ? " purchase"
+              : " purchases"
+            }
+          </span>
+
+        </div>
+
+
+        {digitalOrders.length === 0 ? (
+
+          <div className="account-empty-state">
+
+            <div className="empty-icon">
+              —
+            </div>
+
+            <h3>
+              No digital purchases yet
+            </h3>
+
+            <p>
+              Your digital poster purchases and downloads
+              will appear here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="orders-list">
+
+            {digitalOrders.map((order) => (
+
+              <article
+                key={order._id}
+                className="account-order-card digital-order-card"
+              >
+
+                <div className="account-order-header">
+
+                  <div>
+
+                    <span className="account-order-label">
+                      ORDER ID
+                    </span>
+
+                    <strong className="account-order-id">
+                      {order._id}
+                    </strong>
+
+                  </div>
+
+
+                  <div className="order-status-wrap">
+
+                    <span className="account-order-label">
+                      PAYMENT
+                    </span>
+
+                    <span className="order-status">
+                      {order.paymentStatus}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div className="account-order-products">
+
+                  <div className="account-order-product">
+
+                    <img
+                      src={order.thumbnail}
+                      className="account-order-thumb"
+                      alt={order.posterName}
+                    />
+
+
+                    <div className="account-order-product-info">
+
+                      <h3>
+                        {order.posterName}
+                      </h3>
+
+
+                      <div className="order-product-meta">
+
+                        <span>
+                          ₹{order.price}
+                        </span>
+
+                      </div>
+
+
+                      <a
+                        href={`/api/download/${order.downloadToken}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="download-btn"
+                      >
+                        Download File
+                      </a>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </section>
+
+
+    </main>
+
+  );
 
 }

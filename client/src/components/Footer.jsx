@@ -13,7 +13,7 @@ export default function Footer() {
 
 
   /* =====================================================
-     PAGES WHERE FOOTER SHOULD NOT APPEAR
+     PAGES WITHOUT FOOTER
   ===================================================== */
 
   const hideFooterRoutes = [
@@ -21,17 +21,11 @@ export default function Footer() {
     "/auth",
     "/login",
     "/signup",
-    "/register"
+    "/register",
+    "/account",
+    "/account/edit"
   ];
 
-
-  /*
-    Hide footer on authentication/cart pages.
-
-    Using startsWith also protects nested routes such as:
-      /auth/...
-      /login/...
-  */
 
   const shouldHideFooter = hideFooterRoutes.some(
     (route) =>
@@ -49,16 +43,9 @@ export default function Footer() {
 
     <footer className="footer">
 
-      {/* =================================================
-          TOP AREA
-      ================================================= */}
-
       <div className="footer-container">
 
-
-        {/* =================================================
-            BRAND
-        ================================================= */}
+        {/* BRAND */}
 
         <div className="footer-brand">
 
@@ -86,12 +73,7 @@ export default function Footer() {
           </p>
 
 
-          {/* =================================================
-              CONTACT
-          ================================================= */}
-
           <div className="footer-contact">
-
 
             <div className="footer-contact-item">
 
@@ -129,26 +111,18 @@ export default function Footer() {
 
             </div>
 
-
           </div>
 
         </div>
 
 
-        {/* =================================================
-            LINKS
-        ================================================= */}
+        {/* LINKS */}
 
         <div className="footer-links">
 
-
-          {/* SHOP */}
-
           <div className="footer-column">
 
-            <h4>
-              Shop
-            </h4>
+            <h4>Shop</h4>
 
             <Link to="/posters/single">
               Single Posters
@@ -173,13 +147,9 @@ export default function Footer() {
           </div>
 
 
-          {/* COMPANY */}
-
           <div className="footer-column">
 
-            <h4>
-              Company
-            </h4>
+            <h4>Company</h4>
 
             <Link to="/about">
               About Us
@@ -200,13 +170,9 @@ export default function Footer() {
           </div>
 
 
-          {/* POLICIES */}
-
           <div className="footer-column">
 
-            <h4>
-              Policies
-            </h4>
+            <h4>Policies</h4>
 
             <Link to="/terms-and-conditions">
               Terms & Conditions
@@ -222,15 +188,10 @@ export default function Footer() {
 
           </div>
 
-
         </div>
 
       </div>
 
-
-      {/* =================================================
-          COPYRIGHT
-      ================================================= */}
 
       <div className="footer-bottom">
 
@@ -239,10 +200,6 @@ export default function Footer() {
 
       </div>
 
-
-      {/* =================================================
-          DISCLAIMER
-      ================================================= */}
 
       <div className="footer-disclaimer">
 
@@ -256,7 +213,6 @@ export default function Footer() {
         </a>
 
       </div>
-
 
     </footer>
 
