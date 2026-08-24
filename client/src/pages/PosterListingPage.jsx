@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
 
 import PosterCard from "../components/PosterCard";
-
 import OfferSlider from "../components/OfferSlider";
-
 import SEO from "../components/SEO";
 
 import "../styles/posterListing.css";
@@ -22,125 +19,129 @@ export default function PosterListingPage({ type }) {
 
   const ITEMS_PER_PAGE = 20;
 
+
   /* ======================================
      COLLECTION MAP
   ====================================== */
 
   const collectionMap = {
 
-  /* HOME PAGE COLLECTIONS */
+    /* HOME PAGE COLLECTIONS */
 
-  trending: null,
+    trending: null,
 
-  room: [
-    "aesthetic",
-    "cars",
-    "anime",
-    "motivational"
-  ],
+    room: [
+      "aesthetic",
+      "cars",
+      "anime",
+      "motivational"
+    ],
 
-  motivational: [
-    "motivational"
-  ],
+    motivational: [
+      "motivational"
+    ],
 
-  spiritual: [
-    "spiritual",
-    "divine",
-    "devotional"
-  ],
+    spiritual: [
+      "spiritual",
+      "divine",
+      "devotional"
+    ],
 
-  cinema: [
-    "bollywood",
-    "movie_posters",
-    "actors",
-    "pop_culture"
-  ],
+    cinema: [
+      "bollywood",
+      "movie_posters",
+      "actors",
+      "pop_culture"
+    ],
 
-  fan: [
-    "anime",
-    "cricket",
-    "football",
-    "marvel_dc"
-  ],
+    fan: [
+      "anime",
+      "cricket",
+      "football",
+      "marvel_dc"
+    ],
 
-  /* CATEGORY SECTION */
 
-  entertainment: [
-    "bollywood",
-    "actors",
-    "movie_posters",
-    "pop_culture"
-  ],
+    /* CATEGORY SECTION */
 
-  superheroes: [
-    "marvel_dc"
-  ],
+    entertainment: [
+      "bollywood",
+      "actors",
+      "movie_posters",
+      "pop_culture"
+    ],
 
-  sports: [
-    "sports",
-    "football",
-    "cricket"
-  ],
+    superheroes: [
+      "marvel_dc"
+    ],
 
-  lifestyle: [
-    "cars",
-    "gym"
-  ],
+    sports: [
+      "sports",
+      "football",
+      "cricket"
+    ],
 
-  aestheticworld: [
-    "aesthetic",
-    "aesthetic_texts",
-    "motivational"
-  ],
+    lifestyle: [
+      "cars",
+      "gym"
+    ],
 
-  spiritualworld: [
-    "spiritual",
-    "divine",
-    "devotional"
-  ],
+    aestheticworld: [
+      "aesthetic",
+      "aesthetic_texts",
+      "motivational"
+    ],
 
-  animeworld: [
-    "anime",
-    "nature",
-    "legends",
-    "icons"
-  ],
+    spiritualworld: [
+      "spiritual",
+      "divine",
+      "devotional"
+    ],
 
-  /* NAVBAR COLLECTIONS */
+    animeworld: [
+      "anime",
+      "nature",
+      "legends",
+      "icons"
+    ],
 
-  cars: [
-    "cars"
-  ],
 
-  anime: [
-    "anime"
-  ],
+    /* NAVBAR COLLECTIONS */
 
-  cricket: [
-    "cricket"
-  ],
+    cars: [
+      "cars"
+    ],
 
-  bollywood: [
-    "bollywood",
-    "actors",
-    "movie_posters",
-    "pop_culture"
-  ],
+    anime: [
+      "anime"
+    ],
 
-  movies: [
-    "movie_posters",
-    "actors",
-    "bollywood"
-  ],
+    cricket: [
+      "cricket"
+    ],
 
-  more: [
-    "nature",
-    "icons",
-    "legends",
-    "gym"
-  ]
+    bollywood: [
+      "bollywood",
+      "actors",
+      "movie_posters",
+      "pop_culture"
+    ],
 
-};
+    movies: [
+      "movie_posters",
+      "actors",
+      "bollywood"
+    ],
+
+    more: [
+      "nature",
+      "icons",
+      "legends",
+      "gym"
+    ]
+
+  };
+
 
   /* ======================================
      FETCH POSTERS
@@ -156,6 +157,7 @@ export default function PosterListingPage({ type }) {
 
         const res = await fetch("/api/posters");
 
+
         /* ======================================
            SAFETY CHECK
         ====================================== */
@@ -166,7 +168,9 @@ export default function PosterListingPage({ type }) {
 
         }
 
+
         const data = await res.json();
+
 
         /* ======================================
            ARRAY SAFETY
@@ -182,7 +186,9 @@ export default function PosterListingPage({ type }) {
 
         }
 
+
         let filtered = [...data];
+
 
         /* ======================================
            CATEGORY FILTER
@@ -203,6 +209,7 @@ export default function PosterListingPage({ type }) {
           );
 
         }
+
 
         /* ======================================
            COLLECTION FILTER
@@ -229,6 +236,7 @@ export default function PosterListingPage({ type }) {
 
         }
 
+
         /* ======================================
            SINGLE POSTERS
         ====================================== */
@@ -243,6 +251,7 @@ export default function PosterListingPage({ type }) {
           );
 
         }
+
 
         /* ======================================
            SPLIT SETS
@@ -268,6 +277,7 @@ export default function PosterListingPage({ type }) {
 
         }
 
+
         /* ======================================
            POLARIZED
         ====================================== */
@@ -292,6 +302,7 @@ export default function PosterListingPage({ type }) {
 
         }
 
+
         setPosters(filtered || []);
 
         setPage(1);
@@ -313,9 +324,11 @@ export default function PosterListingPage({ type }) {
 
     };
 
+
     fetchData();
 
   }, [type, category, collection, count]);
+
 
   /* ======================================
      PAGINATION
@@ -326,8 +339,10 @@ export default function PosterListingPage({ type }) {
       ? posters
       : [];
 
+
   const start =
     (page - 1) * ITEMS_PER_PAGE;
+
 
   const current =
     safePosters.slice(
@@ -335,9 +350,34 @@ export default function PosterListingPage({ type }) {
       start + ITEMS_PER_PAGE
     );
 
+
   const totalPages = Math.ceil(
     safePosters.length / ITEMS_PER_PAGE
   );
+
+
+  /* ======================================
+     CREATE ROWS OF 5
+
+     DESKTOP:
+     This will still appear as the
+     existing 4-column grid through CSS.
+
+     MOBILE:
+     Each group becomes its own
+     horizontally scrollable row.
+  ====================================== */
+
+  const posterRows = [];
+
+  for (let i = 0; i < current.length; i += 5) {
+
+    posterRows.push(
+      current.slice(i, i + 5)
+    );
+
+  }
+
 
   /* ======================================
      SEO LOGIC
@@ -350,6 +390,7 @@ export default function PosterListingPage({ type }) {
 
   let seoUrl =
     "https://www.mudrart.in";
+
 
   /* ======================================
      CATEGORY SEO
@@ -368,6 +409,7 @@ export default function PosterListingPage({ type }) {
 
   }
 
+
   /* ======================================
      COLLECTION SEO
   ====================================== */
@@ -384,6 +426,7 @@ export default function PosterListingPage({ type }) {
       `https://www.mudrart.in/collection/${collection}`;
 
   }
+
 
   /* ======================================
      SINGLE POSTERS SEO
@@ -402,6 +445,7 @@ export default function PosterListingPage({ type }) {
 
   }
 
+
   /* ======================================
      SPLIT SET SEO
   ====================================== */
@@ -418,6 +462,7 @@ export default function PosterListingPage({ type }) {
       `https://www.mudrart.in/split/${count}`;
 
   }
+
 
   /* ======================================
      POLARIZED SEO
@@ -436,6 +481,7 @@ export default function PosterListingPage({ type }) {
 
   }
 
+
   /* ======================================
      IMAGE
   ====================================== */
@@ -447,6 +493,7 @@ export default function PosterListingPage({ type }) {
     ||
 
     "https://www.mudrart.in/logo.png";
+
 
   /* ======================================
      UI
@@ -472,7 +519,9 @@ export default function PosterListingPage({ type }) {
 
       />
 
+
       <div className="pl-page">
+
 
         {/* ======================================
            TITLE
@@ -522,17 +571,19 @@ export default function PosterListingPage({ type }) {
 
         </div>
 
+
         {/* ======================================
            OFFER SLIDER
         ====================================== */}
 
         <OfferSlider type={type} />
 
+
         {/* ======================================
-           GRID
+           POSTERS
         ====================================== */}
 
-        <section className="pl-grid">
+        <section className="pl-grid-wrapper">
 
           {
 
@@ -542,17 +593,21 @@ export default function PosterListingPage({ type }) {
 
             (
 
-              [...Array(12)].map((_, i) => (
+              <section className="pl-grid">
 
-                <div
+                {[...Array(12)].map((_, i) => (
 
-                  key={i}
+                  <div
 
-                  className="pl-skeleton"
+                    key={i}
 
-                />
+                    className="pl-skeleton"
 
-              ))
+                  />
+
+                ))}
+
+              </section>
 
             )
 
@@ -564,17 +619,43 @@ export default function PosterListingPage({ type }) {
 
             (
 
-              current.map((p) => (
+              <>
 
-                <PosterCard
+                {
 
-                  key={p._id}
+                  posterRows.map((row, rowIndex) => (
 
-                  poster={p}
+                    <div
 
-                />
+                      className="pl-row"
 
-              ))
+                      key={rowIndex}
+
+                    >
+
+                      {
+
+                        row.map((p) => (
+
+                          <PosterCard
+
+                            key={p._id}
+
+                            poster={p}
+
+                          />
+
+                        ))
+
+                      }
+
+                    </div>
+
+                  ))
+
+                }
+
+              </>
 
             )
 
@@ -604,6 +685,7 @@ export default function PosterListingPage({ type }) {
 
         </section>
 
+
         {/* ======================================
            PAGINATION
         ====================================== */}
@@ -629,9 +711,13 @@ export default function PosterListingPage({ type }) {
                     key={i}
 
                     className={
+
                       page === i + 1
+
                         ? "active"
+
                         : ""
+
                     }
 
                     onClick={() =>
@@ -639,7 +725,9 @@ export default function PosterListingPage({ type }) {
                     }
 
                   >
+
                     {i + 1}
+
                   </button>
 
                 ))
@@ -651,6 +739,7 @@ export default function PosterListingPage({ type }) {
           )
 
         }
+
 
       </div>
 

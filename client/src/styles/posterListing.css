@@ -108,6 +108,38 @@
 
 
 /* ======================================================
+   MOBILE ROW WRAPPER
+====================================================== */
+
+.pl-grid-wrapper {
+
+  width: 100%;
+
+}
+
+
+/* ======================================================
+   MOBILE POSTER ROW
+
+   Each row contains exactly 5 posters.
+====================================================== */
+
+.pl-row {
+
+  display: flex;
+
+  flex-direction: row;
+
+  flex-wrap: nowrap;
+
+  gap: 30px;
+
+  padding: 0 40px 30px;
+
+}
+
+
+/* ======================================================
    PAGINATION
 ====================================================== */
 
@@ -150,17 +182,17 @@
 
 
 /* ======================================================
-   MOBILE POSTER HORIZONTAL SCROLL
+   MOBILE
 ====================================================== */
 
 @media (max-width: 768px) {
 
-  .pl-grid {
+  /*
+    Each .pl-row becomes its own
+    horizontal scrolling container.
+  */
 
-    /*
-      Change the desktop grid into a
-      horizontally scrollable row.
-    */
+  .pl-row {
 
     display: flex;
 
@@ -169,7 +201,20 @@
     flex-wrap: nowrap;
 
     /*
-      Allow the user to swipe left/right.
+      IMPORTANT:
+      Do NOT change poster-card width.
+    */
+
+    gap: 18px;
+
+    /*
+      Keep the original 260px poster card.
+    */
+
+    padding: 0 20px 25px;
+
+    /*
+      Horizontal finger scrolling.
     */
 
     overflow-x: auto;
@@ -177,47 +222,32 @@
     overflow-y: hidden;
 
     /*
-      Keep the existing page spacing.
-    */
-
-    padding: 30px 20px 20px;
-
-    gap: 18px;
-
-    /*
-      IMPORTANT:
-      Prevent the posters from shrinking.
-    */
-
-    align-items: flex-start;
-
-    /*
-      Native mobile horizontal scrolling.
+      Native mobile scrolling.
     */
 
     -webkit-overflow-scrolling: touch;
 
     /*
-      Horizontal swipe is allowed.
+      Allow horizontal finger gesture.
     */
 
     touch-action: pan-x;
 
     /*
-      Smooth snapping.
+      Smooth snap.
     */
 
     scroll-snap-type: x mandatory;
 
     /*
-      Prevent scroll chaining into the page.
+      Prevent horizontal scroll from
+      propagating to the body.
     */
 
     overscroll-behavior-x: contain;
 
     /*
-      Make sure the scrollbar doesn't affect
-      the visual design.
+      Hide scrollbar.
     */
 
     scrollbar-width: none;
@@ -226,10 +256,10 @@
 
 
   /*
-    Hide scrollbar on Chrome / Safari / Edge.
+    Chrome / Safari / Edge
   */
 
-  .pl-grid::-webkit-scrollbar {
+  .pl-row::-webkit-scrollbar {
 
     display: none;
 
@@ -237,19 +267,16 @@
 
 
   /*
-    IMPORTANT:
-    PosterCard has width: 260px.
-    Keep each card fixed-width so the cards
-    form a real horizontal carousel.
+    KEEP POSTER CARD ORIGINAL SIZE.
+
+    Your PosterCard is 260px wide.
   */
 
-  .pl-grid .poster-card {
+  .pl-row .poster-card {
 
     flex: 0 0 260px;
 
     width: 260px;
-
-    max-width: 260px;
 
     scroll-snap-align: start;
 
@@ -257,28 +284,29 @@
 
 
   /*
-    Keep poster image size consistent.
+    Do not allow flexbox to shrink
+    the poster cards.
   */
 
-  .pl-grid .poster-image {
+  .pl-row .poster-card {
 
-    width: 100%;
+    min-width: 260px;
 
-    height: 360px;
+    max-width: 260px;
 
   }
 
 
   /*
-    Prevent the last card from touching
-    the screen edge.
+    Keep the existing poster image
+    dimensions.
   */
 
-  .pl-grid::after {
+  .pl-row .poster-image {
 
-    content: "";
+    width: 100%;
 
-    flex: 0 0 1px;
+    height: 360px;
 
   }
 
@@ -287,93 +315,69 @@
 
 /* ======================================================
    SMALL MOBILE
+
+   IMPORTANT:
+   Still keep the original card size.
 ====================================================== */
 
 @media (max-width: 480px) {
 
   .pl-title {
 
-    padding: 45px 16px 15px;
+    padding: 60px 20px 20px;
 
   }
+
 
   .pl-title h1 {
 
-    font-size: 30px;
+    font-size: 36px;
 
   }
+
 
   .pl-title p {
 
-    font-size: 14px;
+    font-size: inherit;
 
   }
 
 
-  .pl-grid {
+  .pl-row {
 
-    padding: 25px 16px 20px;
+    gap: 18px;
 
-    gap: 16px;
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+    padding-bottom: 25px;
 
   }
 
 
   /*
-    Slightly smaller cards on small phones.
+    SAME 260px CARD.
+
+    No resizing.
   */
 
-  .pl-grid .poster-card {
+  .pl-row .poster-card {
 
-    flex: 0 0 220px;
+    flex: 0 0 260px;
 
-    width: 220px;
+    width: 260px;
 
-    max-width: 220px;
+    min-width: 260px;
 
-  }
-
-
-  .pl-grid .poster-image {
-
-    height: 305px;
-
-  }
-
-}
-
-
-/* ======================================================
-   VERY SMALL MOBILE
-====================================================== */
-
-@media (max-width: 360px) {
-
-  .pl-grid {
-
-    padding-left: 14px;
-
-    padding-right: 14px;
-
-    gap: 14px;
+    max-width: 260px;
 
   }
 
 
-  .pl-grid .poster-card {
+  .pl-row .poster-image {
 
-    flex: 0 0 205px;
-
-    width: 205px;
-
-    max-width: 205px;
-
-  }
-
-
-  .pl-grid .poster-image {
-
-    height: 285px;
+    height: 360px;
 
   }
 
