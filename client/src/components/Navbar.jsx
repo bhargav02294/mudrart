@@ -17,9 +17,7 @@ export default function Navbar() {
   const location = useLocation();
 
 
-  /* ======================================================
-     LOGIN CHECK
-  ====================================================== */
+  /* LOGIN CHECK */
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
@@ -27,32 +25,23 @@ export default function Navbar() {
   }, [location]);
 
 
-  /* ======================================================
-     SCROLL EFFECT
-  ====================================================== */
+  /* SCROLL EFFECT */
 
   useEffect(() => {
 
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      if (window.scrollY > 20) setScrolled(true);
+      else setScrolled(false);
     };
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
 
   }, []);
 
 
-  /* ======================================================
-     BODY SCROLL LOCK
-  ====================================================== */
+  /* MOBILE MENU BODY SCROLL */
 
   useEffect(() => {
 
@@ -69,40 +58,23 @@ export default function Navbar() {
   }, [mobileMenu]);
 
 
-  /* ======================================================
-     CLOSE MOBILE MENU ON ROUTE CHANGE
-  ====================================================== */
+  /* CLOSE MOBILE MENU */
 
-  useEffect(() => {
-
+  const closeMobileMenu = () => {
     setMobileMenu(false);
     setOpenDropdown(null);
-
-  }, [location.pathname]);
-
-
-  /* ======================================================
-     CLOSE MENU + DROPDOWN
-     WHEN A MOBILE LINK IS CLICKED
-  ====================================================== */
-
-  const handleMobileLinkClick = () => {
-
-    setMobileMenu(false);
-    setOpenDropdown(null);
-
   };
 
 
-  /* ======================================================
-     DROPDOWN TOGGLE
-  ====================================================== */
+  /* DROPDOWN TOGGLE */
 
   const toggleDropdown = (name) => {
 
-    setOpenDropdown((current) =>
-      current === name ? null : name
-    );
+    if (openDropdown === name) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(name);
+    }
 
   };
 
@@ -114,14 +86,12 @@ export default function Navbar() {
       <div className="navbar-container">
 
 
-        {/* ==================================================
-            LOGO
-        ================================================== */}
+        {/* LOGO */}
 
         <Link
           to="/"
           className="logo"
-          onClick={handleMobileLinkClick}
+          onClick={closeMobileMenu}
         >
 
           <img
@@ -133,51 +103,29 @@ export default function Navbar() {
         </Link>
 
 
-        {/* ==================================================
-            CENTER MENU
-        ================================================== */}
+        {/* CENTER MENU */}
 
-        <div
-          className={`center-menu ${mobileMenu ? "active" : ""}`}
-        >
-
-
-          {/* ==================================================
-              SINGLE POSTERS
-          ================================================== */}
+        <div className={`center-menu ${mobileMenu ? "active" : ""}`}>
 
           <Link
             to="/posters/single"
             className="menu-item"
-            onClick={handleMobileLinkClick}
+            onClick={closeMobileMenu}
           >
             Single Posters
           </Link>
 
 
-          {/* ==================================================
-              CATEGORIES
-          ================================================== */}
+          {/* CATEGORIES */}
 
           <div
             className="menu-item dropdown"
-
-            onMouseEnter={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown("categories");
-              }
-            }}
-
-            onMouseLeave={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown(null);
-              }
-            }}
+            onMouseEnter={() => setOpenDropdown("categories")}
+            onMouseLeave={() => setOpenDropdown(null)}
           >
 
             <span
               className="menu-label"
-
               onClick={(e) => {
                 e.stopPropagation();
                 toggleDropdown("categories");
@@ -212,28 +160,28 @@ export default function Navbar() {
 
                 <Link
                   to="/category/bollywood"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Bollywood
                 </Link>
 
                 <Link
                   to="/category/actors"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Actors
                 </Link>
 
                 <Link
                   to="/category/movie_posters"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Movie Posters
                 </Link>
 
                 <Link
                   to="/category/pop_culture"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Pop Culture
                 </Link>
@@ -249,7 +197,7 @@ export default function Navbar() {
 
                 <Link
                   to="/category/marvel_dc"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Marvel & DC
                 </Link>
@@ -265,21 +213,21 @@ export default function Navbar() {
 
                 <Link
                   to="/category/sports"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Sports
                 </Link>
 
                 <Link
                   to="/category/football"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Football
                 </Link>
 
                 <Link
                   to="/category/cricket"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Cricket
                 </Link>
@@ -295,14 +243,14 @@ export default function Navbar() {
 
                 <Link
                   to="/category/cars"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Cars
                 </Link>
 
                 <Link
                   to="/category/gym"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Gym
                 </Link>
@@ -318,21 +266,21 @@ export default function Navbar() {
 
                 <Link
                   to="/category/aesthetic"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Aesthetic
                 </Link>
 
                 <Link
                   to="/category/aesthetic_texts"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Aesthetic Texts
                 </Link>
 
                 <Link
                   to="/category/motivational"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Motivational
                 </Link>
@@ -348,21 +296,21 @@ export default function Navbar() {
 
                 <Link
                   to="/category/spiritual"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Spiritual
                 </Link>
 
                 <Link
                   to="/category/divine"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Divine
                 </Link>
 
                 <Link
                   to="/category/devotional"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Devotional
                 </Link>
@@ -378,28 +326,28 @@ export default function Navbar() {
 
                 <Link
                   to="/category/nature"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Nature
                 </Link>
 
                 <Link
                   to="/category/anime"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Anime
                 </Link>
 
                 <Link
                   to="/category/legends"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Legends
                 </Link>
 
                 <Link
                   to="/category/icons"
-                  onClick={handleMobileLinkClick}
+                  onClick={closeMobileMenu}
                 >
                   Icons
                 </Link>
@@ -411,33 +359,17 @@ export default function Navbar() {
           </div>
 
 
-          {/* ==================================================
-              SPLIT POSTERS
-          ================================================== */}
+          {/* SPLIT POSTERS */}
 
           <div
             className="menu-item dropdown"
-
-            onMouseEnter={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown("split");
-              }
-            }}
-
-            onMouseLeave={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown(null);
-              }
-            }}
+            onMouseEnter={() => setOpenDropdown("split")}
+            onMouseLeave={() => setOpenDropdown(null)}
           >
 
             <span
               className="menu-label"
-
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleDropdown("split");
-              }}
+              onClick={() => toggleDropdown("split")}
             >
               Split Posters
 
@@ -462,49 +394,49 @@ export default function Navbar() {
 
               <Link
                 to="/split/2"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 2 Set
               </Link>
 
               <Link
                 to="/split/3"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 3 Set
               </Link>
 
               <Link
                 to="/split/4"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 4 Set
               </Link>
 
               <Link
                 to="/split/6"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 6 Set
               </Link>
 
               <Link
                 to="/split/8"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 8 Set
               </Link>
 
               <Link
                 to="/split/10"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 10 Set
               </Link>
 
               <Link
                 to="/split/20"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 20 Set
               </Link>
@@ -514,33 +446,17 @@ export default function Navbar() {
           </div>
 
 
-          {/* ==================================================
-              POLAROIDS
-          ================================================== */}
+          {/* POLAROIDS */}
 
           <div
             className="menu-item dropdown"
-
-            onMouseEnter={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown("polarized");
-              }
-            }}
-
-            onMouseLeave={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown(null);
-              }
-            }}
+            onMouseEnter={() => setOpenDropdown("polarized")}
+            onMouseLeave={() => setOpenDropdown(null)}
           >
 
             <span
               className="menu-label"
-
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleDropdown("polarized");
-              }}
+              onClick={() => toggleDropdown("polarized")}
             >
               Polaroids
 
@@ -565,28 +481,28 @@ export default function Navbar() {
 
               <Link
                 to="/polarized/12"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 12 Posters
               </Link>
 
               <Link
                 to="/polarized/24"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 24 Posters
               </Link>
 
               <Link
                 to="/polarized/36"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 36 Posters
               </Link>
 
               <Link
                 to="/polarized/48"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 48 Posters
               </Link>
@@ -596,33 +512,17 @@ export default function Navbar() {
           </div>
 
 
-          {/* ==================================================
-              COLLECTIONS
-          ================================================== */}
+          {/* COLLECTION */}
 
           <div
             className="menu-item dropdown"
-
-            onMouseEnter={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown("collection");
-              }
-            }}
-
-            onMouseLeave={() => {
-              if (window.innerWidth > 900) {
-                setOpenDropdown(null);
-              }
-            }}
+            onMouseEnter={() => setOpenDropdown("collection")}
+            onMouseLeave={() => setOpenDropdown(null)}
           >
 
             <span
               className="menu-label"
-
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleDropdown("collection");
-              }}
+              onClick={() => toggleDropdown("collection")}
             >
               Collections
 
@@ -647,56 +547,56 @@ export default function Navbar() {
 
               <Link
                 to="/collection/cars"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Cars
               </Link>
 
               <Link
                 to="/collection/anime"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Anime
               </Link>
 
               <Link
                 to="/collection/cricket"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Cricket
               </Link>
 
               <Link
                 to="/collection/bollywood"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Bollywood
               </Link>
 
               <Link
                 to="/collection/movies"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Movies
               </Link>
 
               <Link
                 to="/collection/spiritual"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Spiritual
               </Link>
 
               <Link
                 to="/collection/motivational"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 Motivational
               </Link>
 
               <Link
                 to="/collection/more"
-                onClick={handleMobileLinkClick}
+                onClick={closeMobileMenu}
               >
                 More
               </Link>
@@ -708,9 +608,7 @@ export default function Navbar() {
         </div>
 
 
-        {/* ==================================================
-            RIGHT SIDE
-        ================================================== */}
+        {/* RIGHT SIDE */}
 
         <div className="nav-right">
 
@@ -745,22 +643,9 @@ export default function Navbar() {
 
           <button
             className="menu-toggle"
-            onClick={() => {
-
-              setMobileMenu((current) => !current);
-
-              setOpenDropdown(null);
-
-            }}
-            aria-label="Toggle menu"
+            onClick={() => setMobileMenu(!mobileMenu)}
           >
-
-            {mobileMenu ? (
-              <FaTimes />
-            ) : (
-              <FaBars />
-            )}
-
+            {mobileMenu ? <FaTimes /> : <FaBars />}
           </button>
 
         </div>

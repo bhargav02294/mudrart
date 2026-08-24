@@ -1,159 +1,184 @@
-/* ======================================================
-   NAVBAR
-====================================================== */
+/* NAVBAR */
 
 .navbar {
+
   width: 100%;
+
   background: #0b0b0b;
+
   position: fixed;
+
   top: 0;
+
   left: 0;
+
   z-index: 9999;
+
   border-bottom: 1px solid #111;
+
   transition: 0.3s;
+
 }
 
 
-/* ======================================================
-   SCROLL GLASS
-====================================================== */
+/* SCROLL GLASS */
 
 .navbar-scrolled {
-  background: rgba(0, 0, 0, 0.75);
+
+  background: rgba(0,0,0,0.75);
+
   backdrop-filter: blur(12px);
+
   border-bottom: 1px solid #2a2a2a;
+
 }
 
 
-/* ======================================================
-   CONTAINER
-====================================================== */
+/* CONTAINER */
 
 .navbar-container {
+
   max-width: 1300px;
+
   margin: auto;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   padding: 12px 24px;
+
   height: 78px;
+
 }
 
 
-/* ======================================================
-   LOGO
-====================================================== */
+/* LOGO */
 
 .logo-image {
+
   max-width: 210px;
+
   height: auto;
+
 }
 
 
-/* ======================================================
-   CENTER MENU
-====================================================== */
+/* CENTER MENU */
 
 .center-menu {
+
   display: flex;
+
   align-items: center;
+
   gap: 32px;
+
 }
 
 
-/* ======================================================
-   MENU ITEMS
-====================================================== */
+/* MENU ITEMS */
 
 .menu-item {
+
   position: relative;
 
   font-size: 15px;
+
   font-weight: 500;
 
   color: #eaeaea;
 
   cursor: pointer;
 
-  transition: color 0.25s ease;
+  transition: color .25s ease;
+
 }
 
 
-/* ======================================================
-   HOVER EFFECT
-====================================================== */
+/* HOVER EFFECT */
 
 .menu-item:hover {
+
   color: #cfcfcf;
+
 }
 
 
-/* ======================================================
-   LABEL
-====================================================== */
+/* LABEL */
 
 .menu-label {
+
   display: flex;
+
   align-items: center;
+
   gap: 6px;
+
 }
 
 
-/* ======================================================
-   ARROW
-====================================================== */
+/* ARROW */
 
 .arrow {
+
   font-size: 14px;
+
   opacity: 0.7;
+
   transition: 0.25s;
+
 }
 
 .rotate {
+
   transform: rotate(180deg);
+
 }
 
 
-/* ======================================================
-   DROPDOWN
-====================================================== */
+/* DROPDOWN */
 
 .dropdown-menu {
+
   position: absolute;
 
   top: 100%;
+
   left: 0;
 
   background: #0e0e0e;
 
   border: 1px solid #1c1c1c;
+
   border-radius: 8px;
 
   display: none;
 
   min-width: 180px;
+
   padding: 8px 0;
 
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+
 }
 
 
-/* ======================================================
-   SHOW DROPDOWN
-====================================================== */
+/* SHOW DROPDOWN */
 
 .dropdown-menu.show {
+
   display: block;
+
 }
 
 
-/* ======================================================
-   DROPDOWN LINKS
-====================================================== */
+/* DROPDOWN LINKS */
 
 .dropdown-menu a {
+
   display: block;
 
   padding: 10px 16px;
@@ -165,31 +190,41 @@
   text-decoration: none;
 
   transition: 0.2s;
+
 }
 
 .dropdown-menu a:hover {
+
   background: #1a1a1a;
+
   color: #fff;
+
 }
 
 
-/* ======================================================
-   RIGHT SIDE
-====================================================== */
+/* RIGHT SIDE */
 
 .nav-right {
+
   display: flex;
+
   align-items: center;
+
   gap: 18px;
+
 }
 
 
 .icon-btn {
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   width: 36px;
+
   height: 36px;
 
   border-radius: 6px;
@@ -198,24 +233,27 @@
 
   color: #f1f1f1;
 
-  transition: background 0.25s ease, color 0.25s ease;
-}
+  transition: background .25s ease, color .25s ease;
 
+}
 
 .icon-btn:hover {
+
   background: #1b1b1b;
+
   color: #ffffff;
+
 }
 
 
-/* ======================================================
-   MOBILE BUTTON
-====================================================== */
+/* MOBILE BUTTON */
 
 .menu-toggle {
+
   display: none;
 
   background: none;
+
   border: none;
 
   color: white;
@@ -223,94 +261,7 @@
   font-size: 22px;
 
   cursor: pointer;
-}
 
-
-/* ======================================================
-   MEGA MENU - DESKTOP
-====================================================== */
-
-.mega-menu {
-  position: absolute;
-
-  top: 100%;
-  left: 0;
-
-  width: 700px;
-
-  background: #0e0e0e;
-
-  border: 1px solid #1c1c1c;
-
-  border-radius: 10px;
-
-  padding: 20px;
-
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-
-  display: none;
-
-  opacity: 0;
-  transform: translateY(10px);
-
-  transition: all 0.25s ease;
-}
-
-
-/* ======================================================
-   MEGA MENU SHOW
-====================================================== */
-
-.dropdown-menu.mega-menu.show {
-  display: grid;
-
-  grid-template-columns: repeat(4, 1fr);
-
-  gap: 20px;
-
-  opacity: 1;
-
-  transform: translateY(0);
-}
-
-
-/* ======================================================
-   MEGA MENU COLUMN
-====================================================== */
-
-.mega-col {
-  margin-bottom: 10px;
-}
-
-
-.mega-col h4 {
-  font-size: 13px;
-
-  color: #888;
-
-  margin-bottom: 8px;
-}
-
-
-.mega-col a {
-  display: block;
-
-  font-size: 14px;
-
-  color: #d4d4d4;
-
-  padding: 6px 0;
-
-  text-decoration: none;
-
-  transition: 0.2s;
-}
-
-
-.mega-col a:hover {
-  color: #fff;
-
-  transform: translateX(3px);
 }
 
 
@@ -320,23 +271,15 @@
 
 @media (max-width: 900px) {
 
-  /*
-    Keep the navbar itself unchanged.
-    The menu becomes a viewport-height scroll area.
-  */
-
   .center-menu {
 
-    position: fixed;
+    position: absolute;
 
     top: 78px;
+
     left: 0;
 
     width: 100%;
-
-    height: calc(100dvh - 78px);
-
-    max-height: calc(100dvh - 78px);
 
     background: #000;
 
@@ -346,45 +289,46 @@
 
     display: none;
 
-    padding: 20px 24px 40px;
+    padding: 20px 24px;
 
     border-top: 1px solid #1b1b1b;
 
     /*
       IMPORTANT:
-      The menu itself handles scrolling.
+      Keep the mobile menu inside the viewport
+      and allow the menu itself to scroll.
     */
+
+    height: calc(100vh - 78px);
+
+    max-height: calc(100vh - 78px);
 
     overflow-y: auto;
 
     overflow-x: hidden;
 
     /*
-      Better mobile scrolling.
+      Makes scrolling smoother on mobile browsers.
     */
 
     -webkit-overflow-scrolling: touch;
 
     /*
-      Prevent the menu from affecting page width.
+      Prevents the menu content from being hidden
+      behind the bottom of the viewport.
     */
 
     box-sizing: border-box;
+
   }
 
-
-  /* ==================================================
-     OPEN MOBILE MENU
-  ================================================== */
 
   .center-menu.active {
+
     display: flex;
+
   }
 
-
-  /* ==================================================
-     MENU ITEMS
-  ================================================== */
 
   .menu-item {
 
@@ -392,13 +336,11 @@
 
     padding: 14px 0;
 
-    flex-shrink: 0;
   }
 
 
-  /* ==================================================
-     DROPDOWN
-  ================================================== */
+  /* IMPORTANT:
+     DROPDOWNS REMAIN AS THEY ARE */
 
   .dropdown-menu {
 
@@ -416,29 +358,23 @@
 
     padding-left: 10px;
 
-    box-sizing: border-box;
   }
 
 
-  /* ==================================================
-     SHOW DROPDOWN
-  ================================================== */
+  /* SHOW */
 
   .dropdown-menu.show {
+
     display: block;
+
   }
 
 
-  /* ==================================================
-     MOBILE MEGA MENU
-  ================================================== */
+  /* MEGA MENU */
 
   .mega-menu {
 
     position: relative !important;
-
-    top: auto !important;
-    left: auto !important;
 
     width: 100% !important;
 
@@ -450,13 +386,6 @@
 
     padding: 10px;
 
-    box-sizing: border-box;
-
-    opacity: 1;
-
-    transform: none;
-
-    transition: none;
   }
 
 
@@ -464,42 +393,22 @@
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
-
-    width: 100%;
-
-    padding: 10px;
   }
 
 
-  /* ==================================================
-     MEGA MENU COLUMNS
-  ================================================== */
+  /* BETTER SPACING */
 
   .mega-col {
 
     margin-bottom: 10px;
 
-    min-width: 0;
   }
 
-
-  /* ==================================================
-     MOBILE BUTTON
-  ================================================== */
 
   .menu-toggle {
+
     display: block;
-  }
 
-
-  /*
-    Prevent the background page from scrolling
-    while the mobile menu is open.
-  */
-
-  body.menu-open {
-    overflow: hidden;
   }
 
 }
@@ -512,7 +421,141 @@
 @media (max-width: 600px) {
 
   .logo-image {
+
     max-width: 160px;
+
+  }
+
+}
+
+
+/* ======================================================
+   MEGA MENU (CATEGORIES) - FIXED
+====================================================== */
+
+.mega-menu {
+
+  position: absolute;
+
+  top: 100%;
+
+  left: 0;
+
+  width: 700px;
+
+  background: #0e0e0e;
+
+  border: 1px solid #1c1c1c;
+
+  border-radius: 10px;
+
+  padding: 20px;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+
+  display: none;
+
+}
+
+
+/* SHOW */
+
+.dropdown-menu.mega-menu.show {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+
+}
+
+
+/* COLUMN */
+
+.mega-col h4 {
+
+  font-size: 13px;
+
+  color: #888;
+
+  margin-bottom: 8px;
+
+}
+
+.mega-col a {
+
+  display: block;
+
+  font-size: 14px;
+
+  color: #d4d4d4;
+
+  padding: 6px 0;
+
+  text-decoration: none;
+
+  transition: 0.2s;
+
+}
+
+.mega-col a:hover {
+
+  color: #fff;
+
+  transform: translateX(3px);
+
+}
+
+
+.mega-menu {
+
+  opacity: 0;
+
+  transform: translateY(10px);
+
+  transition: all 0.25s ease;
+
+}
+
+.dropdown-menu.mega-menu.show {
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 900px) {
+
+  .dropdown-menu.mega-menu.show {
+
+    grid-template-columns: 1fr 1fr;
+
+    width: 100%;
+
+    padding: 10px;
+
+  }
+
+}
+
+
+/* ======================================================
+   MOBILE MENU BODY SCROLL LOCK
+====================================================== */
+
+@media (max-width: 900px) {
+
+  body.menu-open {
+
+    overflow: hidden;
+
   }
 
 }
