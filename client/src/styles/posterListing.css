@@ -96,45 +96,47 @@
 
 .pl-grid {
 
+  display: block;
+
+  width: 100%;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* ======================================================
+   POSTER ROW CONTAINER
+====================================================== */
+
+.pl-poster-rows {
+
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+
+}
+
+
+/* ======================================================
+   INDIVIDUAL POSTER ROW
+====================================================== */
+
+.pl-poster-row {
+
   display: grid;
 
   grid-template-columns: repeat(4, 1fr);
 
   gap: 30px;
 
-  padding: 40px;
-
-}
-
-
-/* ======================================================
-   MOBILE ROW WRAPPER
-====================================================== */
-
-.pl-grid-wrapper {
-
   width: 100%;
-
-}
-
-
-/* ======================================================
-   MOBILE POSTER ROW
-
-   Each row contains exactly 5 posters.
-====================================================== */
-
-.pl-row {
-
-  display: flex;
-
-  flex-direction: row;
-
-  flex-wrap: nowrap;
-
-  gap: 30px;
-
-  padding: 0 40px 30px;
 
 }
 
@@ -169,8 +171,41 @@
 
 
 /* ======================================================
+   NO POSTERS
+====================================================== */
+
+.pl-no-posters {
+
+  padding: 40px;
+
+  text-align: center;
+
+}
+
+
+/* ======================================================
    SKELETON
 ====================================================== */
+
+.pl-loading-rows {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+
+}
+
+.pl-mobile-row {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 30px;
+
+}
 
 .pl-skeleton {
 
@@ -188,11 +223,47 @@
 @media (max-width: 768px) {
 
   /*
-    Each .pl-row becomes its own
-    horizontal scrolling container.
+    Keep the existing poster card size.
+
+    IMPORTANT:
+    Do NOT change PosterCard width here.
   */
 
-  .pl-row {
+  .pl-grid {
+
+    width: 100%;
+
+    padding: 30px 0 20px;
+
+    overflow: visible;
+
+    box-sizing: border-box;
+
+  }
+
+
+  /* ================================================
+     ALL POSTER ROWS
+  ================================================ */
+
+  .pl-poster-rows {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 28px;
+
+    width: 100%;
+
+  }
+
+
+  /* ================================================
+     EACH INDEPENDENT HORIZONTAL ROW
+  ================================================ */
+
+  .pl-poster-row {
 
     display: flex;
 
@@ -200,21 +271,13 @@
 
     flex-wrap: nowrap;
 
-    /*
-      IMPORTANT:
-      Do NOT change poster-card width.
-    */
-
     gap: 18px;
 
-    /*
-      Keep the original 260px poster card.
-    */
-
-    padding: 0 20px 25px;
+    width: 100%;
 
     /*
-      Horizontal finger scrolling.
+      Horizontal scrolling is handled
+      by each individual row.
     */
 
     overflow-x: auto;
@@ -222,29 +285,32 @@
     overflow-y: hidden;
 
     /*
-      Native mobile scrolling.
+      IMPORTANT:
+      Do not force only horizontal touch.
+      The browser must still be able to
+      recognize vertical page scrolling.
+    */
+
+    touch-action: pan-x pan-y;
+
+    /*
+      Native momentum scrolling.
     */
 
     -webkit-overflow-scrolling: touch;
 
     /*
-      Allow horizontal finger gesture.
-    */
-
-    touch-action: pan-x;
-
-    /*
-      Smooth snap.
-    */
-
-    scroll-snap-type: x mandatory;
-
-    /*
       Prevent horizontal scroll from
-      propagating to the body.
+      propagating to the entire page.
     */
 
     overscroll-behavior-x: contain;
+
+    /*
+      Smooth snapping.
+    */
+
+    scroll-snap-type: x proximity;
 
     /*
       Hide scrollbar.
@@ -252,59 +318,107 @@
 
     scrollbar-width: none;
 
+    /*
+      Proper left/right breathing room.
+    */
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+    box-sizing: border-box;
+
   }
 
 
-  /*
-    Chrome / Safari / Edge
-  */
+  /* Chrome / Safari / Edge */
 
-  .pl-row::-webkit-scrollbar {
+  .pl-poster-row::-webkit-scrollbar {
 
     display: none;
 
   }
 
 
-  /*
-    KEEP POSTER CARD ORIGINAL SIZE.
+  /* ================================================
+     POSTER CARD
+     
+     KEEP ORIGINAL SIZE
+     
+     PosterCard.jsx CSS:
+       width: 260px
+       image: 360px
+  ================================================ */
 
-    Your PosterCard is 260px wide.
-  */
-
-  .pl-row .poster-card {
+  .pl-poster-row .poster-card {
 
     flex: 0 0 260px;
 
     width: 260px;
+
+    min-width: 260px;
+
+    max-width: 260px;
 
     scroll-snap-align: start;
 
   }
 
 
-  /*
-    Do not allow flexbox to shrink
-    the poster cards.
-  */
+  /* ================================================
+     IMAGE
 
-  .pl-row .poster-card {
+     KEEP ORIGINAL SIZE
+  ================================================ */
 
-    min-width: 260px;
+  .pl-poster-row .poster-image {
 
-    max-width: 260px;
+    width: 100%;
+
+    height: 360px;
 
   }
 
 
-  /*
-    Keep the existing poster image
-    dimensions.
-  */
+  /* ================================================
+     LOADING ROWS
+  ================================================ */
 
-  .pl-row .poster-image {
+  .pl-loading-rows {
 
-    width: 100%;
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 28px;
+
+  }
+
+
+  .pl-mobile-row {
+
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: nowrap;
+
+    gap: 18px;
+
+    overflow: hidden;
+
+    padding-left: 20px;
+
+    padding-right: 20px;
+
+  }
+
+
+  .pl-mobile-row .pl-skeleton {
+
+    flex: 0 0 260px;
+
+    width: 260px;
 
     height: 360px;
 
@@ -317,52 +431,64 @@
    SMALL MOBILE
 
    IMPORTANT:
-   Still keep the original card size.
+   Card size STILL remains 260px.
 ====================================================== */
 
 @media (max-width: 480px) {
 
   .pl-title {
 
-    padding: 60px 20px 20px;
+    padding: 45px 16px 15px;
 
   }
 
 
   .pl-title h1 {
 
-    font-size: 36px;
+    font-size: 30px;
 
   }
 
 
   .pl-title p {
 
-    font-size: inherit;
+    font-size: 14px;
 
   }
 
 
-  .pl-row {
+  .pl-grid {
 
-    gap: 18px;
+    padding-top: 25px;
 
-    padding-left: 20px;
+  }
 
-    padding-right: 20px;
 
-    padding-bottom: 25px;
+  .pl-poster-rows {
+
+    gap: 26px;
+
+  }
+
+
+  .pl-poster-row {
+
+    gap: 16px;
+
+    padding-left: 16px;
+
+    padding-right: 16px;
 
   }
 
 
   /*
-    SAME 260px CARD.
-
-    No resizing.
+    KEEP 260px.
+    
+    No shrinking.
   */
 
-  .pl-row .poster-card {
+  .pl-poster-row .poster-card {
 
     flex: 0 0 260px;
 
@@ -375,9 +501,43 @@
   }
 
 
-  .pl-row .poster-image {
+  .pl-poster-row .poster-image {
 
     height: 360px;
+
+  }
+
+}
+
+
+/* ======================================================
+   VERY SMALL MOBILE
+
+   STILL KEEP CARD SIZE.
+====================================================== */
+
+@media (max-width: 360px) {
+
+  .pl-poster-row {
+
+    padding-left: 14px;
+
+    padding-right: 14px;
+
+    gap: 14px;
+
+  }
+
+
+  .pl-poster-row .poster-card {
+
+    flex: 0 0 260px;
+
+    width: 260px;
+
+    min-width: 260px;
+
+    max-width: 260px;
 
   }
 
