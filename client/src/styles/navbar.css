@@ -1,4 +1,6 @@
-/* NAVBAR */
+/* ======================================================
+   NAVBAR
+====================================================== */
 
 .navbar {
 
@@ -21,7 +23,9 @@
 }
 
 
-/* SCROLL GLASS */
+/* ======================================================
+   SCROLL GLASS
+====================================================== */
 
 .navbar-scrolled {
 
@@ -34,7 +38,9 @@
 }
 
 
-/* CONTAINER */
+/* ======================================================
+   CONTAINER
+====================================================== */
 
 .navbar-container {
 
@@ -55,7 +61,9 @@
 }
 
 
-/* LOGO */
+/* ======================================================
+   LOGO
+====================================================== */
 
 .logo-image {
 
@@ -66,7 +74,9 @@
 }
 
 
-/* CENTER MENU */
+/* ======================================================
+   CENTER MENU
+====================================================== */
 
 .center-menu {
 
@@ -79,7 +89,9 @@
 }
 
 
-/* MENU ITEMS */
+/* ======================================================
+   MENU ITEMS
+====================================================== */
 
 .menu-item {
 
@@ -98,7 +110,9 @@
 }
 
 
-/* HOVER EFFECT */
+/* ======================================================
+   HOVER EFFECT
+====================================================== */
 
 .menu-item:hover {
 
@@ -107,7 +121,9 @@
 }
 
 
-/* LABEL */
+/* ======================================================
+   LABEL
+====================================================== */
 
 .menu-label {
 
@@ -120,7 +136,9 @@
 }
 
 
-/* ARROW */
+/* ======================================================
+   ARROW
+====================================================== */
 
 .arrow {
 
@@ -139,7 +157,9 @@
 }
 
 
-/* DROPDOWN */
+/* ======================================================
+   DROPDOWN
+====================================================== */
 
 .dropdown-menu {
 
@@ -166,7 +186,9 @@
 }
 
 
-/* SHOW DROPDOWN */
+/* ======================================================
+   SHOW DROPDOWN
+====================================================== */
 
 .dropdown-menu.show {
 
@@ -175,7 +197,9 @@
 }
 
 
-/* DROPDOWN LINKS */
+/* ======================================================
+   DROPDOWN LINKS
+====================================================== */
 
 .dropdown-menu a {
 
@@ -202,7 +226,9 @@
 }
 
 
-/* RIGHT SIDE */
+/* ======================================================
+   RIGHT SIDE
+====================================================== */
 
 .nav-right {
 
@@ -246,7 +272,9 @@
 }
 
 
-/* MOBILE BUTTON */
+/* ======================================================
+   MOBILE BUTTON
+====================================================== */
 
 .menu-toggle {
 
@@ -271,13 +299,27 @@
 
 @media (max-width: 900px) {
 
+  /*
+    MOBILE MENU
+
+    IMPORTANT:
+    Use fixed positioning so the menu always occupies
+    exactly the available viewport below the navbar.
+
+    This makes internal scrolling reliable.
+  */
+
   .center-menu {
 
-    position: absolute;
+    position: fixed;
 
     top: 78px;
 
     left: 0;
+
+    right: 0;
+
+    bottom: 0;
 
     width: 100%;
 
@@ -294,31 +336,39 @@
     border-top: 1px solid #1b1b1b;
 
     /*
-      IMPORTANT:
-      Keep the mobile menu inside the viewport
-      and allow the menu itself to scroll.
+      The menu itself scrolls.
     */
-
-    height: calc(100vh - 78px);
-
-    max-height: calc(100vh - 78px);
 
     overflow-y: auto;
 
     overflow-x: hidden;
 
     /*
-      Makes scrolling smoother on mobile browsers.
+      Required for flex containers to allow
+      their content to become scrollable.
+    */
+
+    min-height: 0;
+
+    box-sizing: border-box;
+
+    /*
+      Smooth scrolling on mobile.
     */
 
     -webkit-overflow-scrolling: touch;
 
     /*
-      Prevents the menu content from being hidden
-      behind the bottom of the viewport.
+      Prevent scroll from propagating to the page.
     */
 
-    box-sizing: border-box;
+    overscroll-behavior: contain;
+
+    /*
+      Allow vertical finger scrolling.
+    */
+
+    touch-action: pan-y;
 
   }
 
@@ -330,21 +380,74 @@
   }
 
 
+  /* ==================================================
+     NORMAL MOBILE MENU ITEMS
+  ================================================== */
+
   .menu-item {
 
     width: 100%;
 
     padding: 14px 0;
 
+    box-sizing: border-box;
+
   }
 
 
-  /* IMPORTANT:
-     DROPDOWNS REMAIN AS THEY ARE */
+  /* ==================================================
+     DROPDOWN PARENT
+
+     REMOVE THE EXTRA PADDING AROUND DROPDOWNS
+
+     This fixes:
+
+     Categories
+        ↓
+     BLANK SPACE
+        ↓
+     Options
+  ================================================== */
+
+  .center-menu > .menu-item.dropdown {
+
+    padding: 0;
+
+  }
+
+
+  /* ==================================================
+     DROPDOWN TITLE
+
+     Keep the 14px spacing on the title itself.
+  ================================================== */
+
+  .center-menu > .menu-item.dropdown > .menu-label {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    padding: 14px 0;
+
+    box-sizing: border-box;
+
+  }
+
+
+  /* ==================================================
+     MOBILE DROPDOWNS
+  ================================================== */
 
   .dropdown-menu {
 
     position: relative;
+
+    top: auto;
+
+    left: auto;
 
     width: 100%;
 
@@ -354,14 +457,14 @@
 
     box-shadow: none;
 
-    margin-top: 8px;
+    margin-top: 0;
 
     padding-left: 10px;
 
+    box-sizing: border-box;
+
   }
 
-
-  /* SHOW */
 
   .dropdown-menu.show {
 
@@ -370,11 +473,17 @@
   }
 
 
-  /* MEGA MENU */
+  /* ==================================================
+     MEGA MENU - MOBILE
+  ================================================== */
 
   .mega-menu {
 
     position: relative !important;
+
+    top: auto !important;
+
+    left: auto !important;
 
     width: 100% !important;
 
@@ -386,6 +495,14 @@
 
     padding: 10px;
 
+    margin: 0;
+
+    box-sizing: border-box;
+
+    opacity: 1;
+
+    transform: none;
+
   }
 
 
@@ -396,7 +513,9 @@
   }
 
 
-  /* BETTER SPACING */
+  /* ==================================================
+     MEGA COLUMNS
+  ================================================== */
 
   .mega-col {
 
@@ -404,6 +523,10 @@
 
   }
 
+
+  /* ==================================================
+     MOBILE MENU BUTTON
+  ================================================== */
 
   .menu-toggle {
 
@@ -430,7 +553,7 @@
 
 
 /* ======================================================
-   MEGA MENU (CATEGORIES) - FIXED
+   MEGA MENU - DESKTOP
 ====================================================== */
 
 .mega-menu {
@@ -458,7 +581,9 @@
 }
 
 
-/* SHOW */
+/* ======================================================
+   MEGA MENU SHOW
+====================================================== */
 
 .dropdown-menu.mega-menu.show {
 
@@ -471,7 +596,9 @@
 }
 
 
-/* COLUMN */
+/* ======================================================
+   MEGA COLUMN
+====================================================== */
 
 .mega-col h4 {
 
@@ -508,6 +635,10 @@
 }
 
 
+/* ======================================================
+   MEGA MENU ANIMATION
+====================================================== */
+
 .mega-menu {
 
   opacity: 0;
@@ -528,10 +659,29 @@
 
 
 /* ======================================================
-   RESPONSIVE
+   RESPONSIVE MEGA MENU
 ====================================================== */
 
 @media (max-width: 900px) {
+
+  /*
+    IMPORTANT:
+    Override the desktop animation here.
+
+    Otherwise the desktop transform/opacity rules
+    interfere with the mobile dropdown.
+  */
+
+  .mega-menu {
+
+    opacity: 1;
+
+    transform: none;
+
+    transition: none;
+
+  }
+
 
   .dropdown-menu.mega-menu.show {
 
@@ -541,13 +691,15 @@
 
     padding: 10px;
 
+    margin: 0;
+
   }
 
 }
 
 
 /* ======================================================
-   MOBILE MENU BODY SCROLL LOCK
+   MOBILE BODY SCROLL LOCK
 ====================================================== */
 
 @media (max-width: 900px) {
