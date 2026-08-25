@@ -4,15 +4,17 @@ export default function SEO({
 
   title = "Mudrart | Premium Wall Posters & Room Decor",
 
-  description = "Mudrart is India's premium wall poster and aesthetic room decor platform offering anime posters, car posters, motivational artwork, spiritual posters, split posters, polaroids and modern wall art for bedrooms, gaming setups and creative spaces.",
+  description =
+    "Mudrart is India's premium wall poster and aesthetic room decor platform offering anime posters, car posters, motivational artwork, spiritual posters, split posters, polaroids and modern wall art for bedrooms, gaming setups and creative spaces.",
 
-  image = "https://www.mudrart.in/logo.png",
+  image = "https://www.mudrart.in/logo.jpeg",
 
   url = "https://www.mudrart.in",
 
   schema = null
 
 }) {
+
 
   /* ======================================
      ORGANIZATION SCHEMA
@@ -28,9 +30,12 @@ export default function SEO({
 
     url: "https://www.mudrart.in",
 
-    logo: "https://www.mudrart.in/logo.png",
+    logo: {
+      "@type": "ImageObject",
+      "url": "https://www.mudrart.in/logo.jpeg"
+    },
 
-    image: "https://www.mudrart.in/logo.png",
+    image: "https://www.mudrart.in/logo.jpeg",
 
     description:
       "Mudrart is India's premium wall poster and aesthetic room decor platform offering anime posters, motivational posters, spiritual artwork, split posters, gaming room posters and modern wall art.",
@@ -40,6 +45,7 @@ export default function SEO({
     ]
 
   };
+
 
   /* ======================================
      WEBSITE SCHEMA
@@ -69,20 +75,26 @@ export default function SEO({
 
   };
 
+
   return (
 
     <Helmet>
+
 
       {/* ======================================
          PRIMARY META
       ====================================== */}
 
-      <title>{title}</title>
+      <title>
+        {title}
+      </title>
+
 
       <meta
         name="description"
         content={description}
       />
+
 
       {/* ======================================
          KEYWORDS
@@ -91,23 +103,24 @@ export default function SEO({
       <meta
         name="keywords"
         content="
-        mudrart,
-        anime posters india,
-        wall posters india,
-        aesthetic room decor,
-        modern wall art,
-        gaming room posters,
-        premium posters,
-        spiritual posters,
-        motivational posters,
-        bedroom wall decor,
-        split posters,
-        polaroid posters,
-        anime wall art,
-        car posters india,
-        movie posters india
+          mudrart,
+          anime posters india,
+          wall posters india,
+          aesthetic room decor,
+          modern wall art,
+          gaming room posters,
+          premium posters,
+          spiritual posters,
+          motivational posters,
+          bedroom wall decor,
+          split posters,
+          polaroid posters,
+          anime wall art,
+          car posters india,
+          movie posters india
         "
       />
+
 
       {/* ======================================
          ROBOTS
@@ -116,13 +129,14 @@ export default function SEO({
       <meta
         name="robots"
         content="
-        index,
-        follow,
-        max-image-preview:large,
-        max-snippet:-1,
-        max-video-preview:-1
+          index,
+          follow,
+          max-image-preview:large,
+          max-snippet:-1,
+          max-video-preview:-1
         "
       />
+
 
       {/* ======================================
          CANONICAL
@@ -133,51 +147,79 @@ export default function SEO({
         href={url}
       />
 
+
       {/* ======================================
          FAVICON
       ====================================== */}
 
       <link
         rel="icon"
-        type="image/png"
-        href="/logo.png"
+        type="image/jpeg"
+        href="/favicon.jpeg"
       />
+
+
+      <link
+        rel="icon"
+        type="image/jpeg"
+        sizes="32x32"
+        href="/favicon-32x32.jpeg"
+      />
+
+
+      <link
+        rel="icon"
+        type="image/jpeg"
+        sizes="16x16"
+        href="/favicon-16x16.jpeg"
+      />
+
 
       <link
         rel="apple-touch-icon"
-        href="/logo.png"
+        href="/apple-touch-icon.jpeg"
       />
+
 
       {/* ======================================
          OPEN GRAPH
       ====================================== */}
 
-      <meta property="og:type" content="website" />
+      <meta
+        property="og:type"
+        content="website"
+      />
+
 
       <meta
         property="og:site_name"
         content="Mudrart"
       />
 
+
       <meta
         property="og:title"
         content={title}
       />
+
 
       <meta
         property="og:description"
         content={description}
       />
 
+
       <meta
         property="og:image"
         content={image}
       />
 
+
       <meta
         property="og:url"
         content={url}
       />
+
 
       {/* ======================================
          TWITTER
@@ -188,20 +230,24 @@ export default function SEO({
         content="summary_large_image"
       />
 
+
       <meta
         name="twitter:title"
         content={title}
       />
+
 
       <meta
         name="twitter:description"
         content={description}
       />
 
+
       <meta
         name="twitter:image"
         content={image}
       />
+
 
       {/* ======================================
          MOBILE THEME
@@ -212,21 +258,32 @@ export default function SEO({
         content="#000000"
       />
 
+
       {/* ======================================
          ORGANIZATION SCHEMA
       ====================================== */}
 
       <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
+
+        {JSON.stringify(
+          organizationSchema
+        )}
+
       </script>
+
 
       {/* ======================================
          WEBSITE SCHEMA
       ====================================== */}
 
       <script type="application/ld+json">
-        {JSON.stringify(websiteSchema)}
+
+        {JSON.stringify(
+          websiteSchema
+        )}
+
       </script>
+
 
       {/* ======================================
          DYNAMIC PAGE SCHEMA
@@ -245,6 +302,7 @@ export default function SEO({
         )
 
       }
+
 
     </Helmet>
 
