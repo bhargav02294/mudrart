@@ -10,7 +10,6 @@ export default function HeroSection() {
 
   for (let i = 1; i <= 50; i++) {
 
-    // auto detect extension
     if ([44, 45, 50].includes(i)) {
       posters.push(`/posters/p${i}.png`);
     } else {
@@ -36,7 +35,6 @@ export default function HeroSection() {
       start + 10
     );
 
-    // duplicate for infinite loop
     columns.push([
       ...group,
       ...group
@@ -99,23 +97,24 @@ export default function HeroSection() {
         <div className="hero-content">
 
           <h1>
-
             Modernize Your Home
-
             <br />
-
             <span>
               With Minimalistic Precision
             </span>
-
           </h1>
-
 
           <a
             href="#posters"
             className="hero-btn"
           >
-            Explore Posters
+            <span className="hero-btn-text">
+              Explore Posters
+            </span>
+
+            <span className="hero-btn-arrow">
+              →
+            </span>
           </a>
 
         </div>

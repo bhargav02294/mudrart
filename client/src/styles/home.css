@@ -81,36 +81,6 @@ transform:translateY(-50%);
 
 
 
-/* BUTTON */
-
-.hero-btn{
-
-padding:14px 30px;
-
-font-size:16px;
-
-border:none;
-
-background:black;
-
-color:white;
-
-cursor:pointer;
-
-border-radius:6px;
-
-transition:0.25s;
-
-}
-
-.hero-btn:hover{
-
-background:#222;
-
-}
-
-
-
 /* OFFER BAR */
 
 .offer-bar{
@@ -249,4 +219,17 @@ padding:60px 6%;
 
 
 
+}
+
+
+
+/* =========================================
+   HERO BUTTON
+   HEROSECTION.CSS IS THE PRIMARY STYLE
+========================================= */
+
+.hero-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
 }
