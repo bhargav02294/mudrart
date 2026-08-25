@@ -174,6 +174,13 @@ export default function SEO({
         href="/favicon-16x16.jpeg"
       />
 
+      <link
+        rel="icon"
+        type="image/jpeg"
+        sizes="48x48"
+        href="/favicon-48x48.jpeg"
+      />
+
 
       <link
         rel="apple-touch-icon"
