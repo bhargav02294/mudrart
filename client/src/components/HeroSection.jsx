@@ -99,12 +99,17 @@ export default function HeroSection() {
         <div className="hero-content">
 
           <h1>
+
             Modernize Your Home
+
             <br />
+
             <span>
               With Minimalistic Precision
             </span>
+
           </h1>
+
 
           <a
             href="#posters"

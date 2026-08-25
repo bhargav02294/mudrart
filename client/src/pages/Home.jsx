@@ -18,6 +18,7 @@ import WhyChooseUs from "../components/WhyChooseUs";
 
 import SEO from "../components/SEO";
 
+
 /* ======================================
 HOME PAGE
 ====================================== */
@@ -25,6 +26,7 @@ HOME PAGE
 export default function Home() {
 
   const [posters, setPosters] = useState([]);
+
 
   /* ======================================
      FETCH POSTERS
@@ -38,17 +40,22 @@ export default function Home() {
 
         const res = await fetch("/api/posters");
 
+
         /* ======================================
            SAFETY CHECK
         ====================================== */
 
         if (!res.ok) {
 
-          throw new Error("Failed to fetch posters");
+          throw new Error(
+            "Failed to fetch posters"
+          );
 
         }
 
+
         const data = await res.json();
+
 
         /* ======================================
            ARRAY SAFETY
@@ -61,6 +68,7 @@ export default function Home() {
           return;
 
         }
+
 
         setPosters(data);
 
@@ -77,9 +85,11 @@ export default function Home() {
 
     };
 
+
     fetchPosters();
 
   }, []);
+
 
   /* ======================================
      SEO VALUES
@@ -88,8 +98,10 @@ export default function Home() {
   const seoTitle =
     "Mudrart | Premium Wall Posters & Aesthetic Room Decor";
 
+
   const seoDescription =
     "Buy premium anime posters, aesthetic wall art, motivational posters, spiritual posters, split posters and room decor artwork online in India from Mudrart.";
+
 
   const seoImage =
 
@@ -99,8 +111,10 @@ export default function Home() {
 
     "https://www.mudrart.in/logo.png";
 
+
   const seoUrl =
     "https://www.mudrart.in";
+
 
   /* ======================================
      UI
@@ -126,11 +140,13 @@ export default function Home() {
 
       />
 
+
       {/* ======================================
          HERO SECTION
       ====================================== */}
 
       <HeroSection />
+
 
       {/* ======================================
          OFFERS
@@ -138,29 +154,36 @@ export default function Home() {
 
       <OfferSlider />
 
+
       {/* ======================================
          CATEGORIES
       ====================================== */}
 
       <CategorySection />
 
+
       {/* ======================================
          SINGLE POSTERS
       ====================================== */}
 
-      <PosterRow
+      <div id="posters">
 
-        posters={posters}
+        <PosterRow
 
-        title="Single Posters"
+          posters={posters}
 
-        redirect="/posters/single"
+          title="Single Posters"
 
-        filterFn={(p) =>
-          p.productType === "single"
-        }
+          redirect="/posters/single"
 
-      />
+          filterFn={(p) =>
+            p.productType === "single"
+          }
+
+        />
+
+      </div>
+
 
       {/* ======================================
          3 POSTER SETS
@@ -186,11 +209,13 @@ export default function Home() {
 
       />
 
+
       {/* ======================================
          COLLECTIONS
       ====================================== */}
 
       <CollectionGrid />
+
 
       {/* ======================================
          POLAROID SETS
@@ -210,6 +235,7 @@ export default function Home() {
 
       />
 
+
       {/* ======================================
          CAR POSTERS
       ====================================== */}
@@ -228,6 +254,7 @@ export default function Home() {
 
       />
 
+
       {/* ======================================
          CRICKET POSTERS
       ====================================== */}
@@ -245,6 +272,7 @@ export default function Home() {
         }
 
       />
+
 
       {/* ======================================
          WHY CHOOSE US
