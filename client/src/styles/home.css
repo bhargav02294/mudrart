@@ -231,3 +231,22 @@ font-weight:600;
 }
 
 
+
+/* MOBILE */
+
+@media (max-width:900px){
+
+.hero{
+
+flex-direction:column;
+
+height:auto;
+
+padding:60px 6%;
+
+}
+
+
+
+
+}
