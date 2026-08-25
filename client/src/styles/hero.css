@@ -210,136 +210,222 @@
 /* =========================================
    MOBILE
 ========================================= */
-/* =========================================================
-   FINAL MOBILE HERO OVERRIDE
-   KEEP AT THE VERY END OF hero.css
-========================================================= */
 
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
 
-  .hero .hero-right {
-    position: absolute !important;
+  .hero {
+    height: auto;
+    min-height: 520px;
 
-    top: 12px !important;
-    right: 12px !important;
-    left: auto !important;
-    bottom: auto !important;
+    padding: 60px 0;
 
-    width: 150px !important;
-    height: auto !important;
-
-    padding: 0 !important;
-    margin: 0 !important;
-
-    display: block !important;
-
-    z-index: 20 !important;
-
-    text-align: right !important;
-
-    background: transparent !important;
+    background: #000000;
   }
 
 
-  .hero .hero-content {
-    width: 150px !important;
-    max-width: 150px !important;
+  /* =====================================
+     POSTER WALL
+  ===================================== */
 
-    margin: 0 !important;
-    padding: 0 !important;
+  .poster-wall {
+    left: -120px;
+    top: -260px;
 
-    text-align: right !important;
+    height: 1000px;
 
-    color: #ffffff !important;
+    transform:
+      rotate(-20deg)
+      scale(0.75);
+
+    width: 90%;
   }
 
 
-  .hero .hero-content h1 {
-    margin: 0 !important;
-    padding: 0 !important;
+  /* =====================================
+     POSTERS
+  ===================================== */
 
-    font-size: 15px !important;
-    line-height: 1.15 !important;
-
-    font-weight: 700 !important;
-
-    letter-spacing: -0.2px !important;
-
-    text-align: right !important;
+  .poster-img {
+    width: 120px;
+    height: 160px;
   }
 
 
-  .hero .hero-content h1 span {
-    display: inline !important;
+  /* =====================================
+     HERO CONTENT POSITION
+     TOP RIGHT
+  ===================================== */
 
-    font-size: inherit !important;
+  .hero-right {
 
-    color: #ffffff !important;
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    left: auto;
+
+    width: auto;
+    height: auto;
+
+    padding: 0;
+
+    display: block;
+
+    z-index: 5;
+
+    text-align: right;
+
   }
 
 
-  .hero .hero-btn {
-    display: inline-block !important;
+  /* =====================================
+     SMALL HERO CONTENT
+  ===================================== */
 
-    margin-top: 8px !important;
+  .hero-content {
 
-    padding: 7px 12px !important;
+    width: 135px;
 
-    width: auto !important;
-    height: auto !important;
+    max-width: 135px;
 
-    font-size: 10px !important;
+    text-align: right;
 
-    line-height: 1 !important;
+  }
 
-    font-weight: 600 !important;
 
-    border-radius: 5px !important;
+  /* =====================================
+     SMALL MOBILE TITLE
+  ===================================== */
 
-    text-align: center !important;
+  .hero-content h1 {
 
-    background: #ffffff !important;
-    color: #000000 !important;
+    margin: 0;
+
+    font-size: 15px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: -0.2px;
+
+  }
+
+
+  .hero-content h1 span {
+
+    color: #ffffff;
+
+  }
+
+
+  /* =====================================
+     SMALL MOBILE BUTTON
+  ===================================== */
+
+  .hero-btn {
+
+    margin-top: 8px;
+
+    padding: 7px 11px;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    font-weight: 600;
+
+    border-radius: 5px;
+
   }
 
 }
 
 
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
+/* =========================================
+   SMALL PHONES
+========================================= */
 
-@media screen and (max-width: 500px) {
+@media (max-width: 500px) {
 
-  .hero .hero-right {
-    top: 10px !important;
-    right: 10px !important;
+  .hero {
 
-    width: 125px !important;
+    min-height: 500px;
   }
 
 
-  .hero .hero-content {
-    width: 125px !important;
-    max-width: 125px !important;
+  /* =====================================
+     POSTER WALL
+  ===================================== */
+
+  .poster-wall {
+
+    left: -120px;
+
+    top: -320px;
+
+    height: 1100px;
+
+    transform:
+      rotate(-18deg)
+      scale(0.65);
+
+    width: 100%;
   }
 
 
-  .hero .hero-content h1 {
-    font-size: 12px !important;
+  /* =====================================
+     TOP RIGHT CONTENT
+  ===================================== */
 
-    line-height: 1.15 !important;
+  .hero-right {
+
+    top: 10px;
+
+    right: 10px;
+
   }
 
 
-  .hero .hero-btn {
-    margin-top: 6px !important;
+  .hero-content {
 
-    padding: 6px 9px !important;
+    width: 115px;
 
-    font-size: 9px !important;
+    max-width: 115px;
 
-    border-radius: 4px !important;
+  }
+
+
+  /* =====================================
+     VERY SMALL TITLE
+  ===================================== */
+
+  .hero-content h1 {
+
+    font-size: 13px;
+
+    line-height: 1.2;
+
+    letter-spacing: 0;
+
+  }
+
+
+  /* =====================================
+     VERY SMALL BUTTON
+  ===================================== */
+
+  .hero-btn {
+
+    margin-top: 7px;
+
+    padding: 6px 9px;
+
+    font-size: 9px;
+
+    border-radius: 5px;
+
   }
 
 }
