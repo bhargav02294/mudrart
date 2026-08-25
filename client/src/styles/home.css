@@ -79,38 +79,6 @@ transform:translateY(-50%);
 
 
 
-/* RIGHT TEXT */
-
-.hero-right{
-
-width:45%;
-
-color:white;
-
-}
-
-
-.hero-right h1{
-
-font-size:56px;
-
-font-weight:800;
-
-line-height:1.2;
-
-letter-spacing:-1px;
-
-margin-bottom:30px;
-
-}
-
-.hero-right span{
-
-display:block;
-
-font-weight:900;
-
-}
 
 
 /* BUTTON */
@@ -263,44 +231,3 @@ font-weight:600;
 }
 
 
-
-/* MOBILE */
-
-@media (max-width:900px){
-
-.hero{
-
-flex-direction:column;
-
-height:auto;
-
-padding:60px 6%;
-
-}
-
-
-.hero-left{
-
-width:100%;
-
-margin-bottom:40px;
-
-}
-
-
-.hero-right{
-
-width:100%;
-
-text-align:center;
-
-}
-
-
-.hero-right h1{
-
-font-size:36px;
-
-}
-
-}
