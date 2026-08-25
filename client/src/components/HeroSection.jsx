@@ -28,11 +28,20 @@ export default function HeroSection() {
   const columns = [];
 
   for (let i = 0; i < 5; i++) {
+
     const start = i * 10;
-    const group = posters.slice(start, start + 10);
+
+    const group = posters.slice(
+      start,
+      start + 10
+    );
 
     // duplicate for infinite loop
-    columns.push([...group, ...group]);
+    columns.push([
+      ...group,
+      ...group
+    ]);
+
   }
 
 
@@ -44,7 +53,9 @@ export default function HeroSection() {
 
     <section className="hero">
 
-      {/* POSTER WALL */}
+      {/* =========================
+          POSTER WALL
+      ========================= */}
 
       <div className="poster-wall">
 
@@ -52,7 +63,9 @@ export default function HeroSection() {
 
           <div
             key={index}
-            className={`poster-column ${index % 2 ? "reverse" : ""}`}
+            className={`poster-column ${
+              index % 2 ? "reverse" : ""
+            }`}
           >
 
             {col.map((img, i) => (
@@ -62,6 +75,7 @@ export default function HeroSection() {
                 src={img}
                 className="poster-img"
                 loading="lazy"
+                alt=""
                 onError={(e) => {
                   e.target.style.display = "none";
                 }}
@@ -76,7 +90,9 @@ export default function HeroSection() {
       </div>
 
 
-      {/* RIGHT CONTENT */}
+      {/* =========================
+          HERO CONTENT
+      ========================= */}
 
       <div className="hero-right">
 
@@ -85,10 +101,15 @@ export default function HeroSection() {
           <h1>
             Modernize Your Home
             <br />
-            <span>With Minimalistic Precision</span>
+            <span>
+              With Minimalistic Precision
+            </span>
           </h1>
 
-          <a href="#posters" className="hero-btn">
+          <a
+            href="#posters"
+            className="hero-btn"
+          >
             Explore Posters
           </a>
 
